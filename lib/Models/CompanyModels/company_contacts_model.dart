@@ -1,0 +1,153 @@
+// To parse this JSON data, do
+//
+//     final companyContactModel = companyContactModelFromJson(jsonString);
+
+import 'dart:convert';
+
+class CompanyContactModel {
+  CompanyContactModel({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+
+  String status;
+  String message;
+  Data data;
+
+  factory CompanyContactModel.fromRawJson(String str) => CompanyContactModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory CompanyContactModel.fromJson(Map<String, dynamic> json) => CompanyContactModel(
+    status: json["status"],
+    message: json["message"],
+    data: Data.fromJson(json["data"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "message": message,
+    "data": data.toJson(),
+  };
+}
+
+class Data {
+  Data({
+    required this.list,
+    required this.paginationInfo,
+  });
+
+  List<ListElement> list;
+  PaginationInfo paginationInfo;
+
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+    list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
+    paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "List": List<dynamic>.from(list.map((x) => x.toJson())),
+    "pagination_info": paginationInfo.toJson(),
+  };
+}
+
+class ListElement {
+  ListElement({
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.companyName,
+    required this.customerType,
+    required this.address,
+    required this.city,
+    required this.state,
+    required this.zipcode,
+    required this.email,
+    required this.homeOrOfficeNo,
+    required this.mobileNo,
+  });
+
+  String id;
+  String firstName;
+  String lastName;
+  String companyName;
+  String customerType;
+  String address;
+  String city;
+  String state;
+  String zipcode;
+  String email;
+  String homeOrOfficeNo;
+  String mobileNo;
+
+  factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+    id: json["id"],
+    firstName: json["first_name"],
+    lastName: json["last_name"],
+    companyName: json["company_name"],
+    customerType: json["customer_type"],
+    address: json["address"],
+    city: json["city"],
+    state: json["state"],
+    zipcode: json["zipcode"],
+    email: json["email"],
+    homeOrOfficeNo: json["home_or_office_no"],
+    mobileNo: json["mobile_no"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "first_name": firstName,
+    "last_name": lastName,
+    "company_name": companyName,
+    "customer_type": customerType,
+    "address": address,
+    "city": city,
+    "state": state,
+    "zipcode": zipcode,
+    "email": email,
+    "home_or_office_no": homeOrOfficeNo,
+    "mobile_no": mobileNo,
+  };
+}
+
+class PaginationInfo {
+  PaginationInfo({
+    required this.itemPerPage,
+    required this.pageNumber,
+    required this.totalRows,
+    required this.totalPages,
+  });
+
+  int itemPerPage;
+  int pageNumber;
+  int totalRows;
+  int totalPages;
+
+  factory PaginationInfo.fromRawJson(String str) => PaginationInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory PaginationInfo.fromJson(Map<String, dynamic> json) => PaginationInfo(
+    itemPerPage: json["item_per_page"],
+    pageNumber: json["page_number"],
+    totalRows: json["total_rows"],
+    totalPages: json["total_pages"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "item_per_page": itemPerPage,
+    "page_number": pageNumber,
+    "total_rows": totalRows,
+    "total_pages": totalPages,
+  };
+}
