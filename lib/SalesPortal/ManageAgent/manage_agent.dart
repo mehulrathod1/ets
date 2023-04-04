@@ -2,6 +2,10 @@ import 'package:etsemployee/SalesPortal/ManageAgent/view_agent_company_list.dart
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
+import '../../Controller/SalesController/sales_agent_controller.dart';
+import '../../Controller/SalesController/sales_delete_agent_controller.dart';
+import '../../Models/SalesModel/sales_agent_model.dart';
+import '../../Models/SalesModel/sales_delete_agent_model.dart';
 import '../../utils/Colors.dart';
 import 'add_sales_agent.dart';
 import 'edit_sale_agent.dart';
@@ -14,6 +18,30 @@ class ManageAgent extends StatefulWidget {
 }
 
 class _ManageAgentState extends State<ManageAgent> {
+  SalesAgentController agentController = SalesAgentController();
+  late SalesAgentModel agentModel;
+  List<ListElement> agentList = [];
+
+  SalesAgentDeleteController deleteController = SalesAgentDeleteController();
+  late SalesDeleteAgentModel deleteAgentModel;
+  @override
+  void initState() {
+    // TODO: implement initState
+    initialize(context);
+    super.initState();
+  }
+
+  Future initialize(BuildContext context) async {
+    agentController.getAgent(context).then((value) {
+      setState(() {
+        agentModel = value;
+        agentList = agentModel.data.list;
+        print(value.message);
+        //
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,8 +259,9 @@ class _ManageAgentState extends State<ManageAgent> {
               child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 10,
+                  itemCount: agentList.length,
                   itemBuilder: (context, index) {
+                    var data = agentList[index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                       child: ClipRRect(
@@ -253,7 +282,7 @@ class _ManageAgentState extends State<ManageAgent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "1. Test Agent",
+                                      data.name,
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -270,7 +299,7 @@ class _ManageAgentState extends State<ManageAgent> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "TestAgent@gmail.com",
+                                          data.email,
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -289,7 +318,7 @@ class _ManageAgentState extends State<ManageAgent> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "9876543210",
+                                          data.phone,
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -308,7 +337,7 @@ class _ManageAgentState extends State<ManageAgent> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "Jan 03,2023",
+                                          data.joinDate.toString(),
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -327,7 +356,7 @@ class _ManageAgentState extends State<ManageAgent> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "3",
+                                          data.totalNoCompany.toString(),
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -446,34 +475,46 @@ class _ManageAgentState extends State<ManageAgent> {
                                           ),
                                         ),
                                         Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: colorred,
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(15))),
-                                            height: double.infinity,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
-                                                  child: Text(
-                                                    "Delete",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              deleteController
+                                                  .deleteAgent(context, data.id)
+                                                  .then((value) {
+                                                deleteAgentModel = value;
+                                                initialize(context);
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorred,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  15))),
+                                              height: double.infinity,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
                                                   ),
-                                                )
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      "Delete",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

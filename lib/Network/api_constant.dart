@@ -70,4 +70,7 @@ class ApiConstant {
 // --------------------------------- sales portal  --------------------------------------------------------
 
   static const salesLogin = 'sales-login/';
+  static const salesDeleteAgent = 'SALES/delete-agent/';
+  static const salesAgent =
+      'SALES/view-all-agent?show=10&startdate=&enddate=&searchName=&page=';
 }
