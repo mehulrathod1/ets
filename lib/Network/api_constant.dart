@@ -28,12 +28,8 @@ class ApiConstant {
       'company/send_live_location_request_employee.php?id=281';
   static const sendCallRequest =
       'company/send_call_for_attendance_request.php?id=281';
-
   static const companyDeleteContact = 'company/delete-contact/';
   static const companyDeleteTask = 'company/delete-task/';
-
-  //td
-
   static const companyDeleteEmployee = 'company/delete-employee-company?id=';
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
@@ -50,7 +46,6 @@ class ApiConstant {
   static const employeeContactList = 'employee/view-contact-list';
   static const employeeAddContact = 'employee/add-contact';
   static const employeeOrderList = 'employee/view-orders-lists';
-
   static const employeeEstimateList = 'employee/view-estimate-lists';
   static const employeeNoteList = 'employee/view-notes-list';
   static const employeeAddNote = 'employee/edit-note/';

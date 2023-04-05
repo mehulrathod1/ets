@@ -4,12 +4,6 @@
 
 import 'dart:convert';
 
-AddCompanyContactModel addCompanyContactModelFromJson(String str) =>
-    AddCompanyContactModel.fromJson(json.decode(str));
-
-String addCompanyContactModelToJson(AddCompanyContactModel data) =>
-    json.encode(data.toJson());
-
 class AddCompanyContactModel {
   AddCompanyContactModel({
     required this.status,
@@ -19,18 +13,23 @@ class AddCompanyContactModel {
 
   String status;
   String message;
-  List<dynamic> data;
+  int data;
+
+  factory AddCompanyContactModel.fromRawJson(String str) =>
+      AddCompanyContactModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory AddCompanyContactModel.fromJson(Map<String, dynamic> json) =>
       AddCompanyContactModel(
         status: json["status"],
         message: json["message"],
-        data: List<dynamic>.from(json["data"].map((x) => x)),
+        data: json["data"],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": List<dynamic>.from(data.map((x) => x)),
+        "data": data,
       };
 }
