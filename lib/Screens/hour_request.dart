@@ -1,7 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:etsemployee/Screens/view_hour_request.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
 import '../Controller/EmployeeController/employee_send_hour_request_controller.dart';
 import '../Models/EmployeeModel/employee_send_hour_request_model.dart';
 import '../Network/api_constant.dart';
@@ -16,13 +16,11 @@ class HourRequest extends StatefulWidget {
 }
 
 class _HourRequestState extends State<HourRequest> {
-  EmployeeSendHourRequestController employeeSendHourRequestController =
-      EmployeeSendHourRequestController();
+  EmployeeSendHourRequestController employeeSendHourRequestController = EmployeeSendHourRequestController();
   late EmployeeSendHourRequestModel employeeSendHourRequestModel;
 
   @override
   void initState() {
-    // TODO: implement initState
     employeeSendHourRequestController.attendanceIn.text = "";
     employeeSendHourRequestController.attendanceOut.text = "";
     employeeSendHourRequestController.inTime.text = "";
@@ -45,10 +43,7 @@ class _HourRequestState extends State<HourRequest> {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ViewHourRequest()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHourRequest()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -73,19 +68,18 @@ class _HourRequestState extends State<HourRequest> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                       child: Text(
                         "Attendance In Date *",
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 40,
                       child: TextField(
-                        controller:
-                            employeeSendHourRequestController.attendanceIn,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        controller: employeeSendHourRequestController.attendanceIn,
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           suffixIcon: Align(
@@ -100,59 +94,45 @@ class _HourRequestState extends State<HourRequest> {
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding:
-                              EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: colorGray, width: 1.0),
+                            borderSide: BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
                         onTap: () async {
                           DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(
-                                  2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101));
-
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                            lastDate: DateTime(2101),
+                          );
                           if (pickedDate != null) {
-                            print(
-                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate =
-                                DateFormat('MM/dd/yyyy').format(pickedDate);
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2021-03-16
-                            //you can implement different kind of Date Format here according to your requirement
-
+                            debugPrint(pickedDate as String?); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                            debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
                             setState(() {
-                              employeeSendHourRequestController
-                                      .attendanceIn.text =
-                                  formattedDate; //set output date to TextField value.
+                              employeeSendHourRequestController.attendanceIn.text = formattedDate; //set output date to TextField value.
                             });
                           } else {
-                            print("Date is not selected");
+                            debugPrint("Date is not selected");
                           }
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                       child: Text(
                         "Attendance Out Date *",
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 40,
                       child: TextField(
-                        controller:
-                            employeeSendHourRequestController.attendanceOut,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        controller: employeeSendHourRequestController.attendanceOut,
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           suffixIcon: Align(
@@ -167,58 +147,46 @@ class _HourRequestState extends State<HourRequest> {
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding:
-                              EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: colorGray, width: 1.0),
+                            borderSide: BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
                         onTap: () async {
                           DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(
-                                  2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101));
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                            lastDate: DateTime(2101),
+                          );
 
                           if (pickedDate != null) {
-                            print(
-                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate =
-                                DateFormat('MM/dd/yyyy').format(pickedDate);
-                            print(
-                                formattedDate); //formatted date output using intl package =>  2021-03-16
-                            //you can implement different kind of Date Format here according to your requirement
-
+                            debugPrint(pickedDate as String?); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                            debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
                             setState(() {
-                              employeeSendHourRequestController
-                                      .attendanceOut.text =
-                                  formattedDate; //set output date to TextField value.
+                              employeeSendHourRequestController.attendanceOut.text = formattedDate; //set output date to TextField value.
                             });
                           } else {
-                            print("Date is not selected");
+                            debugPrint("Date is not selected");
                           }
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                       child: Text(
                         "In Time *",
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 40,
                       child: TextField(
                         controller: employeeSendHourRequestController.inTime,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           suffixIcon: Align(
@@ -233,15 +201,10 @@ class _HourRequestState extends State<HourRequest> {
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding:
-                              EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: colorGray, width: 1.0),
+                            borderSide: BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
@@ -250,40 +213,34 @@ class _HourRequestState extends State<HourRequest> {
                             initialTime: TimeOfDay.now(),
                             context: context,
                           );
-
                           if (pickedTime != null) {
-                            print(pickedTime.format(context)); //output 10:51 PM
-                            DateTime parsedTime = DateFormat.jm()
-                                .parse(pickedTime.format(context).toString());
+                            debugPrint(pickedTime.format(context)); //output 10:51 PM
+                            DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
                             //converting to DateTime so that we can further format on different pattern.
-                            print(parsedTime); //output 1970-01-01 22:53:00.000
-                            String formattedTime =
-                                DateFormat('HH:mm').format(parsedTime);
-                            print(formattedTime); //output 14:59:00
-                            //DateFormat() is from intl package, you can format the time on any pattern you need.
-
+                            debugPrint(parsedTime as String?); //output 1970-01-01 22:53:00.000
+                            String formattedTime = DateFormat('HH:mm').format(parsedTime);
+                            debugPrint(formattedTime); //output 14:59:00
                             setState(() {
-                              employeeSendHourRequestController.inTime.text =
-                                  formattedTime; //set the value of text field.
+                              employeeSendHourRequestController.inTime.text = formattedTime; //set the value of text field.
                             });
                           } else {
-                            print("Time is not selected");
+                            debugPrint("Time is not selected");
                           }
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                       child: Text(
                         "Out Time *",
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 40,
                       child: TextField(
                         controller: employeeSendHourRequestController.outTime,
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           suffixIcon: Align(
@@ -298,15 +255,10 @@ class _HourRequestState extends State<HourRequest> {
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding:
-                              EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: colorGray, width: 1.0),
+                            borderSide: BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
@@ -317,28 +269,24 @@ class _HourRequestState extends State<HourRequest> {
                           );
 
                           if (pickedTime != null) {
-                            print(pickedTime.format(context)); //output 10:51 PM
-                            DateTime parsedTime = DateFormat.jm()
-                                .parse(pickedTime.format(context).toString());
+                            debugPrint(pickedTime.format(context)); //output 10:51 PM
+                            DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
                             //converting to DateTime so that we can further format on different pattern.
-                            print(parsedTime); //output 1970-01-01 22:53:00.000
-                            String formattedTime =
-                                DateFormat('HH:mm').format(parsedTime);
-                            print(formattedTime); //output 14:59:00
+                            debugPrint(parsedTime as String?); //output 1970-01-01 22:53:00.000
+                            String formattedTime = DateFormat('HH:mm').format(parsedTime);
+                            debugPrint(formattedTime); //output 14:59:00
                             //DateFormat() is from intl package, you can format the time on any pattern you need.
-
                             setState(() {
-                              employeeSendHourRequestController.outTime.text =
-                                  formattedTime; //set the value of text field.
+                              employeeSendHourRequestController.outTime.text = formattedTime; //set the value of text field.
                             });
                           } else {
-                            print("Time is not selected");
+                            debugPrint("Time is not selected");
                           }
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                       child: Text(
                         "Message *",
                         style: TextStyle(fontSize: 14),
@@ -346,14 +294,12 @@ class _HourRequestState extends State<HourRequest> {
                     ),
                     Container(
                       height: 150,
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: colorGray),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: TextField(
                           controller: employeeSendHourRequestController.message,
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -361,8 +307,7 @@ class _HourRequestState extends State<HourRequest> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                           ),
                         ),
                       ),
@@ -371,37 +316,25 @@ class _HourRequestState extends State<HourRequest> {
                       padding: const EdgeInsets.only(top: 20.0),
                       child: GestureDetector(
                         onTap: () {
-                          employeeSendHourRequestController
-                              .addHourRequest(context)
-                              .then((value) {
+                          employeeSendHourRequestController.addHourRequest(context).then((value) {
                             employeeSendHourRequestModel = value;
-
-                            print(ApiConstant.userToken);
-                            print(employeeSendHourRequestModel.message);
-
-                            print(employeeSendHourRequestController
-                                .attendanceIn.text);
-                            print(employeeSendHourRequestController
-                                .attendanceOut.text);
-                            print(
-                                employeeSendHourRequestController.inTime.text);
-                            print(
-                                employeeSendHourRequestController.outTime.text);
-                            print(
-                                employeeSendHourRequestController.message.text);
+                            debugPrint(ApiConstant.userToken);
+                            debugPrint(employeeSendHourRequestModel.message);
+                            debugPrint(employeeSendHourRequestController.attendanceIn.text);
+                            debugPrint(employeeSendHourRequestController.attendanceOut.text);
+                            debugPrint(employeeSendHourRequestController.inTime.text);
+                            debugPrint(employeeSendHourRequestController.outTime.text);
+                            debugPrint(employeeSendHourRequestController.message.text);
                           });
                         },
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
+                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            child: const Center(
                               child: Text(
                                 'Send Request',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontSize: 18),
                               ),
                             )),
                       ),

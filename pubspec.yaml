@@ -33,11 +33,12 @@ dependencies:
     sdk: flutter
   calendar_date_picker2: ^0.3.7
   intl: ^0.17.0
-
   table_calendar: 3.0.8
   http: ^0.13.5
   shared_preferences: ^2.0.15
   syncfusion_flutter_signaturepad: ^21.1.35
+
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -67,42 +68,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    - assets/profile.png
-    - noun_location.png
-    - home.png
-    - profile1.png
-    - notification.png
-    - chat.png
-    - location.png
-    - man.jpeg
-    - map.jpeg
-    - calender.png
-    - contact.png
-    - invoice.png
-    - order.png
-    - construction.png
-    - task.png
-    - notes.png
-    - clock.png
-    - company.png
-    - message.png
-    - call.png
-    - employee.png
-    - nounGroup.png
-    - department.png
-
-  # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

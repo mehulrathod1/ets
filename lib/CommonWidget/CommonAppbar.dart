@@ -1,35 +1,33 @@
+// ignore_for_file: library_private_types_in_public_api, file_names
+
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
-import '../utils/Colors.dart';
-
 class CommonAppbar extends StatefulWidget implements PreferredSizeWidget {
+  const CommonAppbar({super.key});
+
   @override
   _CommonAppbar createState() => _CommonAppbar();
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(50);
+  Size get preferredSize => const Size.fromHeight(50);
 }
 
 class _CommonAppbar extends State<CommonAppbar> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Dashboard",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+          child: Text("Dashboard", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
@@ -37,7 +35,7 @@ class _CommonAppbar extends State<CommonAppbar> {
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),

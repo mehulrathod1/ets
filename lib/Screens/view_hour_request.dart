@@ -1,10 +1,8 @@
+import 'package:etsemployee/CommonWidget/CommonAppbar.dart';
+import 'package:etsemployee/Controller/EmployeeController/employee_get_hour_request_controller.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_get_hour_request_model.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
-import '../CommonWidget/CommonAppbar.dart';
-import '../Controller/EmployeeController/employee_get_hour_request_controller.dart';
-import '../Models/EmployeeModel/employee_get_hour_request_model.dart';
-import '../utils/Colors.dart';
 
 class ViewHourRequest extends StatefulWidget {
   const ViewHourRequest({Key? key}) : super(key: key);
@@ -14,14 +12,12 @@ class ViewHourRequest extends StatefulWidget {
 }
 
 class _ViewHourRequestState extends State<ViewHourRequest> {
-  EmployeeGetHourRequestController employeeGetHourRequestController =
-      EmployeeGetHourRequestController();
+  EmployeeGetHourRequestController employeeGetHourRequestController = EmployeeGetHourRequestController();
   late EmployeeGetHourRequestModel employeeGetHourRequestModel;
   List<ListElement> requestList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     initialize(context);
     super.initState();
   }
@@ -30,10 +26,9 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
     employeeGetHourRequestController.getEmployeeRequest(context).then((value) {
       setState(() {
         employeeGetHourRequestModel = value;
-        print(value.message);
+        debugPrint(value.message);
         requestList = employeeGetHourRequestModel.data.list;
-        print(requestList.length);
-        //
+        debugPrint(requestList.length as String?);
       });
     });
   }
@@ -42,15 +37,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-      appBar: CommonAppbar(),
+      appBar: const CommonAppbar(),
       body: SingleChildScrollView(
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
+            child: SizedBox(
               height: 40,
               child: TextField(
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: const TextStyle(fontSize: 18, color: Colors.black),
                 maxLines: 1,
                 decoration: InputDecoration(
                   suffixIcon: Align(
@@ -65,11 +60,8 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                   fillColor: colorScreenBg,
                   filled: true,
                   isDense: true,
-                  contentPadding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.grey, width: 1.0),
-                      borderRadius: BorderRadius.circular(7)),
+                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: colorGray, width: 1.0),
                     borderRadius: BorderRadius.circular(7),
@@ -80,21 +72,16 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
           ),
           ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: requestList.length,
               itemBuilder: (context, index) {
                 var detail = requestList[index];
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                      child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(15),
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                          bottomRight: Radius.circular(15)),
+                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -113,116 +100,97 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                             children: [
                               Text(
                                 detail.employeeName,
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Request date: ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     detail.attendanceDateIn.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Attendance In Date: ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     detail.attendanceDateIn.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Attendance Out Date: ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     detail.attendanceDateOut.toString(),
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "In Time: ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     detail.inTime,
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Out Time: ",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     detail.outTime,
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   ),
                                 ],
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 8,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Message:",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                   Expanded(
                                       child: Text(
                                     detail.message,
-                                    style: TextStyle(
-                                        fontSize: 14, color: colorTextGray),
+                                    style: TextStyle(fontSize: 14, color: colorTextGray),
                                   )),
                                 ],
                               ),
@@ -234,20 +202,13 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                           child: Container(
                             width: double.infinity,
                             height: 35,
-                            decoration: BoxDecoration(
-                                color: colorButtonYellow,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    bottomRight: Radius.circular(15))),
+                            decoration: BoxDecoration(color: colorButtonYellow, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Center(
                                 child: Text(
                                   "View Image",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: colorTextYellow,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 14, color: colorTextYellow, fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -255,7 +216,7 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                         )
                       ],
                     ),
-                  )),
+                  ),
                 );
               }),
         ]),

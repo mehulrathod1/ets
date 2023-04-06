@@ -1,8 +1,6 @@
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
-
-import '../../../utils/Colors.dart';
 
 class AddCompanyNote extends StatefulWidget {
   const AddCompanyNote({Key? key}) : super(key: key);
@@ -21,15 +19,13 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Add Notes",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+          child: Text("Add Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
@@ -37,7 +33,7 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -67,54 +63,47 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor:
-                                    MaterialStateProperty.all(appThemeGreen),
+                                fillColor: MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
                                   });
                                 }),
-                            Text(
+                            const Text(
                               'Mark As Complete',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Name",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Description",
                           style: TextStyle(fontSize: 14),
@@ -122,13 +111,11 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -136,23 +123,22 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Employee List",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -167,15 +153,10 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -186,14 +167,11 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
+                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )

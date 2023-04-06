@@ -1,8 +1,5 @@
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-
-import '../../utils/Colors.dart';
 
 class AgencyManagement extends StatefulWidget {
   const AgencyManagement({Key? key}) : super(key: key);
@@ -19,10 +16,8 @@ class _AgencyManagementState extends State<AgencyManagement> {
         padding: const EdgeInsets.all(26.0),
         child: Container(
           height: 150,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15), color: colorLightGray),
-          child:
-              Center(child: Text('You are already register with test saless')),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: colorLightGray),
+          child: const Center(child: Text('You are already register with test saless')),
         ),
       ),
     );

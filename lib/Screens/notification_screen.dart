@@ -1,9 +1,7 @@
+import 'package:etsemployee/Controller/EmployeeController/employee_notification_controller.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_notification_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
-import '../Controller/EmployeeController/employee_notification_controller.dart';
-import '../Models/EmployeeModel/employee_notification_model.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -13,14 +11,12 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  EmployeeNotificationController notificationController =
-      EmployeeNotificationController();
+  EmployeeNotificationController notificationController = EmployeeNotificationController();
   late EmployeeNotificationModel notificationModel;
   List<ListElement> notificationList = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     initialize(context);
     super.initState();
   }
@@ -30,8 +26,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       setState(() {
         notificationModel = value;
         notificationList = notificationModel.data.list;
-        print(value.message);
-        //
+        debugPrint(value.message);
       });
     });
   }
@@ -43,7 +38,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: SingleChildScrollView(
         child: ListView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: notificationList.length,
             itemBuilder: (context, index) {
               var detail = notificationList[index];
@@ -54,7 +49,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 28,
                           backgroundImage: AssetImage('assets/man.jpeg'),
                         ),
@@ -63,32 +58,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8),
+                                padding: const EdgeInsets.only(left: 8.0, top: 8),
                                 child: Text(
                                   detail.notificationMsg,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               Padding(
                                 padding: const EdgeInsets.only(
                                   left: 8.0,
                                 ),
                                 child: Text(
                                   detail.date.toString(),
-                                  style: TextStyle(fontSize: 12),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8),
+                                padding: const EdgeInsets.only(left: 8.0, top: 8),
                                 child: Text(
                                   "View Task",
-                                  style: TextStyle(
-                                      fontSize: 12, color: appThemeBlue),
+                                  style: TextStyle(fontSize: 12, color: appThemeBlue),
                                 ),
                               ),
                             ],
@@ -96,13 +86,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: SizedBox(
                         width: double.infinity,
                         height: 1,
-                        child: const DecoratedBox(
-                          decoration: const BoxDecoration(color: Colors.black),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.black),
                         ),
                       ),
                     ),
