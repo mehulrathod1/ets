@@ -1,9 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../Screens/Contractors/ManageContacts/manage_contacts.dart';
-import '../../Screens/Contractors/ManageInvoice/manage_invoice.dart';
 import '../../utils/Colors.dart';
 import 'company_notification.dart';
 import 'manage_approval.dart';
@@ -21,7 +16,6 @@ class _CompanyHomeState extends State<CompanyHome>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = TabController(length: 2, vsync: this);
   }
