@@ -196,15 +196,16 @@ class _AddEmployeeState extends State<AddEmployee> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'Save',
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),

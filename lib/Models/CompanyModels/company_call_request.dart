@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final companyCallRequestModel = companyCallRequestModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class CompanyCallRequestModel {
@@ -15,13 +11,11 @@ class CompanyCallRequestModel {
   String message;
   int data;
 
-  factory CompanyCallRequestModel.fromRawJson(String str) =>
-      CompanyCallRequestModel.fromJson(json.decode(str));
+  factory CompanyCallRequestModel.fromRawJson(String str) => CompanyCallRequestModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CompanyCallRequestModel.fromJson(Map<String, dynamic> json) =>
-      CompanyCallRequestModel(
+  factory CompanyCallRequestModel.fromJson(Map<String, dynamic> json) => CompanyCallRequestModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],

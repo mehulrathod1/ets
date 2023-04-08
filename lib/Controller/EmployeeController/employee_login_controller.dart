@@ -18,14 +18,11 @@ class EmployeeLoginController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-
     var response = await postData(
       paramUri: ApiConstant.employeeLogin,
       params: {'username': userName.text, 'password': password.text},
     );
-
     debugPrint("employeeLogin response :- ${response.toString()}");
-
     if (response["status"] == 'True') {
       var res = EmployeeLoginModel.fromJson(response);
       SharedPreferences prefs = await SharedPreferences.getInstance();

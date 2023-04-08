@@ -4,9 +4,6 @@ import 'package:etsemployee/Controller/CompanyController/company_delete_employee
 import 'package:etsemployee/Controller/CompanyController/company_send_location_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_employee_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
-import 'package:etsemployee/Models/CompanyModels/company_call_request.dart';
-import 'package:etsemployee/Models/CompanyModels/company_delete_employee_model.dart';
-import 'package:etsemployee/Models/CompanyModels/company_send_location_request_model.dart';
 import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
@@ -22,18 +19,12 @@ class EmployeeManagement extends StatefulWidget {
 
 class _EmployeeManagementState extends State<EmployeeManagement> {
   bool loading = false;
-  GetCompanyEmployeeController getCompanyEmployeeController = GetCompanyEmployeeController();
-  late GetCompanyEmployeeModel getCompanyEmployeeModel;
   List<ListElement> employeeList = [];
-
+  late GetCompanyEmployeeModel getCompanyEmployeeModel;
+  GetCompanyEmployeeController getCompanyEmployeeController = GetCompanyEmployeeController();
   CompanyLocationRequestController locationRequestController = CompanyLocationRequestController();
-  late CompanyLocationRequestModel locationRequestModel;
-
   CompanyCallRequestController callRequestController = CompanyCallRequestController();
-  late CompanyCallRequestModel callRequestModel;
-
   CompanyDeleteCompanyController deleteCompanyController = CompanyDeleteCompanyController();
-  late CompanyDeleteEmployeeModel deleteEmployeeModel;
 
   Future initialize(BuildContext context) async {
     loading = true;
@@ -86,7 +77,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     child: GestureDetector(
                       onTap: () {
                         locationRequestController.sendLocationRequest(context).then((value) {
-                          locationRequestModel = value;
                           Navigator.pop(context);
                         });
                       },
@@ -152,14 +142,15 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
-                                child: const Center(
-                                  child: Text(
-                                    'View Details',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
-                                  ),
-                                )),
+                              height: 40,
+                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'View Details',
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -168,7 +159,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             child: GestureDetector(
                               onTap: () {
                                 callRequestController.sendCallRequest(context).then((value) {
-                                  callRequestModel = value;
                                   Navigator.pop(context);
                                 });
                               },
@@ -419,20 +409,21 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                              width: double.infinity,
-                              height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
-                              child: Center(
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: const Text(
-                                    'Export To PDF',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
+                            width: double.infinity,
+                            height: 40,
+                            decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: const Text(
+                                  'Export To PDF',
+                                  style: TextStyle(
+                                    color: Colors.white,
                                   ),
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -530,108 +521,108 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 16.0),
                                       child: Container(
-                                          width: double.infinity,
-                                          height: 35,
-                                          decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const EditEmployee()));
-                                                  },
+                                        width: double.infinity,
+                                        height: 35,
+                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditEmployee()));
+                                                },
+                                                child: const Icon(
+                                                  Icons.edit,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  locationRequest(context);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorOrange),
+                                                  height: double.infinity,
                                                   child: const Icon(
-                                                    Icons.edit,
+                                                    Icons.location_on_outlined,
                                                     color: Colors.white,
                                                     size: 20,
                                                   ),
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    locationRequest(context);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(color: colorOrange),
-                                                    height: double.infinity,
-                                                    child: const Icon(
-                                                      Icons.location_on_outlined,
-                                                      color: Colors.white,
-                                                      size: 20,
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => const LiveLocation(),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) => const LiveLocation(),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(color: appThemeBlue),
-                                                    height: double.infinity,
-                                                    child: const Icon(
-                                                      Icons.menu_book_sharp,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    callForAttendance(context);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(color: appThemeGreen),
-                                                    height: double.infinity,
-                                                    child: const Icon(
-                                                      Icons.call,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
+                                                  );
+                                                },
                                                 child: Container(
                                                   decoration: BoxDecoration(color: appThemeBlue),
                                                   height: double.infinity,
                                                   child: const Icon(
-                                                    Icons.play_arrow_sharp,
+                                                    Icons.menu_book_sharp,
                                                     color: Colors.white,
                                                     size: 20,
                                                   ),
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    deleteCompanyController.deleteEmployee(context, detail.employeeId).then((value) {
-                                                      deleteEmployeeModel = value;
-                                                      initialize(context);
-                                                    });
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                                    height: double.infinity,
-                                                    child: const Icon(
-                                                      Icons.delete_outline,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  callForAttendance(context);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: appThemeGreen),
+                                                  height: double.infinity,
+                                                  child: const Icon(
+                                                    Icons.call,
+                                                    color: Colors.white,
+                                                    size: 20,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          )),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(color: appThemeBlue),
+                                                height: double.infinity,
+                                                child: const Icon(
+                                                  Icons.play_arrow_sharp,
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  deleteCompanyController.deleteEmployee(context, detail.employeeId).then((value) {
+                                                    initialize(context);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: const Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

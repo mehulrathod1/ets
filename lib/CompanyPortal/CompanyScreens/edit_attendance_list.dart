@@ -1,8 +1,6 @@
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
-
-import '../../utils/Colors.dart';
 import 'edit_employee_detail.dart';
 
 class EditAttendanceList extends StatefulWidget {
@@ -20,15 +18,13 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Attendance",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+          child: Text("Attendance", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
@@ -36,7 +32,7 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -52,293 +48,230 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Container(
-                            child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                            border: Border.all(width: 1, color: appThemeBlue),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Kate Thomas test",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Employee ID: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          border: Border.all(width: 1, color: appThemeBlue),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Kate Thomas test",
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Employee ID: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "123",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Company Name: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Test",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Date: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "Jan 03,2023",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Work Hours: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "0.14266666666667",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Break Time: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "6.60 Min",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "In: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "11:05:24 am",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "Out: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "11:19:30 am",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "Location Address: ",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          "Shree Ram Jambu, Raiya Road, Rajkot, Gujarat",
+                                          style: TextStyle(fontSize: 14, color: colorTextGray),
                                         ),
-                                        Text(
-                                          "123",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Company Name: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Test",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Date: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "Jan 03,2023",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Work Hours: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "0.14266666666667",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Break Time: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "6.60 Min",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "In: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "11:05:24 am",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Out: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "11:19:30 am",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Location Address: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "Shree Ram Jambu, Raiya Road, Rajkot, Gujarat",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: colorTextGray),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0),
-                                child: Container(
-                                    width: double.infinity,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                        color: appThemeBlue,
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(15),
-                                            bottomRight: Radius.circular(15))),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditEmployeeDetail()));
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: appThemeBlue,
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  15))),
-                                              height: double.infinity,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 8.0),
-                                                    child: Text(
-                                                      "Edit",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.white),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16.0),
+                              child: Container(
+                                  width: double.infinity,
+                                  height: 35,
+                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const EditEmployeeDetail()));
+                                          },
                                           child: Container(
-                                            decoration: BoxDecoration(
-                                                color: colorred,
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(15))),
+                                            decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15))),
                                             height: double.infinity,
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: const [
                                                 Icon(
-                                                  Icons.delete_outline,
+                                                  Icons.edit,
                                                   color: Colors.white,
                                                   size: 20,
                                                 ),
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
+                                                  padding: EdgeInsets.only(left: 8.0),
                                                   child: Text(
-                                                    "Delete",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
+                                                    "Edit",
+                                                    style: TextStyle(fontSize: 14, color: Colors.white),
                                                   ),
                                                 )
                                               ],
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    )),
-                              ),
-                            ],
-                          ),
-                        )),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                          height: double.infinity,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: const [
+                                              Icon(
+                                                Icons.delete_outline,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: 8.0),
+                                                child: Text(
+                                                  "Delete",
+                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),

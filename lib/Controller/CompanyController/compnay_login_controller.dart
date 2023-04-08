@@ -18,14 +18,11 @@ class CompanyLoginController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-
     var response = await postData(
       paramUri: ApiConstant.companyLogin,
       params: {'username': userName.text, 'password': password.text},
     );
-
     debugPrint("companyLogin response :- ${response.toString()}");
-
     if (response["status"] == 'True') {
       var res = CompanyLoginModel.fromJson(response);
       SharedPreferences prefs = await SharedPreferences.getInstance();

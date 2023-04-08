@@ -13,6 +13,7 @@ class CompanyEstimate extends StatefulWidget {
 }
 
 class _CompanyEstimateState extends State<CompanyEstimate> {
+  bool loading = false;
   GetCompanyEstimateController getCompanyEstimateController = GetCompanyEstimateController();
   late CompanyEstimateModel companyEstimateModel;
   List<ListElement> estimateList = [];
@@ -24,10 +25,12 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
   }
 
   Future initialize(BuildContext context) async {
-    getCompanyEstimateController.getCompanyEstimate(context).then((value) {
+    loading = true;
+    await getCompanyEstimateController.getCompanyEstimate(context).then((value) {
       setState(() {
         companyEstimateModel = value;
         estimateList = companyEstimateModel.data.list;
+        loading = false;
         debugPrint(companyEstimateModel.message);
       });
     });
@@ -113,101 +116,103 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                       ),
                     )),
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: estimateList.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              blurRadius: 10,
-                              offset: const Offset(2, 5),
+              loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: estimateList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  blurRadius: 10,
+                                  offset: const Offset(2, 5),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                height: 150,
-                                width: double.infinity,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
-                                child: Image.asset(
-                                  'assets/man.jpeg',
-                                  fit: BoxFit.cover,
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    "Test Estimate Section",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    "Test Change Estimate Description for Test Estimate",
-                                    style: TextStyle(fontSize: 14, color: colorTextGray),
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  const Text(
-                                    "01/19/2023 - 01/19/2023",
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 16.0),
-                              child: Container(
-                                  width: double.infinity,
-                                  height: 35,
-                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                  child: Row(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                    height: 150,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                    child: Image.asset(
+                                      'assets/man.jpeg',
+                                      fit: BoxFit.cover,
+                                    )),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Container(
-                                          decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                          height: double.infinity,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: const [
-                                              Icon(
-                                                Icons.delete_outline,
-                                                color: Colors.white,
-                                                size: 20,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
-                                                child: Text(
-                                                  "Delete",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                      const Text(
+                                        "Test Estimate Section",
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        "Test Change Estimate Description for Test Estimate",
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      const Text(
+                                        "01/19/2023 - 01/19/2023",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                       ),
                                     ],
-                                  )),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Container(
+                                      width: double.infinity,
+                                      height: 35,
+                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                              height: double.infinity,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: const [
+                                                  Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(left: 8.0),
+                                                    child: Text(
+                                                      "Delete",
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                          ),
+                        );
+                      }),
             ],
           ),
         ),

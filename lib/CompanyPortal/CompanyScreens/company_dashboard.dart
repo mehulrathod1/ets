@@ -45,7 +45,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    companyLoginController.getCompanyProfile(context).then((value) {
+    await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
         companyProfileModel = value;
         loading = false;

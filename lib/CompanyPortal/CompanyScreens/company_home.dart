@@ -1,5 +1,5 @@
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import '../../utils/Colors.dart';
 import 'company_notification.dart';
 import 'manage_approval.dart';
 
@@ -10,8 +10,7 @@ class CompanyHome extends StatefulWidget {
   State<CompanyHome> createState() => _CompanyHomeState();
 }
 
-class _CompanyHomeState extends State<CompanyHome>
-    with SingleTickerProviderStateMixin {
+class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStateMixin {
   late TabController _controller;
 
   @override
@@ -45,15 +44,12 @@ class _CompanyHomeState extends State<CompanyHome>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Image.asset('assets/noun-history.png'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
+                              children: const [
                                 Text(
                                   "44",
-                                  style: TextStyle(
-                                      fontSize: 34,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                                 ),
                                 ImageIcon(
                                   AssetImage("assets/nounGroup.png"),
@@ -61,12 +57,8 @@ class _CompanyHomeState extends State<CompanyHome>
                                 ),
                               ],
                             ),
-                            // Icon(
-                            //   Icons.location_on_outlined,
-                            //   size: 60,
-                            // ),
-                            SizedBox(height: 8),
-                            Text("Employee(s)")
+                            const SizedBox(height: 8),
+                            const Text("Employee(s)")
                           ],
                         ),
                       ),
@@ -88,15 +80,12 @@ class _CompanyHomeState extends State<CompanyHome>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Image.asset('assets/noun-history.png'),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
+                              children: const [
                                 Text(
                                   "4",
-                                  style: TextStyle(
-                                      fontSize: 34,
-                                      fontWeight: FontWeight.bold),
+                                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                                 ),
                                 ImageIcon(
                                   AssetImage("assets/department.png"),
@@ -104,12 +93,8 @@ class _CompanyHomeState extends State<CompanyHome>
                                 ),
                               ],
                             ),
-                            // Icon(
-                            //   Icons.location_on_outlined,
-                            //   size: 60,
-                            // ),
-                            SizedBox(height: 8),
-                            Text("Department(s)")
+                            const SizedBox(height: 8),
+                            const Text("Department(s)")
                           ],
                         ),
                       ),
@@ -121,10 +106,10 @@ class _CompanyHomeState extends State<CompanyHome>
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Container(
+            child: SizedBox(
               width: MediaQuery.of(context).size.width / 1.5,
               child: TabBar(
-                tabs: [
+                tabs: const [
                   Tab(
                       child: Text(
                     'Notification',
@@ -134,11 +119,14 @@ class _CompanyHomeState extends State<CompanyHome>
                     ),
                   )),
                   Tab(
-                      child: Text('Approvals',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          )))
+                    child: Text(
+                      'Approvals',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                 ],
                 controller: _controller,
                 labelColor: appThemeGreen,
@@ -150,7 +138,7 @@ class _CompanyHomeState extends State<CompanyHome>
           Expanded(
             child: TabBarView(
               controller: _controller,
-              children: [
+              children: const [
                 CompanyNotification(),
                 ManageApproval(),
               ],

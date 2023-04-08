@@ -11,6 +11,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  bool loading = false;
   EmployeeNotificationController notificationController = EmployeeNotificationController();
   late EmployeeNotificationModel notificationModel;
   List<ListElement> notificationList = [];
@@ -22,10 +23,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future initialize(BuildContext context) async {
-    notificationController.getNotification(context).then((value) {
+    loading = true;
+    await notificationController.getNotification(context).then((value) {
       setState(() {
         notificationModel = value;
         notificationList = notificationModel.data.list;
+        loading = false;
         debugPrint(value.message);
       });
     });
@@ -35,72 +38,74 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-      body: SingleChildScrollView(
-        child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: notificationList.length,
-            itemBuilder: (context, index) {
-              var detail = notificationList[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const CircleAvatar(
-                          radius: 28,
-                          backgroundImage: AssetImage('assets/man.jpeg'),
-                        ),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: notificationList.length,
+                  itemBuilder: (context, index) {
+                    var detail = notificationList[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                                child: Text(
-                                  detail.notificationMsg,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
+                              const CircleAvatar(
+                                radius: 28,
+                                backgroundImage: AssetImage('assets/man.jpeg'),
                               ),
-                              const SizedBox(height: 12),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                ),
-                                child: Text(
-                                  detail.date.toString(),
-                                  style: const TextStyle(fontSize: 12),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0, top: 8),
-                                child: Text(
-                                  "View Task",
-                                  style: TextStyle(fontSize: 12, color: appThemeBlue),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                                      child: Text(
+                                        detail.notificationMsg,
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                      ),
+                                      child: Text(
+                                        detail.date.toString(),
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                                      child: Text(
+                                        "View Task",
+                                        style: TextStyle(fontSize: 12, color: appThemeBlue),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 1,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(color: Colors.black),
-                        ),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 1,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-      ),
+                    );
+                  }),
+            ),
     );
   }
 }

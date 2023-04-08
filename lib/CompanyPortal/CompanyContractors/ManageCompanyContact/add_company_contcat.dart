@@ -1,5 +1,4 @@
 import 'package:etsemployee/Controller/CompanyController/add_company_contact_controller.dart';
-import 'package:etsemployee/Models/CompanyModels/add_company_contact_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +12,6 @@ class AddCompanyContact extends StatefulWidget {
 
 class _AddCompanyContactState extends State<AddCompanyContact> {
   AddCompanyContactController addCompanyContactController = AddCompanyContactController();
-  late AddCompanyContactModel addCompanyContactModel;
 
   @override
   Widget build(BuildContext context) {
@@ -439,24 +437,19 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
                             onTap: () {
-                              addCompanyContactController.addCompanyContact(context).then((value) {
-                                addCompanyContactModel = value;
-                                debugPrint(addCompanyContactModel.status);
-                              });
-                              // companyLoginController.companyLogin(context).then((value) {
-                              // companyLoginModel = value;
-                              // print(value.message);
+                              addCompanyContactController.addCompanyContact(context);
                             },
                             child: Container(
-                                width: double.infinity,
-                                height: 40,
-                                decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                                child: const Center(
-                                  child: Text(
-                                    'Save',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
-                                  ),
-                                )),
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                            ),
                           ),
                         )
                       ],
