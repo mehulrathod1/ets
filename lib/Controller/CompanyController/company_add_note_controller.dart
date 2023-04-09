@@ -16,8 +16,6 @@ class EmployeeAddNoteController {
       'note_description': noteDescription.text,
       'employeelist': employeeList.text,
     });
-    var res = EmployeeAddNoteModel.fromJson(response);
-    debugPrint(res.message);
-    return res;
+    return EmployeeAddNoteModel.fromJson(response);
   }
 }

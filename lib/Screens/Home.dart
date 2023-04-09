@@ -1,9 +1,7 @@
-import 'dart:developer';
+// ignore_for_file: file_names
 
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
-import '../utils/Colors.dart';
 import 'Contractors/ManageProfile/profile_screen.dart';
 
 class Home extends StatefulWidget {
@@ -26,9 +24,7 @@ class _Home extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    setState(() {});
-                  },
+                  onTap: () {},
                   child: Container(
                     height: 130,
                     width: 160,
@@ -39,40 +35,38 @@ class _Home extends State<Home> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Image.asset('assets/noun-history.png'),
+                      children: const [
                         ImageIcon(
                           AssetImage("assets/noun_location.png"),
                           size: 60,
                         ),
-                        // Icon(
-                        //   Icons.location_on_outlined,
-                        //   size: 60,
-                        // ),
                         SizedBox(height: 8),
                         Text("Live Location")
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  height: 130,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colorBlueLight,
-                    border: Border.all(color: colorBlue, width: 1),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ImageIcon(
-                        AssetImage("assets/noun_history_.png"),
-                        size: 60,
-                      ),
-                      SizedBox(height: 8),
-                      Text("History")
-                    ],
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    height: 130,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      color: colorBlueLight,
+                      border: Border.all(color: colorBlue, width: 1),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        ImageIcon(
+                          AssetImage("assets/noun_history_.png"),
+                          size: 60,
+                        ),
+                        SizedBox(height: 8),
+                        Text("History")
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -85,8 +79,7 @@ class _Home extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile()));
                   },
                   child: Container(
                     height: 130,
@@ -98,7 +91,7 @@ class _Home extends State<Home> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         ImageIcon(
                           AssetImage("assets/profile.png"),
                           size: 60,

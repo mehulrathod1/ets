@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class CompanyImageController {
   Future<CompanyViewImageModel> getImage(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyViewImage);
-    var res = CompanyViewImageModel.fromJson(response);
-    return res;
+    return CompanyViewImageModel.fromJson(response);
   }
 }

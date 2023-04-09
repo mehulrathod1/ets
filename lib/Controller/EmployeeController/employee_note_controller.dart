@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeNoteController {
   Future<EmployeeNoteModel> getEmployeeContact(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeNoteList);
-    debugPrint(response);
     return EmployeeNoteModel.fromJson(response);
   }
 }

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class CompanyAttendanceController {
   Future<CompanyAttendanceModel> getAttendance(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyViewAttendance);
-    var res = CompanyAttendanceModel.fromJson(response);
-    return res;
+    return CompanyAttendanceModel.fromJson(response);
   }
 }

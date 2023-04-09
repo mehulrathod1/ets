@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeContactController {
   Future<EmployeeContactModel> getEmployeeContact(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeContactList);
-    debugPrint(response);
     return EmployeeContactModel.fromJson(response);
   }
 }

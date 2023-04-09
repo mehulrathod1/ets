@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeImage {
   Future<EmployeeViewImageModel> getEmployeeImage(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeGetImage);
-    debugPrint(response);
     return EmployeeViewImageModel.fromJson(response);
   }
 }

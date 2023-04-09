@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeMapController {
   Future<EmployeeViewMapModel> getAttendanceHistory(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeGetMap);
-    debugPrint(response);
     return EmployeeViewMapModel.fromJson(response);
   }
 }

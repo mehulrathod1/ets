@@ -35,7 +35,6 @@ class EmployeeAddOrderController {
         duration: const Duration(seconds: 2),
       ),
     );
-    debugPrint(res.message);
     return res;
   }
 }

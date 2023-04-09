@@ -16,7 +16,6 @@ class CompanyCallRequestController {
         });
     var response = await getData(paramUri: ApiConstant.sendCallRequest);
     debugPrint("sendCallRequest response :- ${response.toString()}");
-
     if (response["status"] == 'True') {
       var res = CompanyCallRequestModel.fromJson(response);
       callRequestModel = res;

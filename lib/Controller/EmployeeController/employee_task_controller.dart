@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeTaskController {
   Future<EmployeeTaskModel> getEmployeeTask(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeTaskList);
-    debugPrint(response);
     return EmployeeTaskModel.fromJson(response);
   }
 }

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeEstimateController {
   Future<EmployeeEstimateModel> getEmployeeEstimate(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeEstimateList);
-    debugPrint(response);
     return EmployeeEstimateModel.fromJson(response);
   }
 }

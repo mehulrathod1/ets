@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeGetHourRequestController {
   Future<EmployeeGetHourRequestModel> getEmployeeRequest(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeGetHourRequest);
-    debugPrint(response);
     return EmployeeGetHourRequestModel.fromJson(response);
   }
 }

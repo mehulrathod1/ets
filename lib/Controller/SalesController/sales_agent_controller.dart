@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class SalesAgentController {
   Future<SalesAgentModel> getAgent(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.salesAgent);
-    debugPrint(response);
     return SalesAgentModel.fromJson(response);
   }
 }

@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeInvoiceController {
   Future<EmployeeInvoiceModel> getEmployeeInvoice(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeInvoice);
-    debugPrint(response);
     return EmployeeInvoiceModel.fromJson(response);
   }
 }

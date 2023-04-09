@@ -7,7 +7,6 @@ import '../../Models/CompanyModels/company_department_model.dart';
 class CompanyDepartmentController {
   Future<GetCompanyDepartmentModel> getDepartment(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyDepartment);
-    debugPrint(response);
     return GetCompanyDepartmentModel.fromJson(response);
   }
 }

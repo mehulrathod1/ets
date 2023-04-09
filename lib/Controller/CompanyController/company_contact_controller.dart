@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 class CompanyContactController {
   Future<CompanyContactModel> getCompanyContact(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyContacts);
-    var res = CompanyContactModel.fromJson(response);
-    return res;
+    return CompanyContactModel.fromJson(response);
   }
 }

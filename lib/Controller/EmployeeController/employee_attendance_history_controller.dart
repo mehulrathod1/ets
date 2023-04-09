@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 class EmployeeAttendanceHistoryController {
   Future<EmployeeAttendanceHistoryModel> getAttendanceHistory(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeAttendanceHistory);
-    debugPrint(response);
     return EmployeeAttendanceHistoryModel.fromJson(response);
   }
 }

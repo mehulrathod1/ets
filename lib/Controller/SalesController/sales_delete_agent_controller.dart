@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class SalesAgentDeleteController {
   Future<SalesDeleteAgentModel> deleteAgent(BuildContext context, String id) async {
     var response = await getData(paramUri: ApiConstant.salesDeleteAgent + id);
-    debugPrint(response);
     var res = SalesDeleteAgentModel.fromJson(response);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
