@@ -336,6 +336,7 @@ class _EditContactState extends State<EditContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -412,6 +413,7 @@ class _EditContactState extends State<EditContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -450,6 +452,7 @@ class _EditContactState extends State<EditContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(

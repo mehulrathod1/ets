@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../Controller/CompanyController/company_hour_accept_controller.dart';
+import '../../Controller/CompanyController/company_hour_reject_controlller.dart';
+import '../../Controller/CompanyController/company_hour_request_controller.dart';
+import '../../Models/CompanyModels/companay_hour_request.dart';
+import '../../Models/CompanyModels/companyAcceptHourModel.dart';
+import '../../Models/CompanyModels/company_hour_reject_model.dart';
 import '../../utils/Colors.dart';
 import '../PopUps/request_detail_popup.dart';
 
@@ -12,6 +18,35 @@ class CompanyFixHourRequest extends StatefulWidget {
 }
 
 class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
+  CompanyFixHourRequestController hourRequestController =
+      CompanyFixHourRequestController();
+  late CompanyHourRequestModel hourRequestModel;
+  List<ListElement> requestList = [];
+
+  CompanyAcceptHourController acceptHourController =
+      CompanyAcceptHourController();
+  late CompanyHourAcceptModel hourAcceptModel;
+
+  ClassHourRejectController hourRejectController = ClassHourRejectController();
+  late CompanyHourRejectModel hourRejectModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    initialize(context);
+    super.initState();
+  }
+
+  Future initialize(BuildContext context) async {
+    hourRequestController.getHourRequest(context).then((value) {
+      setState(() {
+        hourRequestModel = value;
+        requestList = hourRequestModel.data.list;
+        print(hourRequestModel.message);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +58,9 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
               child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 10,
+                  itemCount: requestList.length,
                   itemBuilder: (context, index) {
+                    var data = requestList[index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                       child: ClipRRect(
@@ -45,7 +81,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Kate Thomas test",
+                                      data.employeeName.toString(),
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -62,7 +98,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "Dec 27,2022",
+                                          data.createAt.toString(),
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -124,64 +160,86 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                           ),
                                         ),
                                         Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: appThemeGreen,
-                                            ),
-                                            height: double.infinity,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.done,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
-                                                  child: Text(
-                                                    "Accept",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              acceptHourController
+                                                  .acceptHourRequest(
+                                                      context, data.id)
+                                                  .then((value) {
+                                                print(value.data);
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: appThemeGreen,
+                                              ),
+                                              height: double.infinity,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.done,
+                                                    color: Colors.white,
+                                                    size: 20,
                                                   ),
-                                                )
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      "Accept",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
                                         Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: colorred,
-                                                borderRadius: BorderRadius.only(
-                                                    bottomRight:
-                                                        Radius.circular(15))),
-                                            height: double.infinity,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons.delete_outline,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0),
-                                                  child: Text(
-                                                    "Delete",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.white),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              hourRejectController
+                                                  .rejectHourRequest(context,
+                                                      data.id.toString())
+                                                  .then((value) {
+                                                print(value.message);
+                                              });
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: colorred,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  15))),
+                                              height: double.infinity,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete_outline,
+                                                    color: Colors.white,
+                                                    size: 20,
                                                   ),
-                                                )
-                                              ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      "Reject",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
