@@ -1,11 +1,12 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, must_be_immutable
 
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'Contractors/ManageProfile/profile_screen.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({this.changeScreen, Key? key}) : super(key: key);
+  Function(int)? changeScreen;
 
   @override
   State<Home> createState() => _Home();
@@ -47,7 +48,9 @@ class _Home extends State<Home> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    widget.changeScreen!(1);
+                  },
                   child: Container(
                     height: 130,
                     width: 160,
@@ -73,9 +76,9 @@ class _Home extends State<Home> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 16),
+            padding: const EdgeInsets.only(top: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
                   onTap: () {
@@ -102,6 +105,10 @@ class _Home extends State<Home> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 130,
+                  width: 160,
+                )
               ],
             ),
           ),

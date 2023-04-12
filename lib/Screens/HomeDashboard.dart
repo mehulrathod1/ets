@@ -27,13 +27,6 @@ class _HomeDashboard extends State<HomeDashboard> {
   var container;
   int _selectedIndex = 0;
   String appBarTitle = "";
-  List<Widget> screens = [
-    const Home(),
-    const AttendanceScreen(),
-    const Home(),
-    const Home(),
-    const Home(),
-  ];
 
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -54,6 +47,14 @@ class _HomeDashboard extends State<HomeDashboard> {
         currentPage = DrawerSelection.Notification;
       } else if (_selectedIndex == 4) {
         currentPage = DrawerSelection.Dashboard;
+      }
+    });
+  }
+
+  void changeScreen(int index) {
+    setState(() {
+      if (index == 1) {
+        currentPage = DrawerSelection.History;
       }
     });
   }
@@ -144,7 +145,7 @@ class _HomeDashboard extends State<HomeDashboard> {
   @override
   Widget build(BuildContext context) {
     if (currentPage == DrawerSelection.Dashboard) {
-      container = const Home();
+      container = Home(changeScreen: changeScreen);
       appBarTitle = "Dashboard";
     } else if (currentPage == DrawerSelection.Attendance) {
       container = const AttendanceScreen();
