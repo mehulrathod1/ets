@@ -34,6 +34,25 @@ class ApiConstant {
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
 
+  static const companyFixHourRequest =
+      'company/view-fix-hrs-request?show=10&searchName=&page=';
+
+  static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
+  static const cmpRejectHourRequest = 'company/reject-fix-hrs-request/?id=';
+
+  //today
+
+  static const companyAllReport =
+      'company/get-all-report/?show=10&searchName&page=2';
+  static const companyMonthlyReport = 'company/get-monthly-report/';
+  static const companyYearlyReport = 'company/get-yearly-report/';
+
+  //26
+  //24
+  //066
+  //082
+  //148
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
@@ -65,7 +84,7 @@ class ApiConstant {
 // --------------------------------- sales portal  --------------------------------------------------------
 
   static const salesLogin = 'sales-login/';
-  static const salesDeleteAgent = 'SALES/delete-agent/';
+  static const salesDeleteAgent = 'SASLE/delete-agent/';
   static const salesAgent =
       'SALES/view-all-agent?show=10&startdate=&enddate=&searchName=&page=';
 }

@@ -349,6 +349,7 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: addCompanyContactController.zipcode,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -427,6 +428,7 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: addCompanyContactController.homeNumber,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -466,6 +468,7 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           controller: addCompanyContactController.mobileNumber,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,

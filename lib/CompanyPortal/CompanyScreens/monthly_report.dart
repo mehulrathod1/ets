@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
+import '../../Controller/CompanyController/company_monthly_report_controller.dart';
+import '../../Controller/CompanyController/company_yearly_report_controller.dart';
+import '../../Models/CompanyModels/company_monthly_report.dart';
+import '../../Models/CompanyModels/company_yearly_model.dart';
 import '../../utils/Colors.dart';
 
 class MonthlyReport extends StatefulWidget {
@@ -12,6 +16,39 @@ class MonthlyReport extends StatefulWidget {
 }
 
 class _MonthlyReportState extends State<MonthlyReport> {
+  CompanyMonthlyReportController monthlyReportController =
+      CompanyMonthlyReportController();
+  late CompanyMonthlyReportModel monthlyReportModel;
+  List<ListElement> monthlyList = [];
+
+  CompanyYearlyReportController yearlyReportController =
+      CompanyYearlyReportController();
+  late CompanyYearlyReportModel yearlyReportModel;
+  List<ListData> yearlyList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    initialize(context);
+    super.initState();
+  }
+
+  Future initialize(BuildContext context) async {
+    monthlyReportController.getMonthlyReport(context, '115').then((value) {
+      setState(() {
+        monthlyReportModel = value;
+        monthlyList = monthlyReportModel.data.list;
+      });
+    });
+
+    yearlyReportController.getYearlyReport(context, '115').then((value) {
+      setState(() {
+        yearlyReportModel = value;
+        yearlyList = yearlyReportModel.data.list;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -275,8 +312,9 @@ class _MonthlyReportState extends State<MonthlyReport> {
               child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 2,
+                  itemCount: monthlyList.length,
                   itemBuilder: (context, index) {
+                    var data = monthlyList[index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                       child: ClipRRect(
@@ -297,7 +335,7 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Kate Thomas test",
+                                      data.empName,
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -314,7 +352,7 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "October-2022",
+                                          data.month,
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: colorTextGray),
@@ -337,7 +375,7 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "1",
+                                                data.totalHours,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -356,7 +394,7 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "0",
+                                                data.breakHours,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -366,134 +404,134 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Month: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "October-2022",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Total Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "1",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Break Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "0",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Month: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "October-2022",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Total Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "1",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                "Break Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "0",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "Month: ",
+                                    //       style: TextStyle(
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.bold),
+                                    //     ),
+                                    //     Text(
+                                    //       "October-2022",
+                                    //       style: TextStyle(
+                                    //           fontSize: 14,
+                                    //           color: colorTextGray),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       child: Row(
+                                    //         children: [
+                                    //           Text(
+                                    //             "Total Hours: ",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 fontWeight:
+                                    //                     FontWeight.bold),
+                                    //           ),
+                                    //           Text(
+                                    //             "1",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 color: colorTextGray),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Row(
+                                    //         children: [
+                                    //           Text(
+                                    //             "Break Hours: ",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 fontWeight:
+                                    //                     FontWeight.bold),
+                                    //           ),
+                                    //           Text(
+                                    //             "0",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 color: colorTextGray),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "Month: ",
+                                    //       style: TextStyle(
+                                    //           fontSize: 14,
+                                    //           fontWeight: FontWeight.bold),
+                                    //     ),
+                                    //     Text(
+                                    //       "October-2022",
+                                    //       style: TextStyle(
+                                    //           fontSize: 14,
+                                    //           color: colorTextGray),
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    // Row(
+                                    //   children: [
+                                    //     Expanded(
+                                    //       child: Row(
+                                    //         children: [
+                                    //           Text(
+                                    //             "Total Hours: ",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 fontWeight:
+                                    //                     FontWeight.bold),
+                                    //           ),
+                                    //           Text(
+                                    //             "1",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 color: colorTextGray),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //     Expanded(
+                                    //       child: Row(
+                                    //         children: [
+                                    //           Text(
+                                    //             "Break Hours: ",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 fontWeight:
+                                    //                     FontWeight.bold),
+                                    //           ),
+                                    //           Text(
+                                    //             "0",
+                                    //             style: TextStyle(
+                                    //                 fontSize: 14,
+                                    //                 color: colorTextGray),
+                                    //           ),
+                                    //         ],
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ],
                                 ),
                               ),

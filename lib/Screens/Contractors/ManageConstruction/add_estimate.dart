@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utils/Colors.dart';
 
@@ -12,6 +13,8 @@ class AddEstimate extends StatefulWidget {
 }
 
 class _AddEstimateState extends State<AddEstimate> {
+  TextEditingController dueDate = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,28 +175,53 @@ class _AddEstimateState extends State<AddEstimate> {
                       Container(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText:
-                                'Testing the estimate section description',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
+                            controller: dueDate,
+                            style: TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              hintText:
+                                  'Testing the estimate section description',
+                              fillColor: colorScreenBg,
+                              filled: true,
+                              isDense: true,
+                              contentPadding:
+                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
                             ),
-                          ),
-                        ),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(
+                                      2000), //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2101));
+
+                              if (pickedDate != null) {
+                                print(
+                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
+                                print(
+                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                //you can implement different kind of Date Format here according to your requirement
+
+                                setState(() {
+                                  dueDate.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {
+                                print("Date is not selected");
+                              }
+                            }),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
@@ -205,6 +233,7 @@ class _AddEstimateState extends State<AddEstimate> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -236,6 +265,7 @@ class _AddEstimateState extends State<AddEstimate> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -267,6 +297,7 @@ class _AddEstimateState extends State<AddEstimate> {
                       Container(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
