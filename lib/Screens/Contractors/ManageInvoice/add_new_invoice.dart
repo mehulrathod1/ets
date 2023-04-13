@@ -235,7 +235,6 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         child: TextField(
                           style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           keyboardType: TextInputType.number,
-                          style: TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '50000',
@@ -315,7 +314,6 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         child: TextField(
                           style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           keyboardType: TextInputType.number,
-                          style: TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '5',
@@ -365,16 +363,12 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                 lastDate: DateTime(2101));
 
                             if (pickedDate != null) {
-                              print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                               String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                              print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
                               setState(() {
                                 invoiceDate.text = formattedDate; //set output date to TextField value.
                               });
                             } else {
-                              print("Date is not selected");
+                              debugPrint("Date is not selected");
                             }
                           },
                         ),
