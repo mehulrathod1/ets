@@ -297,6 +297,7 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -363,6 +364,7 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -396,6 +398,7 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(

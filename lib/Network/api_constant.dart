@@ -28,6 +28,26 @@ class ApiConstant {
   static const companyAddDepartment = 'company/add-department';
 
   // --------------------------------- employee portal --------------------------------------------------------
+  static const companyFixHourRequest =
+      'company/view-fix-hrs-request?show=10&searchName=&page=';
+
+  static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
+  static const cmpRejectHourRequest = 'company/reject-fix-hrs-request/?id=';
+
+  //today
+
+  static const companyAllReport =
+      'company/get-all-report/?show=10&searchName&page=2';
+  static const companyMonthlyReport = 'company/get-monthly-report/';
+  static const companyYearlyReport = 'company/get-yearly-report/';
+
+  //26
+  //24
+  //066
+  //082
+  //148
+
+  // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
   static const employeeSendHourRequest = 'employee/send-fix-hours-request-employee/';

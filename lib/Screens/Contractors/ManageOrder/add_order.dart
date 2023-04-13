@@ -3,6 +3,7 @@ import 'package:etsemployee/Models/EmployeeModel/employee_add_order_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class AddOrder extends StatefulWidget {
   const AddOrder({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class AddOrder extends StatefulWidget {
 }
 
 class _AddOrderState extends State<AddOrder> {
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
   bool termsandcond = false;
   EmployeeAddOrderController addOrderController = EmployeeAddOrderController();
   late EmployeeAddOrderModel addOrderModel;
@@ -229,6 +232,7 @@ class _AddOrderState extends State<AddOrder> {
                         height: 40,
                         child: TextField(
                           style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: startDate,
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '01/19/2023',
@@ -242,6 +246,31 @@ class _AddOrderState extends State<AddOrder> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(
+                                    2000), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                startDate.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -254,6 +283,7 @@ class _AddOrderState extends State<AddOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: endDate,
                           style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -268,6 +298,31 @@ class _AddOrderState extends State<AddOrder> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(
+                                    2000), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                endDate.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(

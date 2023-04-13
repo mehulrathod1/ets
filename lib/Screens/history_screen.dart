@@ -4,6 +4,11 @@ import 'package:etsemployee/Screens/view_history_image.dart';
 import 'package:etsemployee/Screens/view_history_map.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:intl/intl.dart';
+
+import '../Controller/EmployeeController/employee_attendance_history_controller.dart';
+import '../Models/EmployeeModel/employee_attendance_history_model.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -17,6 +22,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
   EmployeeAttendanceHistoryController employeeAttendanceHistoryController = EmployeeAttendanceHistoryController();
   late EmployeeAttendanceHistoryModel employeeAttendanceHistoryModel;
   List<ListElement> historyList = [];
+
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
 
   @override
   void initState() {
@@ -64,6 +72,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: 40,
                               child: TextField(
                                 style: const TextStyle(fontSize: 16, color: Colors.black),
+                                controller: startDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   suffixIcon: Align(
@@ -86,6 +95,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101));
+
+                                  if (pickedDate != null) {
+                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                                    //you can implement different kind of Date Format here according to your requirement
+
+                                    setState(() {
+                                      startDate.text = formattedDate; //set output date to TextField value.
+                                    });
+                                  } else {
+                                    print("Date is not selected");
+                                  }
+                                },
                               ),
                             ),
                           ],
@@ -109,6 +138,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: 40,
                               child: TextField(
                                 style: const TextStyle(fontSize: 16, color: Colors.black),
+                                controller: endDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   suffixIcon: Align(
@@ -131,6 +161,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                      lastDate: DateTime(2101));
+
+                                  if (pickedDate != null) {
+                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                                    //you can implement different kind of Date Format here according to your requirement
+
+                                    setState(() {
+                                      endDate.text = formattedDate; //set output date to TextField value.
+                                    });
+                                  } else {
+                                    print("Date is not selected");
+                                  }
+                                },
                               ),
                             ),
                           ],
