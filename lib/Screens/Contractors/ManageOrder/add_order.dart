@@ -1,10 +1,8 @@
+import 'package:etsemployee/Controller/EmployeeController/employee_add_order_controller.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_add_order_model.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
-
-import '../../../Controller/EmployeeController/employee_add_order_controller.dart';
-import '../../../Models/EmployeeModel/employee_add_order_model.dart';
-import '../../../utils/Colors.dart';
 
 class AddOrder extends StatefulWidget {
   const AddOrder({Key? key}) : super(key: key);
@@ -17,6 +15,7 @@ class _AddOrderState extends State<AddOrder> {
   bool termsandcond = false;
   EmployeeAddOrderController addOrderController = EmployeeAddOrderController();
   late EmployeeAddOrderModel addOrderModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,15 +23,13 @@ class _AddOrderState extends State<AddOrder> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Add Order",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+          child: Text("Add Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
@@ -40,7 +37,7 @@ class _AddOrderState extends State<AddOrder> {
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -64,17 +61,17 @@ class _AddOrderState extends State<AddOrder> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Work Order For",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -89,15 +86,10 @@ class _AddOrderState extends State<AddOrder> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -109,54 +101,47 @@ class _AddOrderState extends State<AddOrder> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor:
-                                    MaterialStateProperty.all(appThemeGreen),
+                                fillColor: MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
                                   });
                                 }),
-                            Text(
+                            const Text(
                               'Mark As Complete',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Order Name",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter order name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Order Description",
                           style: TextStyle(fontSize: 14),
@@ -164,13 +149,11 @@ class _AddOrderState extends State<AddOrder> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -178,14 +161,13 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Change Description",
                           style: TextStyle(fontSize: 14),
@@ -193,13 +175,11 @@ class _AddOrderState extends State<AddOrder> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -207,117 +187,98 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Additional Amount",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter additional amount',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Start Date",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '01/19/2023',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Due Date",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "E-Signature",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
                         child: Text(
                           "Sign in the canvas below and save your signature as an image!",
                           style: TextStyle(fontSize: 14),
@@ -325,13 +286,11 @@ class _AddOrderState extends State<AddOrder> {
                       ),
                       Container(
                         height: 150,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -339,8 +298,7 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -349,16 +307,13 @@ class _AddOrderState extends State<AddOrder> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 16.0, right: 8),
+                              padding: const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: colorred),
-                                child: Center(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                child: const Center(
                                     child: Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: EdgeInsets.all(8),
                                   child: Text(
                                     "Clear Signature",
                                     style: TextStyle(color: Colors.white),
@@ -369,18 +324,14 @@ class _AddOrderState extends State<AddOrder> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsets.only(top: 16.0, right: 8),
+                              padding: const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: appThemeGreen),
-                                child: Center(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                child: const Center(
                                     child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text("Submit Signature",
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.white)),
+                                  padding: EdgeInsets.all(8),
+                                  child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
                                 )),
                               ),
                             ),
@@ -392,14 +343,11 @@ class _AddOrderState extends State<AddOrder> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
+                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                style: TextStyle(color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )

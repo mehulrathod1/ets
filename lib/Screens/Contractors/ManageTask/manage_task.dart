@@ -33,10 +33,15 @@ class _ManageTaskState extends State<ManageTask> {
     loading = true;
     await taskController.getEmployeeTask(context).then((value) {
       setState(() {
-        taskModel = value;
-        taskList = taskModel.data.list;
-        loading = false;
-        debugPrint(taskModel.message);
+        if (value != null) {
+          taskModel = value;
+          taskList = taskModel.data.list;
+          loading = false;
+          debugPrint(taskModel.message);
+        } else {
+          taskList.clear();
+          loading = false;
+        }
       });
     });
   }
@@ -124,122 +129,83 @@ class _ManageTaskState extends State<ManageTask> {
               ),
               loading
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: taskList.length,
-                      itemBuilder: (context, index) {
-                        var detail = taskList[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  blurRadius: 10,
-                                  offset: const Offset(2, 5),
+                  : taskList.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: taskList.length,
+                          itemBuilder: (context, index) {
+                            var detail = taskList[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      blurRadius: 10,
+                                      offset: const Offset(2, 5),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
-                                  child: Image.asset(
-                                    'assets/man.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        detail.taskName,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        detail.taskDescription,
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 150,
                                       width: double.infinity,
-                                      height: 35,
-                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                      child: Row(
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                      child: Image.asset(
+                                        'assets/man.jpeg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const EditTask()));
-                                              },
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: const [
-                                                  Icon(
-                                                    Icons.edit,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
-                                                    child: Text(
-                                                      "Edit",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                          Text(
+                                            detail.taskName,
+                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(
-                                            width: 1,
-                                            height: 35,
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(color: Colors.white),
-                                            ),
+                                            height: 8,
                                           ),
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () async {
-                                                await deleteTaskController.deleteTask(context, detail.id);
-                                                await taskController.getEmployeeTask(context).then((value) {
-                                                  setState(() {
-                                                    taskModel = value;
-                                                    taskList = taskModel.data.list;
-                                                  });
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                                height: double.infinity,
+                                          Text(
+                                            detail.taskDescription,
+                                            style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 35,
+                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditTask()));
+                                                },
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
-                                                      Icons.delete_outline,
+                                                      Icons.edit,
                                                       color: Colors.white,
                                                       size: 20,
                                                     ),
                                                     Padding(
                                                       padding: EdgeInsets.only(left: 8.0),
                                                       child: Text(
-                                                        "Delete",
+                                                        "Edit",
                                                         style: TextStyle(fontSize: 14, color: Colors.white),
                                                       ),
                                                     )
@@ -247,15 +213,64 @@ class _ManageTaskState extends State<ManageTask> {
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      )),
+                                            const SizedBox(
+                                              width: 1,
+                                              height: 35,
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(color: Colors.white),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await deleteTaskController.deleteTask(context, detail.id);
+                                                  await taskController.getEmployeeTask(context).then((value) {
+                                                    setState(() {
+                                                      if (value != null) {
+                                                        taskModel = value;
+                                                        taskList = taskModel.data.list;
+                                                      } else {
+                                                        taskList.clear();
+                                                      }
+                                                    });
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
+                              ),
+                            );
+                          })
+                      : const Text(
+                          'No Task Found!',
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
             ],
           ),
         ),

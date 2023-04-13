@@ -4,8 +4,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeContactController {
-  Future<EmployeeContactModel> getEmployeeContact(BuildContext context) async {
+  Future getEmployeeContact(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeContactList);
-    return EmployeeContactModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return EmployeeContactModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

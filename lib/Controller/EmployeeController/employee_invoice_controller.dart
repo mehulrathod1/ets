@@ -4,8 +4,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeInvoiceController {
-  Future<EmployeeInvoiceModel> getEmployeeInvoice(BuildContext context) async {
+  Future getEmployeeInvoice(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeInvoice);
-    return EmployeeInvoiceModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return EmployeeInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

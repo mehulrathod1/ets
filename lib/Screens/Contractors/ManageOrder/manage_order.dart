@@ -33,9 +33,14 @@ class _ManageOrderState extends State<ManageOrder> {
     loading = true;
     await employeeOrderController.getEmployeeContact(context).then((value) {
       setState(() {
-        employeeOrderModel = value;
-        orderList = employeeOrderModel.data.list;
-        loading = false;
+        if (value != null) {
+          employeeOrderModel = value;
+          orderList = employeeOrderModel.data.list;
+          loading = false;
+        } else {
+          orderList.clear();
+          loading = false;
+        }
       });
     });
   }
@@ -123,147 +128,156 @@ class _ManageOrderState extends State<ManageOrder> {
               ),
               loading
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: orderList.length,
-                      itemBuilder: (context, index) {
-                        var detail = orderList[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  blurRadius: 10,
-                                  offset: const Offset(2, 5),
+                  : orderList.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: orderList.length,
+                          itemBuilder: (context, index) {
+                            var detail = orderList[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      blurRadius: 10,
+                                      offset: const Offset(2, 5),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
-                                  child: Image.asset(
-                                    'assets/man.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        detail.orderName,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 150,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                      child: Image.asset(
+                                        'assets/man.jpeg',
+                                        fit: BoxFit.cover,
                                       ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        detail.orderDescription,
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        detail.dueDate.toString(),
-                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 35,
-                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditOrder()));
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: const [
-                                                Icon(
-                                                  Icons.edit,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left: 8.0),
-                                                  child: Text(
-                                                    "Edit",
-                                                    style: TextStyle(fontSize: 14, color: Colors.white),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            detail.orderName,
+                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 1,
-                                          height: 35,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(color: Colors.white),
+                                          const SizedBox(
+                                            height: 8,
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              await deleteOrderController.deleteOrder(context, detail.id!);
-                                              await employeeOrderController.getEmployeeContact(context).then((value) {
-                                                setState(() {
-                                                  employeeOrderModel = value;
-                                                  orderList = employeeOrderModel.data.list;
-                                                });
-                                              });
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                              height: double.infinity,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: const [
-                                                  Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                          Text(
+                                            detail.orderDescription,
+                                            style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            detail.dueDate.toString(),
+                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 35,
+                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditOrder()));
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.edit,
+                                                      color: Colors.white,
+                                                      size: 20,
                                                     ),
-                                                  )
-                                                ],
+                                                    Padding(
+                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      child: Text(
+                                                        "Edit",
+                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            const SizedBox(
+                                              width: 1,
+                                              height: 35,
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(color: Colors.white),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await deleteOrderController.deleteOrder(context, detail.id!);
+                                                  await employeeOrderController.getEmployeeContact(context).then((value) {
+                                                    setState(() {
+                                                      if (value != null) {
+                                                        employeeOrderModel = value;
+                                                        orderList = employeeOrderModel.data.list;
+                                                      } else {
+                                                        orderList.clear();
+                                                      }
+                                                    });
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                              ),
+                            );
+                          },
+                        )
+                      : const Text(
+                          'Oops No Order Found!',
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
             ],
           ),
         ),

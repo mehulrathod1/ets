@@ -1,4 +1,5 @@
 import 'package:etsemployee/Controller/EmployeeController/employee_add_contact_controller.dart';
+import 'package:etsemployee/Screens/Contractors/ManageContacts/manage_contacts.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,6 +70,7 @@ class _AddNewContactState extends State<AddNewContact> {
                           height: 40,
                           child: TextField(
                             controller: employeeAddContactController.customerType,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -308,6 +310,7 @@ class _AddNewContactState extends State<AddNewContact> {
                           height: 40,
                           child: TextField(
                             controller: employeeAddContactController.zipcode,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -342,6 +345,7 @@ class _AddNewContactState extends State<AddNewContact> {
                           height: 40,
                           child: TextField(
                             controller: employeeAddContactController.email,
+                            keyboardType: TextInputType.emailAddress,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -377,6 +381,7 @@ class _AddNewContactState extends State<AddNewContact> {
                           height: 40,
                           child: TextField(
                             controller: employeeAddContactController.homeNumber,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -412,6 +417,7 @@ class _AddNewContactState extends State<AddNewContact> {
                           height: 40,
                           child: TextField(
                             controller: employeeAddContactController.mobileNumber,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -440,7 +446,9 @@ class _AddNewContactState extends State<AddNewContact> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
                             onTap: () {
-                              employeeAddContactController.addContact(context);
+                              employeeAddContactController.addContact(context).then((value) => {
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ManageContactScreen()), (Route<dynamic> route) => false),
+                                  });
                             },
                             child: Container(
                               width: double.infinity,

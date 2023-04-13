@@ -33,9 +33,14 @@ class _ManageNoteState extends State<ManageNote> {
     loading = true;
     await employeeNoteController.getEmployeeContact(context).then((value) {
       setState(() {
-        noteModel = value;
-        noteList = noteModel.data.list;
-        loading = false;
+        if (value != null) {
+          noteModel = value;
+          noteList = noteModel.data.list;
+          loading = false;
+        } else {
+          noteList.clear();
+          loading = false;
+        }
       });
     });
   }
@@ -122,140 +127,149 @@ class _ManageNoteState extends State<ManageNote> {
               ),
               loading
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: noteList.length,
-                      itemBuilder: (context, index) {
-                        var detail = noteList[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  blurRadius: 10,
-                                  offset: const Offset(2, 5),
+                  : noteList.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: noteList.length,
+                          itemBuilder: (context, index) {
+                            var detail = noteList[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      blurRadius: 10,
+                                      offset: const Offset(2, 5),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
-                                  child: Image.asset(
-                                    'assets/man.jpeg',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        detail.noteName,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 150,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                      child: Image.asset(
+                                        'assets/man.jpeg',
+                                        fit: BoxFit.cover,
                                       ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        detail.noteDescription,
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 35,
-                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditNote()));
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: const [
-                                                Icon(
-                                                  Icons.edit,
-                                                  color: Colors.white,
-                                                  size: 20,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left: 8.0),
-                                                  child: Text(
-                                                    "Edit",
-                                                    style: TextStyle(fontSize: 14, color: Colors.white),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            detail.noteName,
+                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 1,
-                                          height: 35,
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(color: Colors.white),
+                                          const SizedBox(
+                                            height: 8,
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () async {
-                                              await deleteNoteController.deleteNote(context, detail.id);
-                                              await employeeNoteController.getEmployeeContact(context).then((value) {
-                                                setState(() {
-                                                  noteModel = value;
-                                                  noteList = noteModel.data.list;
-                                                });
-                                              });
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                              height: double.infinity,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: const [
-                                                  Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                          Text(
+                                            detail.noteDescription,
+                                            style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 35,
+                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditNote()));
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.edit,
+                                                      color: Colors.white,
+                                                      size: 20,
                                                     ),
-                                                  )
-                                                ],
+                                                    Padding(
+                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      child: Text(
+                                                        "Edit",
+                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
+                                            const SizedBox(
+                                              width: 1,
+                                              height: 35,
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(color: Colors.white),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await deleteNoteController.deleteNote(context, detail.id);
+                                                  await employeeNoteController.getEmployeeContact(context).then((value) {
+                                                    setState(() {
+                                                      if (value != null) {
+                                                        noteModel = value;
+                                                        noteList = noteModel.data.list;
+                                                      } else {
+                                                        noteList.clear();
+                                                      }
+                                                    });
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                              ),
+                            );
+                          },
+                        )
+                      : const Text(
+                          'Oops No Notes Found!',
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
             ],
           ),
         ),
