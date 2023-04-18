@@ -76,7 +76,7 @@ class ListElement {
   String employeeId;
   Email email;
   String employeeName;
-  Department department;
+  Department? department;
   String? totalHrs;
   CallForAttendance viewAttendance;
   CallForAttendance editEmployee;
@@ -90,7 +90,7 @@ class ListElement {
         employeeId: json["employee_id"],
         email: emailValues.map[json["email"]]!,
         employeeName: json["employee_name"],
-        department: departmentValues.map[json["department"]]!,
+        department: departmentValues.map[json["department"]],
         totalHrs: json["total_hrs"],
         viewAttendance: CallForAttendance.fromJson(json["view_attendance"]),
         editEmployee: CallForAttendance.fromJson(json["edit_employee"]),

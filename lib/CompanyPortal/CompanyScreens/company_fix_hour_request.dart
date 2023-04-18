@@ -16,12 +16,14 @@ class CompanyFixHourRequest extends StatefulWidget {
 }
 
 class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
-  CompanyFixHourRequestController hourRequestController = CompanyFixHourRequestController();
+  CompanyFixHourRequestController hourRequestController =
+      CompanyFixHourRequestController();
   late CompanyHourRequestModel hourRequestModel;
   late CompanyHourAcceptModel hourAcceptModel;
   late CompanyHourRejectModel hourRejectModel;
   List<ListElement> requestList = [];
-  CompanyAcceptHourController acceptHourController = CompanyAcceptHourController();
+  CompanyAcceptHourController acceptHourController =
+      CompanyAcceptHourController();
   ClassHourRejectController hourRejectController = ClassHourRejectController();
 
   @override
@@ -61,7 +63,8 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(width: 1, color: appThemeBlue),
                         ),
                         child: Column(
@@ -74,7 +77,9 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                 children: [
                                   Text(
                                     data.employeeName.toString(),
-                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -83,11 +88,14 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                     children: [
                                       const Text(
                                         "Date: ",
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       Text(
                                         data.createAt.toString(),
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -99,7 +107,11 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                               child: Container(
                                 width: double.infinity,
                                 height: 35,
-                                decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                decoration: BoxDecoration(
+                                    color: appThemeBlue,
+                                    borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(15))),
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -108,10 +120,16 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                           requestDetail(context);
                                         },
                                         child: Container(
-                                          decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15))),
+                                          decoration: BoxDecoration(
+                                              color: appThemeBlue,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(15))),
                                           height: double.infinity,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: const [
                                               Icon(
                                                 Icons.remove_red_eye_sharp,
@@ -119,10 +137,13 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                 size: 20,
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
                                                 child: Text(
                                                   "View Details",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 ),
                                               )
                                             ],
@@ -133,8 +154,12 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
-                                          acceptHourController.acceptHourRequest(context, data.id).then((value) {
+                                          acceptHourController
+                                              .acceptHourRequest(
+                                                  context, data.id)
+                                              .then((value) {
                                             debugPrint(value.data);
+                                            debugPrint(data.id);
                                           });
                                         },
                                         child: Container(
@@ -143,7 +168,8 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                           ),
                                           height: double.infinity,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: const [
                                               Icon(
                                                 Icons.done,
@@ -151,10 +177,13 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                 size: 20,
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
                                                 child: Text(
                                                   "Accept",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 ),
                                               )
                                             ],
@@ -165,15 +194,24 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                     Expanded(
                                       child: GestureDetector(
                                         onTap: () {
-                                          hourRejectController.rejectHourRequest(context, data.id.toString()).then((value) {
+                                          hourRejectController
+                                              .rejectHourRequest(
+                                                  context, data.id.toString())
+                                              .then((value) {
                                             debugPrint(value.message);
                                           });
                                         },
                                         child: Container(
-                                          decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                          decoration: BoxDecoration(
+                                              color: colorred,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomRight:
+                                                          Radius.circular(15))),
                                           height: double.infinity,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: const [
                                               Icon(
                                                 Icons.delete_outline,
@@ -181,10 +219,13 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                 size: 20,
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
                                                 child: Text(
                                                   "Reject",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 ),
                                               )
                                             ],

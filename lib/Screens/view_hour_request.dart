@@ -13,7 +13,8 @@ class ViewHourRequest extends StatefulWidget {
 
 class _ViewHourRequestState extends State<ViewHourRequest> {
   bool loading = false;
-  EmployeeGetHourRequestController employeeGetHourRequestController = EmployeeGetHourRequestController();
+  EmployeeGetHourRequestController employeeGetHourRequestController =
+      EmployeeGetHourRequestController();
   late EmployeeGetHourRequestModel employeeGetHourRequestModel;
   List<ListElement> requestList = [];
 
@@ -25,13 +26,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await employeeGetHourRequestController.getEmployeeRequest(context).then((value) {
+    await employeeGetHourRequestController
+        .getEmployeeRequest(context)
+        .then((value) {
       setState(() {
         employeeGetHourRequestModel = value;
         requestList = employeeGetHourRequestModel.data.list;
         loading = false;
         debugPrint(value.message);
-        debugPrint(requestList.length as String?);
+        // debugPrint(requestList.length as String?);
       });
     });
   }
@@ -64,8 +67,12 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -87,7 +94,11 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -106,7 +117,9 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                   children: [
                                     Text(
                                       detail.employeeName,
-                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
                                       height: 8,
@@ -115,11 +128,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       children: [
                                         const Text(
                                           "Request date: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.attendanceDateIn.toString(),
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -130,11 +147,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       children: [
                                         const Text(
                                           "Attendance In Date: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.attendanceDateIn.toString(),
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -145,11 +166,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       children: [
                                         const Text(
                                           "Attendance Out Date: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.attendanceDateOut.toString(),
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -160,11 +185,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       children: [
                                         const Text(
                                           "In Time: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.inTime,
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -175,11 +204,15 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       children: [
                                         const Text(
                                           "Out Time: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.outTime,
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -187,16 +220,21 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                       height: 8,
                                     ),
                                     Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           "Message:",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Expanded(
                                             child: Text(
                                           detail.message,
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         )),
                                       ],
                                     ),
@@ -208,13 +246,20 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
                                 child: Container(
                                   width: double.infinity,
                                   height: 35,
-                                  decoration: BoxDecoration(color: colorButtonYellow, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                  decoration: BoxDecoration(
+                                      color: colorButtonYellow,
+                                      borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          bottomRight: Radius.circular(15))),
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Center(
                                       child: Text(
                                         "View Image",
-                                        style: TextStyle(fontSize: 14, color: colorTextYellow, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: colorTextYellow,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),

@@ -4,12 +4,6 @@
 
 import 'dart:convert';
 
-  GetCompanyDepartmentModel getCompanyDepartmentModelFromJson(String str) =>
-    GetCompanyDepartmentModel.fromJson(json.decode(str));
-
-String getCompanyDepartmentModelToJson(GetCompanyDepartmentModel data) =>
-    json.encode(data.toJson());
-
 class GetCompanyDepartmentModel {
   GetCompanyDepartmentModel({
     required this.status,
@@ -20,6 +14,11 @@ class GetCompanyDepartmentModel {
   String status;
   String message;
   List<Datum> data;
+
+  factory GetCompanyDepartmentModel.fromRawJson(String str) =>
+      GetCompanyDepartmentModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory GetCompanyDepartmentModel.fromJson(Map<String, dynamic> json) =>
       GetCompanyDepartmentModel(
@@ -39,18 +38,30 @@ class Datum {
   Datum({
     required this.id,
     required this.departmentName,
+    required this.companyId,
+    required this.companyName,
   });
 
   String id;
   String departmentName;
+  String companyId;
+  String companyName;
+
+  factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         departmentName: json["department_name"],
+        companyId: json["company_id"],
+        companyName: json["company_name"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "department_name": departmentName,
+        "company_id": companyId,
+        "company_name": companyName,
       };
 }

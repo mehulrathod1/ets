@@ -21,14 +21,20 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   bool loading = false;
   List<ListElement> employeeList = [];
   late GetCompanyEmployeeModel getCompanyEmployeeModel;
-  GetCompanyEmployeeController getCompanyEmployeeController = GetCompanyEmployeeController();
-  CompanyLocationRequestController locationRequestController = CompanyLocationRequestController();
-  CompanyCallRequestController callRequestController = CompanyCallRequestController();
-  CompanyDeleteCompanyController deleteCompanyController = CompanyDeleteCompanyController();
+  GetCompanyEmployeeController getCompanyEmployeeController =
+      GetCompanyEmployeeController();
+  CompanyLocationRequestController locationRequestController =
+      CompanyLocationRequestController();
+  CompanyCallRequestController callRequestController =
+      CompanyCallRequestController();
+  CompanyDeleteCompanyController deleteCompanyController =
+      CompanyDeleteCompanyController();
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await getCompanyEmployeeController.getCompanyEmployee(context).then((value) {
+    await getCompanyEmployeeController
+        .getCompanyEmployee(context)
+        .then((value) {
       setState(() {
         getCompanyEmployeeModel = value;
         employeeList = getCompanyEmployeeModel.data.list;
@@ -76,14 +82,18 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                     child: GestureDetector(
                       onTap: () {
-                        locationRequestController.sendLocationRequest(context).then((value) {
+                        locationRequestController
+                            .sendLocationRequest(context)
+                            .then((value) {
                           Navigator.pop(context);
                         });
                       },
                       child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Sent',
@@ -143,11 +153,14 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             padding: const EdgeInsets.all(4.0),
                             child: Container(
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlue,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'View Details',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             ),
@@ -158,17 +171,22 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             padding: const EdgeInsets.all(4.0),
                             child: GestureDetector(
                               onTap: () {
-                                callRequestController.sendCallRequest(context).then((value) {
+                                callRequestController
+                                    .sendCallRequest(context)
+                                    .then((value) {
                                   Navigator.pop(context);
                                 });
                               },
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                decoration: BoxDecoration(
+                                    color: appThemeGreen,
+                                    borderRadius: BorderRadius.circular(8)),
                                 child: const Center(
                                   child: Text(
                                     'Sent',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
                                   ),
                                 ),
                               ),
@@ -208,7 +226,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 suffixIcon: Align(
@@ -223,10 +242,15 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(7)),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorGray, width: 1.0),
+                                  borderSide:
+                                      BorderSide(color: colorGray, width: 1.0),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
@@ -240,7 +264,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 suffixIcon: Align(
@@ -255,10 +280,15 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(7)),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorGray, width: 1.0),
+                                  borderSide:
+                                      BorderSide(color: colorGray, width: 1.0),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
@@ -277,17 +307,25 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
-                              style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  height: 1.7,
+                                  fontSize: 18,
+                                  color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 hintText: '01/19/2023',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(7)),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorGray, width: 1.0),
+                                  borderSide:
+                                      BorderSide(color: colorGray, width: 1.0),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
@@ -301,17 +339,25 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
-                              style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  height: 1.7,
+                                  fontSize: 18,
+                                  color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 hintText: '01/19/2023',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(7)),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: colorGray, width: 1.0),
+                                  borderSide:
+                                      BorderSide(color: colorGray, width: 1.0),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
@@ -329,16 +375,23 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEmployee()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddEmployee()));
                             },
                             child: Container(
                                 width: double.infinity,
                                 height: 40,
-                                decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                decoration: BoxDecoration(
+                                    color: appThemeGreen,
+                                    borderRadius: BorderRadius.circular(8)),
                                 child: const Center(
                                   child: Text(
                                     'Add Employee',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
                                   ),
                                 )),
                           ),
@@ -350,13 +403,16 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlue,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: Center(
                                 child: GestureDetector(
                                   onTap: () {},
                                   child: const Text(
                                     'Print',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
                                   ),
                                 ),
                               )),
@@ -373,7 +429,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlue,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: Center(
                                 child: GestureDetector(
                                   onTap: () {},
@@ -391,7 +449,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlue,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: Center(
                                 child: GestureDetector(
                                   onTap: () {},
@@ -411,7 +471,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeBlue,
+                                borderRadius: BorderRadius.circular(8)),
                             child: Center(
                               child: GestureDetector(
                                 onTap: () {},
@@ -443,8 +505,10 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                                  border: Border.all(width: 1, color: appThemeBlue),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  border:
+                                      Border.all(width: 1, color: appThemeBlue),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,11 +516,14 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             detail.employeeName,
-                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(
                                             height: 8,
@@ -465,11 +532,16 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             children: [
                                               const Text(
                                                 "Department: ",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.department.name,
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                "detail.department.",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -480,11 +552,16 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             children: [
                                               const Text(
                                                 "Email:",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 detail.email.name,
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -495,11 +572,16 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             children: [
                                               const Text(
                                                 "Total Hours:",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 detail.totalHrs.toString(),
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -508,11 +590,17 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewAttendance()));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ViewAttendance()));
                                             },
                                             child: Text(
                                               "View Attendance",
-                                              style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appThemeBlue),
                                             ),
                                           ),
                                         ],
@@ -523,13 +611,24 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                       child: Container(
                                         width: double.infinity,
                                         height: 35,
-                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                    bottomRight:
+                                                        Radius.circular(15))),
                                         child: Row(
                                           children: [
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditEmployee()));
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const EditEmployee()));
                                                 },
                                                 child: const Icon(
                                                   Icons.edit,
@@ -544,7 +643,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                   locationRequest(context);
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: colorOrange),
+                                                  decoration: BoxDecoration(
+                                                      color: colorOrange),
                                                   height: double.infinity,
                                                   child: const Icon(
                                                     Icons.location_on_outlined,
@@ -560,12 +660,14 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => const LiveLocation(),
+                                                      builder: (context) =>
+                                                          const LiveLocation(),
                                                     ),
                                                   );
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: appThemeBlue),
+                                                  decoration: BoxDecoration(
+                                                      color: appThemeBlue),
                                                   height: double.infinity,
                                                   child: const Icon(
                                                     Icons.menu_book_sharp,
@@ -581,7 +683,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                   callForAttendance(context);
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: appThemeGreen),
+                                                  decoration: BoxDecoration(
+                                                      color: appThemeGreen),
                                                   height: double.infinity,
                                                   child: const Icon(
                                                     Icons.call,
@@ -593,7 +696,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             ),
                                             Expanded(
                                               child: Container(
-                                                decoration: BoxDecoration(color: appThemeBlue),
+                                                decoration: BoxDecoration(
+                                                    color: appThemeBlue),
                                                 height: double.infinity,
                                                 child: const Icon(
                                                   Icons.play_arrow_sharp,
@@ -605,12 +709,23 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  deleteCompanyController.deleteEmployee(context, detail.employeeId).then((value) {
+                                                  deleteCompanyController
+                                                      .deleteEmployee(context,
+                                                          detail.employeeId)
+                                                      .then((value) {
                                                     initialize(context);
                                                   });
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  decoration: BoxDecoration(
+                                                      color: colorred,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
                                                   height: double.infinity,
                                                   child: const Icon(
                                                     Icons.delete_outline,

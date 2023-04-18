@@ -1,5 +1,7 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import '../../Controller/CompanyController/company_total_employee_controller.dart';
+import '../../Models/CompanyModels/company_total_emp_model.dart';
 import 'company_notification.dart';
 import 'manage_approval.dart';
 
@@ -10,13 +12,29 @@ class CompanyHome extends StatefulWidget {
   State<CompanyHome> createState() => _CompanyHomeState();
 }
 
-class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStateMixin {
+class _CompanyHomeState extends State<CompanyHome>
+    with SingleTickerProviderStateMixin {
   late TabController _controller;
+  CompanyTotalEmployeeController totalEmployeeController =
+      CompanyTotalEmployeeController();
+  late TotalEmployeeModel totalEmployeeModel;
 
+  String totalEmployee = 'aaa';
   @override
   void initState() {
     super.initState();
     _controller = TabController(length: 2, vsync: this);
+    initialize(context);
+  }
+
+  Future initialize(BuildContext context) async {
+    totalEmployeeController.getTotalEmployee(context).then((value) {
+      setState(() {
+        totalEmployeeModel = value;
+        debugPrint(totalEmployeeModel.data.toString());
+        totalEmployee = totalEmployeeModel.data.toString();
+      });
+    });
   }
 
   @override
@@ -48,8 +66,10 @@ class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStat
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: const [
                                 Text(
-                                  "44",
-                                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                                  '4',
+                                  style: TextStyle(
+                                      fontSize: 34,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 ImageIcon(
                                   AssetImage("assets/nounGroup.png"),
@@ -85,7 +105,9 @@ class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStat
                               children: const [
                                 Text(
                                   "4",
-                                  style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 34,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 ImageIcon(
                                   AssetImage("assets/department.png"),

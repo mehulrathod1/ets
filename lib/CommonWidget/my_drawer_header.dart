@@ -1,6 +1,9 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
+import '../Controller/CompanyController/company_profile_controller.dart';
+import '../Models/CompanyModels/company_profile_model.dart';
+
 class MyDrawerHeader extends StatefulWidget {
   const MyDrawerHeader({Key? key}) : super(key: key);
 
@@ -9,6 +12,29 @@ class MyDrawerHeader extends StatefulWidget {
 }
 
 class _MyDrawerHeaderState extends State<MyDrawerHeader> {
+  CompanyProfileController companyLoginController = CompanyProfileController();
+  late CompanyProfileModel companyProfileModel;
+  bool loading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    initialize(context);
+    super.initState();
+  }
+
+  Future initialize(BuildContext context) async {
+    loading = true;
+    await companyLoginController.getCompanyProfile(context).then((value) {
+      setState(() {
+        companyProfileModel = value;
+
+        debugPrint(companyProfileModel.data.companyName);
+        loading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +44,9 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 50.0, left: 8),
-              child: Align(alignment: Alignment.topLeft, child: Image.asset('assets/desktop_logo.png')),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Image.asset('assets/desktop_logo.png')),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 50.0, right: 16),
@@ -55,11 +83,15 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
-                    child: Text('Username', textAlign: TextAlign.left, style: TextStyle(color: Colors.black, fontSize: 16)),
+                    child: Text('Username',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Colors.black, fontSize: 16)),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('crazycoder09@gmail.com', textAlign: TextAlign.left, style: TextStyle(color: appThemeGreen, fontSize: 10)),
+                    child: Text('crazycoder09@gmail.com',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: appThemeGreen, fontSize: 10)),
                   ),
                 ],
               )

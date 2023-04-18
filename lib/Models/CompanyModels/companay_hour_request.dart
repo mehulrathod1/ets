@@ -76,7 +76,7 @@ class ListElement {
 
   String id;
   String employeeId;
-  EmployeeName employeeName;
+  EmployeeName? employeeName;
   String companyId;
   DateTime attendanceDateIn;
   String inTime;
@@ -94,7 +94,7 @@ class ListElement {
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
         employeeId: json["employee_id"],
-        employeeName: employeeNameValues.map[json["employee_name"]]!,
+        employeeName: employeeNameValues.map[json["employee_name"]],
         companyId: json["company_id"],
         attendanceDateIn: DateTime.parse(json["attendance_date_in"]),
         inTime: json["in_time"],
