@@ -1,15 +1,10 @@
 import 'dart:convert';
-
 import 'package:etsemployee/Network/api_constant.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 Future postData({required String paramUri, required Map params}) async {
-  var response =
-      await http.post(Uri.parse(ApiConstant.baseUrl + paramUri), body: params);
-
+  var response = await http.post(Uri.parse(ApiConstant.baseUrl + paramUri), body: params);
   print(response.body);
-
   return jsonDecode(response.body);
 }
 

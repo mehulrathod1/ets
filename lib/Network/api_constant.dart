@@ -28,16 +28,14 @@ class ApiConstant {
   static const companyAddDepartment = 'company/add-department';
 
   // --------------------------------- employee portal --------------------------------------------------------
-  static const companyFixHourRequest =
-      'company/view-fix-hrs-request?show=10&searchName=&page=';
+  static const companyFixHourRequest = 'company/view-fix-hrs-request?show=10&searchName=&page=';
 
   static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
   static const cmpRejectHourRequest = 'company/reject-fix-hrs-request/?id=';
 
   //today
 
-  static const companyAllReport =
-      'company/get-all-report/?show=10&searchName&page=2';
+  static const companyAllReport = 'company/get-all-report/?show=10&searchName&page=2';
   static const companyMonthlyReport = 'company/get-monthly-report/';
   static const companyYearlyReport = 'company/get-yearly-report/';
 
@@ -70,6 +68,8 @@ class ApiConstant {
   static const employeeDeleteTask = 'employee/delete-task/';
   static const employeeDeleteNote = 'employee/delete-note/';
   static const employeeDeleteOrder = 'employee/delete_order.php?id=';
+  static const employeeStartSharingLocation = 'employee/start-share-live-location';
+  static const employeeStopSharingLocation = 'employee/stop-share-live-location';
 
   // --------------------------------- sales portal --------------------------------------------------------
 
