@@ -15,13 +15,11 @@ class EmployeeNoteModel {
   String message;
   Data data;
 
-  factory EmployeeNoteModel.fromRawJson(String str) =>
-      EmployeeNoteModel.fromJson(json.decode(str));
+  factory EmployeeNoteModel.fromRawJson(String str) => EmployeeNoteModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeNoteModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeNoteModel(
+  factory EmployeeNoteModel.fromJson(Map<String, dynamic> json) => EmployeeNoteModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -48,8 +46,7 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -72,8 +69,7 @@ class ListElement {
   String noteDescription;
   String noteStatus;
 
-  factory ListElement.fromRawJson(String str) =>
-      ListElement.fromJson(json.decode(str));
+  factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -105,8 +101,7 @@ class PaginationInfo {
   int totalRows;
   int totalPages;
 
-  factory PaginationInfo.fromRawJson(String str) =>
-      PaginationInfo.fromJson(json.decode(str));
+  factory PaginationInfo.fromRawJson(String str) => PaginationInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 

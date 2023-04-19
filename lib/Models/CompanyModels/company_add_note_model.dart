@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class EmployeeAddTaskModel {
-  EmployeeAddTaskModel({
+class CompanyAddNoteModel {
+  CompanyAddNoteModel({
     required this.status,
     required this.message,
     required this.data,
@@ -11,11 +11,11 @@ class EmployeeAddTaskModel {
   String message;
   int data;
 
-  factory EmployeeAddTaskModel.fromRawJson(String str) => EmployeeAddTaskModel.fromJson(json.decode(str));
+  factory CompanyAddNoteModel.fromRawJson(String str) => CompanyAddNoteModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeAddTaskModel.fromJson(Map<String, dynamic> json) => EmployeeAddTaskModel(
+  factory CompanyAddNoteModel.fromJson(Map<String, dynamic> json) => CompanyAddNoteModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],

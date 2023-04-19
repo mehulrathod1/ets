@@ -190,7 +190,7 @@ class _ManageNoteState extends State<ManageNote> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditNote()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditNote(id: detail.id, noteName: detail.noteName, noteDescription: detail.noteDescription, noteStatus: detail.noteStatus)));
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,

@@ -20,7 +20,7 @@ class _EditTaskState extends State<EditTask> {
 
   @override
   void initState() {
-    initialize(context);
+    // initialize(context);
     super.initState();
   }
 
@@ -152,7 +152,7 @@ class _EditTaskState extends State<EditTask> {
                                   style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: taskData[0].taskName,
+                                    hintText: "Task name",
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
