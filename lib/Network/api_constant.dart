@@ -26,24 +26,12 @@ class ApiConstant {
   static const companyDeleteEmployee = 'company/delete-employee-company?id=';
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
-
-  // --------------------------------- employee portal --------------------------------------------------------
-  static const companyFixHourRequest = 'company/view-fix-hrs-request?show=10&searchName=&page=';
-
   static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
   static const cmpRejectHourRequest = 'company/reject-fix-hrs-request/?id=';
-
-  //today
-
+  static const companyFixHourRequest = 'company/view-fix-hrs-request?show=10&searchName=&page=';
   static const companyAllReport = 'company/get-all-report/?show=10&searchName&page=2';
   static const companyMonthlyReport = 'company/get-monthly-report/';
   static const companyYearlyReport = 'company/get-yearly-report/';
-
-  //26
-  //24
-  //066
-  //082
-  //148
 
   // --------------------------------- employee portal  --------------------------------------------------------
 
@@ -64,8 +52,9 @@ class ApiConstant {
   static const employeeGetMap = 'employee/view-map-employee?date=2023-02-03';
   static const employeeNotification = 'employee/get-notification/';
   static const employeeTaskList = 'employee/view-task-list';
+  static const employeeGetOrderForTaskList = 'employee/get-task-orders';
   static const employeeAddTask = 'employee/add-task';
-  static const employeeTaskDetail = 'employee/edit-tasks/61';
+  static const employeeEditTask = 'employee/edit-task/';
   static const employeeDeleteTask = 'employee/delete-task/';
   static const employeeDeleteNote = 'employee/delete-note/';
   static const employeeDeleteOrder = 'employee/delete_order.php?id=';

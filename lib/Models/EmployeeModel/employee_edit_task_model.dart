@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class EmployeeDeleteNoteModel {
-  EmployeeDeleteNoteModel({
+class EmployeeEditTaskModel {
+  EmployeeEditTaskModel({
     required this.status,
     required this.message,
     required this.data,
@@ -11,11 +11,11 @@ class EmployeeDeleteNoteModel {
   String message;
   String data;
 
-  factory EmployeeDeleteNoteModel.fromRawJson(String str) => EmployeeDeleteNoteModel.fromJson(json.decode(str));
+  factory EmployeeEditTaskModel.fromRawJson(String str) => EmployeeEditTaskModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeDeleteNoteModel.fromJson(Map<String, dynamic> json) => EmployeeDeleteNoteModel(
+  factory EmployeeEditTaskModel.fromJson(Map<String, dynamic> json) => EmployeeEditTaskModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],

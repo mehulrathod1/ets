@@ -1,36 +1,45 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:etsemployee/Models/EmployeeModel/employee_add_task_model.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_edit_task_model.dart';
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:etsemployee/Screens/Contractors/ManageTask/manage_task.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeAddTaskController {
-  EmployeeAddTaskModel? addTaskModel;
+class EmployeeEditTaskController {
+  EmployeeEditTaskModel? employeeEditTaskModel;
   TextEditingController orderId = TextEditingController();
   TextEditingController taskStatus = TextEditingController();
   TextEditingController taskName = TextEditingController();
   TextEditingController dueDate = TextEditingController();
   TextEditingController taskDescription = TextEditingController();
 
-  Future addTask(BuildContext context) async {
+  Future getOrderForEmployeeTask(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
+    } else {
+      return null;
+    }
+  }
+
+  Future editTask(BuildContext context, {required String id}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddTask, params: {
+    var response = await postDataWithHeader(paramUri: ApiConstant.employeeEditTask + id, params: {
       'order_id': orderId.text,
       'taskstatus': taskStatus.text,
       'task_name': taskName.text,
       'due_date': dueDate.text,
       'task_description': taskDescription.text,
     });
-    debugPrint("addTask response :- ${response.toString()}");
+    debugPrint("editTask response :- ${response.toString()}");
     if (response["status"] == 'True') {
-      var res = EmployeeAddTaskModel.fromJson(response);
-      addTaskModel = res;
+      var res = EmployeeEditTaskModel.fromJson(response);
+      employeeEditTaskModel = res;
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageTask()));
       ScaffoldMessenger.of(context).showSnackBar(
@@ -47,15 +56,6 @@ class EmployeeAddTaskController {
           duration: const Duration(seconds: 2),
         ),
       );
-    }
-  }
-
-  Future getOrderForEmployeeTask(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
-    if (response["status"] == "True" && response["data"] != null) {
-      return response["data"]["List"];
-    } else {
-      return null;
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_add_task_cntroller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,56 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  bool termsandcond = false;
-  var taskStatus = '0';
   EmployeeAddTaskController addTaskController = EmployeeAddTaskController();
+  bool termsandcond = false;
+  String selectedTask = "Test Estimate Section";
+  List<DropdownMenuItem<Object?>> taskListItems = [];
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      addTaskController.orderId.text = selectedTest['estimate_id'];
+      selectedTask = selectedTest['order_name'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['order_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () {
+      addTaskController.taskStatus.text = "0";
+      addTaskController.getOrderForEmployeeTask(context).then((value) => {
+            if (value != null)
+              {
+                setState(() {
+                  taskListItems = buildTaskSizeListItems(value);
+                }),
+              }
+            else
+              {
+                setState(() {
+                  taskListItems.clear();
+                }),
+              }
+          });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,34 +116,28 @@ class _AddTaskState extends State<AddTask> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: addTaskController.orderId,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              suffixIcon: Align(
-                                widthFactor: 1,
-                                heightFactor: 1,
-                                child: Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                  color: appThemeGreen,
-                                ),
-                              ),
-                              hintText: 'Test Estimate Section',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
+                        DropdownBelow(
+                            itemWidth: MediaQuery.of(context).size.width - 30,
+                            itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                            boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                            boxWidth: MediaQuery.of(context).size.width,
+                            boxHeight: 40,
+                            boxDecoration: BoxDecoration(
+                              color: colorScreenBg,
+                              border: Border.all(color: colorGray, width: 1.0),
+                              borderRadius: const BorderRadius.all(Radius.circular(7.0)),
                             ),
-                          ),
-                        ),
+                            boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: appThemeGreen,
+                            ),
+                            hint: Text(
+                              selectedTask,
+                              style: TextStyle(fontSize: 18, color: selectedTask == "Test Estimate Section" ? Colors.black.withOpacity(0.60) : Colors.black),
+                            ),
+                            onChanged: onChangeDropdownBoxSize,
+                            items: taskListItems),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
@@ -111,7 +153,6 @@ class _AddTaskState extends State<AddTask> {
                                       } else {
                                         addTaskController.taskStatus.text = '0';
                                       }
-                                      debugPrint(addTaskController.taskStatus.text);
                                     });
                                   }),
                               const Text(
@@ -176,7 +217,6 @@ class _AddTaskState extends State<AddTask> {
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
                               if (pickedDate != null) {
-                                debugPrint(pickedDate as String?);
                                 String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
                                 debugPrint(formattedDate);
                                 setState(() {
@@ -218,8 +258,38 @@ class _AddTaskState extends State<AddTask> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
-                            onTap: () {
-                              addTaskController.addTask(context);
+                            onTap: () async {
+                              if (selectedTask == "Test Estimate Section") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Please select task from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addTaskController.taskName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Task name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addTaskController.dueDate.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Task due date missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addTaskController.taskDescription.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Task description missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                await addTaskController.addTask(context);
+                              }
                             },
                             child: Container(
                               width: double.infinity,

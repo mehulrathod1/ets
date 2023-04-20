@@ -37,7 +37,6 @@ class _ManageTaskState extends State<ManageTask> {
           taskModel = value;
           taskList = taskModel.data.list;
           loading = false;
-          debugPrint(taskModel.message);
         } else {
           taskList.clear();
           loading = false;
@@ -192,7 +191,7 @@ class _ManageTaskState extends State<ManageTask> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditTask()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditTask(id: detail.id, taskStatus: detail.taskStatus ?? "0", taskName: detail.taskName, dueDate: detail.dueDate, taskDescription: detail.taskDescription)));
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
