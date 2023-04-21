@@ -47,6 +47,7 @@ class ApiConstant {
   static const employeeAddNote = 'employee/add-notes';
   static const employeeEditNote = 'employee/edit-note/';
   static const employeeInvoice = 'employee/view-invoice-lists';
+  static const employeeGetEstimateOrder = 'employee/get-orders-estiment';
   static const employeeAddOrder = 'employee/add-orders';
   static const employeeGetImage = 'employee/view-image-employee?date=2023-02-03';
   static const employeeGetMap = 'employee/view-map-employee?date=2023-02-03';

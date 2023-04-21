@@ -41,6 +41,9 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   dropdown_below: ^1.0.3
+  permission_handler: ^10.2.0
+  external_path: ^1.0.3
+  path_provider: ^2.0.14
 
 
 
