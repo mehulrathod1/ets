@@ -198,7 +198,23 @@ class _ManageOrderState extends State<ManageOrder> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditOrder()));
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => EditOrder(
+                                                        id: detail.id!,
+                                                        estimateId: detail.estimateId,
+                                                        orderStatus: detail.orderstatus,
+                                                        orderName: detail.orderName,
+                                                        changeDescription: detail.changeDescription,
+                                                        orderDescription: detail.orderDescription,
+                                                        amount: detail.amount,
+                                                        startDate: detail.startDate,
+                                                        dueDate: detail.dueDate,
+                                                        signature: detail.signature,
+                                                      ),
+                                                    ),
+                                                  );
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,
