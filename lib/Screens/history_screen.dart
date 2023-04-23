@@ -19,7 +19,8 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   bool loading = false;
-  EmployeeAttendanceHistoryController employeeAttendanceHistoryController = EmployeeAttendanceHistoryController();
+  EmployeeAttendanceHistoryController employeeAttendanceHistoryController =
+      EmployeeAttendanceHistoryController();
   late EmployeeAttendanceHistoryModel employeeAttendanceHistoryModel;
   List<ListElement> historyList = [];
 
@@ -34,7 +35,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await employeeAttendanceHistoryController.getAttendanceHistory(context).then((value) {
+    await employeeAttendanceHistoryController
+        .getAttendanceHistory(context)
+        .then((value) {
       setState(() {
         employeeAttendanceHistoryModel = value;
         historyList = employeeAttendanceHistoryModel.data.list;
@@ -71,7 +74,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(fontSize: 16, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black),
                                 controller: startDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
@@ -88,10 +92,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -99,17 +108,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   DateTime? pickedDate = await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                      firstDate: DateTime(
+                                          2000), //DateTime.now() - not to allow to choose before today.
                                       lastDate: DateTime(2101));
 
                                   if (pickedDate != null) {
-                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                                    print(
+                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
+                                    print(
+                                        formattedDate); //formatted date output using intl package =>  2021-03-16
                                     //you can implement different kind of Date Format here according to your requirement
 
                                     setState(() {
-                                      startDate.text = formattedDate; //set output date to TextField value.
+                                      startDate.text =
+                                          formattedDate; //set output date to TextField value.
                                     });
                                   } else {
                                     print("Date is not selected");
@@ -137,7 +152,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(fontSize: 16, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black),
                                 controller: endDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
@@ -154,10 +170,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -165,17 +186,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   DateTime? pickedDate = await showDatePicker(
                                       context: context,
                                       initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                      firstDate: DateTime(
+                                          2000), //DateTime.now() - not to allow to choose before today.
                                       lastDate: DateTime(2101));
 
                                   if (pickedDate != null) {
-                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                                    print(
+                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
+                                    print(
+                                        formattedDate); //formatted date output using intl package =>  2021-03-16
                                     //you can implement different kind of Date Format here according to your requirement
 
                                     setState(() {
-                                      endDate.text = formattedDate; //set output date to TextField value.
+                                      endDate.text =
+                                          formattedDate; //set output date to TextField value.
                                     });
                                   } else {
                                     print("Date is not selected");
@@ -194,7 +221,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeBlue,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'Search',
@@ -208,7 +237,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(color: colorred, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: colorred,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'Clear Filter',
@@ -232,7 +263,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -245,20 +280,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0, top: 16),
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, top: 16),
                                           child: Text(
                                             detail.name,
-                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                         const SizedBox(
                                           height: 8,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
                                             children: [
                                               Expanded(
@@ -266,11 +306,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   children: [
                                                     const Text(
                                                       "Date: ",
-                                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                     Text(
                                                       detail.date.toString(),
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
@@ -280,11 +325,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   children: [
                                                     const Text(
                                                       "Date: ",
-                                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                     Text(
                                                       detail.date.toString(),
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
@@ -296,7 +346,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           height: 8,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
                                             children: [
                                               Expanded(
@@ -304,11 +355,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   children: [
                                                     const Text(
                                                       "In Time: ",
-                                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                     Text(
                                                       "10:00:00 am",
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
@@ -318,11 +374,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   children: [
                                                     const Text(
                                                       "Out Time: ",
-                                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                     Text(
                                                       "08:00:00 pm",
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
@@ -334,50 +395,77 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           height: 8,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0, right: 8),
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               const Expanded(
                                                 child: Text(
                                                   "Location Address: ",
-                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Text(
                                                   detail.location,
-                                                  style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: colorTextGray),
                                                 ),
                                               ),
                                             ],
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 16.0),
+                                          padding:
+                                              const EdgeInsets.only(top: 16.0),
                                           child: Container(
                                             width: double.infinity,
                                             height: 35,
-                                            decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                            decoration: BoxDecoration(
+                                                color: appThemeBlue,
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(15),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                15))),
                                             child: Row(
                                               children: [
                                                 Expanded(
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHistoryImage()));
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const ViewHistoryImage()));
                                                     },
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: const [
                                                         Icon(
                                                           Icons.remove_red_eye,
                                                           color: Colors.white,
                                                         ),
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: 8.0),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
                                                           child: Text(
                                                             "View Image",
-                                                            style: TextStyle(fontSize: 14, color: Colors.white),
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
                                                           ),
                                                         )
                                                       ],
@@ -388,26 +476,38 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   width: 1,
                                                   height: 35,
                                                   child: DecoratedBox(
-                                                    decoration: BoxDecoration(color: Colors.white),
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white),
                                                   ),
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
                                                     onTap: () {
-                                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHistoryMap()));
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const ViewHistoryMap()));
                                                     },
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: const [
                                                         Icon(
                                                           Icons.remove_red_eye,
                                                           color: Colors.white,
                                                         ),
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: 8.0),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
                                                           child: Text(
                                                             "View Map",
-                                                            style: TextStyle(fontSize: 14, color: Colors.white),
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
                                                           ),
                                                         )
                                                       ],

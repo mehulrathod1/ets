@@ -1,6 +1,8 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import '../../Controller/CompanyController/company_total_department.dart';
 import '../../Controller/CompanyController/company_total_employee_controller.dart';
+import '../../Models/CompanyModels/company_total_department_model.dart';
 import '../../Models/CompanyModels/company_total_emp_model.dart';
 import 'company_notification.dart';
 import 'manage_approval.dart';
@@ -19,6 +21,10 @@ class _CompanyHomeState extends State<CompanyHome>
       CompanyTotalEmployeeController();
   late TotalEmployeeModel totalEmployeeModel;
 
+  late CompanyTotalDepartmentModel departmentModel;
+  CompanyTotalDepartmentController companyTotalDepartmentController =
+      CompanyTotalDepartmentController();
+
   String totalEmployee = 'aaa';
   @override
   void initState() {
@@ -32,7 +38,13 @@ class _CompanyHomeState extends State<CompanyHome>
       setState(() {
         totalEmployeeModel = value;
         debugPrint(totalEmployeeModel.data.toString());
-        totalEmployee = totalEmployeeModel.data.toString();
+      });
+    });
+
+    companyTotalDepartmentController.getTotalDepartment(context).then((value) {
+      setState(() {
+        departmentModel = value;
+        debugPrint(departmentModel.data.toString());
       });
     });
   }
@@ -64,9 +76,9 @@ class _CompanyHomeState extends State<CompanyHome>
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: const [
+                              children: [
                                 Text(
-                                  '4',
+                                  totalEmployeeModel.data.toString(),
                                   style: TextStyle(
                                       fontSize: 34,
                                       fontWeight: FontWeight.bold),
@@ -102,9 +114,9 @@ class _CompanyHomeState extends State<CompanyHome>
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: const [
+                              children: [
                                 Text(
-                                  "4",
+                                  departmentModel.data.toString(),
                                   style: TextStyle(
                                       fontSize: 34,
                                       fontWeight: FontWeight.bold),

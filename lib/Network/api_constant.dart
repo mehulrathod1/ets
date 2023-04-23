@@ -41,7 +41,12 @@ class ApiConstant {
       'company/get-all-report/?show=10&searchName&page=2';
   static const companyMonthlyReport = 'company/get-monthly-report/';
   static const companyYearlyReport = 'company/get-yearly-report/';
-  static const companyTotalEmployee = 'company/get-total-department/';
+  static const companyTotalEmployee = 'company/get-total-employee/';
+  static const companyTotalDepartment = 'company/get-total-department/';
+  static const companyNotification = 'company/get-notification/';
+  static const companyApprovals = 'company/view-approvals';
+
+  static const companyGetDepartmentDetail = 'company/edit-departments/';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 

@@ -7,6 +7,7 @@ import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
 import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
 
@@ -29,6 +30,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       CompanyCallRequestController();
   CompanyDeleteCompanyController deleteCompanyController =
       CompanyDeleteCompanyController();
+
+  TextEditingController startDate = TextEditingController();
+  TextEditingController endDate = TextEditingController();
 
   Future initialize(BuildContext context) async {
     loading = true;
@@ -307,13 +311,14 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
+                              controller: startDate,
                               style: const TextStyle(
                                   height: 1.7,
                                   fontSize: 18,
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: '01/19/2023',
+                                hintText: 'StartDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
@@ -329,6 +334,32 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101));
+
+                                if (pickedDate != null) {
+                                  print(
+                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                  String formattedDate =
+                                      DateFormat('MM/dd/yyyy')
+                                          .format(pickedDate);
+                                  print(
+                                      formattedDate); //formatted date output using intl package =>  2021-03-16
+                                  //you can implement different kind of Date Format here according to your requirement
+
+                                  setState(() {
+                                    startDate.text =
+                                        formattedDate; //set output date to TextField value.
+                                  });
+                                } else {
+                                  print("Date is not selected");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -339,13 +370,14 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           child: SizedBox(
                             height: 40,
                             child: TextField(
+                              controller: endDate,
                               style: const TextStyle(
                                   height: 1.7,
                                   fontSize: 18,
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: '01/19/2023',
+                                hintText: 'EndDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
@@ -361,6 +393,32 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                               ),
+                              onTap: () async {
+                                DateTime? pickedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101));
+
+                                if (pickedDate != null) {
+                                  print(
+                                      pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                  String formattedDate =
+                                      DateFormat('MM/dd/yyyy')
+                                          .format(pickedDate);
+                                  print(
+                                      formattedDate); //formatted date output using intl package =>  2021-03-16
+                                  //you can implement different kind of Date Format here according to your requirement
+
+                                  setState(() {
+                                    endDate.text =
+                                        formattedDate; //set output date to TextField value.
+                                  });
+                                } else {
+                                  print("Date is not selected");
+                                }
+                              },
                             ),
                           ),
                         ),
@@ -538,7 +596,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "detail.department.",
+                                                detail.department,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -558,7 +616,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.email.name,
+                                                detail.email,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),

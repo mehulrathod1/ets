@@ -28,7 +28,6 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
     await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
         companyProfileModel = value;
-
         debugPrint(companyProfileModel.data.companyName);
         loading = false;
       });
@@ -81,15 +80,15 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 8.0),
-                    child: Text('Username',
+                    child: Text(companyProfileModel.data.companyName,
                         textAlign: TextAlign.left,
                         style: TextStyle(color: Colors.black, fontSize: 16)),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('crazycoder09@gmail.com',
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(companyProfileModel.data.email,
                         textAlign: TextAlign.left,
                         style: TextStyle(color: appThemeGreen, fontSize: 10)),
                   ),
