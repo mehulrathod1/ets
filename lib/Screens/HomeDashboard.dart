@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, non_constant_identifier_names, constant_identifier_names
 
 import 'package:etsemployee/CommonWidget/my_drawer_header.dart';
+import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dart';
 import 'package:etsemployee/Screens/UserSelectionScreen.dart';
 import 'package:etsemployee/Screens/Contractors/contractorts_screen.dart';
 import 'package:etsemployee/Screens/history_screen.dart';
@@ -53,8 +54,12 @@ class _HomeDashboard extends State<HomeDashboard> {
 
   void changeScreen(int index) {
     setState(() {
-      if (index == 1) {
+      if (index == 0) {
+        currentPage = DrawerSelection.ShareLocation;
+      } else if (index == 1) {
         currentPage = DrawerSelection.History;
+      } else if (index == 2) {
+        currentPage = DrawerSelection.Profile;
       }
     });
   }
@@ -168,6 +173,9 @@ class _HomeDashboard extends State<HomeDashboard> {
     } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
       container = const ContractorsScreen();
       appBarTitle = "Contractors Back Office";
+    } else if (currentPage == DrawerSelection.Profile) {
+      container = const Profile();
+      appBarTitle = "Profile";
     } else if (currentPage == DrawerSelection.Logout) {
       navigate();
     }
@@ -270,4 +278,4 @@ class _HomeDashboard extends State<HomeDashboard> {
   }
 }
 
-enum DrawerSelection { Dashboard, Attendance, FixHoursRequest, ShareLocation, History, Message, Notification, ContractorsBackOffice, Howitworks, Settings, Logout }
+enum DrawerSelection { Dashboard, Attendance, FixHoursRequest, ShareLocation, History, Message, Notification, ContractorsBackOffice, Howitworks, Settings, Logout, Profile }

@@ -4,11 +4,7 @@ import 'package:etsemployee/Screens/view_history_image.dart';
 import 'package:etsemployee/Screens/view_history_map.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:intl/intl.dart';
-
-import '../Controller/EmployeeController/employee_attendance_history_controller.dart';
-import '../Models/EmployeeModel/employee_attendance_history_model.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -97,22 +93,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ),
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                                      lastDate: DateTime(2101));
-
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2101),
+                                  );
                                   if (pickedDate != null) {
-                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                     String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                                    //you can implement different kind of Date Format here according to your requirement
-
                                     setState(() {
                                       startDate.text = formattedDate; //set output date to TextField value.
                                     });
                                   } else {
-                                    print("Date is not selected");
+                                    debugPrint("Date is not selected");
                                   }
                                 },
                               ),
@@ -163,22 +155,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ),
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                                      lastDate: DateTime(2101));
-
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                    lastDate: DateTime(2101),
+                                  );
                                   if (pickedDate != null) {
-                                    print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                     String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                    print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                                    //you can implement different kind of Date Format here according to your requirement
-
                                     setState(() {
-                                      endDate.text = formattedDate; //set output date to TextField value.
+                                      endDate.text = formattedDate;
                                     });
                                   } else {
-                                    print("Date is not selected");
+                                    debugPrint("Date is not selected");
                                   }
                                 },
                               ),
@@ -265,12 +253,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 child: Row(
                                                   children: [
                                                     const Text(
-                                                      "Date: ",
+                                                      "Date : ",
                                                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                     ),
-                                                    Text(
-                                                      detail.date.toString(),
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                    Expanded(
+                                                      child: Text(
+                                                        DateFormat('yyyy-MM-dd').format(detail.date),
+                                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -279,12 +269,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 child: Row(
                                                   children: [
                                                     const Text(
-                                                      "Date: ",
+                                                      "Date : ",
                                                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                     ),
-                                                    Text(
-                                                      detail.date.toString(),
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                    Expanded(
+                                                      child: Text(
+                                                        DateFormat('yyyy-MM-dd').format(detail.date),
+                                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -301,28 +293,34 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             children: [
                                               Expanded(
                                                 child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     const Text(
-                                                      "In Time: ",
+                                                      "In Time : ",
                                                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                     ),
-                                                    Text(
-                                                      "10:00:00 am",
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                    Expanded(
+                                                      child: Text(
+                                                        "10:00:00 am",
+                                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
                                               Expanded(
                                                 child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     const Text(
-                                                      "Out Time: ",
+                                                      "Out Time : ",
                                                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                     ),
-                                                    Text(
-                                                      "08:00:00 pm",
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                    Expanded(
+                                                      child: Text(
+                                                        "08:00:00 pm",
+                                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -340,7 +338,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             children: [
                                               const Expanded(
                                                 child: Text(
-                                                  "Location Address: ",
+                                                  "Location Address : ",
                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                                 ),
                                               ),

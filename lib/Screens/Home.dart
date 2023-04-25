@@ -2,7 +2,6 @@
 
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'Contractors/ManageProfile/profile_screen.dart';
 
 class Home extends StatefulWidget {
   Home({this.changeScreen, Key? key}) : super(key: key);
@@ -82,7 +81,7 @@ class _Home extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile()));
+                    widget.changeScreen!(2);
                   },
                   child: Container(
                     height: 130,

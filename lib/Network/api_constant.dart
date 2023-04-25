@@ -62,6 +62,7 @@ class ApiConstant {
   static const employeeDeleteOrder = 'employee/delete_order.php?id=';
   static const employeeStartSharingLocation = 'employee/start-share-live-location';
   static const employeeStopSharingLocation = 'employee/stop-share-live-location';
+  static const employeeChangePassword = 'employee/change-password/';
 
   // --------------------------------- sales portal --------------------------------------------------------
 
