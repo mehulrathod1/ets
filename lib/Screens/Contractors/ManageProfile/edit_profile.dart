@@ -193,6 +193,262 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                    child: Text(
+                      "Employee Email",
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    child: TextField(
+                      style: TextStyle(
+                          height: 1.7, fontSize: 18, color: Colors.black),
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'crazycoder09@gmail.com',
+                        fillColor: colorScreenBg,
+                        filled: true,
+                        isDense: true,
+                        contentPadding:
+                            EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(7)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: colorGray, width: 1.0),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(top: 18.0),
                     child: Container(
                         width: double.infinity,
