@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-
 import '../../Controller/CompanyController/company_report_controller.dart';
 import '../../Models/CompanyModels/company_report_model.dart';
 import '../../utils/Colors.dart';
@@ -60,12 +58,8 @@ class _ManageReportState extends State<ManageReport> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding:
-                        EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(7)),
+                    contentPadding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -103,9 +97,7 @@ class _ManageReportState extends State<ManageReport> {
                                   children: [
                                     Text(
                                       data.employeeName,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
                                       height: 8,
@@ -114,15 +106,11 @@ class _ManageReportState extends State<ManageReport> {
                                       children: [
                                         Text(
                                           "Month: ",
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold),
+                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           data.month.toString(),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
+                                          style: TextStyle(fontSize: 14, color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -136,16 +124,11 @@ class _ManageReportState extends State<ManageReport> {
                                             children: [
                                               Text(
                                                 "Total Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                               ),
                                               Text(
                                                 data.totalHrs,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
+                                                style: TextStyle(fontSize: 14, color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -155,16 +138,11 @@ class _ManageReportState extends State<ManageReport> {
                                             children: [
                                               Text(
                                                 "Break Hours: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                               ),
                                               Text(
                                                 data.breakHrs,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
+                                                style: TextStyle(fontSize: 14, color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -306,31 +284,17 @@ class _ManageReportState extends State<ManageReport> {
                                 padding: const EdgeInsets.only(top: 16.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MonthlyReport()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MonthlyReport()));
                                   },
                                   child: Container(
                                       width: double.infinity,
                                       height: 35,
-                                      decoration: BoxDecoration(
-                                          color: appThemeBlue,
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              bottomRight:
-                                                  Radius.circular(15))),
+                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                            color: appThemeBlue,
-                                            borderRadius: BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(15))),
+                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15))),
                                         height: double.infinity,
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Icon(
                                               Icons.remove_red_eye,
@@ -338,13 +302,10 @@ class _ManageReportState extends State<ManageReport> {
                                               size: 20,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0),
+                                              padding: const EdgeInsets.only(left: 8.0),
                                               child: Text(
                                                 "View Detail",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.white),
+                                                style: TextStyle(fontSize: 14, color: Colors.white),
                                               ),
                                             )
                                           ],

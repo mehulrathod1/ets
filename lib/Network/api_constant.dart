@@ -63,6 +63,8 @@ class ApiConstant {
   static const employeeStartSharingLocation = 'employee/start-share-live-location';
   static const employeeStopSharingLocation = 'employee/stop-share-live-location';
   static const employeeChangePassword = 'employee/change-password/';
+  static const employeeViewProfileDetails = 'employee/view-profile-details/';
+  static const employeeUpdateProfileDetails = 'employee/update-profile-details/';
 
   // --------------------------------- sales portal --------------------------------------------------------
 
