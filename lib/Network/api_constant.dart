@@ -12,6 +12,7 @@ class ApiConstant {
   static const addCompanyContacts = 'company/add-contact/';
   static const getCompanyOrder = 'company/get-all-order?show=10&searchName=&page=';
   static const getCompanyTask = 'company/get-all-task?show=10&searchName=&page=';
+  static const getCompanyEstimate = 'company/get-all-estimate?show=10&searchName=&page=';
   static const deleteCompanyEmployee = 'company/get-profile';
   static const companyNoteList = 'company/get-all-notes?show=10&searchName=&page=';
   static const companyAddNote = 'company/add-notes/';

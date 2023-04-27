@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, non_constant_identifier_names, constant_identifier_names
 
 import 'package:etsemployee/CommonWidget/my_drawer_header.dart';
+import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyProfile/company_profile.dart';
 import 'package:etsemployee/CompanyPortal/CompanyContractors/company_contractors_screen.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/employee_management.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/request.dart';
@@ -11,7 +12,6 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../CompanyContractors/ManageCompanyProfile/company_profile.dart';
 import 'agency_management.dart';
 import 'company_agreement.dart';
 import 'company_fix_hour_request.dart';
@@ -36,15 +36,12 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   int _selectedIndex = 0;
   var container;
   CompanyProfileController companyLoginController = CompanyProfileController();
-  late CompanyProfileModel companyProfileModel;
+  CompanyProfileModel? companyProfileModel;
 
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const UserSelectionScreen()),
-        (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const UserSelectionScreen()), (route) => false);
   }
 
   Future initialize(BuildContext context) async {
@@ -52,8 +49,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
     await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
         companyProfileModel = value;
-
-        debugPrint(companyProfileModel.data.companyName);
+        debugPrint(companyProfileModel!.data.companyName);
         loading = false;
       });
     });
@@ -70,49 +66,20 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: [
-          menuItem(1, "Dashboard", Icons.grid_view_outlined,
-              currentPage == DrawerSelection.Dashboard ? true : false),
-          menuItem(2, "Employee Management", Icons.person_outline,
-              currentPage == DrawerSelection.EmployeeManagement ? true : false),
-          menuItem(
-              3,
-              "Agency/Agent Management",
-              Icons.person_outline,
-              currentPage == DrawerSelection.AgencyAgentManagement
-                  ? true
-                  : false),
-          menuItem(4, "Inbox", Icons.weekend_outlined,
-              currentPage == DrawerSelection.Inbox ? true : false),
-          menuItem(5, "Notification", Icons.notifications_none,
-              currentPage == DrawerSelection.Notification ? true : false),
-          menuItem(6, "FixHoursRequest", Icons.access_time,
-              currentPage == DrawerSelection.FixHoursRequest ? true : false),
-          menuItem(7, "Approval", Icons.approval,
-              currentPage == DrawerSelection.Approval ? true : false),
-          menuItem(8, "Department", Icons.work_outline,
-              currentPage == DrawerSelection.Department ? true : false),
-          menuItem(9, "Report", Icons.report_gmailerrorred,
-              currentPage == DrawerSelection.Report ? true : false),
-          menuItem(
-              10,
-              "ContractorsBackOffice",
-              Icons.work_outline,
-              currentPage == DrawerSelection.ContractorsBackOffice
-                  ? true
-                  : false),
-          menuItem(
-              11,
-              "Subscription Agreement",
-              Icons.check_box_outlined,
-              currentPage == DrawerSelection.SubscriptionAgreement
-                  ? true
-                  : false),
-          menuItem(12, "HowItWorks", Icons.help_outline,
-              currentPage == DrawerSelection.HowItWorks ? true : false),
-          menuItem(13, "Request", Icons.north_east,
-              currentPage == DrawerSelection.Request ? true : false),
-          menuItem(14, "Logout", Icons.logout,
-              currentPage == DrawerSelection.Logout ? true : false),
+          menuItem(1, "Dashboard", Icons.grid_view_outlined, currentPage == DrawerSelection.Dashboard ? true : false),
+          menuItem(2, "Employee Management", Icons.person_outline, currentPage == DrawerSelection.EmployeeManagement ? true : false),
+          menuItem(3, "Agency/Agent Management", Icons.person_outline, currentPage == DrawerSelection.AgencyAgentManagement ? true : false),
+          menuItem(4, "Inbox", Icons.weekend_outlined, currentPage == DrawerSelection.Inbox ? true : false),
+          menuItem(5, "Notification", Icons.notifications_none, currentPage == DrawerSelection.Notification ? true : false),
+          menuItem(6, "FixHoursRequest", Icons.access_time, currentPage == DrawerSelection.FixHoursRequest ? true : false),
+          menuItem(7, "Approval", Icons.approval, currentPage == DrawerSelection.Approval ? true : false),
+          menuItem(8, "Department", Icons.work_outline, currentPage == DrawerSelection.Department ? true : false),
+          menuItem(9, "Report", Icons.report_gmailerrorred, currentPage == DrawerSelection.Report ? true : false),
+          menuItem(10, "ContractorsBackOffice", Icons.work_outline, currentPage == DrawerSelection.ContractorsBackOffice ? true : false),
+          menuItem(11, "Subscription Agreement", Icons.check_box_outlined, currentPage == DrawerSelection.SubscriptionAgreement ? true : false),
+          menuItem(12, "HowItWorks", Icons.help_outline, currentPage == DrawerSelection.HowItWorks ? true : false),
+          menuItem(13, "Request", Icons.north_east, currentPage == DrawerSelection.Request ? true : false),
+          menuItem(14, "Logout", Icons.logout, currentPage == DrawerSelection.Logout ? true : false),
           const Padding(
             padding: EdgeInsets.only(top: 100.0, right: 16, bottom: 16),
             child: Align(
@@ -180,9 +147,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
                 flex: 6,
                 child: Text(
                   title,
-                  style: TextStyle(
-                      color: selected ? appThemeGreen : Colors.black,
-                      fontSize: 16),
+                  style: TextStyle(color: selected ? appThemeGreen : Colors.black, fontSize: 16),
                 ),
               )
             ],
@@ -252,126 +217,104 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       navigate();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text(appBarTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black)),
-        ),
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CompanyProfile()));
-            },
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage('assets/man.jpeg'),
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: Center(
+                child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyProfile()));
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundImage: AssetImage('assets/man.jpeg'),
+                    ),
+                  ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              }),
+            ),
+            drawer: Drawer(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [MyDrawerHeader(userName: companyProfileModel!.data.username, email: companyProfileModel!.data.email, profilePicture: ""), MyDrawerList()],
+                ),
               ),
             ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.menu,
-              color: Colors.black,
+            bottomNavigationBar: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: colorScreenBg,
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                boxShadow: const [
+                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                ],
+              ),
+              child: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/home.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/chat.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/location.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/notification.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/profile1.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                  ],
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: appThemeGreen,
+                  unselectedItemColor: Colors.black,
+                  iconSize: 30,
+                  onTap: _onItemTapped,
+                  elevation: 5),
             ),
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
+            body: container,
           );
-        }),
-      ),
-      drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [MyDrawerHeader(userName: "", email: "", profilePicture: ""), MyDrawerList()],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: colorScreenBg,
-          borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-          boxShadow: const [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/home.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/chat.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/location.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/notification.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/profile1.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-            ],
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            selectedItemColor: appThemeGreen,
-            unselectedItemColor: Colors.black,
-            iconSize: 30,
-            onTap: _onItemTapped,
-            elevation: 5),
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : container,
-    );
   }
 }
 
-enum DrawerSelection {
-  Dashboard,
-  EmployeeManagement,
-  AgencyAgentManagement,
-  Inbox,
-  Notification,
-  FixHoursRequest,
-  Approval,
-  Department,
-  Report,
-  ContractorsBackOffice,
-  SubscriptionAgreement,
-  HowItWorks,
-  Request,
-  Logout
-}
+enum DrawerSelection { Dashboard, EmployeeManagement, AgencyAgentManagement, Inbox, Notification, FixHoursRequest, Approval, Department, Report, ContractorsBackOffice, SubscriptionAgreement, HowItWorks, Request, Logout }

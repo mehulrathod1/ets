@@ -14,8 +14,7 @@ class CompanyEstimate extends StatefulWidget {
 
 class _CompanyEstimateState extends State<CompanyEstimate> {
   bool loading = false;
-  GetCompanyEstimateController getCompanyEstimateController =
-      GetCompanyEstimateController();
+  GetCompanyEstimateController getCompanyEstimateController = GetCompanyEstimateController();
   late CompanyEstimateModel companyEstimateModel;
   List<ListElement> estimateList = [];
 
@@ -27,9 +26,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await getCompanyEstimateController
-        .getCompanyEstimate(context)
-        .then((value) {
+    await getCompanyEstimateController.getCompanyEstimate(context).then((value) {
       setState(() {
         companyEstimateModel = value;
         estimateList = companyEstimateModel.data.list;
@@ -45,12 +42,9 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Estimate",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+          child: Text("Manage Estimate", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -95,12 +89,8 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding:
-                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(7)),
+                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -113,17 +103,11 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                 child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(
-                        color: appThemeGreen,
-                        borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AddCompanyEstimates()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
                         },
                         child: const Text(
                           'Add New Estimate',
@@ -145,11 +129,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(15),
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                  bottomRight: Radius.circular(15)),
+                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -164,41 +144,33 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                 Container(
                                     height: 150,
                                     width: double.infinity,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(80)),
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
                                     child: Image.asset(
                                       'assets/man.jpeg',
                                       fit: BoxFit.cover,
                                     )),
                                 Padding(
-                                  padding: EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.all(12.0),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data.estimateName,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         data.estimateDescription,
-                                        style: TextStyle(
-                                            fontSize: 14, color: colorTextGray),
+                                        style: TextStyle(fontSize: 14, color: colorTextGray),
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         data.dueDate.toString(),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
@@ -208,30 +180,15 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                   child: Container(
                                       width: double.infinity,
                                       height: 35,
-                                      decoration: BoxDecoration(
-                                          color: appThemeBlue,
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              bottomRight:
-                                                  Radius.circular(15))),
+                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: colorred,
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  15),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  15))),
+                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                                               height: double.infinity,
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: const [
                                                   Icon(
                                                     Icons.delete_outline,
@@ -239,13 +196,10 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                     size: 20,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 8.0),
+                                                    padding: EdgeInsets.only(left: 8.0),
                                                     child: Text(
                                                       "Delete",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.white),
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
                                                     ),
                                                   )
                                                 ],
