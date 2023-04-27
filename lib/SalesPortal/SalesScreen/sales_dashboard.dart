@@ -94,7 +94,7 @@ class _SalesDashboardState extends State<SalesDashboard> {
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Column(
-            children: [const MyDrawerHeader(), MyDrawerList()],
+            children: [MyDrawerHeader(userName: "", email: "", profilePicture: ""), MyDrawerList()],
           ),
         ),
       ),

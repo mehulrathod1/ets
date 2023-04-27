@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, non_constant_identifier_names, constant_identifier_names
 
 import 'package:etsemployee/CommonWidget/my_drawer_header.dart';
+import 'package:etsemployee/Controller/EmployeeController/employee_profile_controller.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_profile_details_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dart';
 import 'package:etsemployee/Screens/UserSelectionScreen.dart';
 import 'package:etsemployee/Screens/Contractors/contractorts_screen.dart';
@@ -24,6 +26,9 @@ class HomeDashboard extends StatefulWidget {
 }
 
 class _HomeDashboard extends State<HomeDashboard> {
+  EmployeeProfileController employeeProfileController = EmployeeProfileController();
+  EmployeeProfileDetailsModel? employeeProfileDetailsModel;
+  bool loading = false;
   var currentPage = DrawerSelection.Dashboard;
   var container;
   int _selectedIndex = 0;
@@ -147,6 +152,26 @@ class _HomeDashboard extends State<HomeDashboard> {
     );
   }
 
+  Future initialize(BuildContext context) async {
+    loading = true;
+    await employeeProfileController.getEmployeeProfile(context).then((value) {
+      setState(() {
+        if (value != null) {
+          employeeProfileDetailsModel = value;
+          loading = false;
+        } else {
+          loading = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    initialize(context);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (currentPage == DrawerSelection.Dashboard) {
@@ -179,102 +204,109 @@ class _HomeDashboard extends State<HomeDashboard> {
     } else if (currentPage == DrawerSelection.Logout) {
       navigate();
     }
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
-        ),
-        actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              radius: 18,
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        }),
-      ),
-      drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [const MyDrawerHeader(), MyDrawerList()],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: colorScreenBg,
-          borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-          boxShadow: const [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          child: BottomNavigationBar(
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("assets/home.png"),
-                    ),
-                    label: "",
-                    backgroundColor: Colors.green),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("assets/chat.png"),
-                    ),
-                    label: "",
-                    backgroundColor: Colors.green),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("assets/location.png"),
-                    ),
-                    label: "",
-                    backgroundColor: Colors.green),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("assets/notification.png"),
-                    ),
-                    label: "",
-                    backgroundColor: Colors.green),
-                BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage("assets/profile1.png"),
-                    ),
-                    label: "",
-                    backgroundColor: Colors.green),
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: Center(
+                child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: employeeProfileDetailsModel!.data.profileImg.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage: NetworkImage(employeeProfileDetailsModel!.data.profileImg),
+                        ),
+                ),
               ],
-              type: BottomNavigationBarType.fixed,
-              currentIndex: _selectedIndex,
-              selectedItemColor: appThemeGreen,
-              unselectedItemColor: Colors.black,
-              iconSize: 30,
-              onTap: _onItemTapped,
-              elevation: 5),
-        ),
-      ),
-      body: container,
-    );
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              }),
+            ),
+            drawer: Drawer(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg), MyDrawerList()],
+                ),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: colorScreenBg,
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                boxShadow: const [
+                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                ),
+                child: BottomNavigationBar(
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    items: const <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                          icon: ImageIcon(
+                            AssetImage("assets/home.png"),
+                          ),
+                          label: "",
+                          backgroundColor: Colors.green),
+                      BottomNavigationBarItem(
+                          icon: ImageIcon(
+                            AssetImage("assets/chat.png"),
+                          ),
+                          label: "",
+                          backgroundColor: Colors.green),
+                      BottomNavigationBarItem(
+                          icon: ImageIcon(
+                            AssetImage("assets/location.png"),
+                          ),
+                          label: "",
+                          backgroundColor: Colors.green),
+                      BottomNavigationBarItem(
+                          icon: ImageIcon(
+                            AssetImage("assets/notification.png"),
+                          ),
+                          label: "",
+                          backgroundColor: Colors.green),
+                      BottomNavigationBarItem(
+                          icon: ImageIcon(
+                            AssetImage("assets/profile1.png"),
+                          ),
+                          label: "",
+                          backgroundColor: Colors.green),
+                    ],
+                    type: BottomNavigationBarType.fixed,
+                    currentIndex: _selectedIndex,
+                    selectedItemColor: appThemeGreen,
+                    unselectedItemColor: Colors.black,
+                    iconSize: 30,
+                    onTap: _onItemTapped,
+                    elevation: 5),
+              ),
+            ),
+            body: container,
+          );
   }
 }
 

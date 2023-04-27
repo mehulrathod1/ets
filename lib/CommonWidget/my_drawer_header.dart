@@ -1,8 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawerHeader extends StatefulWidget {
-  const MyDrawerHeader({Key? key}) : super(key: key);
+  MyDrawerHeader({this.userName, this.email, this.profilePicture, Key? key}) : super(key: key);
+  String? userName;
+  String? email;
+  String? profilePicture;
 
   @override
   State<MyDrawerHeader> createState() => _MyDrawerHeaderState();
@@ -46,20 +51,25 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
           padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
           child: Row(
             children: [
-              const CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage('assets/etslogo.png'),
-              ),
+              widget.profilePicture!.isEmpty
+                  ? const CircleAvatar(
+                      radius: 20,
+                      backgroundImage: AssetImage('assets/etslogo.png'),
+                    )
+                  : CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(widget.profilePicture!),
+                    ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: Text('Username', textAlign: TextAlign.left, style: TextStyle(color: Colors.black, fontSize: 16)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(widget.userName!.isEmpty ? 'Username' : widget.userName!, textAlign: TextAlign.left, style: const TextStyle(color: Colors.black, fontSize: 16)),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('crazycoder09@gmail.com', textAlign: TextAlign.left, style: TextStyle(color: appThemeGreen, fontSize: 10)),
+                    child: Text(widget.email!.isEmpty ? 'crazycoder09@gmail.com' : widget.email!, textAlign: TextAlign.left, style: TextStyle(color: appThemeGreen, fontSize: 10)),
                   ),
                 ],
               )

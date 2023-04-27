@@ -247,7 +247,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Column(
-            children: [const MyDrawerHeader(), MyDrawerList()],
+            children: [MyDrawerHeader(userName: "", email: "", profilePicture: ""), MyDrawerList()],
           ),
         ),
       ),

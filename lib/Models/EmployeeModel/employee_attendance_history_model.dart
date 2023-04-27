@@ -4,13 +4,9 @@
 
 import 'dart:convert';
 
-EmployeeAttendanceHistoryModel employeeAttendanceHistoryModelFromJson(
-        String str) =>
-    EmployeeAttendanceHistoryModel.fromJson(json.decode(str));
+EmployeeAttendanceHistoryModel employeeAttendanceHistoryModelFromJson(String str) => EmployeeAttendanceHistoryModel.fromJson(json.decode(str));
 
-String employeeAttendanceHistoryModelToJson(
-        EmployeeAttendanceHistoryModel data) =>
-    json.encode(data.toJson());
+String employeeAttendanceHistoryModelToJson(EmployeeAttendanceHistoryModel data) => json.encode(data.toJson());
 
 class EmployeeAttendanceHistoryModel {
   EmployeeAttendanceHistoryModel({
@@ -23,8 +19,7 @@ class EmployeeAttendanceHistoryModel {
   String message;
   Data data;
 
-  factory EmployeeAttendanceHistoryModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeAttendanceHistoryModel(
+  factory EmployeeAttendanceHistoryModel.fromJson(Map<String, dynamic> json) => EmployeeAttendanceHistoryModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -47,8 +42,7 @@ class Data {
   PaginationInfo paginationInfo;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -86,8 +80,7 @@ class ListElement {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "date":
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         "location": location,
         "Hours": hours.toJson(),
         "Image": image.toJson(),
@@ -117,11 +110,7 @@ class Hours {
 
 enum MyText { VIEW_HOURS, VIEW_IMAGE, VIEW_MAP }
 
-final textValues = EnumValues({
-  "view hours": MyText.VIEW_HOURS,
-  "view image": MyText.VIEW_IMAGE,
-  "view map": MyText.VIEW_MAP
-});
+final textValues = EnumValues({"view hours": MyText.VIEW_HOURS, "view image": MyText.VIEW_IMAGE, "view map": MyText.VIEW_MAP});
 
 class PaginationInfo {
   PaginationInfo({

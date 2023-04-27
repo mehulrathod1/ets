@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-      /*appBar: AppBar(
+/*      appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
