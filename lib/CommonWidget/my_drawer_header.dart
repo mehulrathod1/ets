@@ -23,7 +23,9 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 50.0, left: 8),
-              child: Align(alignment: Alignment.topLeft, child: Image.asset('assets/desktop_logo.png')),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Image.asset('assets/desktop_logo.png')),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 50.0, right: 16),

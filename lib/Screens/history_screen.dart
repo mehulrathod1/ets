@@ -15,7 +15,8 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   bool loading = false;
-  EmployeeAttendanceHistoryController employeeAttendanceHistoryController = EmployeeAttendanceHistoryController();
+  EmployeeAttendanceHistoryController employeeAttendanceHistoryController =
+      EmployeeAttendanceHistoryController();
   late EmployeeAttendanceHistoryModel employeeAttendanceHistoryModel;
   List<ListElement> historyList = [];
 
@@ -30,7 +31,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await employeeAttendanceHistoryController.getAttendanceHistory(context).then((value) {
+    await employeeAttendanceHistoryController
+        .getAttendanceHistory(context)
+        .then((value) {
       setState(() {
         employeeAttendanceHistoryModel = value;
         historyList = employeeAttendanceHistoryModel.data.list;

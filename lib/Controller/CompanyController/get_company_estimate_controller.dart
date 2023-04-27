@@ -6,7 +6,7 @@ import '../../Network/api_constant.dart';
 
 class GetCompanyEstimateController {
   Future<CompanyEstimateModel> getCompanyEstimate(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.getCompanyOrder);
+    var response = await getData(paramUri: ApiConstant.getCompanyEstimate);
     return CompanyEstimateModel.fromJson(response);
   }
 }

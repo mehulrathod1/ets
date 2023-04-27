@@ -6,6 +6,9 @@ import 'package:etsemployee/Models/CompanyModels/company_department_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../Controller/CompanyController/company_department_detail_controller.dart';
+import '../../Models/CompanyModels/company_department_detail_model.dart';
+
 class ManageDepartment extends StatefulWidget {
   const ManageDepartment({Key? key}) : super(key: key);
 
@@ -18,9 +21,16 @@ class _ManageDepartmentState extends State<ManageDepartment> {
   late Datum datum;
   late GetCompanyDepartmentModel companyDepartmentModel;
   List<Datum> departmentList = [];
-  DeleteDepartmentController departmentController = DeleteDepartmentController();
-  CompanyDepartmentController companyDepartmentController = CompanyDepartmentController();
-  CompanyAddDepartmentController addDepartmentController = CompanyAddDepartmentController();
+  DeleteDepartmentController departmentController =
+      DeleteDepartmentController();
+  CompanyDepartmentController companyDepartmentController =
+      CompanyDepartmentController();
+  CompanyAddDepartmentController addDepartmentController =
+      CompanyAddDepartmentController();
+
+  CompanyDepartmentDetailController departmentDetailController =
+      CompanyDepartmentDetailController();
+  late CompanyDepartmentDetailModel departmentDetailModel;
 
   @override
   void initState() {
@@ -37,6 +47,125 @@ class _ManageDepartmentState extends State<ManageDepartment> {
         loading = false;
       });
     });
+  }
+
+  Future editDepartment(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            titlePadding: EdgeInsets.zero,
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Edit Department',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        )),
+                        Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      child: Text(
+                        "Department Name:",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    Container(
+                      height: 40,
+                      child: TextField(
+                        controller: departmentDetailController.departmentName,
+                        style: TextStyle(
+                            height: 1.7, fontSize: 18, color: Colors.black),
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          hintText: 'IT',
+                          fillColor: colorScreenBg,
+                          filled: true,
+                          isDense: true,
+                          contentPadding:
+                              EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(7)),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: colorGray, width: 1.0),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                    //   child: Text(
+                    //     "Company:",
+                    //     style: TextStyle(fontSize: 14),
+                    //   ),
+                    // ),
+                    // Container(
+                    //   height: 40,
+                    //   child: TextField(
+                    //     style: TextStyle(
+                    //         height: 1.7, fontSize: 18, color: Colors.black),
+                    //     maxLines: 1,
+                    //     decoration: InputDecoration(
+                    //       hintText: 'Test',
+                    //       fillColor: colorLightGray,
+                    //       filled: true,
+                    //       isDense: true,
+                    //       contentPadding:
+                    //       EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    //       enabledBorder: OutlineInputBorder(
+                    //           borderSide: const BorderSide(
+                    //               color: Colors.grey, width: 1.0),
+                    //           borderRadius: BorderRadius.circular(7)),
+                    //       focusedBorder: OutlineInputBorder(
+                    //         borderSide: BorderSide(color: colorGray, width: 1.0),
+                    //         borderRadius: BorderRadius.circular(7),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                      child: Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: appThemeGreen,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Center(
+                            child: Text(
+                              'Save',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          )),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   Future addDepartment(BuildContext context) async {
@@ -81,15 +210,20 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                   height: 40,
                   child: TextField(
                     controller: addDepartmentController.departmentName,
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
                       hintText: 'IT',
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -97,52 +231,61 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                     ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                  child: Text(
-                    "Company:",
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                  child: TextField(
-                    style: const TextStyle(fontSize: 18, color: Colors.black),
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      suffixIcon: Align(
-                        widthFactor: 1,
-                        heightFactor: 1,
-                        child: Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: appThemeGreen,
-                        ),
-                      ),
-                      hintText: 'Test ',
-                      fillColor: colorScreenBg,
-                      filled: true,
-                      isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: colorGray, width: 1.0),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                    ),
-                  ),
-                ),
+                // const Padding(
+                //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                //   child: Text(
+                //     "Company:",
+                //     style: TextStyle(fontSize: 14),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 40,
+                //   child: TextField(
+                //     style: const TextStyle(fontSize: 18, color: Colors.black),
+                //     maxLines: 1,
+                //     decoration: InputDecoration(
+                //       suffixIcon: Align(
+                //         widthFactor: 1,
+                //         heightFactor: 1,
+                //         child: Icon(
+                //           Icons.keyboard_arrow_down_outlined,
+                //           color: appThemeGreen,
+                //         ),
+                //       ),
+                //       hintText: 'Test ',
+                //       fillColor: colorScreenBg,
+                //       filled: true,
+                //       isDense: true,
+                //       contentPadding:
+                //           const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                //       enabledBorder: OutlineInputBorder(
+                //           borderSide:
+                //               const BorderSide(color: Colors.grey, width: 1.0),
+                //           borderRadius: BorderRadius.circular(7)),
+                //       focusedBorder: OutlineInputBorder(
+                //         borderSide: BorderSide(color: colorGray, width: 1.0),
+                //         borderRadius: BorderRadius.circular(7),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                   child: GestureDetector(
                     onTap: () {
-                      addDepartmentController.addDepartment(context).then((value) {
+                      addDepartmentController
+                          .addDepartment(context)
+                          .then((value) {
                         initialize(context);
+                        Navigator.pop(context);
                       });
                     },
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeGreen,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Sent',
@@ -173,7 +316,8 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                     child: SizedBox(
                       height: 40,
                       child: TextField(
-                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           suffixIcon: Align(
@@ -188,10 +332,15 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorGray, width: 1.0),
+                            borderSide:
+                                BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
@@ -199,11 +348,14 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8, top: 10.0, bottom: 10),
+                    padding: const EdgeInsets.only(
+                        left: 8, right: 8, top: 10.0, bottom: 10),
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
                         child: Center(
                           child: GestureDetector(
                             onTap: () {
@@ -211,7 +363,8 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                             },
                             child: const Text(
                               'Add New Department',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         )),
@@ -231,8 +384,10 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                                border: Border.all(width: 1, color: appThemeBlue),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
+                                border:
+                                    Border.all(width: 1, color: appThemeBlue),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,11 +395,14 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const Text(
                                           "1",
-                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -253,11 +411,15 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                           children: [
                                             const Text(
                                               "Department Name: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               detail.departmentName.toString(),
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -268,11 +430,15 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                           children: [
                                             const Text(
                                               "Company Name: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              "Test",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              detail.companyName,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -284,19 +450,46 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                     child: Container(
                                       width: double.infinity,
                                       height: 35,
-                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                      decoration: BoxDecoration(
+                                          color: appThemeBlue,
+                                          borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(15),
+                                              bottomRight:
+                                                  Radius.circular(15))),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: GestureDetector(
-                                              onTap: () {
+                                              onTap: () async {
                                                 editDepartment(context);
+
+                                                await departmentDetailController
+                                                    .getDepartmentDetail(
+                                                        context, detail.id)
+                                                    .then((value) {
+                                                  setState(() {
+                                                    departmentDetailModel =
+                                                        value;
+                                                    debugPrint(
+                                                        departmentDetailModel
+                                                            .data
+                                                            .first
+                                                            .departmentName);
+                                                  });
+                                                });
                                               },
                                               child: Container(
-                                                decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15))),
+                                                decoration: BoxDecoration(
+                                                    color: appThemeBlue,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15))),
                                                 height: double.infinity,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.edit,
@@ -304,10 +497,14 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
                                                       child: Text(
                                                         "Edit",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     )
                                                   ],
@@ -318,15 +515,25 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                           Expanded(
                                             child: GestureDetector(
                                               onTap: () {
-                                                departmentController.deleteDepartment(context, detail.id).then((value) {
+                                                departmentController
+                                                    .deleteDepartment(
+                                                        context, detail.id)
+                                                    .then((value) {
                                                   initialize(context);
                                                 });
                                               },
                                               child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                decoration: BoxDecoration(
+                                                    color: colorred,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
                                                 height: double.infinity,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.delete_outline,
@@ -334,10 +541,14 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
                                                       child: Text(
                                                         "Delete",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     )
                                                   ],
