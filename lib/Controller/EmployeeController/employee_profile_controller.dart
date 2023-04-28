@@ -19,6 +19,35 @@ class EmployeeProfileController {
     }
   }
 
+  Future editProfilePicture(BuildContext context, String imageBytesData) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response = await postDataWithHeader(paramUri: ApiConstant.employeeUpdateProfilePicture, params: {
+      'update_profile': "data:image/jpeg;base64,$imageBytesData",
+    });
+    debugPrint("editProfilePicture response :- ${response.toString()}");
+    if (response["status"] == 'True') {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   Future editProfileDetails(BuildContext context) async {
     showDialog(
         context: context,

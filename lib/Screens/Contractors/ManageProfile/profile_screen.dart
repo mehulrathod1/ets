@@ -1,10 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_profile_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_profile_details_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageProfile/edit_profile.dart';
 import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_change_request.dart';
 import 'package:etsemployee/Screens/Contractors/ManageProfile/reset_password.dart';
+import 'package:etsemployee/Screens/HomeDashboard.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -36,6 +45,29 @@ class _ProfileState extends State<Profile> {
         }
       });
     });
+  }
+
+  Future pickImage({bool gallery = true}) async {
+    try {
+      final image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
+      if (image == null) return;
+      File imageFile = File(image.path);
+      Uint8List imageBytes = await imageFile.readAsBytes();
+      String base64string = base64.encode(imageBytes);
+      await employeeProfileController.editProfilePicture(context, base64string);
+      await employeeProfileController.getEmployeeProfile(context).then((value) {
+        setState(() {
+          if (value != null) {
+            employeeProfileDetailsModel = value;
+            Timer(const Duration(seconds: 3), () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+            });
+          }
+        });
+      });
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
+    }
   }
 
   @override
@@ -75,19 +107,80 @@ class _ProfileState extends State<Profile> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: Center(
-                      child: employeeProfileDetailsModel!.data.profileImg.isEmpty
-                          ? const CircleAvatar(
-                              radius: 80,
-                              backgroundImage: AssetImage('assets/man.jpeg'),
-                            )
-                          : CircleAvatar(
-                              radius: 80,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: NetworkImage(employeeProfileDetailsModel!.data.profileImg),
+                  child: InkWell(
+                    onTap: () async {
+                      await showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(25.0),
                             ),
+                          ),
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Container(
+                              height: 150,
+                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                              child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                                GestureDetector(
+                                  onTap: () async {
+                                    Navigator.pop(context);
+                                    await pickImage(gallery: true);
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 40,
+                                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                    child: const Center(
+                                      child: Text(
+                                        'Pick Image from Gallery',
+                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    Navigator.pop(context);
+                                    await pickImage(gallery: false);
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 40,
+                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                                    child: const Center(
+                                      child: Text(
+                                        'Pick Image from Camera',
+                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                            );
+                          });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: Center(
+                        child: employeeProfileDetailsModel!.data.profileImg.isEmpty
+                            ? const CircleAvatar(
+                                radius: 80,
+                                backgroundImage: AssetImage('assets/man.jpeg'),
+                              )
+                            : CachedNetworkImage(
+                                placeholder: (context, url) => const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                imageUrl: employeeProfileDetailsModel!.data.profileImg,
+                                imageBuilder: (context, imageProvider) => Container(
+                                  width: 160,
+                                  height: 160,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                  ),
+                                ),
+                              ),
+                      ),
                     ),
                   ),
                 ),
@@ -190,15 +283,16 @@ class _ProfileState extends State<Profile> {
                       );
                     },
                     child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                        child: const Center(
-                          child: Text(
-                            'Edit Info',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        )),
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      child: const Center(
+                        child: Text(
+                          'Edit Info',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

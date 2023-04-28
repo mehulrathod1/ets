@@ -72,6 +72,7 @@ class ApiConstant {
   static const employeeChangePassword = 'employee/change-password/';
   static const employeeViewProfileDetails = 'employee/view-profile-details/';
   static const employeeUpdateProfileDetails = 'employee/update-profile-details/';
+  static const employeeUpdateProfilePicture = 'employee/update-profile-picture/';
 
   // --------------------------------- sales portal --------------------------------------------------------
 
