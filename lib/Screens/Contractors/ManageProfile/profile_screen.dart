@@ -107,7 +107,7 @@ class _ProfileState extends State<Profile> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () async {
                       await showModalBottomSheet(
                           shape: const RoundedRectangleBorder(

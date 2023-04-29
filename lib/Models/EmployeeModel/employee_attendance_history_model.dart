@@ -1,6 +1,4 @@
-// To parse this JSON data, do
-//
-//     final employeeAttendanceHistoryModel = employeeAttendanceHistoryModelFromJson(jsonString);
+// ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
 
@@ -54,63 +52,75 @@ class Data {
 
 class ListElement {
   ListElement({
+    required this.id,
     required this.name,
     required this.date,
     required this.location,
-    required this.hours,
-    required this.image,
-    required this.map,
+    required this.timeImageMap,
   });
 
+  String id;
   String name;
   DateTime date;
   String location;
-  Hours hours;
-  Hours image;
-  Hours map;
+  List<TimeImageMap> timeImageMap;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+        id: json["id"],
         name: json["name"],
         date: DateTime.parse(json["date"]),
         location: json["location"],
-        hours: Hours.fromJson(json["Hours"]),
-        image: Hours.fromJson(json["Image"]),
-        map: Hours.fromJson(json["Map"]),
+        timeImageMap: List<TimeImageMap>.from(json["time_image_map"].map((x) => TimeImageMap.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         "location": location,
-        "Hours": hours.toJson(),
-        "Image": image.toJson(),
-        "Map": map.toJson(),
+        "time_image_map": List<dynamic>.from(timeImageMap.map((x) => x.toJson())),
       };
 }
 
-class Hours {
-  Hours({
-    required this.text,
-    required this.link,
+class TimeImageMap {
+  TimeImageMap({
+    required this.inn,
+    required this.out,
+    required this.totalHours,
+    required this.inImage,
+    required this.outImage,
+    required this.addressIn,
+    required this.addressOut,
   });
 
-  MyText text;
-  String link;
+  String inn;
+  String out;
+  String totalHours;
+  String inImage;
+  String outImage;
+  String addressIn;
+  String addressOut;
 
-  factory Hours.fromJson(Map<String, dynamic> json) => Hours(
-        text: textValues.map[json["text"]]!,
-        link: json["link"],
+  factory TimeImageMap.fromJson(Map<String, dynamic> json) => TimeImageMap(
+        inn: json["in"],
+        out: json["out"],
+        totalHours: json["total_hours"],
+        inImage: json["in_image"],
+        outImage: json["out_image"],
+        addressIn: json["address_in"],
+        addressOut: json["address_out"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
-        "text": textValues.reverse[text],
-        "link": link,
+        "in": inn,
+        "out": out,
+        "total_hours": totalHours,
+        "in_image": inImage,
+        "out_image": outImage,
+        "address_in": addressIn,
+        "address_out": addressOut,
       };
 }
-
-enum MyText { VIEW_HOURS, VIEW_IMAGE, VIEW_MAP }
-
-final textValues = EnumValues({"view hours": MyText.VIEW_HOURS, "view image": MyText.VIEW_IMAGE, "view map": MyText.VIEW_MAP});
 
 class PaginationInfo {
   PaginationInfo({
@@ -121,7 +131,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 
@@ -138,16 +148,4 @@ class PaginationInfo {
         "total_rows": totalRows,
         "total_pages": totalPages,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

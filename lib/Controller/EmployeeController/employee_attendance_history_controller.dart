@@ -4,8 +4,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeAttendanceHistoryController {
-  Future<EmployeeAttendanceHistoryModel> getAttendanceHistory(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeAttendanceHistory);
-    return EmployeeAttendanceHistoryModel.fromJson(response);
+  Future getAttendanceHistory({required BuildContext context, required String startDate, required String endDate, required int page}) async {
+    var response = await getData(paramUri: "${ApiConstant.employeeAttendanceHistory}startdate=$startDate&enddate=$endDate&page=$page");
+    if (response["status"] == "True") {
+      return EmployeeAttendanceHistoryModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }
