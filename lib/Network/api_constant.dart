@@ -48,6 +48,8 @@ class ApiConstant {
   static const employeeAttendanceHistory = 'employee/attendance-history-employee?show=10&';
   static const employeeContactList = 'employee/view-contact-list';
   static const employeeAddContact = 'employee/add-contact';
+  static const employeeEditContact = 'employee/edit-contact/';
+  static const employeeDeleteContact = 'employee/delete-contact/';
   static const employeeOrderList = 'employee/view-orders-lists';
   static const employeeEstimateList = 'employee/view-estimate-lists';
   static const employeeNoteList = 'employee/view-notes-list';

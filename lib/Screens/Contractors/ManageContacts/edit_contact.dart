@@ -1,15 +1,86 @@
+// ignore_for_file: must_be_immutable, unrelated_type_equality_checks
+
+import 'package:dropdown_below/dropdown_below.dart';
+import 'package:etsemployee/Controller/EmployeeController/employee_add_contact_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditContact extends StatefulWidget {
-  const EditContact({Key? key}) : super(key: key);
+  EditContact({required this.id, required this.customerType, required this.firstName, required this.lastName, required this.companyName, required this.address, required this.city, required this.state, required this.zipcode, required this.email, required this.homeNumber, required this.mobileNumber, Key? key}) : super(key: key);
+  String id;
+  String customerType;
+  String firstName;
+  String lastName;
+  String companyName;
+  String address;
+  String city;
+  String state;
+  String zipcode;
+  String email;
+  String homeNumber;
+  String mobileNumber;
 
   @override
   State<EditContact> createState() => _EditContactState();
 }
 
 class _EditContactState extends State<EditContact> {
+  EmployeeAddContactController employeeAddContactController = EmployeeAddContactController();
+  String selectedContact = "";
+  List<DropdownMenuItem<Object?>> contectListItems = [];
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      employeeAddContactController.customerType.text = selectedTest['id'];
+      selectedContact = selectedTest['name'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      selectedContact = widget.customerType == "1"
+          ? "Contractor"
+          : widget.customerType == "2"
+              ? "Customer"
+              : "";
+      employeeAddContactController.customerType.text = widget.customerType;
+      employeeAddContactController.firstName.text = widget.firstName;
+      employeeAddContactController.lastName.text = widget.lastName;
+      employeeAddContactController.companyName.text = widget.companyName;
+      employeeAddContactController.address.text = widget.address;
+      employeeAddContactController.city.text = widget.city;
+      employeeAddContactController.state.text = widget.state;
+      employeeAddContactController.zipcode.text = widget.zipcode;
+      employeeAddContactController.email.text = widget.email;
+      employeeAddContactController.homeNumber.text = widget.homeNumber;
+      employeeAddContactController.mobileNumber.text = widget.mobileNumber;
+      contectListItems = buildTaskSizeListItems([
+        {"id": "1", "name": "Contractor"},
+        {"id": "2", "name": "Customer"}
+      ]);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,33 +133,28 @@ class _EditContactState extends State<EditContact> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              suffixIcon: Align(
-                                widthFactor: 1,
-                                heightFactor: 1,
-                                child: Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                  color: appThemeGreen,
-                                ),
-                              ),
-                              hintText: 'Customer',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
+                        DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius: const BorderRadius.all(Radius.circular(7.0)),
                           ),
+                          boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedContact.isEmpty ? "Customer" : selectedContact,
+                            style: TextStyle(fontSize: 18, color: selectedContact.isEmpty ? Colors.black.withOpacity(0.60) : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: contectListItems,
                         ),
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
@@ -100,16 +166,18 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.firstName,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
-                                  widthFactor: 1,
-                                  heightFactor: 1,
-                                  child: ImageIcon(
-                                    const AssetImage('assets/profile1.png'),
-                                    color: appThemeGreen,
-                                  )),
+                                widthFactor: 1,
+                                heightFactor: 1,
+                                child: ImageIcon(
+                                  const AssetImage('assets/profile1.png'),
+                                  color: appThemeGreen,
+                                ),
+                              ),
                               hintText: 'Enter first name',
                               fillColor: colorScreenBg,
                               filled: true,
@@ -133,6 +201,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.lastName,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -166,6 +235,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.companyName,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -199,6 +269,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.address,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -232,6 +303,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.city,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -265,6 +337,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.state,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -298,6 +371,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.zipcode,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             keyboardType: TextInputType.number,
@@ -332,6 +406,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.email,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             keyboardType: TextInputType.emailAddress,
@@ -366,6 +441,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.homeNumber,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             keyboardType: TextInputType.number,
@@ -400,6 +476,7 @@ class _EditContactState extends State<EditContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: employeeAddContactController.mobileNumber,
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             keyboardType: TextInputType.number,
@@ -426,14 +503,98 @@ class _EditContactState extends State<EditContact> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (selectedContact.isEmpty || employeeAddContactController.customerType.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Please select customer type from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.firstName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, First name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.lastName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Last name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.companyName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Company name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.address.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Address missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.city.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, City name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.state.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, State name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.zipcode.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Zipcode missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.email.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Email missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.homeNumber.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Home/Office number missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeAddContactController.mobileNumber.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Mobile number missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                await employeeAddContactController.editContact(context, id: widget.id);
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                ),
                               ),
                             ),
                           ),

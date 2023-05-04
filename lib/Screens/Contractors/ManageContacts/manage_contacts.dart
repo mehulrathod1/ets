@@ -65,7 +65,6 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
               color: Colors.black,
             ),
             onTap: () {
-              // Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
             },
           );
@@ -248,7 +247,25 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const EditContact()));
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => EditContact(
+                                                          id: detail.id,
+                                                          customerType: detail.customerType,
+                                                          firstName: detail.firstName,
+                                                          lastName: detail.lastName,
+                                                          companyName: detail.companyName,
+                                                          address: detail.address,
+                                                          city: detail.city,
+                                                          state: detail.state,
+                                                          zipcode: detail.zipcode,
+                                                          email: detail.email,
+                                                          homeNumber: detail.homeOrOfficeNo,
+                                                          mobileNumber: detail.mobileNo,
+                                                        ),
+                                                      ),
+                                                    );
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -277,25 +294,34 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                                 ),
                                               ),
                                               Expanded(
-                                                child: Container(
-                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                                  height: double.infinity,
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: const [
-                                                      Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(left: 8.0),
-                                                        child: Text(
-                                                          "Delete",
-                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                child: GestureDetector(
+                                                  onTap: () async {
+                                                    await employeeContactController.employeeDeleteContact(context: context, id: detail.id).then((value) {
+                                                      if (value) {
+                                                        initialize(context);
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                    height: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: const [
+                                                        Icon(
+                                                          Icons.delete_outline,
+                                                          color: Colors.white,
+                                                          size: 20,
                                                         ),
-                                                      )
-                                                    ],
+                                                        Padding(
+                                                          padding: EdgeInsets.only(left: 8.0),
+                                                          child: Text(
+                                                            "Delete",
+                                                            style: TextStyle(fontSize: 14, color: Colors.white),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final employeeAddContactModel = employeeAddContactModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class EmployeeAddContactModel {
