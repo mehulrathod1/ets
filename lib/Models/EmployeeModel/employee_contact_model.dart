@@ -83,7 +83,7 @@ class ListElement {
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        companyName: json["company_name"],
+        companyName: json["company_name"] ?? "",
         customerType: json["customer_type"],
         address: json["address"],
         city: json["city"],

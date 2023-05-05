@@ -176,7 +176,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                               ),
                                               Text(
-                                                "crazycoder0009@gmail.com",
+                                                detail.paidBy,
                                                 style: TextStyle(fontSize: 14, color: colorTextGray),
                                               ),
                                             ],
@@ -216,10 +216,9 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 16.0),
-                                      child: Container(
+                                      child: SizedBox(
                                         width: double.infinity,
                                         height: 35,
-                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                                         child: Row(
                                           children: [
                                             Expanded(
@@ -227,22 +226,26 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                 onTap: () {
                                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const EditInvoice()));
                                                 },
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.edit,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
-                                                      child: Text(
-                                                        "Edit",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        color: Colors.white,
+                                                        size: 20,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        child: Text(
+                                                          "Edit",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -254,25 +257,35 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               ),
                                             ),
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.delete_outline,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await employeeInvoiceController.deleteEmployeeInvoice(context: context, id: detail.id).then((value) => {
+                                                        if (value)
+                                                          {
+                                                            initialize(context),
+                                                          }
+                                                      });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Padding(
+                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
