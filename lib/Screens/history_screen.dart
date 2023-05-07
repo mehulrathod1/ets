@@ -25,23 +25,30 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<ListElement> historyList = [];
 
   Future initialize(BuildContext context) async {
-    loading = true;
-    page = 1;
-    totalPage = 0;
-    startDate.clear();
-    endDate.clear();
-    await employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
-      if (value != null) {
-        setState(() {
-          employeeAttendanceHistoryModel = value;
-          historyList = employeeAttendanceHistoryModel.data.list;
-          totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
-          page = page + 1;
-          loading = false;
-        });
-      }
+    setState(() {
+      loading = true;
+      page = 1;
+      totalPage = 0;
+      startDate.text = DateFormat('MM/dd/yyyy').format(DateTime.now().subtract(const Duration(days: 7)));
+      endDate.text = DateFormat('MM/dd/yyyy').format(DateTime.now());
+      employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
+        if (value != null) {
+          setState(() {
+            employeeAttendanceHistoryModel = value;
+            historyList = employeeAttendanceHistoryModel.data.list;
+            totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
+            page = page + 1;
+            loading = false;
+          });
+        } else {
+          setState(() {
+            loading = false;
+            historyList.clear();
+          });
+        }
+      });
+      controller = ScrollController()..addListener(scrollListener);
     });
-    controller = ScrollController()..addListener(scrollListener);
   }
 
   Future scrollListener() async {
@@ -106,6 +113,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: 40,
                               child: TextField(
                                 style: const TextStyle(fontSize: 16, color: Colors.black),
+                                textInputAction: TextInputAction.next,
                                 controller: startDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
@@ -168,6 +176,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: 40,
                               child: TextField(
                                 style: const TextStyle(fontSize: 16, color: Colors.black),
+                                textInputAction: TextInputAction.next,
                                 controller: endDate,
                                 maxLines: 1,
                                 decoration: InputDecoration(
@@ -234,20 +243,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                         );
                       } else {
-                        loading = true;
-                        page = 1;
-                        totalPage = 0;
-                        historyList.clear();
-                        await employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
-                          if (value != null) {
-                            setState(() {
-                              employeeAttendanceHistoryModel = value;
-                              historyList = employeeAttendanceHistoryModel.data.list;
-                              totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
-                              page = page + 1;
-                              loading = false;
-                            });
-                          }
+                        setState(() {
+                          loading = true;
+                          page = 1;
+                          totalPage = 0;
+                          historyList.clear();
+                          employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
+                            if (value != null) {
+                              setState(() {
+                                employeeAttendanceHistoryModel = value;
+                                historyList = employeeAttendanceHistoryModel.data.list;
+                                totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
+                                page = page + 1;
+                                loading = false;
+                              });
+                            } else {
+                              setState(() {
+                                loading = false;
+                                historyList.clear();
+                              });
+                            }
+                          });
                         });
                       }
                     },
@@ -341,7 +357,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                 ],
                                               ),
                                             ),
-                                            const SizedBox(
+                                            /*const SizedBox(
                                               height: 8,
                                             ),
                                             Padding(
@@ -384,7 +400,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   ),
                                                 ],
                                               ),
-                                            ),
+                                            ),*/
                                             const SizedBox(
                                               height: 8,
                                             ),
@@ -480,9 +496,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   ),
                                 );
                               })
-                          : const Text(
-                              "Oops!, No data found.",
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          : Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height / 2,
+                              child: const Text(
+                                "Oops!, No data found.",
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
                             ),
                 ),
               ],

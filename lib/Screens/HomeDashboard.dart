@@ -13,7 +13,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'AttendanceScreen.dart';
+import 'attendanceScreen.dart';
 import 'Home.dart';
 import 'message_screen.dart';
 import 'notification_screen.dart';

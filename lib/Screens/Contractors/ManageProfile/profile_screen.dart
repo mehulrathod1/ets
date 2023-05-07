@@ -74,33 +74,6 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-/*      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Profile", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          );
-        }),
-      ),*/
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : Column(

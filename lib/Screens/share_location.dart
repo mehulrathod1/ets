@@ -75,7 +75,7 @@ class _ShareLocationScreenState extends State<ShareLocationScreen> {
     await placemarkFromCoordinates(currentPosition!.latitude, currentPosition!.longitude).then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       setState(() {
-        currentAddress = '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        currentAddress = '${place.street}, ${place.subLocality}, ${place.postalCode}, ${place.locality}, ${place.administrativeArea}, ${place.subAdministrativeArea}, ${place.country}';
         startLocation = true;
       });
     }).catchError((e) {
