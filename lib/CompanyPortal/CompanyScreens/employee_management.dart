@@ -598,7 +598,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.department,
+                                                'detail.department',
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),

@@ -293,7 +293,30 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const EditCompanyContact()));
+                                                            EditCompanyContact(
+                                                              customerType: detail
+                                                                  .customerType,
+                                                              fistName: detail
+                                                                  .firstName,
+                                                              laseName: detail
+                                                                  .lastName,
+                                                              companyName: detail
+                                                                  .companyName,
+                                                              address: detail
+                                                                  .address,
+                                                              city: detail.city,
+                                                              state:
+                                                                  detail.state,
+                                                              zipCode: detail
+                                                                  .zipcode,
+                                                              email:
+                                                                  detail.email,
+                                                              homeNo: detail
+                                                                  .homeOrOfficeNo,
+                                                              mobileNo: detail
+                                                                  .mobileNo,
+                                                              id: detail.id,
+                                                            )));
                                               },
                                               child: Row(
                                                 mainAxisAlignment:

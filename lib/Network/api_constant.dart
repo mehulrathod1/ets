@@ -11,9 +11,14 @@ class ApiConstant {
   static const companyDepartment = 'company/department-list/';
   static const companyContacts =
       'company/get-all-contact?show=10&searchName=&page=';
+  static const companyAddContact = 'company/add-contact/';
+  static const companyEditContact = 'company/edit-contact/';
   static const addCompanyContacts = 'company/add-contact/';
   static const getCompanyOrder =
       'company/get-all-order?show=10&searchName=&page=';
+  static const companyAddOrder = 'company/add-order/';
+  static const companyEstimateForOrder = 'company/get-orders-estiment/';
+
   static const getCompanyEstimate =
       'company/get-all-estimate?show=10&searchName=&page=';
   static const getCompanyTask =
@@ -65,10 +70,8 @@ class ApiConstant {
   static const companyAllInvoice =
       'company/get-all-invoice?show=10&searchName=&page=';
   static const companyInvoiceFor = 'company/get-invoice-estiment/';
-
   static const companyTaskOrder = 'company/get-task-orders/';
-  static const companyAddContact = 'company/add-contact/';
-  static const companyEditContact = '  company/edit-contact/';
+
   static const companyCustomerType = 'company/get-customer-type';
   static const companyRegister = 'register-company/';
   // --------------------------------- employee portal  --------------------------------------------------------
