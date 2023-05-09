@@ -17,7 +17,7 @@ class EmployeeAddOrderController {
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
 
-  Future addOrder(BuildContext context, {required String? signature}) async {
+  Future addOrder(BuildContext context, {required String? signature, required bool? schedule}) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -39,7 +39,11 @@ class EmployeeAddOrderController {
       var res = EmployeeAddOrderModel.fromJson(response);
       addOrderModel = res;
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageTask()));
+      if (schedule!) {
+        Navigator.pop(context);
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageTask()));
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

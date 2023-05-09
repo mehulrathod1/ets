@@ -111,7 +111,7 @@ class _ManageOrderState extends State<ManageOrder> {
                 padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AddOrder()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddOrder(schedule: false)));
                   },
                   child: Container(
                     width: double.infinity,

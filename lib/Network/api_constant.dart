@@ -71,6 +71,7 @@ class ApiConstant {
   static const employeeDeleteTask = 'employee/delete-task/';
   static const employeeDeleteNote = 'employee/delete-note/';
   static const employeeDeleteOrder = 'employee/delete_order.php?id=';
+  static const employeeAddEvent = 'employee/add-event';
   static const employeeStartSharingLocation = 'employee/start-share-live-location';
   static const employeeStopSharingLocation = 'employee/stop-share-live-location';
   static const employeeChangePassword = 'employee/change-password/';

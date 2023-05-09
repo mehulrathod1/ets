@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -14,7 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class AddOrder extends StatefulWidget {
-  const AddOrder({Key? key}) : super(key: key);
+  AddOrder({required this.schedule, Key? key}) : super(key: key);
+  bool schedule = false;
 
   @override
   State<AddOrder> createState() => _AddOrderState();
@@ -527,7 +528,8 @@ class _AddOrderState extends State<AddOrder> {
                                   ),
                                 );
                               } else {
-                                await addOrderController.addOrder(context, signature: signaturePath);
+                                FocusScope.of(context).unfocus();
+                                await addOrderController.addOrder(context, signature: signaturePath, schedule: widget.schedule);
                               }
                             },
                             child: Container(
