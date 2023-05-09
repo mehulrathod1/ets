@@ -2,6 +2,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:intl/intl.dart';
 
 import '../../Controller/CompanyController/company_add_employee_controller.dart';
 
@@ -15,13 +16,16 @@ class AddEmployee extends StatefulWidget {
 class _AddEmployeeState extends State<AddEmployee> {
   CompanyAddEmployeeController addEmployeeController =
       CompanyAddEmployeeController();
-  String selectedDepartment = "Test Estimate Section";
-  List<DropdownMenuItem<Object?>> taskListItems = [];
+  String selectedDepartment = "Select Department";
+  List<DropdownMenuItem<Object?>> departmentListItems = [];
+  TextEditingController startDate = TextEditingController();
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       // addTaskController.orderId.text = selectedTest['estimate_id'];
       selectedDepartment = selectedTest['department_name'];
+      addEmployeeController.department.text = selectedTest['id'];
+      print(selectedTest['id']);
     });
   }
 
@@ -49,13 +53,13 @@ class _AddEmployeeState extends State<AddEmployee> {
             if (value != null)
               {
                 setState(() {
-                  taskListItems = buildTaskSizeListItems(value);
+                  departmentListItems = buildTaskSizeListItems(value);
                 }),
               }
             else
               {
                 setState(() {
-                  taskListItems.clear();
+                  departmentListItems.clear();
                 }),
               }
           });
@@ -121,6 +125,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.employeeName,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -153,6 +158,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.email,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -185,6 +191,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.creditCardNo,
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -217,6 +225,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.creditCardName,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -249,6 +258,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.creditCardExpDate,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -269,6 +279,31 @@ class _AddEmployeeState extends State<AddEmployee> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(
+                                    2000), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('MM/yy').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                addEmployeeController.creditCardExpDate.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -281,6 +316,8 @@ class _AddEmployeeState extends State<AddEmployee> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEmployeeController.securityCode,
+                          keyboardType: TextInputType.number,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -341,7 +378,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                     : Colors.black),
                           ),
                           onChanged: onChangeDropdownBoxSize,
-                          items: taskListItems),
+                          items: departmentListItems),
 
                       // SizedBox(
                       //   height: 40,
@@ -378,17 +415,85 @@ class _AddEmployeeState extends State<AddEmployee> {
                       // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: appThemeGreen,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                            child: Text(
-                              'Save',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
+                        child: GestureDetector(
+                          onTap: () async {
+                            debugPrint(addEmployeeController.employeeName.text +
+                                addEmployeeController.email.text +
+                                addEmployeeController.creditCardNo.text +
+                                addEmployeeController.creditCardName.text +
+                                addEmployeeController.creditCardExpDate.text +
+                                addEmployeeController.securityCode.text +
+                                addEmployeeController.department.text);
+
+                            //  if (selectedDepartment == "Select Department") {
+                            //                             //   ScaffoldMessenger.of(context).showSnackBar(
+                            //                             //     const SnackBar(
+                            //                             //       content: Text(
+                            //                             //           "Oops!, Please select Department from list."),
+                            //                             //       duration: Duration(seconds: 1),
+                            //                             //     ),
+                            //                             //   );
+                            //                             // }
+
+                            if (addEmployeeController
+                                .employeeName.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Oops!, Employee name missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addEmployeeController
+                                .email.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Email missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addEmployeeController
+                                .creditCardNo.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Oops!, CreditCard number missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addEmployeeController
+                                .creditCardExpDate.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!, CreditCard expiryDate missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addEmployeeController
+                                .securityCode.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, SecuryCode missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              await addEmployeeController.addEmployee(context);
+                            }
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: const Center(
+                              child: Text(
+                                'Save',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
                             ),
                           ),
                         ),

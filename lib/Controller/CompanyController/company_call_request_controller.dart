@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 class CompanyCallRequestController {
   CompanyCallRequestModel? callRequestModel;
 
-  Future sendCallRequest(BuildContext context) async {
+  Future sendCallRequest(BuildContext context, String id) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await getData(paramUri: ApiConstant.sendCallRequest);
+    var response = await getData(paramUri: ApiConstant.sendCallRequest + id);
     debugPrint("sendCallRequest response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = CompanyCallRequestModel.fromJson(response);

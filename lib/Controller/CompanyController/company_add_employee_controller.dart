@@ -16,19 +16,19 @@ class CompanyAddEmployeeController {
   TextEditingController creditCardExpDate = TextEditingController();
   TextEditingController securityCode = TextEditingController();
 
-  Future addOrder(BuildContext context, {required String? profileImage}) async {
+  Future addEmployee(BuildContext context) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
     var response = await postDataWithHeader(
-        paramUri: ApiConstant.employeeAddOrder,
+        paramUri: ApiConstant.companyAddEmployee,
         params: {
           'employee_name': employeeName.text,
           'email': email.text,
           'department': department.text,
-          'profile_img': profileImage!,
+          'profile_img': "",
           'creditcard_no': creditCardNo.text,
           'creditcard_name': creditCardName.text,
           'creditcard_exp_date': creditCardExpDate.text,

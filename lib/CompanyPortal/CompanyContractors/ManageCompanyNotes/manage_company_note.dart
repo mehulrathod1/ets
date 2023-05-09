@@ -3,6 +3,7 @@ import 'package:etsemployee/Models/CompanyModels/company_note_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Controller/CompanyController/company_delete_note_controller.dart';
 import 'add_company_note.dart';
 import 'edit_company_note.dart';
 
@@ -18,6 +19,8 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
   CompanyNoteController noteController = CompanyNoteController();
   late CompanyNoteModel noteModel;
   List<ListElement> noteList = [];
+  CompanyDeleteNoteController deleteNoteController =
+      CompanyDeleteNoteController();
 
   @override
   void initState() {
@@ -43,9 +46,12 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Notes",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -90,8 +96,12 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -104,11 +114,16 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyNote()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddCompanyNote()));
                       },
                       child: const Text(
                         'Add New Notes',
@@ -131,7 +146,11 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                  bottomRight: Radius.circular(15)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -146,7 +165,9 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                 Container(
                                     height: 150,
                                     width: double.infinity,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(80)),
                                     child: Image.asset(
                                       'assets/man.jpeg',
                                       fit: BoxFit.cover,
@@ -154,18 +175,22 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         detail.noteName,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         detail.noteDescription,
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -175,16 +200,37 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                   child: Container(
                                       width: double.infinity,
                                       height: 35,
-                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                      decoration: BoxDecoration(
+                                          color: appThemeBlue,
+                                          borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(15),
+                                              bottomRight:
+                                                  Radius.circular(15))),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCompanyNote()));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EditCompanyNote(
+                                                              noteStatus: detail
+                                                                  .noteStatus,
+                                                              noteName: detail
+                                                                  .noteName,
+                                                              noteDescription:
+                                                                  detail
+                                                                      .noteDescription,
+                                                              employeeList: detail
+                                                                  .employeeId,
+                                                              id: detail.id,
+                                                            )));
                                               },
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: const [
                                                   Icon(
                                                     Icons.edit,
@@ -192,10 +238,13 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                                     size: 20,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.0),
                                                     child: Text(
                                                       "Edit",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
                                                     ),
                                                   )
                                                 ],
@@ -206,29 +255,51 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                             width: 1,
                                             height: 35,
                                             child: DecoratedBox(
-                                              decoration: BoxDecoration(color: Colors.white),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                           Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                              height: double.infinity,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: const [
-                                                  Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                            child: GestureDetector(
+                                              onTap: () async {
+                                                await deleteNoteController
+                                                    .deleteNote(
+                                                        context, detail.id)
+                                                    .then((value) {
+                                                  initialize(context);
+                                                });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: colorred,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
+                                                height: double.infinity,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: Colors.white,
+                                                      size: 20,
                                                     ),
-                                                  )
-                                                ],
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),

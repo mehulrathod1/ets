@@ -2,6 +2,9 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_add_note_controller.dart';
+import '../../../Models/CompanyModels/compay_add_note_model.dart';
+
 class AddCompanyNote extends StatefulWidget {
   const AddCompanyNote({Key? key}) : super(key: key);
 
@@ -11,6 +14,8 @@ class AddCompanyNote extends StatefulWidget {
 
 class _AddCompanyNoteState extends State<AddCompanyNote> {
   bool termsandcond = false;
+  CompanyAddNoteController addNoteController = CompanyAddNoteController();
+  late CompanyAddNoteModel companyAddNoteModel;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +24,12 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Notes",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -63,10 +71,18 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor: MaterialStateProperty.all(appThemeGreen),
+                                fillColor:
+                                    MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
+                                    if (termsandcond == true) {
+                                      addNoteController.noteStatus.text = '1';
+                                    } else {
+                                      addNoteController.noteStatus.text = '0';
+                                    }
+                                    debugPrint(
+                                        addNoteController.noteStatus.text);
                                   });
                                 }),
                             const Text(
@@ -86,17 +102,24 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: addNoteController.noteName,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -111,11 +134,16 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            controller: addNoteController.noteDescription,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -123,7 +151,8 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -138,7 +167,8 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -153,10 +183,15 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -164,16 +199,24 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            addNoteController.addCompanyNote(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

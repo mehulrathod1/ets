@@ -47,7 +47,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
     });
   }
 
-  Future locationRequest(BuildContext context) async {
+  Future locationRequest(BuildContext context, String id) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -86,8 +86,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                     child: GestureDetector(
                       onTap: () {
+                        print(id);
                         locationRequestController
-                            .sendLocationRequest(context)
+                            .sendLocationRequest(context, id)
                             .then((value) {
                           Navigator.pop(context);
                         });
@@ -114,7 +115,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
         });
   }
 
-  Future callForAttendance(BuildContext context) async {
+  Future callForAttendance(BuildContext context, String id) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -152,31 +153,32 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: appThemeBlue,
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: const Center(
-                                child: Text(
-                                  'View Details',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Expanded(
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.all(4.0),
+                        //     child: Container(
+                        //       height: 40,
+                        //       decoration: BoxDecoration(
+                        //           color: appThemeBlue,
+                        //           borderRadius: BorderRadius.circular(8)),
+                        //       child: const Center(
+                        //         child: Text(
+                        //           'View Details',
+                        //           style: TextStyle(
+                        //               color: Colors.white, fontSize: 18),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: GestureDetector(
                               onTap: () {
                                 callRequestController
-                                    .sendCallRequest(context)
+                                    .sendCallRequest(context, id)
                                     .then((value) {
                                   Navigator.pop(context);
                                 });
@@ -188,7 +190,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: const Center(
                                   child: Text(
-                                    'Sent',
+                                    'Sent Request',
                                     style: TextStyle(
                                         color: Colors.white, fontSize: 18),
                                   ),
@@ -338,8 +340,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                 DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    firstDate: DateTime(2000),
+                                    //DateTime.now() - not to allow to choose before today.
                                     lastDate: DateTime(2101));
 
                                 if (pickedDate != null) {
@@ -397,8 +399,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                 DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime(
-                                        2000), //DateTime.now() - not to allow to choose before today.
+                                    firstDate: DateTime(2000),
+                                    //DateTime.now() - not to allow to choose before today.
                                     lastDate: DateTime(2101));
 
                                 if (pickedDate != null) {
@@ -652,7 +654,10 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const ViewAttendance()));
+                                                          ViewAttendance(
+                                                            employeeId: detail
+                                                                .employeeId,
+                                                          )));
                                             },
                                             child: Text(
                                               "View Attendance",
@@ -682,11 +687,19 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context) =>
+                                                  //             const EditEmployee()));
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const EditEmployee()));
+                                                              EditEmployee(
+                                                                employeeId: detail
+                                                                    .employeeId,
+                                                              )));
                                                 },
                                                 child: const Icon(
                                                   Icons.edit,
@@ -698,7 +711,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  locationRequest(context);
+                                                  locationRequest(context,
+                                                      detail.employeeId);
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
@@ -738,7 +752,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  callForAttendance(context);
+                                                  callForAttendance(context,
+                                                      detail.employeeId);
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(

@@ -24,7 +24,8 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
                 child: const Center(
                   child: CircleAvatar(
                     radius: 80,
@@ -36,14 +37,17 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
             const SizedBox(height: 40),
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignIn()));
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeGreen,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'Sign In as Employee',
@@ -56,12 +60,17 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyLoginScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CompanyLoginScreen()));
                 },
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeBlack, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeBlack,
+                      borderRadius: BorderRadius.circular(8)),
                   child: const Center(
                     child: Text(
                       'Sign In as Company',
@@ -75,12 +84,17 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SalesLoginScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SalesLoginScreen()));
                 },
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeBlue,
+                      borderRadius: BorderRadius.circular(8)),
                   child: const Center(
                     child: Text(
                       'Sign In Sales Portal',
@@ -90,25 +104,6 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Don\'t have an account?',
-                  style: TextStyle(color: Colors.black, fontSize: 12),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
-                  },
-                  child: Text(
-                    '   Sign Up here',
-                    style: TextStyle(color: appThemeGreen, fontSize: 12),
-                  ),
-                ),
-              ],
-            )
           ],
         ),
       ),

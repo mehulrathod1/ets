@@ -70,7 +70,7 @@ class ListElement {
   });
 
   String id;
-  String employeeImg;
+  String? employeeImg;
   String notificationMsg;
   String msg;
   DateTime date;

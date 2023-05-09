@@ -39,6 +39,11 @@ dependencies:
   syncfusion_flutter_signaturepad: ^21.1.35
   dropdown_below: ^1.0.3
 
+  permission_handler: ^10.2.0
+  external_path: ^1.0.3
+  path_provider: ^2.0.14
+  cached_network_image: ^3.2.3
+  image_picker: ^0.8.7
 
 
   # The following adds the Cupertino Icons font to your application.

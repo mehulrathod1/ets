@@ -1,4 +1,5 @@
 import 'package:etsemployee/Controller/SalesController/sales_login_controller.dart';
+import 'package:etsemployee/SalesPortal/SalesScreen/sales_sign_up.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,8 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                           child: CircleAvatar(
                         radius: 80,
@@ -59,7 +61,10 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                 const Text(
                   "Welcome back to Sales Login!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -73,10 +78,15 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -97,7 +107,8 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                               //if passenable == true, make it false
                               passenable = false;
                             } else {
-                              passenable = true; //if passenable == false, make it true
+                              passenable =
+                                  true; //if passenable == false, make it true
                             }
                           });
                         },
@@ -105,7 +116,9 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                           widthFactor: 1.0,
                           heightFactor: 1.0,
                           child: Icon(
-                            passenable == true ? Icons.remove_red_eye : Icons.visibility_off,
+                            passenable == true
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off,
                             color: Colors.black,
                           ),
                         ),
@@ -114,10 +127,15 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -142,7 +160,8 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                     )),
                     Padding(
                       padding: const EdgeInsets.only(right: 16.0),
-                      child: Text('Forgot Password ?', style: TextStyle(fontSize: 16, color: colorred)),
+                      child: Text('Forgot Password ?',
+                          style: TextStyle(fontSize: 16, color: colorred)),
                     )
                   ],
                 ),
@@ -172,7 +191,9 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeGreen,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Sign In ',
@@ -194,12 +215,47 @@ class _SalesLoginScreenState extends State<SalesLoginScreen> {
                           fontSize: 16,
                         ),
                         children: [
-                          TextSpan(recognizer: TapGestureRecognizer()..onTap = () => debugPrint("object"), text: 'Terms & Conditions', style: TextStyle(color: appThemeGreen)),
-                          const TextSpan(text: ' and ', style: TextStyle(color: Colors.black)),
-                          TextSpan(recognizer: TapGestureRecognizer()..onTap = () => debugPrint("object"), text: 'Privacy Policy. ', style: TextStyle(color: appThemeGreen)),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => debugPrint("object"),
+                              text: 'Terms & Conditions',
+                              style: TextStyle(color: appThemeGreen)),
+                          const TextSpan(
+                              text: ' and ',
+                              style: TextStyle(color: Colors.black)),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => debugPrint("object"),
+                              text: 'Privacy Policy. ',
+                              style: TextStyle(color: appThemeGreen)),
                         ]),
                   ),
                 ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Don\'t have an account?',
+                      style: TextStyle(color: Colors.black, fontSize: 12),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SalesSignUp()));
+                      },
+                      child: Text(
+                        '   Sign Up here',
+                        style: TextStyle(
+                          color: appThemeGreen,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
