@@ -2,7 +2,9 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
+import '../../../Controller/CompanyController/company_add_task_controller.dart';
 import '../../../Controller/CompanyController/get_company_task_controller.dart';
 
 class AddCompanyTask extends StatefulWidget {
@@ -18,12 +20,15 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
       GetCompanyTaskController();
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
   String selectedOrder = "Select Order";
+
+  CompanyAddTaskController addTaskController = CompanyAddTaskController();
+
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
-      // addTaskController.orderId.text = selectedTest['estimate_id'];
+      addTaskController.orderId.text = selectedTest['id'];
       selectedOrder = selectedTest['order_name'];
       // addEmployeeController.department.text = selectedTest['id'];
-      print(selectedTest['order_name']);
+      print(selectedTest['id']);
     });
   }
 
@@ -162,6 +167,11 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
+                                    if (termsandcond == true) {
+                                      addTaskController.taskStatus.text = '1';
+                                    } else {
+                                      addTaskController.taskStatus.text = '0';
+                                    }
                                   });
                                 }),
                             const Text(
@@ -181,6 +191,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addTaskController.taskName,
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -213,6 +224,8 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addTaskController.dueDate,
+                          //editing controller of this TextField
                           style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -233,6 +246,22 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              setState(() {
+                                addTaskController.dueDate.text = formattedDate;
+                              });
+                            } else {
+                              debugPrint("Date is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -251,6 +280,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
+                            controller: addTaskController.taskDescription,
                             style: const TextStyle(
                                 fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -268,19 +298,24 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            addTaskController.addtask(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

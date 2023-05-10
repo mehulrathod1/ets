@@ -7,7 +7,6 @@ import '../../Network/post_api_client.dart';
 
 class CompanyAddOrderController {
   CompanyAddOrderModel? addOrderModel;
-
   TextEditingController estimateId = TextEditingController();
   TextEditingController orderStatus = TextEditingController();
   TextEditingController orderName = TextEditingController();

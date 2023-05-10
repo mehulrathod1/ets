@@ -17,10 +17,14 @@ class ApiConstant {
   static const getCompanyOrder =
       'company/get-all-order?show=10&searchName=&page=';
   static const companyAddOrder = 'company/add-order/';
+  static const companyDeleteOrder = 'company/delete-order/';
   static const companyEstimateForOrder = 'company/get-orders-estiment/';
-
   static const getCompanyEstimate =
       'company/get-all-estimate?show=10&searchName=&page=';
+  static const companyDeleteEstimate = 'company/delete-estimate/';
+  static const companyGetContactForEstimate = 'company/get-estimate-contacts/';
+  static const companyAddEstimate = 'company/add-estimate/';
+
   static const getCompanyTask =
       'company/get-all-task?show=10&searchName=&page=';
   static const companyAddNote = 'company/add-notes/';
@@ -29,6 +33,8 @@ class ApiConstant {
   static const companyNoteList =
       'company/get-all-notes?show=10&searchName=&page=';
   static const companyAddTask = 'company/add-task/';
+  static const companyDeleteTask = 'company/delete-task/';
+
   static const companyDeleteNote = 'company/delete-notes/';
   static const companyEditNote = 'company/edit-notes/';
 
@@ -41,7 +47,6 @@ class ApiConstant {
   static const sendCallRequest =
       'company/send_call_for_attendance_request. php?id=';
   static const companyDeleteContact = 'company/delete-contact/';
-  static const companyDeleteTask = 'company/delete-task/';
   static const companyDeleteEmployee = 'company/delete-employee-company?id=';
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
@@ -69,11 +74,15 @@ class ApiConstant {
 
   static const companyAllInvoice =
       'company/get-all-invoice?show=10&searchName=&page=';
+  static const companyDeleteInvoice = 'employee/delete-invoice/';
   static const companyInvoiceFor = 'company/get-invoice-estiment/';
   static const companyTaskOrder = 'company/get-task-orders/';
 
   static const companyCustomerType = 'company/get-customer-type';
   static const companyRegister = 'register-company/';
+
+  static const companyAddEvent = 'company/add-event/';
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';

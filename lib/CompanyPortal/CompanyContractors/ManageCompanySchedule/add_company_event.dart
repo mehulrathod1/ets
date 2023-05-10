@@ -1,6 +1,9 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+
+import '../../../Controller/CompanyController/company_add_event_controller.dart';
 
 class AddCompanyEvent extends StatefulWidget {
   const AddCompanyEvent({Key? key}) : super(key: key);
@@ -10,6 +13,8 @@ class AddCompanyEvent extends StatefulWidget {
 }
 
 class _AddCompanyEventState extends State<AddCompanyEvent> {
+  CompanyAddEventController addEventController = CompanyAddEventController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +22,12 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Event ", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Event ",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -65,17 +73,23 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '1674464668',
                               fillColor: colorLightGray,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -91,20 +105,45 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addEventController.evtStart,
+                            //editing controller of this TextField
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '01/05/2023',
+                              hintText: '12/31/1996',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
+                                setState(() {
+                                  addEventController.evtStart.text =
+                                      formattedDate;
+                                });
+                              } else {
+                                debugPrint("Date is not selected");
+                              }
+                            },
                           ),
                         ),
                         const Padding(
@@ -117,20 +156,45 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addEventController.evtEnd,
+                            //editing controller of this TextField
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '12/31/1996',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
+                                setState(() {
+                                  addEventController.evtEnd.text =
+                                      formattedDate;
+                                });
+                              } else {
+                                debugPrint("Date is not selected");
+                              }
+                            },
                           ),
                         ),
                         const Padding(
@@ -143,17 +207,24 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addEventController.eventName,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: 'Enter event name',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -168,11 +239,16 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         ),
                         Container(
                           height: 100,
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              controller: addEventController.eventDescription,
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -180,7 +256,8 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
                               ),
                             ),
                           ),
@@ -195,7 +272,8 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -210,10 +288,15 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -221,16 +304,24 @@ class _AddCompanyEventState extends State<AddCompanyEvent> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Container(
-                              width: double.infinity,
-                              height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                              child: const Center(
-                                child: Text(
-                                  'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
-                                ),
-                              )),
+                          child: GestureDetector(
+                            onTap: () {
+                              addEventController.addEvent(context);
+                            },
+                            child: Container(
+                                width: double.infinity,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: appThemeGreen,
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: const Center(
+                                  child: Text(
+                                    'Save',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 18),
+                                  ),
+                                )),
+                          ),
                         )
                       ],
                     ),
