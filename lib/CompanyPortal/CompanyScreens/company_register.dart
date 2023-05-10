@@ -1,11 +1,8 @@
 import 'dart:io';
-
+import 'package:etsemployee/Controller/CompanyController/company_registration_controller.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../Controller/CompanyController/company_registration_controller.dart';
-
-import '../../utils/Colors.dart';
 
 class CompanyRegistration extends StatefulWidget {
   const CompanyRegistration({Key? key}) : super(key: key);
@@ -15,16 +12,13 @@ class CompanyRegistration extends StatefulWidget {
 }
 
 class _CompanyRegistrationState extends State<CompanyRegistration> {
-  CompanyRegistrationController companyRegistrationController =
-      CompanyRegistrationController();
-  XFile? image = null;
+  CompanyRegistrationController companyRegistrationController = CompanyRegistrationController();
+  XFile? image;
   String con = "";
 
   Future _imgFromGallery() async {
-    var image2 = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
-
-    print(image2!.path);
+    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+    debugPrint(image2!.path);
     setState(() {
       image = image2;
       con = 'imageSelected';
@@ -66,25 +60,27 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                     _imgFromGallery();
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: Center(
                         child: Center(
-                            child: Center(
-                                child: CircleAvatar(
-                          radius: 80,
                           child: CircleAvatar(
-                            radius: 80.0,
-                            child: (image != null)
-                                ? Image.file(
-                                    File(image!.path),
-                                    fit: BoxFit.fitHeight,
-                                  )
-                                : Image.asset('assets/etslogo.png'),
-                            backgroundColor: Colors.white,
+                            radius: 80,
+                            child: CircleAvatar(
+                              radius: 80.0,
+                              backgroundColor: Colors.white,
+                              child: (image != null)
+                                  ? Image.file(
+                                      File(image!.path),
+                                      fit: BoxFit.fitHeight,
+                                    )
+                                  : Image.asset('assets/etslogo.png'),
+                            ),
                           ),
-                        )))),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -99,15 +95,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -124,15 +115,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -149,15 +135,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -174,15 +155,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -199,15 +175,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -225,15 +196,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -251,15 +217,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -276,15 +237,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -303,15 +259,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -330,15 +281,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -356,15 +302,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -382,15 +323,10 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -434,96 +370,84 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      if (companyRegistrationController
-                          .companyName.text.isEmpty) {
+                      if (companyRegistrationController.companyName.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, companyName required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .contactPerson.text.isEmpty) {
+                      } else if (companyRegistrationController.contactPerson.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, ContactPerson required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .address.text.isEmpty) {
+                      } else if (companyRegistrationController.address.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, address required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .city.text.isEmpty) {
+                      } else if (companyRegistrationController.city.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, City required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .state.text.isEmpty) {
+                      } else if (companyRegistrationController.state.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, State required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .zip.text.isEmpty) {
+                      } else if (companyRegistrationController.zip.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, ZipCode required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .creditCardNumber.text.isEmpty) {
+                      } else if (companyRegistrationController.creditCardNumber.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, CreditCard Number required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .creditCardName.text.isEmpty) {
+                      } else if (companyRegistrationController.creditCardName.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, CreditCardName required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .creditCardExp.text.isEmpty) {
+                      } else if (companyRegistrationController.creditCardExp.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, ExpiryDate required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .securityCode.text.isEmpty) {
+                      } else if (companyRegistrationController.securityCode.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, securityCode  required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .email.text.isEmpty) {
+                      } else if (companyRegistrationController.email.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, email required!"),
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (companyRegistrationController
-                          .phone.text.isEmpty) {
+                      } else if (companyRegistrationController.phone.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, Phone Number required!"),
@@ -533,14 +457,12 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       } else if (con == "") {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Oops,Please select logo From Gallery !"),
+                            content: Text("Oops,Please select logo From Gallery !"),
                             duration: Duration(seconds: 2),
                           ),
                         );
                       } else {
-                        companyRegistrationController.companyRegister(
-                            context, image!.path);
+                        companyRegistrationController.companyRegister(context, image!.path);
                       }
                     },
                     // onTap: () {
@@ -609,9 +531,7 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(
-                          color: appThemeGreen,
-                          borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Register',

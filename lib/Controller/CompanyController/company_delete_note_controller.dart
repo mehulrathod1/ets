@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
-import '../../Models/CompanyModels/company_delete_note_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
+import 'package:etsemployee/Models/CompanyModels/company_delete_note_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
+import 'package:flutter/material.dart';
 
 class CompanyDeleteNoteController {
   CompanyDeleteNoteModel? deleteNoteModel;

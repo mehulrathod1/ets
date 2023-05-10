@@ -67,22 +67,22 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                   children: [
                                     Padding(
                                       padding:
-                                          EdgeInsets.only(left: 8.0, top: 8),
+                                          const EdgeInsets.only(left: 8.0, top: 8),
                                       child: Text(
                                         data.notificationMsg,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     const SizedBox(height: 12),
                                     Padding(
-                                      padding: EdgeInsets.only(
+                                      padding: const EdgeInsets.only(
                                         left: 8.0,
                                       ),
                                       child: Text(
                                         data.date.toString(),
-                                        style: TextStyle(fontSize: 12),
+                                        style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
                                     Padding(

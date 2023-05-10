@@ -1,18 +1,12 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:etsemployee/Controller/CompanyController/company_edit_note_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../Controller/CompanyController/company_edit_note_controller.dart';
-
 class EditCompanyNote extends StatefulWidget {
-  EditCompanyNote(
-      {required this.id,
-      required this.noteStatus,
-      required this.noteName,
-      required this.noteDescription,
-      required this.employeeList,
-      Key? key})
-      : super(key: key);
+  EditCompanyNote({required this.id, required this.noteStatus, required this.noteName, required this.noteDescription, required this.employeeList, Key? key}) : super(key: key);
 
   String id;
   String noteStatus;
@@ -49,12 +43,9 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Notes",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+          child: Text("Edit Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -96,8 +87,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                           children: [
                             Checkbox(
                                 value: termsAndCond,
-                                fillColor:
-                                    MaterialStateProperty.all(appThemeGreen),
+                                fillColor: MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsAndCond = v!;
@@ -121,23 +111,17 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                         height: 40,
                         child: TextField(
                           controller: editNoteController.noteName,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -152,16 +136,12 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
                             controller: editNoteController.noteDescription,
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -169,8 +149,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -185,8 +164,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.black),
+                          style: const TextStyle(fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -201,15 +179,10 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -224,14 +197,11 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(
-                                  color: appThemeGreen,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),

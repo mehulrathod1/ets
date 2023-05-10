@@ -16,6 +16,9 @@ class ApiConstant {
   static const deleteCompanyEmployee = 'company/get-profile';
   static const companyNoteList = 'company/get-all-notes?show=10&searchName=&page=';
   static const companyAddNote = 'company/add-notes/';
+  static const companyDeleteNote = 'company/delete-notes/';
+  static const companyEditNote = 'company/edit-notes/';
+  static const companyAddTask = 'company/add-task/';
   static const companyViewAttendance = 'company/view-attendance/281/';
   static const companyViewHours = 'company/view-hours-employee/281/2022-11-18/';
   static const companyViewImage = 'company/view-image-employee/281/2022-11-18/';
@@ -25,6 +28,19 @@ class ApiConstant {
   static const companyDeleteContact = 'company/delete-contact/';
   static const companyDeleteTask = 'company/delete-task/';
   static const companyDeleteEmployee = 'company/delete-employee-company?id=';
+  static const companyEmployeeDetail = 'company/get-employee-details/?id=';
+  static const companyEditEmployee = 'company/edit-employee/';
+  static const companyEditDepartment = 'company/edit-department/';
+  static const companyUpdateProfile = 'company/update-company-details/';
+  static const companyChangePassword = 'company/reset-password/';
+  static const companyAllInvoice = 'company/get-all-invoice?show=10&searchName=&page=';
+  static const companyInvoiceFor = 'company/get-invoice-estiment/';
+  static const companyTaskOrder = 'company/get-task-orders/';
+  static const companyAddContact = 'company/add-contact/';
+  static const companyEditContact = '  company/edit-contact/';
+  static const companyCustomerType = 'company/get-customer-type';
+  static const companyRegister = 'register-company/';
+  static const companyGetDepartmentDetail = 'company/edit-departments/';
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
   static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
@@ -37,23 +53,8 @@ class ApiConstant {
   static const companyTotalDepartment = 'company/get-total-department/';
   static const companyNotification = 'company/get-notification/';
   static const companyApprovals = 'company/view-approvals';
-  static const companyGetDepartmentDetail = 'company/edit-departments/';
   static const companyAddEmployee = 'company/add-employee';
-  static const companyEmployeeDetail = 'company/get-employee-details/?id=';
-  static const companyEditEmployee = 'company/edit-employee/';
-  static const companyEditDepartment = 'company/edit-department/';
-  static const companyUpdateProfile = 'company/update-company-details/';
-  static const companyChangePassword = 'company/reset-password/';
 
-  static const companyAllInvoice =
-      'company/get-all-invoice?show=10&searchName=&page=';
-  static const companyInvoiceFor = 'company/get-invoice-estiment/';
-
-  static const companyTaskOrder = 'company/get-task-orders/';
-  static const companyAddContact = 'company/add-contact/';
-  static const companyEditContact = '  company/edit-contact/';
-  static const companyCustomerType = 'company/get-customer-type';
-  static const companyRegister = 'register-company/';
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';

@@ -1,9 +1,9 @@
+import 'package:etsemployee/Controller/CompanyController/company_total_department.dart';
+import 'package:etsemployee/Controller/CompanyController/company_total_employee_controller.dart';
+import 'package:etsemployee/Models/CompanyModels/company_total_department_model.dart';
+import 'package:etsemployee/Models/CompanyModels/company_total_emp_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import '../../Controller/CompanyController/company_total_department.dart';
-import '../../Controller/CompanyController/company_total_employee_controller.dart';
-import '../../Models/CompanyModels/company_total_department_model.dart';
-import '../../Models/CompanyModels/company_total_emp_model.dart';
 import 'company_notification.dart';
 import 'manage_approval.dart';
 
@@ -14,19 +14,15 @@ class CompanyHome extends StatefulWidget {
   State<CompanyHome> createState() => _CompanyHomeState();
 }
 
-class _CompanyHomeState extends State<CompanyHome>
-    with SingleTickerProviderStateMixin {
+class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStateMixin {
   late TabController _controller;
-  CompanyTotalEmployeeController totalEmployeeController =
-      CompanyTotalEmployeeController();
+  CompanyTotalEmployeeController totalEmployeeController = CompanyTotalEmployeeController();
   TotalEmployeeModel? totalEmployeeModel;
-
   CompanyTotalDepartmentModel? departmentModel;
-  CompanyTotalDepartmentController companyTotalDepartmentController =
-      CompanyTotalDepartmentController();
+  CompanyTotalDepartmentController companyTotalDepartmentController = CompanyTotalDepartmentController();
   bool loading = false;
-
   String totalEmployee = 'aaa';
+
   @override
   void initState() {
     super.initState();
@@ -85,16 +81,13 @@ class _CompanyHomeState extends State<CompanyHome>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
                                         totalEmployeeModel!.data.toString(),
-                                        style: TextStyle(
-                                            fontSize: 34,
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                                       ),
-                                      ImageIcon(
+                                      const ImageIcon(
                                         AssetImage("assets/nounGroup.png"),
                                         size: 60,
                                       ),
@@ -124,16 +117,13 @@ class _CompanyHomeState extends State<CompanyHome>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
                                         departmentModel!.data.toString(),
-                                        style: TextStyle(
-                                            fontSize: 34,
-                                            fontWeight: FontWeight.bold),
+                                        style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
                                       ),
-                                      ImageIcon(
+                                      const ImageIcon(
                                         AssetImage("assets/department.png"),
                                         size: 60,
                                       ),

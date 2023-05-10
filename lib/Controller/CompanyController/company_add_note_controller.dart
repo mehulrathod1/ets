@@ -1,11 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyNotes/manage_company_note.dart';
 import 'package:etsemployee/Models/CompanyModels/company_add_note_model.dart';
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../CompanyPortal/CompanyContractors/ManageCompanyNotes/manage_company_note.dart';
-import '../../Models/CompanyModels/compay_add_note_model.dart';
 
 class CompanyAddNoteController {
   CompanyAddNoteModel? addNoteModel;
@@ -20,8 +19,7 @@ class CompanyAddNoteController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response =
-        await postDataWithHeader(paramUri: ApiConstant.companyAddNote, params: {
+    var response = await postDataWithHeader(paramUri: ApiConstant.companyAddNote, params: {
       'notestatus': noteStatus.text,
       'note_name': noteName.text,
       'note_description': noteDescription.text,
@@ -31,8 +29,7 @@ class CompanyAddNoteController {
       var res = CompanyAddNoteModel.fromJson(response);
       addNoteModel = res;
       Navigator.pop(context);
-      Navigator.pop(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
+      Navigator.pop(context, MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
