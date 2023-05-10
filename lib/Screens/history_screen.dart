@@ -52,11 +52,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Future scrollListener() async {
-    if (totalPage == page) {
+    if (totalPage < page) {
       return;
     }
-    if (controller!.position.extentAfter <= 0 && loading == false) {
-      loading = true;
+    if (controller!.position.extentAfter <= 0) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CircularProgressIndicator());
+          });
       await employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
         if (value != null) {
           setState(() {
@@ -64,8 +68,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
             historyList.addAll(employeeAttendanceHistoryModel.data.list);
             totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
             page = page + 1;
-            loading = false;
+            Navigator.pop(context);
           });
+        } else {
+          Navigator.pop(context);
         }
       });
     }

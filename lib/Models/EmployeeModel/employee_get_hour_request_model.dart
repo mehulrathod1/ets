@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-EmployeeGetHourRequestModel employeeGetHourRequestModelFromJson(String str) =>
-    EmployeeGetHourRequestModel.fromJson(json.decode(str));
+EmployeeGetHourRequestModel employeeGetHourRequestModelFromJson(String str) => EmployeeGetHourRequestModel.fromJson(json.decode(str));
 
-String employeeGetHourRequestModelToJson(EmployeeGetHourRequestModel data) =>
-    json.encode(data.toJson());
+String employeeGetHourRequestModelToJson(EmployeeGetHourRequestModel data) => json.encode(data.toJson());
 
 class EmployeeGetHourRequestModel {
   EmployeeGetHourRequestModel({
@@ -21,8 +19,7 @@ class EmployeeGetHourRequestModel {
   String message;
   Data data;
 
-  factory EmployeeGetHourRequestModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeGetHourRequestModel(
+  factory EmployeeGetHourRequestModel.fromJson(Map<String, dynamic> json) => EmployeeGetHourRequestModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -45,8 +42,7 @@ class Data {
   PaginationInfo paginationInfo;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -95,10 +91,8 @@ class ListElement {
         "employee_id": employeeId,
         "employee_name": employeeName,
         "company_id": companyId,
-        "attendance_date_in":
-            "${attendanceDateIn.year.toString().padLeft(4, '0')}-${attendanceDateIn.month.toString().padLeft(2, '0')}-${attendanceDateIn.day.toString().padLeft(2, '0')}",
-        "attendance_date_out":
-            "${attendanceDateOut.year.toString().padLeft(4, '0')}-${attendanceDateOut.month.toString().padLeft(2, '0')}-${attendanceDateOut.day.toString().padLeft(2, '0')}",
+        "attendance_date_in": "${attendanceDateIn.year.toString().padLeft(4, '0')}-${attendanceDateIn.month.toString().padLeft(2, '0')}-${attendanceDateIn.day.toString().padLeft(2, '0')}",
+        "attendance_date_out": "${attendanceDateOut.year.toString().padLeft(4, '0')}-${attendanceDateOut.month.toString().padLeft(2, '0')}-${attendanceDateOut.day.toString().padLeft(2, '0')}",
         "in_time": inTime,
         "out_time": outTime,
         "message": message,
@@ -115,7 +109,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

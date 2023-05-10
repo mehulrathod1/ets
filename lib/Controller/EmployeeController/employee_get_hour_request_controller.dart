@@ -4,8 +4,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeGetHourRequestController {
-  Future<EmployeeGetHourRequestModel> getEmployeeRequest(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetHourRequest);
-    return EmployeeGetHourRequestModel.fromJson(response);
+  Future getEmployeeRequest(BuildContext context, {String? search, int? page}) async {
+    var response = await getData(paramUri: "${ApiConstant.employeeGetHourRequest}searchName=$search&page=$page");
+    if (response["status"] == "True") {
+      return EmployeeGetHourRequestModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

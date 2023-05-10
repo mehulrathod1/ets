@@ -44,7 +44,7 @@ class ApiConstant {
 
   static const employeeLogin = 'employee-login/';
   static const employeeSendHourRequest = 'employee/send-fix-hours-request-employee/';
-  static const employeeGetHourRequest = 'employee/get-hour-request-list-employee?show=10&searchName=&page=';
+  static const employeeGetHourRequest = 'employee/get-hour-request-list-employee?show=5&';
   static const employeeAttendanceHistory = 'employee/attendance-history-employee?show=10&';
   static const employeeAddAttendance = 'employee/add-attendance-employee/';
   static const employeeContactList = 'employee/view-contact-list';
