@@ -6,19 +6,40 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class ClassHourRejectController {
-  Future<CompanyHourRejectModel> rejectHourRequest(
-      BuildContext context, String id) async {
-    var response =
-        await getData(paramUri: ApiConstant.cmpRejectHourRequest + id);
+  Future rejectHourRequest(BuildContext context, String id) async {
+    CompanyHourRejectModel? rejectModel;
 
-    print(response);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
 
-    var res = CompanyHourRejectModel.fromJson(response);
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.cmpRejectHourRequest,
+        params: {
+          'id': id,
+          'request_id': '2',
+        });
+    if (response["status"] == 'True') {
+      var res = CompanyHourRejectModel.fromJson(response);
+      rejectModel = res;
+      Navigator.pop(context);
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(res.message),
-      duration: const Duration(seconds: 2),
-    ));
-    return res;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res.message),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }

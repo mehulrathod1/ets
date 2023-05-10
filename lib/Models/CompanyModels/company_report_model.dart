@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class CompanyReportModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyReportModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory CompanyReportModel.fromRawJson(String str) =>
       CompanyReportModel.fromJson(json.decode(str));
@@ -35,13 +35,13 @@ class CompanyReportModel {
 }
 
 class Data {
+  List<ListElement> list;
+  PaginationInfo paginationInfo;
+
   Data({
     required this.list,
     required this.paginationInfo,
   });
-
-  List<ListElement> list;
-  PaginationInfo paginationInfo;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -60,6 +60,12 @@ class Data {
 }
 
 class ListElement {
+  String id;
+  String employeeName;
+  String month;
+  String totalHrs;
+  String breakHrs;
+
   ListElement({
     required this.id,
     required this.employeeName,
@@ -67,12 +73,6 @@ class ListElement {
     required this.totalHrs,
     required this.breakHrs,
   });
-
-  String id;
-  String employeeName;
-  Month month;
-  String totalHrs;
-  String breakHrs;
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -82,7 +82,7 @@ class ListElement {
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
         employeeName: json["employee_name"],
-        month: monthValues.map[json["Month"]]!,
+        month: json["Month"],
         totalHrs: json["total_hrs"],
         breakHrs: json["break_hrs"],
       );
@@ -90,33 +90,24 @@ class ListElement {
   Map<String, dynamic> toJson() => {
         "id": id,
         "employee_name": employeeName,
-        "Month": monthValues.reverse[month],
+        "Month": month,
         "total_hrs": totalHrs,
         "break_hrs": breakHrs,
       };
 }
 
-enum Month { DECEMBER_1, OCTOBER_2022, SEPTEMBER_2022, AUGUST_2022 }
-
-final monthValues = EnumValues({
-  "August-2022": Month.AUGUST_2022,
-  "December--1": Month.DECEMBER_1,
-  "October-2022": Month.OCTOBER_2022,
-  "September-2022": Month.SEPTEMBER_2022
-});
-
 class PaginationInfo {
+  int itemPerPage;
+  String pageNumber;
+  int totalRows;
+  int totalPages;
+
   PaginationInfo({
     required this.itemPerPage,
     required this.pageNumber,
     required this.totalRows,
     required this.totalPages,
   });
-
-  int itemPerPage;
-  String pageNumber;
-  int totalRows;
-  int totalPages;
 
   factory PaginationInfo.fromRawJson(String str) =>
       PaginationInfo.fromJson(json.decode(str));
@@ -136,16 +127,4 @@ class PaginationInfo {
         "total_rows": totalRows,
         "total_pages": totalPages,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

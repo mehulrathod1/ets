@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class CompanyNoteModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyNoteModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory CompanyNoteModel.fromRawJson(String str) =>
       CompanyNoteModel.fromJson(json.decode(str));
@@ -35,13 +35,13 @@ class CompanyNoteModel {
 }
 
 class Data {
+  List<ListElement> list;
+  PaginationInfo paginationInfo;
+
   Data({
     required this.list,
     required this.paginationInfo,
   });
-
-  List<ListElement> list;
-  PaginationInfo paginationInfo;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -60,17 +60,21 @@ class Data {
 }
 
 class ListElement {
+  String id;
+  String noteName;
+  String noteDescription;
+  String noteStatus;
+  String createAt;
+  String employeeId;
+
   ListElement({
     required this.id,
     required this.noteName,
     required this.noteDescription,
     required this.noteStatus,
+    required this.createAt,
+    required this.employeeId,
   });
-
-  String id;
-  String noteName;
-  String noteDescription;
-  String noteStatus;
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -82,6 +86,8 @@ class ListElement {
         noteName: json["note_name"],
         noteDescription: json["note_description"],
         noteStatus: json["note_status"],
+        createAt: json["create_at"],
+        employeeId: json["employee_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,21 +95,23 @@ class ListElement {
         "note_name": noteName,
         "note_description": noteDescription,
         "note_status": noteStatus,
+        "create_at": createAt,
+        "employee_id": employeeId,
       };
 }
 
 class PaginationInfo {
+  int itemPerPage;
+  int pageNumber;
+  int totalRows;
+  int totalPages;
+
   PaginationInfo({
     required this.itemPerPage,
     required this.pageNumber,
     required this.totalRows,
     required this.totalPages,
   });
-
-  int itemPerPage;
-  int pageNumber;
-  int totalRows;
-  int totalPages;
 
   factory PaginationInfo.fromRawJson(String str) =>
       PaginationInfo.fromJson(json.decode(str));

@@ -17,7 +17,7 @@ class CompanyFixHourRequest extends StatefulWidget {
 
 class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
   bool loading = false;
-
+  bool acceptRequest = false;
   CompanyFixHourRequestController hourRequestController =
       CompanyFixHourRequestController();
   late CompanyHourRequestModel hourRequestModel;
@@ -44,6 +44,144 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
         loading = false;
       });
     });
+  }
+
+  Future requestDetail(
+      BuildContext context,
+      String attendanceIn,
+      String attendanceOut,
+      String inTime,
+      String outTime,
+      String message) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            titlePadding: EdgeInsets.zero,
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Center(
+                            child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Request Detail',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        )),
+                        Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Attendance In Date : ",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            attendanceIn,
+                            style:
+                                TextStyle(fontSize: 14, color: colorTextGray),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Attendance In Date : ",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            attendanceOut,
+                            style:
+                                TextStyle(fontSize: 14, color: colorTextGray),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "In Time : ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  inTime,
+                                  style: TextStyle(
+                                      fontSize: 14, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Out Time : ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  outTime,
+                                  style: TextStyle(
+                                      fontSize: 14, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Message : ",
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, bottom: 8.0),
+                      child: Expanded(
+                        child: Text(
+                          message,
+                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -84,7 +222,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          data.employeeName.toString(),
+                                          data.employeeName,
                                           style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold),
@@ -127,7 +265,15 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                           Expanded(
                                             child: GestureDetector(
                                               onTap: () {
-                                                requestDetail(context);
+                                                requestDetail(
+                                                    context,
+                                                    data.attendanceDateIn
+                                                        .toString(),
+                                                    data.attendanceDateOut
+                                                        .toString(),
+                                                    data.inTime,
+                                                    data.outTime,
+                                                    data.message);
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(

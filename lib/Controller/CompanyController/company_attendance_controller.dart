@@ -4,8 +4,10 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class CompanyAttendanceController {
-  Future<CompanyAttendanceModel> getAttendance(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.companyViewAttendance);
+  Future<CompanyAttendanceModel> getAttendance(
+      BuildContext context, String id) async {
+    var response =
+        await getData(paramUri: ApiConstant.companyViewAttendance + id);
     return CompanyAttendanceModel.fromJson(response);
   }
 }

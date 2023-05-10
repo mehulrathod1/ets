@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../../../Controller/CompanyController/company_profile_controller.dart';
 import '../../../Models/CompanyModels/company_profile_model.dart';
 import '../../../utils/Colors.dart';
+import 'company_change_password.dart';
 import 'company_edit_profile.dart';
 
 class CompanyProfile extends StatefulWidget {
@@ -363,8 +364,11 @@ class _CompanyProfileState extends State<CompanyProfile> {
                       padding: const EdgeInsets.all(8),
                       child: GestureDetector(
                         onTap: () {
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => ResetPassword()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CompanyChangePassword()));
                         },
                         child: Container(
                             width: double.infinity,

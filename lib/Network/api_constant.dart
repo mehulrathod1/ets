@@ -39,7 +39,21 @@ class ApiConstant {
   static const companyApprovals = 'company/view-approvals';
   static const companyGetDepartmentDetail = 'company/edit-departments/';
   static const companyAddEmployee = 'company/add-employee';
+  static const companyEmployeeDetail = 'company/get-employee-details/?id=';
+  static const companyEditEmployee = 'company/edit-employee/';
+  static const companyEditDepartment = 'company/edit-department/';
+  static const companyUpdateProfile = 'company/update-company-details/';
+  static const companyChangePassword = 'company/reset-password/';
 
+  static const companyAllInvoice =
+      'company/get-all-invoice?show=10&searchName=&page=';
+  static const companyInvoiceFor = 'company/get-invoice-estiment/';
+
+  static const companyTaskOrder = 'company/get-task-orders/';
+  static const companyAddContact = 'company/add-contact/';
+  static const companyEditContact = '  company/edit-contact/';
+  static const companyCustomerType = 'company/get-customer-type';
+  static const companyRegister = 'register-company/';
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
@@ -84,4 +98,5 @@ class ApiConstant {
   static const salesLogin = 'sales-login/';
   static const salesDeleteAgent = 'SALES/delete-agent/';
   static const salesAgent = 'SALES/view-all-agent?show=10&startdate=&enddate=&searchName=&page=';
+  static const agencyRegister = 'register-agency-or-agent/';
 }

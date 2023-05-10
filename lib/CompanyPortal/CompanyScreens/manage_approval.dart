@@ -63,8 +63,10 @@ class _ManageApprovalState extends State<ManageApproval> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0, top: 8),
                                     child: Text(
-                                      data.reasonToChangeImg,
-                                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      data.employeeName,
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                   SizedBox(height: 12),

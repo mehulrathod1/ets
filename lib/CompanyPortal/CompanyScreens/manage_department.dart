@@ -6,6 +6,7 @@ import 'package:etsemployee/Models/CompanyModels/company_department_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../Controller/CompanyController/comapny_edit_deparment_controller.dart';
 import '../../Controller/CompanyController/company_department_detail_controller.dart';
 import '../../Models/CompanyModels/company_department_detail_model.dart';
 
@@ -27,10 +28,11 @@ class _ManageDepartmentState extends State<ManageDepartment> {
       CompanyDepartmentController();
   CompanyAddDepartmentController addDepartmentController =
       CompanyAddDepartmentController();
-
   CompanyDepartmentDetailController departmentDetailController =
       CompanyDepartmentDetailController();
   late CompanyDepartmentDetailModel departmentDetailModel;
+  CompanyEditDepartmentController editDepartmentController =
+      CompanyEditDepartmentController();
 
   @override
   void initState() {
@@ -49,7 +51,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
     });
   }
 
-  Future editDepartment(BuildContext context) async {
+  Future editDepartment(BuildContext context, String id) async {
     return showDialog(
         context: context,
         builder: (context) {
@@ -74,9 +76,12 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                             style: TextStyle(color: Colors.black),
                           ),
                         )),
-                        Icon(
-                          Icons.close,
+                        IconButton(
+                          icon: const Icon(Icons.close),
                           color: Colors.black,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
                       ],
                     ),
@@ -90,7 +95,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                     Container(
                       height: 40,
                       child: TextField(
-                        controller: departmentDetailController.departmentName,
+                        controller: editDepartmentController.departmentName,
                         style: TextStyle(
                             height: 1.7, fontSize: 18, color: Colors.black),
                         maxLines: 1,
@@ -146,19 +151,29 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                     // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                      child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              color: appThemeGreen,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Center(
-                            child: Text(
-                              'Save',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          )),
+                      child: GestureDetector(
+                        onTap: () {
+                          editDepartmentController
+                              .editDepartment(context, id)
+                              .then((value) {
+                            Navigator.pop(context);
+                            initialize(context);
+                          });
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Center(
+                              child: Text(
+                                'Save',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            )),
+                      ),
                     )
                   ],
                 ),
@@ -182,7 +197,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
+                  children: [
                     Center(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
@@ -193,9 +208,12 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                         ),
                       ),
                     ),
-                    Icon(
-                      Icons.close,
+                    IconButton(
+                      icon: const Icon(Icons.close),
                       color: Colors.black,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),
@@ -398,15 +416,6 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          "1",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
                                         Row(
                                           children: [
                                             const Text(
@@ -461,7 +470,12 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                           Expanded(
                                             child: GestureDetector(
                                               onTap: () async {
-                                                editDepartment(context);
+                                                editDepartmentController
+                                                        .departmentName.text =
+                                                    detail.departmentName;
+
+                                                editDepartment(
+                                                    context, detail.id);
 
                                                 await departmentDetailController
                                                     .getDepartmentDetail(

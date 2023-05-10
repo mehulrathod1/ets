@@ -23,7 +23,8 @@ import '../PopUps/address_popup.dart';
 import 'edit_attendance_list.dart';
 
 class ViewAttendance extends StatefulWidget {
-  const ViewAttendance({Key? key}) : super(key: key);
+  ViewAttendance({required this.employeeId, Key? key}) : super(key: key);
+  String employeeId;
 
   @override
   State<ViewAttendance> createState() => _ViewAttendanceState();
@@ -31,7 +32,8 @@ class ViewAttendance extends StatefulWidget {
 
 class _ViewAttendanceState extends State<ViewAttendance> {
   bool loading = false;
-  CompanyAttendanceController attendanceController = CompanyAttendanceController();
+  CompanyAttendanceController attendanceController =
+      CompanyAttendanceController();
   late CompanyAttendanceModel attendanceModel;
   List<ListElement> attendanceList = [];
   CompanyHourController hourController = CompanyHourController();
@@ -43,13 +45,16 @@ class _ViewAttendanceState extends State<ViewAttendance> {
 
   @override
   void initState() {
-    initialize(context);
+    Future.delayed(Duration.zero, () {
+      print(widget.employeeId);
+      initialize(context);
+    });
     super.initState();
   }
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await attendanceController.getAttendance(context).then((value) {
+    await attendanceController.getAttendance(context, '281').then((value) {
       setState(() {
         attendanceModel = value;
         attendanceList = attendanceModel.data.list;
@@ -71,9 +76,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Attendance", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Attendance",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -118,8 +126,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -138,17 +150,23 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                       height: 40,
                       child: TextField(
                         controller: fromDate,
-                        style: TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                        style: TextStyle(
+                            height: 1.7, fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           hintText: '01/19/2023',
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorGray, width: 1.0),
+                            borderSide:
+                                BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
@@ -156,17 +174,22 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                           DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                              firstDate: DateTime(2000),
+                              //DateTime.now() - not to allow to choose before today.
                               lastDate: DateTime(2101));
 
                           if (pickedDate != null) {
-                            print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                            print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                                DateFormat('MM/dd/yyyy').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
                             //you can implement different kind of Date Format here according to your requirement
 
                             setState(() {
-                              fromDate.text = formattedDate; //set output date to TextField value.
+                              fromDate.text =
+                                  formattedDate; //set output date to TextField value.
                             });
                           } else {
                             print("Date is not selected");
@@ -183,17 +206,23 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                       height: 40,
                       child: TextField(
                         controller: toDate,
-                        style: TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                        style: TextStyle(
+                            height: 1.7, fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
                           hintText: '01/19/2023',
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
-                          contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                          contentPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(7)),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: colorGray, width: 1.0),
+                            borderSide:
+                                BorderSide(color: colorGray, width: 1.0),
                             borderRadius: BorderRadius.circular(7),
                           ),
                         ),
@@ -201,17 +230,22 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                           DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                              firstDate: DateTime(2000),
+                              //DateTime.now() - not to allow to choose before today.
                               lastDate: DateTime(2101));
 
                           if (pickedDate != null) {
-                            print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                            String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                            print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                            print(
+                                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                            String formattedDate =
+                                DateFormat('MM/dd/yyyy').format(pickedDate);
+                            print(
+                                formattedDate); //formatted date output using intl package =>  2021-03-16
                             //you can implement different kind of Date Format here according to your requirement
 
                             setState(() {
-                              toDate.text = formattedDate; //set output date to TextField value.
+                              toDate.text =
+                                  formattedDate; //set output date to TextField value.
                             });
                           } else {
                             print("Date is not selected");
@@ -232,7 +266,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: Center(
                           child: GestureDetector(
                             onTap: () {},
@@ -253,7 +289,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: Center(
                           child: GestureDetector(
                             onTap: () {},
@@ -279,7 +317,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: Center(
                           child: GestureDetector(
                             onTap: () {},
@@ -300,7 +340,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: Center(
                           child: GestureDetector(
                             onTap: () {},
@@ -334,8 +376,10 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                                border: Border.all(width: 1, color: appThemeBlue),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
+                                border:
+                                    Border.all(width: 1, color: appThemeBlue),
                               ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,11 +387,14 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           detail.name,
-                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -356,11 +403,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Employee ID: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "123",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -371,11 +422,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Company Name: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "Test",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -386,11 +441,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Date: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               detail.date.toString(),
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -401,11 +460,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Work Hours: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "0.14266666666667",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -416,11 +479,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Break Time: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "6.60 Min",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -431,11 +498,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "In: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "11:05:24 am",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -446,11 +517,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Out: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "11:19:30 am",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -461,15 +536,20 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Location Address: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                viewAddress(context, detail.location);
+                                                viewAddress(
+                                                    context, detail.location);
                                               },
                                               child: Text(
                                                 "View location",
-                                                style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: appThemeBlue),
                                               ),
                                             ),
                                           ],
@@ -481,7 +561,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Hours: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             GestureDetector(
                                               onTap: () {
@@ -489,7 +571,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                               },
                                               child: Text(
                                                 "View Hour's",
-                                                style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: appThemeBlue),
                                               ),
                                             ),
                                           ],
@@ -501,15 +585,23 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Image: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewAttendanceImage()));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ViewAttendanceImage()));
                                               },
                                               child: Text(
                                                 "View Image",
-                                                style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: appThemeBlue),
                                               ),
                                             ),
                                           ],
@@ -521,15 +613,23 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Map: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewAttendanceLocation()));
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const ViewAttendanceLocation()));
                                               },
                                               child: Text(
                                                 "View Map",
-                                                style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: appThemeBlue),
                                               ),
                                             ),
                                           ],
@@ -541,11 +641,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                           children: [
                                             const Text(
                                               "Time Zone: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "IST",
-                                              style: TextStyle(fontSize: 14, color: appThemeBlue),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: appThemeBlue),
                                             ),
                                           ],
                                         ),
@@ -560,19 +664,39 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                     child: Container(
                                         width: double.infinity,
                                         height: 35,
-                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                    bottomRight:
+                                                        Radius.circular(15))),
                                         child: Row(
                                           children: [
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditAttendanceList()));
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const EditAttendanceList()));
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15))),
+                                                  decoration: BoxDecoration(
+                                                      color: appThemeBlue,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              bottomLeft: Radius
+                                                                  .circular(
+                                                                      15))),
                                                   height: double.infinity,
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: const [
                                                       Icon(
                                                         Icons.edit,
@@ -580,10 +704,15 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                         size: 20,
                                                       ),
                                                       Padding(
-                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
                                                         child: Text(
                                                           "Edit",
-                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
                                                         ),
                                                       )
                                                     ],
@@ -593,10 +722,17 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                             ),
                                             Expanded(
                                               child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                decoration: BoxDecoration(
+                                                    color: colorred,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
                                                 height: double.infinity,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.delete_outline,
@@ -604,10 +740,14 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
                                                       child: Text(
                                                         "Delete",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     )
                                                   ],

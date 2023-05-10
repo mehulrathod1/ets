@@ -8,13 +8,14 @@ import 'package:flutter/material.dart';
 class CompanyLocationRequestController {
   CompanyLocationRequestModel? locationRequestModel;
 
-  Future sendLocationRequest(BuildContext context) async {
+  Future sendLocationRequest(BuildContext context, String id) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await getData(paramUri: ApiConstant.sendLocationRequest);
+    var response =
+        await getData(paramUri: ApiConstant.sendLocationRequest + id);
     debugPrint("sendLocationRequest response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = CompanyLocationRequestModel.fromJson(response);

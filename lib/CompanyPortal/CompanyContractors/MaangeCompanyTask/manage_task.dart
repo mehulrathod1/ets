@@ -16,8 +16,10 @@ class ManageCompanyTask extends StatefulWidget {
 
 class _ManageCompanyTaskState extends State<ManageCompanyTask> {
   bool loading = false;
-  GetCompanyTaskController getCompanyTaskController = GetCompanyTaskController();
-  CompanyDeleteTaskController deleteTaskController = CompanyDeleteTaskController();
+  GetCompanyTaskController getCompanyTaskController =
+      GetCompanyTaskController();
+  CompanyDeleteTaskController deleteTaskController =
+      CompanyDeleteTaskController();
   late CompanyTaskModel companyTaskModel;
   List<ListElement> taskList = [];
 
@@ -29,7 +31,7 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await getCompanyTaskController.getAllCompanyTaks(context).then((value) {
+    await getCompanyTaskController.getAllCompanyTask(context).then((value) {
       setState(() {
         companyTaskModel = value;
         taskList = companyTaskModel.data.list;
@@ -45,9 +47,12 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Tasks", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Tasks",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -92,8 +97,12 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -106,11 +115,16 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyTask()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddCompanyTask()));
                       },
                       child: const Text(
                         'Add New Task',
@@ -133,7 +147,11 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                  bottomRight: Radius.circular(15)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.5),
@@ -148,7 +166,9 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                 Container(
                                     height: 150,
                                     width: double.infinity,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(80)),
                                     child: Image.asset(
                                       'assets/man.jpeg',
                                       fit: BoxFit.cover,
@@ -156,18 +176,22 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         detail.taskName,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(
                                         height: 8,
                                       ),
                                       Text(
                                         detail.taskDescription,
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -177,16 +201,25 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                   child: Container(
                                     width: double.infinity,
                                     height: 35,
-                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                    decoration: BoxDecoration(
+                                        color: appThemeBlue,
+                                        borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(15),
+                                            bottomRight: Radius.circular(15))),
                                     child: Row(
                                       children: [
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCompanyTask()));
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const EditCompanyTask()));
                                             },
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: const [
                                                 Icon(
                                                   Icons.edit,
@@ -194,10 +227,13 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                   size: 20,
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(left: 8.0),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0),
                                                   child: Text(
                                                     "Edit",
-                                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white),
                                                   ),
                                                 )
                                               ],
@@ -208,21 +244,32 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                           width: 1,
                                           height: 35,
                                           child: DecoratedBox(
-                                            decoration: BoxDecoration(color: Colors.white),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white),
                                           ),
                                         ),
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
-                                              deleteTaskController.deleteTask(context, detail.id).then((value) {
+                                              deleteTaskController
+                                                  .deleteTask(
+                                                      context, detail.id)
+                                                  .then((value) {
                                                 initialize(context);
                                               });
                                             },
                                             child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                              decoration: BoxDecoration(
+                                                  color: colorred,
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  15))),
                                               height: double.infinity,
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: const [
                                                   Icon(
                                                     Icons.delete_outline,
@@ -230,10 +277,13 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                     size: 20,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.0),
                                                     child: Text(
                                                       "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
                                                     ),
                                                   )
                                                 ],

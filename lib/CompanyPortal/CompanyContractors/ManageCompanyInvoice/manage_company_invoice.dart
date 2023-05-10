@@ -1,6 +1,8 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Controller/CompanyController/company_invoive_controller.dart';
+import '../../../Models/CompanyModels/company_invoice_model.dart';
 import 'add_company_invoice.dart';
 import 'edit_company_invoice.dart';
 
@@ -12,15 +14,40 @@ class ManageCompanyInvoice extends StatefulWidget {
 }
 
 class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
+  CompanyInvoiceController invoiceController = CompanyInvoiceController();
+  late CompanyAllInvoiceModel allInvoiceModel;
+  bool loading = false;
+  List<ListElement> invoiceList = [];
+
+  @override
+  void initState() {
+    initialize(context);
+    super.initState();
+  }
+
+  Future initialize(BuildContext context) async {
+    loading = true;
+    await invoiceController.getCompanyInvoice(context).then((value) {
+      setState(() {
+        allInvoiceModel = value;
+        invoiceList = allInvoiceModel.data.list;
+        loading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Invoice",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -65,8 +92,12 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -79,11 +110,17 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                 child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeGreen,
+                        borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyInvoice()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AddCompanyInvoice()));
                         },
                         child: const Text(
                           'Add New Invoice',
@@ -95,14 +132,19 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
               ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 10,
+                  itemCount: invoiceList.length,
                   itemBuilder: (context, index) {
+                    var data = invoiceList[index];
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
@@ -117,7 +159,8 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                             Container(
                                 height: 180,
                                 width: double.infinity,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(80)),
                                 child: Image.asset(
                                   'assets/man.jpeg',
                                   fit: BoxFit.cover,
@@ -127,9 +170,11 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Testing the estimate section description",
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  Text(
+                                    data.invoiceDescription,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(
                                     height: 8,
@@ -138,11 +183,14 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                     children: [
                                       const Text(
                                         "Paid By: ",
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "crazycoder0009@gmail.com",
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        data.paidBy,
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -153,11 +201,14 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                     children: [
                                       const Text(
                                         "For: ",
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "9898989898",
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        data.invoiceFor,
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -168,11 +219,14 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                     children: [
                                       const Text(
                                         "Amount: ",
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "\$8898",
-                                        style: TextStyle(fontSize: 14, color: colorTextGray),
+                                        data.amount,
+                                        style: TextStyle(
+                                            fontSize: 14, color: colorTextGray),
                                       ),
                                     ],
                                   ),
@@ -184,16 +238,25 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                               child: Container(
                                   width: double.infinity,
                                   height: 35,
-                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                  decoration: BoxDecoration(
+                                      color: appThemeBlue,
+                                      borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          bottomRight: Radius.circular(15))),
                                   child: Row(
                                     children: [
                                       Expanded(
                                         child: GestureDetector(
                                           onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCompanyInvoice()));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const EditCompanyInvoice()));
                                           },
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: const [
                                               Icon(
                                                 Icons.edit,
@@ -201,10 +264,13 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                                 size: 20,
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
                                                 child: Text(
                                                   "Edit",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 ),
                                               )
                                             ],
@@ -215,15 +281,22 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                         width: 1,
                                         height: 35,
                                         child: DecoratedBox(
-                                          decoration: BoxDecoration(color: Colors.white),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white),
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
-                                          decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                          decoration: BoxDecoration(
+                                              color: colorred,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomRight:
+                                                          Radius.circular(15))),
                                           height: double.infinity,
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: const [
                                               Icon(
                                                 Icons.delete_outline,
@@ -231,10 +304,13 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                                 size: 20,
                                               ),
                                               Padding(
-                                                padding: EdgeInsets.only(left: 8.0),
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
                                                 child: Text(
                                                   "Delete",
-                                                  style: TextStyle(fontSize: 14, color: Colors.white),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white),
                                                 ),
                                               )
                                             ],
