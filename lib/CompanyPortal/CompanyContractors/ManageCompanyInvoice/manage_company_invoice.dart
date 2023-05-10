@@ -31,9 +31,20 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
     loading = true;
     await invoiceController.getCompanyInvoice(context).then((value) {
       setState(() {
-        allInvoiceModel = value;
-        invoiceList = allInvoiceModel.data.list;
-        loading = false;
+        if (value != null) {
+          allInvoiceModel = value;
+          invoiceList = allInvoiceModel.data.list;
+          loading = false;
+        } else {
+          invoiceList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

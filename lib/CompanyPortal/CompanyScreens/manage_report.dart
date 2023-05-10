@@ -31,9 +31,20 @@ class _ManageReportState extends State<ManageReport> {
 
     reportController.getAllReport(context).then((value) {
       setState(() {
-        reportModel = value;
-        reportList = reportModel.data.list;
-        loader = false;
+        if (value != null) {
+          reportModel = value;
+          reportList = reportModel.data.list;
+          loader = false;
+        } else {
+          reportList.clear();
+          loader = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Report Found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

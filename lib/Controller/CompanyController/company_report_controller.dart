@@ -5,9 +5,12 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyReportController {
-  Future<CompanyReportModel> getAllReport(BuildContext context) async {
+  Future getAllReport(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyAllReport);
-
-    return CompanyReportModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyReportModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

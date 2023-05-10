@@ -5,8 +5,12 @@ import '../../Models/CompanyModels/company_estimate_model.dart';
 import '../../Network/api_constant.dart';
 
 class GetCompanyEstimateController {
-  Future<CompanyEstimateModel> getCompanyEstimate(BuildContext context) async {
+  Future getCompanyEstimate(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.getCompanyEstimate);
-    return CompanyEstimateModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyEstimateModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

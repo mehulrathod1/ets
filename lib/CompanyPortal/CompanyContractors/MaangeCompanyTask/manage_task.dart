@@ -33,10 +33,21 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
     loading = true;
     await getCompanyTaskController.getAllCompanyTask(context).then((value) {
       setState(() {
-        companyTaskModel = value;
-        taskList = companyTaskModel.data.list;
-        loading = false;
-        debugPrint(companyTaskModel.message);
+        if (value != null) {
+          companyTaskModel = value;
+          taskList = companyTaskModel.data.list;
+          loading = false;
+          debugPrint(companyTaskModel.message);
+        } else {
+          taskList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

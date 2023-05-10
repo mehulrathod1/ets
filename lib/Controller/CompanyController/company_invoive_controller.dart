@@ -5,9 +5,13 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyInvoiceController {
-  Future<CompanyAllInvoiceModel> getCompanyInvoice(BuildContext context) async {
+  Future getCompanyInvoice(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyAllInvoice);
-    return CompanyAllInvoiceModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyAllInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 
   Future getEstimateForInvoiceList(BuildContext context) async {

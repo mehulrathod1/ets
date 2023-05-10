@@ -4,9 +4,13 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class GetCompanyTaskController {
-  Future<CompanyTaskModel> getAllCompanyTask(BuildContext context) async {
+  Future getAllCompanyTask(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.getCompanyTask);
-    return CompanyTaskModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyTaskModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 
   Future getTaskOrderList(BuildContext context) async {

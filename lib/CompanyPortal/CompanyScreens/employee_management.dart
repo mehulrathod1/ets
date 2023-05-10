@@ -1,3 +1,4 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_delete_employee_controller.dart';
@@ -8,6 +9,8 @@ import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../Controller/CompanyController/company_add_employee_controller.dart';
+import '../../Controller/CompanyController/company_hold_access_controller.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
 
@@ -30,9 +33,41 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       CompanyCallRequestController();
   CompanyDeleteCompanyController deleteCompanyController =
       CompanyDeleteCompanyController();
-
+  CompanyHoldAccessController holdAccessController =
+      CompanyHoldAccessController();
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
+
+  CompanyAddEmployeeController addEmployeeController =
+      CompanyAddEmployeeController();
+  String selectedDepartment = "Select Department";
+  List<DropdownMenuItem<Object?>> departmentListItems = [];
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      // addTaskController.orderId.text = selectedTest['estimate_id'];
+      selectedDepartment = selectedTest['department_name'];
+      addEmployeeController.department.text = selectedTest['id'];
+      print(selectedTest['id']);
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['department_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
 
   Future initialize(BuildContext context) async {
     loading = true;
@@ -40,9 +75,20 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
         .getCompanyEmployee(context)
         .then((value) {
       setState(() {
-        getCompanyEmployeeModel = value;
-        employeeList = getCompanyEmployeeModel.data.list;
-        loading = false;
+        if (value != null) {
+          getCompanyEmployeeModel = value;
+          employeeList = getCompanyEmployeeModel.data.list;
+          loading = false;
+        } else {
+          employeeList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
@@ -211,6 +257,23 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
 
   @override
   void initState() {
+    Future.delayed(const Duration(microseconds: 0), () {
+      addEmployeeController.getDepartmentList(context).then((value) => {
+            if (value != null)
+              {
+                setState(() {
+                  departmentListItems = buildTaskSizeListItems(value);
+                }),
+              }
+            else
+              {
+                setState(() {
+                  departmentListItems.clear();
+                }),
+              }
+          });
+    });
+
     initialize(context);
     super.initState();
   }
@@ -267,39 +330,39 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            height: 40,
-                            child: TextField(
-                              style: const TextStyle(
+                          child: DropdownBelow(
+                              itemWidth:
+                                  MediaQuery.of(context).size.width - 130,
+                              itemTextstyle: const TextStyle(
                                   fontSize: 18, color: Colors.black),
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                suffixIcon: Align(
-                                  widthFactor: 1,
-                                  heightFactor: 1,
-                                  child: Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: appThemeGreen,
-                                  ),
-                                ),
-                                hintText: 'Select Department',
-                                fillColor: colorScreenBg,
-                                filled: true,
-                                isDense: true,
-                                contentPadding: const EdgeInsets.only(
-                                    left: 12, top: 6, bottom: 6),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Colors.grey, width: 1.0),
-                                    borderRadius: BorderRadius.circular(7)),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: colorGray, width: 1.0),
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
+                              boxTextstyle: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                              boxWidth: MediaQuery.of(context).size.width,
+                              boxHeight: 40,
+                              boxDecoration: BoxDecoration(
+                                color: colorScreenBg,
+                                border:
+                                    Border.all(color: colorGray, width: 1.0),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(7.0)),
                               ),
-                            ),
-                          ),
+                              boxPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6, right: 10),
+                              icon: Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: appThemeGreen,
+                              ),
+                              hint: Text(
+                                selectedDepartment,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: selectedDepartment ==
+                                            "Test Estimate Section"
+                                        ? Colors.black.withOpacity(0.60)
+                                        : Colors.black),
+                              ),
+                              onChanged: onChangeDropdownBoxSize,
+                              items: departmentListItems),
                         ),
                       ),
                     ],
@@ -768,14 +831,21 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                               ),
                                             ),
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: appThemeBlue),
-                                                height: double.infinity,
-                                                child: const Icon(
-                                                  Icons.play_arrow_sharp,
-                                                  color: Colors.white,
-                                                  size: 20,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  holdAccessController
+                                                      .holdAccess(context,
+                                                          detail.employeeId);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: appThemeBlue),
+                                                  height: double.infinity,
+                                                  child: const Icon(
+                                                    Icons.play_arrow_sharp,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
                                                 ),
                                               ),
                                             ),

@@ -5,8 +5,12 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyApprovalController {
-  Future<CompanyApprovalModel> getApproval(BuildContext context) async {
+  Future getApproval(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyApprovals);
-    return CompanyApprovalModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyApprovalModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

@@ -33,10 +33,21 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
         .getCompanyEstimate(context)
         .then((value) {
       setState(() {
-        companyEstimateModel = value;
-        estimateList = companyEstimateModel.data.list;
-        loading = false;
-        debugPrint(companyEstimateModel.message);
+        if (value != null) {
+          companyEstimateModel = value;
+          estimateList = companyEstimateModel.data.list;
+          loading = false;
+          debugPrint(companyEstimateModel.message);
+        } else {
+          estimateList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

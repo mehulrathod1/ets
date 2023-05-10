@@ -44,6 +44,9 @@ class ApiConstant {
   static const companyViewMap = 'company/view-map-employee/281/2022-11-18/';
   static const sendLocationRequest =
       'company/send_live_location_request_employee.php?id=';
+  static const companyHoldAccessEmployee =
+      'company/hold_access_employee.php?id=';
+
   static const sendCallRequest =
       'company/send_call_for_attendance_request. php?id=';
   static const companyDeleteContact = 'company/delete-contact/';

@@ -29,10 +29,21 @@ class _ManageApprovalState extends State<ManageApproval> {
     loading = true;
     await approvalController.getApproval(context).then((value) {
       setState(() {
-        approvalModel = value;
-        approvalList = approvalModel.data.list;
-        debugPrint(approvalModel.message);
-        loading = false;
+        if (value != null) {
+          approvalModel = value;
+          approvalList = approvalModel.data.list;
+          debugPrint(approvalModel.message);
+          loading = false;
+        } else {
+          approvalList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

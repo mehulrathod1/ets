@@ -5,8 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CompanyContactController {
-  Future<CompanyContactModel> getCompanyContact(BuildContext context) async {
+  Future getCompanyContact(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyContacts);
-    return CompanyContactModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyContactModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

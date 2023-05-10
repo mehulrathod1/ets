@@ -4,8 +4,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class CompanyNoteController {
-  Future<CompanyNoteModel> getAllCompanyOrder(BuildContext context) async {
+  Future getAllCompanyOrder(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyNoteList);
-    return CompanyNoteModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyNoteModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

@@ -33,10 +33,21 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
     loading = true;
     await companyOrderController.getAllCompanyOrder(context).then((value) {
       setState(() {
-        getCompanyOrderModel = value;
-        orderList = getCompanyOrderModel.data.list;
-        loading = false;
-        debugPrint(getCompanyOrderModel.message);
+        if (value != null) {
+          getCompanyOrderModel = value;
+          orderList = getCompanyOrderModel.data.list;
+          loading = false;
+          debugPrint(getCompanyOrderModel.message);
+        } else {
+          orderList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

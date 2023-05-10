@@ -32,9 +32,20 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
     loading = true;
     await commonCompanyController.getCompanyContact(context).then((value) {
       setState(() {
-        companyContactModel = value;
-        contactList = companyContactModel.data.list;
-        loading = false;
+        if (value != null) {
+          companyContactModel = value;
+          contactList = companyContactModel.data.list;
+          loading = false;
+        } else {
+          contactList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

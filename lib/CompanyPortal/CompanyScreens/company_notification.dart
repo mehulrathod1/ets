@@ -29,10 +29,21 @@ class _CompanyNotificationState extends State<CompanyNotification> {
     loading = true;
     await notificationController.getNotification(context).then((value) {
       setState(() {
-        notificationModel = value;
-        notificationList = notificationModel.data.list;
-        debugPrint(notificationModel.message);
-        loading = false;
+        if (value != null) {
+          notificationModel = value;
+          notificationList = notificationModel.data.list;
+          debugPrint(notificationModel.message);
+          loading = false;
+        } else {
+          notificationList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Notification not found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
@@ -89,7 +100,7 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8),
                                       child: Text(
-                                        "View Details",
+                                        data.button.button,
                                         style: TextStyle(
                                             fontSize: 12, color: appThemeBlue),
                                       ),

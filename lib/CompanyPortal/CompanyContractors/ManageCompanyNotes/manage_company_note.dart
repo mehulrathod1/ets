@@ -32,10 +32,21 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
     loading = true;
     await noteController.getAllCompanyOrder(context).then((value) {
       setState(() {
-        noteModel = value;
-        noteList = noteModel.data.list;
-        loading = false;
-        debugPrint(noteModel.message);
+        if (value != null) {
+          noteModel = value;
+          noteList = noteModel.data.list;
+          loading = false;
+          debugPrint(noteModel.message);
+        } else {
+          noteList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
