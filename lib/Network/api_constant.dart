@@ -85,6 +85,8 @@ class ApiConstant {
   static const companyRegister = 'register-company/';
 
   static const companyAddEvent = 'company/add-event/';
+  static const companyInbox = 'company/get_employee_list.php';
+  static const companySubscription = 'company/send-subscription-aggrement';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 

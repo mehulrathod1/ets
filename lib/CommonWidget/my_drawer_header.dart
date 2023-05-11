@@ -75,10 +75,16 @@ class _MyDrawerHeaderState extends State<MyDrawerHeader> {
                 padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
                 child: Row(
                   children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundImage: AssetImage('assets/etslogo.png'),
-                    ),
+                    companyProfileModel.data.companyLogo.isEmpty
+                        ? const CircleAvatar(
+                            radius: 20,
+                            backgroundImage: AssetImage('assets/man.jpeg'),
+                          )
+                        : CircleAvatar(
+                            radius: 20,
+                            backgroundImage: NetworkImage(
+                                companyProfileModel.data.companyLogo),
+                          ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

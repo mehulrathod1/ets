@@ -100,7 +100,7 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8),
                                       child: Text(
-                                        data.button.button,
+                                        data.button.button.toString(),
                                         style: TextStyle(
                                             fontSize: 12, color: appThemeBlue),
                                       ),

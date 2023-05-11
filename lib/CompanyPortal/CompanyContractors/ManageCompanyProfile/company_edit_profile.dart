@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../Controller/CompanyController/company_edit_profile_controller.dart';
@@ -22,9 +23,21 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
       CompanyProfileController();
   late CompanyProfileModel companyProfileModel;
   bool loading = false;
-
+  XFile? image = null;
+  String con = "";
   CompanyUpdateProfileController updateProfileController =
       CompanyUpdateProfileController();
+
+  Future _imgFromGallery() async {
+    var image2 = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    print(image2!.path);
+    setState(() {
+      image = image2;
+      con = 'imageSelected';
+    });
+  }
 
   @override
   void initState() {
@@ -109,14 +122,25 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Center(
-                              child: CircleAvatar(
-                            radius: 80,
-                            backgroundImage: AssetImage('assets/man.jpeg'),
-                          ))),
+                      child: GestureDetector(
+                        onTap: () {
+                          _imgFromGallery();
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: companyProfileModel.data.companyLogo.isEmpty
+                                ? const CircleAvatar(
+                                    radius: 80,
+                                    backgroundImage:
+                                        AssetImage('assets/man.jpeg'),
+                                  )
+                                : CircleAvatar(
+                                    radius: 80,
+                                    backgroundImage: NetworkImage(
+                                        companyProfileModel.data.companyLogo),
+                                  )),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

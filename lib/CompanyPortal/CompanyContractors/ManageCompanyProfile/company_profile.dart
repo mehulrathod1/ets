@@ -1,12 +1,17 @@
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../Controller/CompanyController/company_profile_controller.dart';
 import '../../../Models/CompanyModels/company_profile_model.dart';
 import '../../../utils/Colors.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
+import 'dart:math';
 
 class CompanyProfile extends StatefulWidget {
   const CompanyProfile({Key? key}) : super(key: key);
@@ -19,6 +24,19 @@ class _CompanyProfileState extends State<CompanyProfile> {
   CompanyProfileController companyLoginController = CompanyProfileController();
   late CompanyProfileModel companyProfileModel;
   bool loading = false;
+  XFile? image = null;
+  String con = "";
+
+  Future _imgFromGallery() async {
+    var image2 = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    print(image2!.path);
+    setState(() {
+      image = image2;
+      con = 'imageSelected';
+    });
+  }
 
   @override
   void initState() {
@@ -27,12 +45,32 @@ class _CompanyProfileState extends State<CompanyProfile> {
     super.initState();
   }
 
+  Future<File> urlToFile(String imageUrl) async {
+// generate random number.
+    var rng = new Random();
+// get temporary directory of device.
+    Directory tempDir = await getTemporaryDirectory();
+// get temporary path from temporary directory.
+    String tempPath = tempDir.path;
+// create a new file in temporary path with random file name.
+    File file = new File('$tempPath' + (rng.nextInt(100)).toString() + '.png');
+// call http.get method and pass imageUrl into it to get response.
+    http.Response response = await http.get(Uri.parse(imageUrl));
+// write bodyBytes received in response to file.
+    await file.writeAsBytes(response.bodyBytes);
+// now return the file which is created with random name in
+// temporary directory and image bytes from response is written to // that file.
+    return file;
+  }
+
   Future initialize(BuildContext context) async {
     loading = true;
     await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
         companyProfileModel = value;
         debugPrint(companyProfileModel.data.companyName);
+
+        urlToFile(companyProfileModel.data.companyLogo);
         loading = false;
       });
     });
@@ -79,14 +117,26 @@ class _CompanyProfileState extends State<CompanyProfile> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Container(
+                      child: GestureDetector(
+                        onTap: () {
+                          _imgFromGallery();
+                        },
+                        child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8)),
-                          child: Center(
-                              child: CircleAvatar(
-                            radius: 80,
-                            backgroundImage: AssetImage('assets/man.jpeg'),
-                          ))),
+                          child: companyProfileModel.data.companyLogo.isEmpty
+                              ? const CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage:
+                                      AssetImage('assets/man.jpeg'),
+                                )
+                              : CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: NetworkImage(
+                                      companyProfileModel.data.companyLogo),
+                                ),
+                        ),
+                      ),
                     ),
                     Text(
                       companyProfileModel.data.companyName,

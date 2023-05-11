@@ -130,7 +130,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Kate Thomas test',
+                            hintText: 'Enter Name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -163,7 +163,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'crazycoder08@gmail.com',
+                            hintText: 'Enter Email',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -197,7 +197,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: '12345678',
+                            hintText: 'Enter creditCard Number',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -230,7 +230,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Xyz',
+                            hintText: 'Enter creditCard Name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -263,7 +263,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: '********',
+                            hintText: 'Enter Expiry date',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -322,7 +322,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: '********',
+                            hintText: 'Enter Security Code',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
