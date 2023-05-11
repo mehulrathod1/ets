@@ -92,9 +92,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: companyProfileModel.data.companyLogo.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage:
+                        NetworkImage(companyProfileModel.data.companyLogo),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
