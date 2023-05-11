@@ -3,7 +3,6 @@ import 'package:etsemployee/Controller/CompanyController/company_profile_control
 import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -21,18 +20,13 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   CompanyProfileController companyProfileController = CompanyProfileController();
   late CompanyProfileModel companyProfileModel;
   bool loading = false;
-
-  CompanyUpdateProfileController updateProfileController = CompanyUpdateProfileController();
-  XFile? image = null;
+  XFile? image;
   String con = "";
-  CompanyUpdateProfileController updateProfileController =
-      CompanyUpdateProfileController();
+  CompanyUpdateProfileController updateProfileController = CompanyUpdateProfileController();
 
   Future _imgFromGallery() async {
-    var image2 = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
-
-    print(image2!.path);
+    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+    debugPrint(image2!.path);
     setState(() {
       image = image2;
       con = 'imageSelected';
@@ -41,10 +35,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     initialize(context);
-
     super.initState();
   }
 
@@ -68,7 +59,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         updateProfileController.creditCardNo.text = companyProfileModel.data.creditcardNo;
         updateProfileController.creditCardExp.text = companyProfileModel.data.creditcardExpDate;
         updateProfileController.securityCode.text = companyProfileModel.data.securityCode;
-
         loading = false;
       });
     });
@@ -85,12 +75,8 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         title: const Center(
           child: Text("Edit Details", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
             padding: const EdgeInsets.only(right: 16.0),
             child: companyProfileModel.data.companyLogo.isEmpty
                 ? const CircleAvatar(
@@ -99,8 +85,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                   )
                 : CircleAvatar(
                     radius: 18,
-                    backgroundImage:
-                        NetworkImage(companyProfileModel.data.companyLogo),
+                    backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
                   ),
           ),
         ],
@@ -123,13 +108,22 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                        child: const Center(
-                            child: CircleAvatar(
-                          radius: 80,
-                          backgroundImage: AssetImage('assets/man.jpeg'),
-                        ))),
+                    child: GestureDetector(
+                      onTap: () {
+                        _imgFromGallery();
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                          child: companyProfileModel.data.companyLogo.isEmpty
+                              ? const CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: AssetImage('assets/man.jpeg'),
+                                )
+                              : CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
+                                )),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -462,7 +456,13 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               ),
                             ),
                             onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2101));
+
                               if (pickedDate != null) {
                                 String formattedDate = DateFormat('MM/yy').format(pickedDate);
                                 setState(() {

@@ -36,7 +36,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   int _selectedIndex = 0;
   var container;
   CompanyProfileController companyLoginController = CompanyProfileController();
-  CompanyProfileModel? companyProfileModel;
+  late CompanyProfileModel companyProfileModel;
 
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -228,103 +228,106 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       navigate();
     }
 
-    return loading
-        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
-        : Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: colorScreenBg,
-              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-              title: Center(
-                child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
-              ),
-              actions: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyProfile()));
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: CircleAvatar(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: colorScreenBg,
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: Center(
+          child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
+        ),
+        actions: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyProfile()));
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: companyProfileModel.data.companyLogo.isEmpty
+                  ? const CircleAvatar(
                       radius: 18,
                       backgroundImage: AssetImage('assets/man.jpeg'),
+                    )
+                  : CircleAvatar(
+                      radius: 18,
+                      backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
                     ),
-                  ),
-                ),
-              ],
-              leading: Builder(builder: (context) {
-                return GestureDetector(
-                  child: const Icon(
-                    Icons.menu,
-                    color: Colors.black,
-                  ),
-                  onTap: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              }),
             ),
-            drawer: Drawer(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [MyDrawerHeader(userName: companyProfileModel!.data.username, email: companyProfileModel!.data.email, profilePicture: ""), MyDrawerList()],
-                ),
-              ),
+          ),
+        ],
+        leading: Builder(builder: (context) {
+          return GestureDetector(
+            child: const Icon(
+              Icons.menu,
+              color: Colors.black,
             ),
-            bottomNavigationBar: Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: colorScreenBg,
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-                ],
-              ),
-              child: BottomNavigationBar(
-                  showSelectedLabels: false,
-                  showUnselectedLabels: false,
-                  items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                        icon: ImageIcon(
-                          AssetImage("assets/home.png"),
-                        ),
-                        label: "",
-                        backgroundColor: Colors.green),
-                    BottomNavigationBarItem(
-                        icon: ImageIcon(
-                          AssetImage("assets/chat.png"),
-                        ),
-                        label: "",
-                        backgroundColor: Colors.green),
-                    BottomNavigationBarItem(
-                        icon: ImageIcon(
-                          AssetImage("assets/location.png"),
-                        ),
-                        label: "",
-                        backgroundColor: Colors.green),
-                    BottomNavigationBarItem(
-                        icon: ImageIcon(
-                          AssetImage("assets/notification.png"),
-                        ),
-                        label: "",
-                        backgroundColor: Colors.green),
-                    BottomNavigationBarItem(
-                        icon: ImageIcon(
-                          AssetImage("assets/profile1.png"),
-                        ),
-                        label: "",
-                        backgroundColor: Colors.green),
-                  ],
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: _selectedIndex,
-                  selectedItemColor: appThemeGreen,
-                  unselectedItemColor: Colors.black,
-                  iconSize: 30,
-                  onTap: _onItemTapped,
-                  elevation: 5),
-            ),
-            body: container,
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
           );
+        }),
+      ),
+      drawer: Drawer(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [MyDrawerHeader(), MyDrawerList()],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: colorScreenBg,
+          borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+          boxShadow: const [
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+          ],
+        ),
+        child: BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage("assets/home.png"),
+                  ),
+                  label: "",
+                  backgroundColor: Colors.green),
+              BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage("assets/chat.png"),
+                  ),
+                  label: "",
+                  backgroundColor: Colors.green),
+              BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage("assets/location.png"),
+                  ),
+                  label: "",
+                  backgroundColor: Colors.green),
+              BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage("assets/notification.png"),
+                  ),
+                  label: "",
+                  backgroundColor: Colors.green),
+              BottomNavigationBarItem(
+                  icon: ImageIcon(
+                    AssetImage("assets/profile1.png"),
+                  ),
+                  label: "",
+                  backgroundColor: Colors.green),
+            ],
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            selectedItemColor: appThemeGreen,
+            unselectedItemColor: Colors.black,
+            iconSize: 30,
+            onTap: _onItemTapped,
+            elevation: 5),
+      ),
+      body: loading ? const Center(child: CircularProgressIndicator()) : container,
+    );
   }
 }
 
