@@ -81,8 +81,8 @@ class _EditInvoiceState extends State<EditInvoice> {
         title: const Center(
           child: Text("Edit Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
-          const Padding(
+        actions: const <Widget>[
+          Padding(
             padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
@@ -122,7 +122,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(fontSize: 18, color: Colors.black),
@@ -156,7 +156,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -182,7 +182,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -208,7 +208,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -234,7 +234,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -260,7 +260,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -286,7 +286,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             keyboardType: TextInputType.number,
@@ -313,7 +313,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -339,7 +339,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -365,7 +365,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             keyboardType: TextInputType.number,
@@ -392,7 +392,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        Container(
+                        SizedBox(
                           height: 40,
                           child: TextField(
                             controller: invoiceDate,
@@ -419,16 +419,12 @@ class _EditInvoiceState extends State<EditInvoice> {
                                   lastDate: DateTime(2101));
 
                               if (pickedDate != null) {
-                                print(pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                 String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                                print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                                //you can implement different kind of Date Format here according to your requirement
-
                                 setState(() {
-                                  invoiceDate.text = formattedDate; //set output date to TextField value.
+                                  invoiceDate.text = formattedDate;
                                 });
                               } else {
-                                print("Date is not selected");
+                                debugPrint("Date is not selected");
                               }
                             },
                           ),

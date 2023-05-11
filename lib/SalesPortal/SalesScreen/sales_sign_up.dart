@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:etsemployee/Controller/SalesController/agency_register_controller.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../Controller/SalesController/agency_register_controller.dart';
-import '../../utils/Colors.dart';
 
 class SalesSignUp extends StatefulWidget {
   const SalesSignUp({Key? key}) : super(key: key);
@@ -20,29 +17,26 @@ class SalesSignUp extends StatefulWidget {
 class _SalesSignUpState extends State<SalesSignUp> {
   String selectedRole = "Select Role";
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
-  XFile? image = null;
+  XFile? image;
   String con = "";
   List roleList = [
     {'no': '1', 'keyword': 'Agency'},
     {'no': '2', 'keyword': 'Agent'},
   ];
-  AgencyRegisterController agencyRegisterController =
-      AgencyRegisterController();
+  AgencyRegisterController agencyRegisterController = AgencyRegisterController();
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       agencyRegisterController.role.text = selectedTest['no'];
       selectedRole = selectedTest['keyword'];
       // addEmployeeController.department.text = selectedTest['id'];
-      print(agencyRegisterController.role.text);
+      debugPrint(agencyRegisterController.role.text);
     });
   }
 
   Future _imgFromGallery() async {
-    var image2 = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
-
-    print(image2!.path);
+    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+    debugPrint(image2!.path);
     setState(() {
       image = image2;
       con = 'imageSelected';
@@ -52,8 +46,6 @@ class _SalesSignUpState extends State<SalesSignUp> {
   @override
   void initState() {
     taskOrderListItems = buildDropdownTestItems(roleList);
-
-    // TODO: implement initState
     super.initState();
   }
 
@@ -71,7 +63,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
   }
 
   onChangeDropdownTests(selectedTest) {
-    print(selectedTest);
+    debugPrint(selectedTest);
     setState(() {
       selectedRole = selectedTest;
     });
@@ -79,13 +71,11 @@ class _SalesSignUpState extends State<SalesSignUp> {
 
   Future pickImage({bool gallery = true}) async {
     try {
-      var image = await ImagePicker().pickImage(
-          source: gallery ? ImageSource.gallery : ImageSource.camera);
+      var image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
       if (image == null) return;
       File imageFile = File(image.path);
       Uint8List imageBytes = await imageFile.readAsBytes();
       String base64string = base64.encode(imageBytes);
-
       debugPrint(imageFile.path);
     } on PlatformException catch (e) {
       debugPrint('Failed to pick image: $e');
@@ -195,24 +185,25 @@ class _SalesSignUpState extends State<SalesSignUp> {
                   // },
                   // Image.file(File(image!.path)
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                            child: CircleAvatar(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: Center(
+                        child: CircleAvatar(
                           radius: 80,
                           child: CircleAvatar(
                             radius: 80.0,
+                            backgroundColor: Colors.white,
                             child: (image != null)
                                 ? Image.file(
                                     File(image!.path),
                                     fit: BoxFit.fitHeight,
                                   )
                                 : Image.asset('assets/etslogo.png'),
-                            backgroundColor: Colors.white,
                           ),
-                        ))),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -227,15 +218,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -252,15 +238,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -277,15 +258,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -302,15 +278,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -328,15 +299,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -353,15 +319,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -379,15 +340,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
+                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -397,31 +353,23 @@ class _SalesSignUpState extends State<SalesSignUp> {
                   padding: const EdgeInsets.all(8.0),
                   child: DropdownBelow(
                       itemWidth: MediaQuery.of(context).size.width - 30,
-                      itemTextstyle:
-                          const TextStyle(fontSize: 18, color: Colors.black),
-                      boxTextstyle:
-                          const TextStyle(fontSize: 18, color: Colors.black),
+                      itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                      boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
                       boxWidth: MediaQuery.of(context).size.width,
                       boxHeight: 40,
                       boxDecoration: BoxDecoration(
                         color: colorScreenBg,
                         border: Border.all(color: colorGray, width: 1.0),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(7.0)),
+                        borderRadius: const BorderRadius.all(Radius.circular(7.0)),
                       ),
-                      boxPadding: const EdgeInsets.only(
-                          left: 12, top: 6, bottom: 6, right: 10),
+                      boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
                       icon: Icon(
                         Icons.keyboard_arrow_down_outlined,
                         color: appThemeGreen,
                       ),
                       hint: Text(
                         selectedRole,
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: selectedRole == "Test Order Section"
-                                ? Colors.black.withOpacity(0.60)
-                                : Colors.black),
+                        style: TextStyle(fontSize: 18, color: selectedRole == "Test Order Section" ? Colors.black.withOpacity(0.60) : Colors.black),
                       ),
                       onChanged: onChangeDropdownBoxSize,
                       items: taskOrderListItems),
@@ -437,8 +385,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (agencyRegisterController
-                          .address.text.isEmpty) {
+                      } else if (agencyRegisterController.address.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, Address required!"),
@@ -473,8 +420,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (agencyRegisterController
-                          .address.text.isEmpty) {
+                      } else if (agencyRegisterController.address.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, Address required!"),
@@ -491,22 +437,18 @@ class _SalesSignUpState extends State<SalesSignUp> {
                       } else if (con == "") {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Oops,Please select logo From Gallery !"),
+                            content: Text("Oops,Please select logo From Gallery !"),
                             duration: Duration(seconds: 2),
                           ),
                         );
                       } else {
-                        agencyRegisterController.agencyRegister(
-                            context, image!.path);
+                        agencyRegisterController.agencyRegister(context, image!.path);
                       }
                     },
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(
-                          color: appThemeGreen,
-                          borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Register',

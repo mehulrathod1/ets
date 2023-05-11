@@ -42,9 +42,9 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
           taskList.clear();
           loading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('No data found'),
-              duration: const Duration(seconds: 2),
+              duration: Duration(seconds: 2),
             ),
           );
         }

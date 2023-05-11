@@ -301,7 +301,7 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                             onTap: () async {
                                               await deleteOrderController
                                                   .deleteOrder(
-                                                      context, detail.id!);
+                                                      context, detail.id);
                                               await companyOrderController
                                                   .getAllCompanyOrder(context)
                                                   .then((value) {

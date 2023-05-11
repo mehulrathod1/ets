@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:async';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/company_dashboard.dart';
 import 'package:etsemployee/Network/api_constant.dart';

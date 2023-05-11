@@ -1,12 +1,10 @@
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:etsemployee/Controller/CompanyController/company_add_task_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_task_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../Controller/CompanyController/company_add_task_controller.dart';
-import '../../../Controller/CompanyController/get_company_task_controller.dart';
 
 class AddCompanyTask extends StatefulWidget {
   const AddCompanyTask({Key? key}) : super(key: key);
@@ -21,7 +19,6 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
   String selectedOrder = "Select Order";
 
-
   CompanyAddTaskController addTaskController = CompanyAddTaskController();
 
   onChangeDropdownBoxSize(selectedTest) {
@@ -29,8 +26,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
       addTaskController.orderId.text = selectedTest['id'];
       selectedOrder = selectedTest['order_name'];
       debugPrint(selectedTest['order_name']);
-      // addEmployeeController.department.text = selectedTest['id'];
-      print(selectedTest['id']);
+      debugPrint(selectedTest['id']);
     });
   }
 
@@ -182,8 +178,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                         height: 40,
                         child: TextField(
                           controller: addTaskController.taskName,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
@@ -211,8 +206,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                         child: TextField(
                           controller: addTaskController.dueDate,
                           //editing controller of this TextField
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '12/31/1996',
@@ -227,14 +221,9 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                             ),
                           ),
                           onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2101));
+                            DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
                             if (pickedDate != null) {
-                              String formattedDate =
-                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
                               setState(() {
                                 addTaskController.dueDate.text = formattedDate;
                               });
@@ -258,8 +247,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
                             controller: addTaskController.taskDescription,
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -281,14 +269,11 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(
-                                  color: appThemeGreen,
-                                  borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),

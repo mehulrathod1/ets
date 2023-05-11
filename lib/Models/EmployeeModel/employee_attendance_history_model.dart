@@ -69,7 +69,7 @@ class ListElement {
         id: json["id"],
         name: json["name"],
         date: DateTime.parse(json["date"]),
-        location: json["location"],
+        location: json["location"] ?? "",
         timeImageMap: List<TimeImageMap>.from(json["time_image_map"].map((x) => TimeImageMap.fromJson(x))),
       );
 
