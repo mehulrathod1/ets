@@ -49,7 +49,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
     await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
         companyProfileModel = value;
-        debugPrint(companyProfileModel!.data.companyName);
+        debugPrint(companyProfileModel.data.companyName);
         loading = false;
       });
     });
@@ -58,6 +58,17 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (_selectedIndex == 0) {
+        currentPage = DrawerSelection.Dashboard;
+      } else if (_selectedIndex == 1) {
+        currentPage = DrawerSelection.Inbox;
+      } else if (_selectedIndex == 2) {
+        currentPage = DrawerSelection.FixHoursRequest;
+      } else if (_selectedIndex == 3) {
+        currentPage = DrawerSelection.Notification;
+      } else if (_selectedIndex == 4) {
+        currentPage = DrawerSelection.Dashboard;
+      }
     });
   }
 

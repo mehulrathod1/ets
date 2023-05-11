@@ -18,6 +18,11 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
   bool loading = false;
   bool acceptRequest = false;
   CompanyFixHourRequestController hourRequestController = CompanyFixHourRequestController();
+  bool startLocation = false;
+  bool stopLocation = false;
+
+  CompanyFixHourRequestController hourRequestController =
+      CompanyFixHourRequestController();
   late CompanyHourRequestModel hourRequestModel;
   late CompanyHourAcceptModel hourAcceptModel;
   late CompanyHourRejectModel hourRejectModel;
@@ -189,6 +194,16 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                       itemCount: requestList.length,
                       itemBuilder: (context, index) {
                         var data = requestList[index];
+                        if (data.status == '1') {
+                          startLocation = true;
+                        } else {
+                          startLocation = false;
+                        }
+                        if (data.status == '2') {
+                          stopLocation = true;
+                        } else {
+                          stopLocation = false;
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                           child: ClipRRect(
@@ -275,7 +290,9 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: appThemeGreen,
+                                                  color: startLocation
+                                                      ? appThemeGreen
+                                                      : appThemeteallight,
                                                 ),
                                                 height: double.infinity,
                                                 child: Row(
@@ -306,7 +323,15 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                 });
                                               },
                                               child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                decoration: BoxDecoration(
+                                                    color: startLocation
+                                                        ? Colors.red.shade300
+                                                        : Colors.red,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
                                                 height: double.infinity,
                                                 child: Row(
                                                   mainAxisAlignment: MainAxisAlignment.center,

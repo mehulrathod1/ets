@@ -383,7 +383,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: 'StartDate',
+                                hintText: 'selectStartDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
@@ -442,7 +442,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: 'EndDate',
+                                hintText: 'SelectEndDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,

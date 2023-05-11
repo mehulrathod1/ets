@@ -1,5 +1,14 @@
+import 'dart:io';
+
 import 'package:etsemployee/utils/Colors.dart';
+import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:ui' as ui;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+
+import '../../Controller/CompanyController/company_subscription_controller.dart';
 
 class CompanyAgreement extends StatefulWidget {
   const CompanyAgreement({Key? key}) : super(key: key);
@@ -9,6 +18,64 @@ class CompanyAgreement extends StatefulWidget {
 }
 
 class _CompanyAgreementState extends State<CompanyAgreement> {
+  CompanySubscriptionController subscriptionController =
+      CompanySubscriptionController();
+  final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
+  String signaturePath = "";
+
+  Future getPermission() async {
+    var status = await Permission.storage.status;
+    if (status.isDenied) {
+      Permission.storage.request();
+    }
+  }
+
+  void _handleClearButtonPressed() async {
+    signatureGlobalKey.currentState!.clear();
+    File(signaturePath).delete();
+    setState(() {});
+  }
+
+  void _handleSaveButtonPressed() async {
+    signaturePath = "";
+    final data =
+        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+    var path = Platform.isAndroid
+        ? await ExternalPath.getExternalStoragePublicDirectory(
+            ExternalPath.DIRECTORY_DOWNLOADS)
+        : await getApplicationDocumentsDirectory();
+    await Directory('$path/Ets signature').create(recursive: true);
+    setState(() {
+      File('$path/Ets signature/signature.png')
+          .writeAsBytesSync(bytes!.buffer.asInt8List());
+      signaturePath = '$path/Ets signature/signature.png';
+    });
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Center(
+              child: Container(
+                color: Colors.grey[300],
+                child: Image.memory(bytes!.buffer.asUint8List()),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getPermission();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +92,8 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
                   child: Center(
                     child: Text(
                       "Subscription Agreement",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -203,53 +271,68 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
                       ),
                       Container(
                         height: 150,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'E-Signature',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            ),
-                          ),
+                          padding: const EdgeInsets.all(2.0),
+                          child: SfSignaturePad(
+                              key: signatureGlobalKey,
+                              backgroundColor: Colors.white,
+                              strokeColor: Colors.black,
+                              minimumStrokeWidth: 1.0,
+                              maximumStrokeWidth: 4.0),
                         ),
                       ),
                       Row(
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
-                                child: const Center(
-                                    child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    "Clear Signature",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                )),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _handleClearButtonPressed();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: colorred),
+                                  child: const Center(
+                                      child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      "Clear Signature",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )),
+                                ),
                               ),
                             ),
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
-                                child: const Center(
-                                    child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
-                                )),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _handleSaveButtonPressed();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: appThemeGreen),
+                                  child: const Center(
+                                      child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text("Submit Signature",
+                                        style: TextStyle(
+                                            fontSize: 14, color: Colors.white)),
+                                  )),
+                                ),
                               ),
                             ),
                           ),
@@ -257,16 +340,36 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () async {
+                            if (signaturePath.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, signature missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              FocusScope.of(context).unfocus();
+                              await subscriptionController.addSubscription(
+                                  context,
+                                  signature: signaturePath);
+                            }
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

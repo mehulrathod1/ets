@@ -3,7 +3,9 @@ import 'package:etsemployee/Controller/CompanyController/company_profile_control
 import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class CompanyEditProfile extends StatefulWidget {
@@ -21,6 +23,21 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   bool loading = false;
 
   CompanyUpdateProfileController updateProfileController = CompanyUpdateProfileController();
+  XFile? image = null;
+  String con = "";
+  CompanyUpdateProfileController updateProfileController =
+      CompanyUpdateProfileController();
+
+  Future _imgFromGallery() async {
+    var image2 = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+
+    print(image2!.path);
+    setState(() {
+      image = image2;
+      con = 'imageSelected';
+    });
+  }
 
   @override
   void initState() {
@@ -74,6 +91,17 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: companyProfileModel.data.companyLogo.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage:
+                        NetworkImage(companyProfileModel.data.companyLogo),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

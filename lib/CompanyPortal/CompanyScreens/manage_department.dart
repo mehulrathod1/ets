@@ -111,7 +111,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                             height: 1.7, fontSize: 18, color: Colors.black),
                         maxLines: 1,
                         decoration: InputDecoration(
-                          hintText: 'IT',
+                          hintText: 'Enter Department Name',
                           fillColor: colorScreenBg,
                           filled: true,
                           isDense: true,
@@ -243,7 +243,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                         height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
-                      hintText: 'IT',
+                      hintText: 'Enter Department Name',
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
@@ -302,12 +302,22 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                   child: GestureDetector(
                     onTap: () {
-                      addDepartmentController
-                          .addDepartment(context)
-                          .then((value) {
-                        initialize(context);
-                        Navigator.pop(context);
-                      });
+                      if (addDepartmentController.departmentName.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops!, Department name missing."),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      } else {
+                        addDepartmentController
+                            .addDepartment(context)
+                            .then((value) {
+                          initialize(context);
+                          addDepartmentController.departmentName.clear();
+                          Navigator.pop(context);
+                        });
+                      }
                     },
                     child: Container(
                       width: double.infinity,

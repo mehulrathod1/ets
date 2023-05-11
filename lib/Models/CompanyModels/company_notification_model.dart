@@ -106,8 +106,8 @@ class Button {
     required this.location,
   });
 
-  String button;
-  String location;
+  String? button;
+  String? location;
 
   factory Button.fromRawJson(String str) => Button.fromJson(json.decode(str));
 
