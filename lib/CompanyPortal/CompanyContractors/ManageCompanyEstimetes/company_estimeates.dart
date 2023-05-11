@@ -3,6 +3,7 @@ import 'package:etsemployee/Models/CompanyModels/company_estimate_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Controller/CompanyController/company_delete_estimate_controller.dart';
 import 'add_company_estimates.dart';
 
 class CompanyEstimate extends StatefulWidget {
@@ -17,7 +18,8 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
   GetCompanyEstimateController getCompanyEstimateController = GetCompanyEstimateController();
   late CompanyEstimateModel companyEstimateModel;
   List<ListElement> estimateList = [];
-
+  CompanyDeleteEstimateController deleteEstimateController =
+      CompanyDeleteEstimateController();
   @override
   void initState() {
     initialize(context);
@@ -28,10 +30,21 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
     loading = true;
     await getCompanyEstimateController.getCompanyEstimate(context).then((value) {
       setState(() {
-        companyEstimateModel = value;
-        estimateList = companyEstimateModel.data.list;
-        loading = false;
-        debugPrint(companyEstimateModel.message);
+        if (value != null) {
+          companyEstimateModel = value;
+          estimateList = companyEstimateModel.data.list;
+          loading = false;
+          debugPrint(companyEstimateModel.message);
+        } else {
+          estimateList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
@@ -177,37 +190,67 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
-                                  child: Container(
-                                      width: double.infinity,
-                                      height: 35,
-                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-                                              height: double.infinity,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: const [
-                                                  Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                  Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
-                                                    child: Text(
-                                                      "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      deleteEstimateController
+                                          .deleteEstimate(context, data.id)
+                                          .then((value) {
+                                        initialize(context);
+                                      });
+                                    },
+                                    child: Container(
+                                        width: double.infinity,
+                                        height: 35,
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                    bottomRight:
+                                                        Radius.circular(15))),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: colorred,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
+                                                height: double.infinity,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.delete_outline,
+                                                      color: Colors.white,
+                                                      size: 20,
                                                     ),
-                                                  )
-                                                ],
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        "Delete",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      )),
+                                          ],
+                                        )),
+                                  ),
                                 ),
                               ],
                             ),

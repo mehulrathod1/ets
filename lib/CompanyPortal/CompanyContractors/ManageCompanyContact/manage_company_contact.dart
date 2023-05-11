@@ -32,9 +32,20 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
     loading = true;
     await commonCompanyController.getCompanyContact(context).then((value) {
       setState(() {
-        companyContactModel = value;
-        contactList = companyContactModel.data.list;
-        loading = false;
+        if (value != null) {
+          companyContactModel = value;
+          contactList = companyContactModel.data.list;
+          loading = false;
+        } else {
+          contactList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
@@ -293,7 +304,30 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const EditCompanyContact()));
+                                                            EditCompanyContact(
+                                                              customerType: detail
+                                                                  .customerType,
+                                                              fistName: detail
+                                                                  .firstName,
+                                                              laseName: detail
+                                                                  .lastName,
+                                                              companyName: detail
+                                                                  .companyName,
+                                                              address: detail
+                                                                  .address,
+                                                              city: detail.city,
+                                                              state:
+                                                                  detail.state,
+                                                              zipCode: detail
+                                                                  .zipcode,
+                                                              email:
+                                                                  detail.email,
+                                                              homeNo: detail
+                                                                  .homeOrOfficeNo,
+                                                              mobileNo: detail
+                                                                  .mobileNo,
+                                                              id: detail.id,
+                                                            )));
                                               },
                                               child: Row(
                                                 mainAxisAlignment:

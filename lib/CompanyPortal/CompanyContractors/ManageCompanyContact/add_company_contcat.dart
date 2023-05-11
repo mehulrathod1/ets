@@ -480,8 +480,95 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
-                            onTap: () {
-                              addCompanyContactController.addCompanyContact(context);
+                            onTap: () async {
+                              if (selectedCustomerType.isEmpty ||
+                                  addCompanyContactController
+                                      .customerType.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Please select customer type from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .firstName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, First name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .lastName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Last name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .address.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Address missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .city.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, City name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .state.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, State name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .zipcode.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Zipcode missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .email.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Email missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .homeNumber.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Home/Office number missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
+                                  .mobileNumber.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Mobile number missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                await addCompanyContactController
+                                    .addCompanyContact(context);
+                              }
                             },
                             child: Container(
                               width: double.infinity,

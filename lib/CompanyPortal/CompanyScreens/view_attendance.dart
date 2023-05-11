@@ -54,11 +54,24 @@ class _ViewAttendanceState extends State<ViewAttendance> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await attendanceController.getAttendance(context, '281').then((value) {
+    await attendanceController
+        .getAttendance(context, widget.employeeId)
+        .then((value) {
       setState(() {
-        attendanceModel = value;
-        attendanceList = attendanceModel.data.list;
-        loading = false;
+        if (value != null) {
+          attendanceModel = value;
+          attendanceList = attendanceModel.data.list;
+          loading = false;
+        } else {
+          attendanceList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Attandance found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
     await hourController.getHour(context).then((value) {

@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import '../../Models/CompanyModels/company_department_model.dart';
 
 class CompanyDepartmentController {
-  Future<GetCompanyDepartmentModel> getDepartment(BuildContext context) async {
+  Future getDepartment(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyDepartment);
-    return GetCompanyDepartmentModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return GetCompanyDepartmentModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

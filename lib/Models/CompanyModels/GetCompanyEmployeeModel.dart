@@ -78,7 +78,7 @@ class ListElement {
   String employeeId;
   String email;
   String employeeName;
-  String department;
+  String? department;
   dynamic totalHrs;
   CallForAttendance viewAttendance;
   CallForAttendance editEmployee;

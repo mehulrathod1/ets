@@ -35,10 +35,21 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
     loading = true;
     await hourRequestController.getHourRequest(context).then((value) {
       setState(() {
-        hourRequestModel = value;
-        requestList = hourRequestModel.data.list;
-        debugPrint(hourRequestModel.message);
-        loading = false;
+        if (value != null) {
+          hourRequestModel = value;
+          requestList = hourRequestModel.data.list;
+          debugPrint(hourRequestModel.message);
+          loading = false;
+        } else {
+          requestList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Request found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

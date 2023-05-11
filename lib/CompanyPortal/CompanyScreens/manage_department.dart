@@ -44,9 +44,20 @@ class _ManageDepartmentState extends State<ManageDepartment> {
     loading = true;
     await companyDepartmentController.getDepartment(context).then((value) {
       setState(() {
-        companyDepartmentModel = value;
-        departmentList = companyDepartmentModel.data;
-        loading = false;
+        if (value != null) {
+          companyDepartmentModel = value;
+          departmentList = companyDepartmentModel.data;
+          loading = false;
+        } else {
+          departmentList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }
