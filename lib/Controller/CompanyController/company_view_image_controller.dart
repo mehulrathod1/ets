@@ -4,8 +4,14 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class CompanyImageController {
-  Future<CompanyViewImageModel> getImage(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.companyViewImage);
-    return CompanyViewImageModel.fromJson(response);
+  Future getAttendanceImage(
+      BuildContext context, String id, String date) async {
+    var response =
+        await getData(paramUri: '${ApiConstant.companyViewImage}$id/$date');
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyViewImageModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

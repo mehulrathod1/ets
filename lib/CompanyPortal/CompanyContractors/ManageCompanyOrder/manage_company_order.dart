@@ -3,9 +3,11 @@ import 'package:etsemployee/Models/CompanyModels/get_company_order.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import '../../../Controller/CompanyController/company_delete_order_controller.dart';
 import 'add_company_order.dart';
 import 'edit_company_order.dart';
+import '../../../Network/api_constant.dart';
 
 class ManageCompanyOrder extends StatefulWidget {
   const ManageCompanyOrder({Key? key}) : super(key: key);
@@ -22,6 +24,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
   List<ListElement> orderList = [];
   CompanyDeleteOrderController deleteOrderController =
       CompanyDeleteOrderController();
+  String? startDate;
+  String? endDate;
 
   @override
   void initState() {
@@ -65,12 +69,18 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -154,6 +164,9 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                     itemCount: orderList.length,
                     itemBuilder: (context, index) {
                       var detail = orderList[index];
+                      startDate =
+                          DateFormat('dd/MM/yyyy').format(detail.startDate);
+                      endDate = DateFormat('dd/MM/yyyy').format(detail.dueDate);
                       return Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                         child: Container(
@@ -228,13 +241,13 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                     Row(
                                       children: [
                                         Text(
-                                          '${detail.startDate} - ',
+                                          '${startDate!} - ',
                                           style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          detail.dueDate.toString(),
+                                          endDate!,
                                           style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold),

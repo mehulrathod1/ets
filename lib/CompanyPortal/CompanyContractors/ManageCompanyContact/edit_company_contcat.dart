@@ -7,6 +7,10 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_add_contact_controller.dart';
+import '../../../Controller/CompanyController/company_edit_contact_controller.dart';
+import '../../../Network/api_constant.dart';
+
 class EditCompanyContact extends StatefulWidget {
   EditCompanyContact({required this.id, required this.customerType, required this.fistName, required this.laseName, required this.companyName, required this.address, required this.city, required this.state, required this.zipCode, required this.email, required this.homeNo, required this.mobileNo, Key? key}) : super(key: key);
 
@@ -104,12 +108,18 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
         title: const Center(
           child: Text("Edit Contacts", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

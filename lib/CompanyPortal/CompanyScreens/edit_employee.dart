@@ -8,6 +8,7 @@ import '../../Controller/CompanyController/company_edit_employee_controller.dart
 import '../../Controller/CompanyController/company_employee_detail_controller.dart';
 import '../../Models/CompanyModels/company_edit_employee_model.dart';
 import '../../Models/CompanyModels/company_employee_detail_model.dart';
+import '../../../Network/api_constant.dart';
 
 class EditEmployee extends StatefulWidget {
   EditEmployee({required this.employeeId, Key? key}) : super(key: key);
@@ -46,10 +47,9 @@ class _EditEmployeeState extends State<EditEmployee> {
               }
           });
     });
-
-    Future.delayed(Duration.zero, () {
-      initialize(context, widget.employeeId);
-    });
+    // Future.delayed(Duration.zero, () {
+    initialize(context, widget.employeeId);
+    // });
     super.initState();
   }
 
@@ -59,6 +59,11 @@ class _EditEmployeeState extends State<EditEmployee> {
       setState(() {
         employeeDetailModel = value;
         debugPrint(employeeDetailModel.data.employeeName);
+
+        editEmployeeController.email.text = employeeDetailModel.data.email;
+        editEmployeeController.employeeName.text =
+            employeeDetailModel.data.employeeName;
+
         loading = false;
       });
     });
@@ -100,12 +105,18 @@ class _EditEmployeeState extends State<EditEmployee> {
         title: const Center(
           child: Text("Edit Employee", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -193,7 +204,7 @@ class _EditEmployeeState extends State<EditEmployee> {
                             const Padding(
                               padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                               child: Text(
-                                "Password",
+                                "Password:(only add if you want to change)",
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),
@@ -204,14 +215,18 @@ class _EditEmployeeState extends State<EditEmployee> {
                                 style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                  hintText: '********',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -257,7 +272,8 @@ class _EditEmployeeState extends State<EditEmployee> {
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (editEmployeeController.email.text.isEmpty) {
+                                  } else if (editEmployeeController
+                                      .employeeName.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text("Oops!, Employee Name missing."),

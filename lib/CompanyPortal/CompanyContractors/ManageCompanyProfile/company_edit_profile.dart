@@ -7,6 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Controller/CompanyController/company_edit_profile_controller.dart';
+import '../../../Controller/CompanyController/company_profile_controller.dart';
+import '../../../Models/CompanyModels/company_profile_model.dart';
+import '../../../Network/api_constant.dart';
+import '../../../utils/Colors.dart';
+
 class CompanyEditProfile extends StatefulWidget {
   const CompanyEditProfile({Key? key}) : super(key: key);
 
@@ -66,467 +72,637 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorScreenBg,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: const Center(
-          child: Text("Edit Details", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: companyProfileModel.data.companyLogo.isEmpty
-                ? const CircleAvatar(
-                    radius: 18,
-                    backgroundImage: AssetImage('assets/man.jpeg'),
-                  )
-                : CircleAvatar(
-                    radius: 18,
-                    backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
-                  ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          );
-        }),
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        _imgFromGallery();
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                          child: companyProfileModel.data.companyLogo.isEmpty
-                              ? const CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage: AssetImage('assets/man.jpeg'),
-                                )
-                              : CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
-                                )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "User Name",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.name,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Employee Email",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.email,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'crazycoder09@gmail.com',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Company Name",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.companyName,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'test11',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Company Contact person",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.contactPerson,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'IT',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "phone",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.phone,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Address",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.address,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "City",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.city,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "State",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.state,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Zip Code",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.zipCode,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "CreditCard Name",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.creditCardName,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "CreditCard No",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.creditCardNo,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Creditcard Exp date",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.creditCardExp,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                            onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  //DateTime.now() - not to allow to choose before today.
-                                  lastDate: DateTime(2101));
-
-                              if (pickedDate != null) {
-                                String formattedDate = DateFormat('MM/yy').format(pickedDate);
-                                setState(() {
-                                  updateProfileController.creditCardExp.text = formattedDate;
-                                });
-                              } else {
-                                debugPrint("Date is not selected");
-                              }
-                            },
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
-                          child: Text(
-                            "Security Code",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            controller: updateProfileController.securityCode,
-                            keyboardType: TextInputType.number,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test Edit 1',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 18.0),
-                          child: GestureDetector(
-                            onTap: () async {
-                              await updateProfileController.updateProfileDetails(context);
-                            },
-                            child: Container(
-                              width: double.infinity,
-                              height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                              child: const Center(
-                                child: Text(
-                                  'Update',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            backgroundColor: colorScreenBg,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: Center(
+                child: Text("Edit Details",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black)),
               ),
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: companyProfileModel.data.companyLogo.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage: NetworkImage(
+                              companyProfileModel.data.companyLogo),
+                        ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
             ),
-    );
+            body: loading
+                ? Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                _imgFromGallery();
+                              },
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: companyProfileModel
+                                          .data.companyLogo.isEmpty
+                                      ? const CircleAvatar(
+                                          radius: 80,
+                                          backgroundImage:
+                                              AssetImage('assets/man.jpeg'),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 80,
+                                          backgroundImage: NetworkImage(
+                                              companyProfileModel
+                                                  .data.companyLogo),
+                                        )),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "User Name",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.name,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Employee Email",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.email,
+                                    style: TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'crazycoder09@gmail.com',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Company Name",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.companyName,
+                                    style: TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'test11',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Company Contact person",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                Container(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.contactPerson,
+                                    style: TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'IT',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "phone",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.phone,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Address",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.address,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "City",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.city,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "State",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.state,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Zip Code",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller: updateProfileController.zipCode,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "CreditCard Name",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.creditCardName,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "CreditCard No",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.creditCardNo,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Creditcard Exp date",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.creditCardExp,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          //DateTime.now() - not to allow to choose before today.
+                                          lastDate: DateTime(2101));
+
+                                      if (pickedDate != null) {
+                                        print(
+                                            pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                        String formattedDate =
+                                            DateFormat('MM/yy')
+                                                .format(pickedDate);
+                                        print(
+                                            formattedDate); //formatted date output using intl package =>  2021-03-16
+                                        //you can implement different kind of Date Format here according to your requirement
+
+                                        setState(() {
+                                          updateProfileController
+                                                  .creditCardExp.text =
+                                              formattedDate; //set output date to TextField value.
+                                        });
+                                      } else {
+                                        print("Date is not selected");
+                                      }
+                                    },
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 16.0, bottom: 6.0, right: 8),
+                                  child: Text(
+                                    "Security Code",
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child: TextField(
+                                    controller:
+                                        updateProfileController.securityCode,
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                        height: 1.7,
+                                        fontSize: 18,
+                                        color: Colors.black),
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      hintText: 'Test Edit 1',
+                                      fillColor: colorScreenBg,
+                                      filled: true,
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 12, top: 6, bottom: 6),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Colors.grey, width: 1.0),
+                                          borderRadius:
+                                              BorderRadius.circular(7)),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: colorGray, width: 1.0),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 18.0),
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      await updateProfileController
+                                          .updateProfileDetails(context)
+                                          .then((value) {
+                                        ApiConstant.profileImage = '';
+                                        ApiConstant.profileImage =
+                                            companyProfileModel!
+                                                .data.companyLogo;
+                                      });
+                                    },
+                                    child: Container(
+                                        width: double.infinity,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: appThemeGreen,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: Center(
+                                          child: Text(
+                                            'Update',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+          );
   }
 }

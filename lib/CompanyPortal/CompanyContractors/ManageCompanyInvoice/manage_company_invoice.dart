@@ -6,6 +6,7 @@ import '../../../Controller/CompanyController/company_invoive_controller.dart';
 import '../../../Models/CompanyModels/company_invoice_model.dart';
 import 'add_company_invoice.dart';
 import 'edit_company_invoice.dart';
+import '../../../Network/api_constant.dart';
 
 class ManageCompanyInvoice extends StatefulWidget {
   const ManageCompanyInvoice({Key? key}) : super(key: key);
@@ -59,12 +60,18 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
         title: const Center(
           child: Text("Manage Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

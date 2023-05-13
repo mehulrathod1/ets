@@ -5,6 +5,9 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_edit_note_controller.dart';
+import '../../../Network/api_constant.dart';
+
 class EditCompanyNote extends StatefulWidget {
   EditCompanyNote({required this.id, required this.noteStatus, required this.noteName, required this.noteDescription, required this.employeeList, Key? key}) : super(key: key);
 
@@ -47,12 +50,18 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
         title: const Center(
           child: Text("Edit Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

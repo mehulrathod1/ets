@@ -3,6 +3,7 @@ import 'package:etsemployee/Models/CompanyModels/company_view_map_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Network/api_constant.dart';
 
 class ViewAttendanceLocation extends StatefulWidget {
   const ViewAttendanceLocation({Key? key}) : super(key: key);
@@ -41,16 +42,25 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Location", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Location",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -84,9 +94,14 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                               borderRadius: BorderRadius.circular(15),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  border: Border.all(width: 1, color: appThemeGreen),
+                                  border: Border.all(
+                                      width: 1, color: appThemeGreen),
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -99,7 +114,9 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     ClipRRect(
-                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15)),
                                       child: SizedBox(
                                         height: 180,
                                         width: double.infinity,
@@ -112,11 +129,14 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           const Text(
                                             "Tuesday Jan 03,2023",
-                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(
                                             height: 8,
@@ -125,11 +145,16 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                             children: [
                                               const Text(
                                                 "Status: ",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 "In",
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -140,11 +165,16 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                             children: [
                                               const Text(
                                                 "Time Zone: ",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 "IST",
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -155,11 +185,16 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                             children: [
                                               const Text(
                                                 "Time: ",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Text(
                                                 "10:00:00 am",
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ],
                                           ),
@@ -167,16 +202,22 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                             height: 8,
                                           ),
                                           Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               const Text(
                                                 "Address: ",
-                                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                               Expanded(
                                                 child: Text(
                                                   detail.addressIn,
-                                                  style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: colorTextGray),
                                                 ),
                                               ),
                                             ],

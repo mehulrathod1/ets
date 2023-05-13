@@ -12,4 +12,13 @@ class GetCompanyEmployeeController {
       return null;
     }
   }
+
+  Future getCompanyEmployeeList(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyInbox);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
+    } else {
+      return null;
+    }
+  }
 }

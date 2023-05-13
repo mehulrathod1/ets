@@ -1,6 +1,10 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../../Controller/CompanyController/compay_add_order_controller.dart';
+import '../../../Network/api_constant.dart';
 
 class EditCompanyOrder extends StatefulWidget {
   const EditCompanyOrder({Key? key}) : super(key: key);
@@ -11,6 +15,58 @@ class EditCompanyOrder extends StatefulWidget {
 
 class _EditCompanyOrderState extends State<EditCompanyOrder> {
   bool termsandcond = true;
+  List<DropdownMenuItem<Object?>> orderListItems = [];
+  String selectedOrder = "Select Estimate";
+  CompanyAddOrderController addOrderController = CompanyAddOrderController();
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      addOrderController.orderStatus.text = "0";
+      await addOrderController
+          .getEstimateOrderListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      orderListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      orderListItems.clear();
+                    }),
+                  }
+              });
+    });
+
+    super.initState();
+  }
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      addOrderController.estimateId.text = selectedTest['estimate_id'];
+      selectedOrder = selectedTest['estimate_name'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +75,24 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Order",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions:  <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+              radius: 18,
               backgroundImage: AssetImage('assets/man.jpeg'),
+            )
+                : CircleAvatar(
+              radius: 18,
+              backgroundImage: NetworkImage(ApiConstant.profileImage),
             ),
           ),
         ],
@@ -64,40 +129,44 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            suffixIcon: Align(
-                              widthFactor: 1,
-                              heightFactor: 1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: appThemeGreen,
-                              ),
-                            ),
-                            hintText: 'Test Estimate Section',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
                           ),
-                        ),
-                      ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedOrder,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedOrder == "Select Estimate"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: orderListItems),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor: MaterialStateProperty.all(appThemeGreen),
+                                fillColor:
+                                    MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
@@ -120,17 +189,23 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter order name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -145,11 +220,15 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -157,7 +236,8 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -171,11 +251,15 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -183,7 +267,8 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -198,7 +283,8 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -213,10 +299,15 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -232,17 +323,23 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter additional amount',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -258,17 +355,23 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '01/19/2023',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -284,17 +387,23 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -316,11 +425,15 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                       ),
                       Container(
                         height: 150,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -328,7 +441,8 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -337,10 +451,13 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: colorred),
                                 child: const Center(
                                     child: Padding(
                                   padding: EdgeInsets.all(8),
@@ -354,14 +471,19 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: appThemeGreen),
                                 child: const Center(
                                     child: Padding(
                                   padding: EdgeInsets.all(8),
-                                  child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                  child: Text("Submit Signature",
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.white)),
                                 )),
                               ),
                             ),
@@ -373,11 +495,14 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )

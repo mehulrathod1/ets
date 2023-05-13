@@ -4,8 +4,13 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
 class CompanyProfileController {
-  Future<CompanyProfileModel> getCompanyProfile(BuildContext context) async {
+  Future getCompanyProfile(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyProfile);
-    return CompanyProfileModel.fromJson(response);
+
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyProfileModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }
