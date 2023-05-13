@@ -3,8 +3,6 @@ import 'package:etsemployee/Controller/CompanyController/company_add_contact_con
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../../Controller/CompanyController/company_add_contact_controller.dart';
 import '../../../Network/api_constant.dart';
 
 class AddCompanyContact extends StatefulWidget {
@@ -77,9 +75,9 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
         title: const Center(
           child: Text("Add Contacts", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: ApiConstant.profileImage.isEmpty
                 ? const CircleAvatar(
                     radius: 18,
@@ -490,93 +488,78 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
                             onTap: () async {
-                              if (selectedCustomerType.isEmpty ||
-                                  addCompanyContactController
-                                      .customerType.text.isEmpty) {
+                              if (selectedCustomerType.isEmpty || addCompanyContactController.customerType.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text(
-                                        "Oops!, Please select customer type from list."),
+                                    content: Text("Oops!, Please select customer type from list."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .firstName.text.isEmpty) {
+                              } else if (addCompanyContactController.firstName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, First name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .lastName.text.isEmpty) {
+                              } else if (addCompanyContactController.lastName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Last name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .address.text.isEmpty) {
+                              } else if (addCompanyContactController.address.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Address missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .city.text.isEmpty) {
+                              } else if (addCompanyContactController.city.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, City name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .state.text.isEmpty) {
+                              } else if (addCompanyContactController.state.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, State name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .zipcode.text.isEmpty) {
+                              } else if (addCompanyContactController.zipcode.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Zipcode missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .email.text.isEmpty) {
+                              } else if (addCompanyContactController.email.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Email missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .homeNumber.text.isEmpty) {
+                              } else if (addCompanyContactController.homeNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text(
-                                        "Oops!, Home/Office number missing."),
+                                    content: Text("Oops!, Home/Office number missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .mobileNumber.text.isEmpty) {
+                              } else if (addCompanyContactController.mobileNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content:
-                                        Text("Oops!, Mobile number missing."),
+                                    content: Text("Oops!, Mobile number missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
                               } else {
-                                await addCompanyContactController
-                                    .addCompanyContact(context);
+                                await addCompanyContactController.addCompanyContact(context);
                               }
                             },
                             child: Container(

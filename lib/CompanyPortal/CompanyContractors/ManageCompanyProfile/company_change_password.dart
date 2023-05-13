@@ -1,11 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:etsemployee/Controller/CompanyController/company_change_password_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CompanyChangePassword extends StatefulWidget {
-  CompanyChangePassword({required this.profilePicture, Key? key})
-      : super(key: key);
+  CompanyChangePassword({required this.profilePicture, Key? key}) : super(key: key);
 
   String? profilePicture;
 
@@ -31,7 +32,7 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
         title: const Center(
           child: Text("reset Password", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
             child: widget.profilePicture!.isEmpty

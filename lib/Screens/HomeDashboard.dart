@@ -243,7 +243,10 @@ class _HomeDashboard extends State<HomeDashboard> {
             drawer: Drawer(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg), MyDrawerList()],
+                  children: [
+                    MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg),
+                    MyDrawerList()
+                  ],
                 ),
               ),
             ),

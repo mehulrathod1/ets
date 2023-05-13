@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:etsemployee/Controller/CompanyController/company_profile_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
 
@@ -17,15 +21,13 @@ class _CompanyProfileState extends State<CompanyProfile> {
   CompanyProfileController companyLoginController = CompanyProfileController();
   CompanyProfileModel? companyProfileModel;
   bool loading = false;
-  XFile? image = null;
+  XFile? image;
   bool myImage = true;
 
   Future _imgFromGallery() async {
     myImage = false;
-    var image2 = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
-
-    print(image2!.path);
+    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+    debugPrint(image2!.path);
     setState(() {
       image = image2;
     });
@@ -39,13 +41,13 @@ class _CompanyProfileState extends State<CompanyProfile> {
 
   Future<File> urlToFile(String imageUrl) async {
 // generate random number.
-    var rng = new Random();
+    var rng = Random();
 // get temporary directory of device.
     Directory tempDir = await getTemporaryDirectory();
 // get temporary path from temporary directory.
     String tempPath = tempDir.path;
 // create a new file in temporary path with random file name.
-    File file = new File('$tempPath' + (rng.nextInt(100)).toString() + '.png');
+    File file = File('$tempPath${rng.nextInt(100)}.png');
 // call http.get method and pass imageUrl into it to get response.
     http.Response response = await http.get(Uri.parse(imageUrl));
 // write bodyBytes received in response to file.
@@ -115,363 +117,292 @@ class _CompanyProfileState extends State<CompanyProfile> {
             //   }),
             // ),
             body: SingleChildScrollView(
-              child: Container(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          _imgFromGallery();
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8)),
-                            child: myImage
-                                ? companyProfileModel!.data.companyLogo.isEmpty
-                                    ? const CircleAvatar(
-                                        radius: 80,
-                                        backgroundImage:
-                                            AssetImage('assets/man.jpeg'),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 80,
-                                        backgroundImage: NetworkImage(
-                                            companyProfileModel!
-                                                .data.companyLogo),
-                                      )
-                                : CircleAvatar(
-                                    radius: 80,
-                                    child: Image.file(File(image!.path),
-                                        fit: BoxFit.fitHeight),
-                                  )),
-                      ),
-                    ),
-                    Text(
-                      companyProfileModel!.data.companyName,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        companyProfileModel!.data.email,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 18.0, left: 8, right: 8, bottom: 8),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _imgFromGallery();
+                      },
                       child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(width: 1, color: Colors.black),
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Name: ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.username,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Email: ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.email,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Company Name: ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.companyName,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Contact Person: ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.contactPerson,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Phone : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.phone,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Address : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.address,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "City : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.city,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "State : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.state,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Zip Code : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.zip,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Creditcard No : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.creditcardNo,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Creditcard Exp date: ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.creditcardExpDate,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 14,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Security Code : ",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    companyProfileModel!.data.securityCode,
-                                    style: TextStyle(
-                                        fontSize: 18, color: colorTextGray),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                          child: myImage
+                              ? companyProfileModel!.data.companyLogo.isEmpty
+                                  ? const CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: AssetImage('assets/man.jpeg'),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: NetworkImage(companyProfileModel!.data.companyLogo),
+                                    )
+                              : CircleAvatar(
+                                  radius: 80,
+                                  child: Image.file(File(image!.path), fit: BoxFit.fitHeight),
+                                )),
+                    ),
+                  ),
+                  Text(
+                    companyProfileModel!.data.companyName,
+                    style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      companyProfileModel!.data.email,
+                      style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18.0, left: 8, right: 8, bottom: 8),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(width: 1, color: Colors.black), color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "Name: ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.username,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Email: ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.email,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Company Name: ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.companyName,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Contact Person: ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.contactPerson,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Phone : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.phone,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Address : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.address,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "City : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.city,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "State : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.state,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Zip Code : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.zip,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Creditcard No : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.creditcardNo,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Creditcard Exp date: ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.creditcardExpDate,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 14,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "Security Code : ",
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  companyProfileModel!.data.securityCode,
+                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CompanyEditProfile()));
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Edit Profile',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyEditProfile()));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'Edit Profile',
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          )),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CompanyChangePassword(
-                                      profilePicture: companyProfileModel!
-                                          .data.companyLogo)));
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeBlue,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Change Password',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
-                      ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyChangePassword(profilePicture: companyProfileModel!.data.companyLogo)));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'Change Password',
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          )),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8, left: 8, right: 8, bottom: 18),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => ProfileChangeRequest()));
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Delete Account',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 18),
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => ProfileChangeRequest()));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          height: 40,
+                          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'Delete Account',
+                              style: TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          )),
+                    ),
+                  )
+                ],
               ),
             ),
           );

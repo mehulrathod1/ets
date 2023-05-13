@@ -29,13 +29,9 @@ class ApiConstant {
   static const companyDeleteTask = 'company/delete-task/';
   static const companyDeleteNote = 'company/delete-notes/';
   static const companyEditNote = 'company/edit-notes/';
-
   static const companyViewAttendance = 'company/view-attendance/';
   static const companyViewHours = 'company/view-hours-employee/';
   static const companyViewImage = 'company/view-image-employee/';
-  static const companyViewAttendance = 'company/view-attendance/281/';
-  static const companyViewHours = 'company/view-hours-employee/281/2022-11-18/';
-  static const companyViewImage = 'company/view-image-employee/281/2022-11-18/';
   static const companyViewMap = 'company/view-map-employee/281/2022-11-18/';
   static const sendLocationRequest = 'company/send_live_location_request_employee.php?id=281';
   static const sendCallRequest = 'company/send_call_for_attendance_request.php?id=281';
