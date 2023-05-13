@@ -12,6 +12,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../../../Network/api_constant.dart';
 
 import '../../Controller/CompanyController/company_attendance_controller.dart';
 import '../../Controller/CompanyController/company_hour_controller.dart';
@@ -42,7 +43,7 @@ class _ViewAttendanceState extends State<ViewAttendance> {
 
   TextEditingController fromDate = TextEditingController();
   TextEditingController toDate = TextEditingController();
-
+  String? date;
   @override
   void initState() {
     initialize(context);
@@ -71,12 +72,6 @@ class _ViewAttendanceState extends State<ViewAttendance> {
         }
       });
     });
-    await hourController.getHour(context).then((value) {
-      setState(() {
-        hourModel = value;
-        hourList = hourModel.data.hoursList;
-      });
-    });
   }
 
   @override
@@ -93,12 +88,18 @@ class _ViewAttendanceState extends State<ViewAttendance> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -387,6 +388,7 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                         itemCount: attendanceList.length,
                         itemBuilder: (context, index) {
                           var detail = attendanceList[index];
+                          date = DateFormat('yyyy-MM-dd').format(detail.date);
                           return Padding(
                             padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                             child: ClipRRect(
@@ -467,7 +469,7 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.date.toString(),
+                                                date!,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -595,8 +597,22 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                         FontWeight.bold),
                                               ),
                                               GestureDetector(
-                                                onTap: () {
-                                                  viewHours(context, hourList);
+                                                onTap: () async {
+                                                  await hourController
+                                                      .getHour(
+                                                          context,
+                                                          widget.employeeId,
+                                                          date!)
+                                                      .then((value) {
+                                                    setState(() {
+                                                      hourModel = value;
+                                                      hourList = hourModel
+                                                          .data.hoursList;
+
+                                                      viewHours(
+                                                          context, hourList);
+                                                    });
+                                                  });
                                                 },
                                                 child: Text(
                                                   "View Hour's",
@@ -625,7 +641,11 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const ViewAttendanceImage()));
+                                                              ViewAttendanceImage(
+                                                                id: widget
+                                                                    .employeeId,
+                                                                date: date!,
+                                                              )));
                                                 },
                                                 child: Text(
                                                   "View Image",

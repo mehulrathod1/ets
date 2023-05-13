@@ -6,7 +6,10 @@ import '../../../Controller/CompanyController/company_change_password_controller
 import '../../../utils/Colors.dart';
 
 class CompanyChangePassword extends StatefulWidget {
-  const CompanyChangePassword({Key? key}) : super(key: key);
+  CompanyChangePassword({required this.profilePicture, Key? key})
+      : super(key: key);
+
+  String? profilePicture;
 
   @override
   State<CompanyChangePassword> createState() => _CompanyChangePasswordState();
@@ -36,9 +39,15 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: widget.profilePicture!.isEmpty
+                ? const CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('assets/etslogo.png'),
+                  )
+                : CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(widget.profilePicture!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

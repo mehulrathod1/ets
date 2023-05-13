@@ -8,7 +8,9 @@ import 'company_notification.dart';
 import 'manage_approval.dart';
 
 class CompanyHome extends StatefulWidget {
-  const CompanyHome({Key? key}) : super(key: key);
+  CompanyHome({this.changeScreen, Key? key}) : super(key: key);
+
+  Function(int)? changeScreen;
 
   @override
   State<CompanyHome> createState() => _CompanyHomeState();
@@ -27,6 +29,7 @@ class _CompanyHomeState extends State<CompanyHome>
   bool loading = false;
 
   String totalEmployee = 'aaa';
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +43,12 @@ class _CompanyHomeState extends State<CompanyHome>
 
     totalEmployeeController.getTotalEmployee(context).then((value) {
       setState(() {
-        totalEmployeeModel = value;
-        debugPrint(totalEmployeeModel?.data.toString());
+        if (value != null) {
+          totalEmployeeModel = value;
+          debugPrint(totalEmployeeModel?.data.toString());
+        } else {
+          loading = false;
+        }
       });
     });
   }
@@ -50,19 +57,22 @@ class _CompanyHomeState extends State<CompanyHome>
     loading = true;
     companyTotalDepartmentController.getTotalDepartment(context).then((value) {
       setState(() {
-        departmentModel = value;
-        debugPrint(departmentModel?.data.toString());
-        loading = false;
+        if (value != null) {
+          departmentModel = value;
+          loading = false;
+        } else {
+          loading = false;
+        }
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -73,7 +83,9 @@ class _CompanyHomeState extends State<CompanyHome>
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              widget.changeScreen!(1);
+                            },
                             child: Container(
                               height: 130,
                               decoration: BoxDecoration(
@@ -112,7 +124,9 @@ class _CompanyHomeState extends State<CompanyHome>
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              widget.changeScreen!(1);
+                            },
                             child: Container(
                               height: 130,
                               decoration: BoxDecoration(
@@ -192,6 +206,6 @@ class _CompanyHomeState extends State<CompanyHome>
                 )
               ],
             ),
-    );
+          );
   }
 }

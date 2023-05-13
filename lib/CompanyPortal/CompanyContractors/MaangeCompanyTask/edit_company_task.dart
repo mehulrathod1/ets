@@ -2,6 +2,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Network/api_constant.dart';
+
 class EditCompanyTask extends StatefulWidget {
   const EditCompanyTask({Key? key}) : super(key: key);
 
@@ -23,11 +25,18 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
         title: const Center(
           child: Text("Edit Tasks", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions:  <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+              radius: 18,
               backgroundImage: AssetImage('assets/man.jpeg'),
+            )
+                : CircleAvatar(
+              radius: 18,
+              backgroundImage:
+              NetworkImage(ApiConstant.profileImage),
             ),
           ),
         ],

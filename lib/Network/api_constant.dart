@@ -4,6 +4,7 @@ class ApiConstant {
   // --------------------------------- company portal --------------------------------------------------------
 
   static String userToken = '';
+  static String profileImage = '';
   static const companyLogin = 'company-login/';
   static const companyProfile = 'company/get-profile';
   static const companyAllEmployee =
@@ -39,8 +40,8 @@ class ApiConstant {
   static const companyEditNote = 'company/edit-notes/';
 
   static const companyViewAttendance = 'company/view-attendance/';
-  static const companyViewHours = 'company/view-hours-employee/281/2022-11-18/';
-  static const companyViewImage = 'company/view-image-employee/281/2022-11-18/';
+  static const companyViewHours = 'company/view-hours-employee/';
+  static const companyViewImage = 'company/view-image-employee/';
   static const companyViewMap = 'company/view-map-employee/281/2022-11-18/';
   static const sendLocationRequest =
       'company/send_live_location_request_employee.php?id=';

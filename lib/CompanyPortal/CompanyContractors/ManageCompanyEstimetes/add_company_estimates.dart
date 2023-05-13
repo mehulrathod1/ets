@@ -3,8 +3,10 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import '../../../Network/api_constant.dart';
 
 import '../../../Controller/CompanyController/company_add_estimate_controller.dart';
+import '../../../Controller/CompanyController/get_company_employee_controller.dart';
 
 class AddCompanyEstimates extends StatefulWidget {
   const AddCompanyEstimates({Key? key}) : super(key: key);
@@ -19,6 +21,11 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
 
   List<DropdownMenuItem<Object?>> contactListItems = [];
   String selectedContact = "Select Contact";
+
+  GetCompanyEmployeeController companyEmployeeController =
+      GetCompanyEmployeeController();
+  List<DropdownMenuItem<Object?>> employeeListItems = [];
+  String selectedEmployee = "Select Employee";
 
   @override
   void initState() {
@@ -82,12 +89,18 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

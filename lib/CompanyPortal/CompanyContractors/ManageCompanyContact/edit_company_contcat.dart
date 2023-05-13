@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../../Controller/CompanyController/company_add_contact_controller.dart';
 import '../../../Controller/CompanyController/company_edit_contact_controller.dart';
+import '../../../Network/api_constant.dart';
 
 class EditCompanyContact extends StatefulWidget {
   EditCompanyContact(
@@ -124,12 +125,18 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

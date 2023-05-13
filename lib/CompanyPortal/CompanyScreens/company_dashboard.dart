@@ -11,9 +11,12 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Network/api_constant.dart';
+import '../../Network/api_constant.dart';
 import '../CompanyContractors/ManageCompanyProfile/company_profile.dart';
 import 'agency_management.dart';
 import 'company_agreement.dart';
+import 'company_drawer_header.dart';
 import 'company_fix_hour_request.dart';
 import 'company_home.dart';
 import 'company_notification.dart';
@@ -35,8 +38,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   String appBarTitle = "";
   int _selectedIndex = 0;
   var container;
-  CompanyProfileController companyLoginController = CompanyProfileController();
-  late CompanyProfileModel companyProfileModel;
+  CompanyProfileController companyProfileController =
+      CompanyProfileController();
+  CompanyProfileModel? companyProfileModel;
 
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,11 +53,15 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await companyLoginController.getCompanyProfile(context).then((value) {
+    await companyProfileController.getCompanyProfile(context).then((value) {
       setState(() {
-        companyProfileModel = value;
-        debugPrint(companyProfileModel.data.companyName);
-        loading = false;
+        if (value != null) {
+          companyProfileModel = value;
+          ApiConstant.profileImage = companyProfileModel!.data.companyLogo;
+          loading = false;
+        } else {
+          loading = false;
+        }
       });
     });
   }
@@ -70,7 +78,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       } else if (_selectedIndex == 3) {
         currentPage = DrawerSelection.Notification;
       } else if (_selectedIndex == 4) {
-        currentPage = DrawerSelection.Dashboard;
+        currentPage = DrawerSelection.Profile;
       }
     });
   }
@@ -208,10 +216,20 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
     super.initState();
   }
 
+  void changeScreen(int index) {
+    setState(() {
+      if (index == 0) {
+        currentPage = DrawerSelection.EmployeeManagement;
+      } else if (index == 1) {
+        currentPage = DrawerSelection.Department;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (currentPage == DrawerSelection.Dashboard) {
-      container = const CompanyHome();
+      container = CompanyHome(changeScreen: changeScreen);
       appBarTitle = "Dashboard";
     }
     if (currentPage == DrawerSelection.EmployeeManagement) {
@@ -257,121 +275,135 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
     if (currentPage == DrawerSelection.Request) {
       container = const CompanyRequest();
       appBarTitle = "Request";
+    } else if (currentPage == DrawerSelection.Profile) {
+      container = const CompanyProfile();
+      appBarTitle = "Profile";
     }
     if (currentPage == DrawerSelection.Logout) {
       navigate();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text(appBarTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black)),
-        ),
-        actions: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CompanyProfile()));
-            },
-            child: Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: companyProfileModel.data.companyLogo.isEmpty
-                  ? const CircleAvatar(
-                      radius: 18,
-                      backgroundImage: AssetImage('assets/man.jpeg'),
-                    )
-                  : CircleAvatar(
-                      radius: 18,
-                      backgroundImage:
-                          NetworkImage(companyProfileModel.data.companyLogo),
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: Center(
+                child: Text(appBarTitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                GestureDetector(
+                  // onTap: () {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const CompanyProfile()));
+                  // },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: companyProfileModel!.data.companyLogo.isEmpty
+                        ? const CircleAvatar(
+                            radius: 18,
+                            backgroundImage: AssetImage('assets/man.jpeg'),
+                          )
+                        : CircleAvatar(
+                            radius: 18,
+                            backgroundImage: NetworkImage(
+                                companyProfileModel!.data.companyLogo),
+                          ),
+                  ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              }),
+            ),
+            drawer: Drawer(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    CompanyDrawerHeader(
+                      userName: companyProfileModel!.data.companyName,
+                      email: companyProfileModel!.data.email,
+                      profilePicture: companyProfileModel!.data.companyLogo,
                     ),
+                    MyDrawerList()
+                  ],
+                ),
+              ),
             ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.menu,
-              color: Colors.black,
+            bottomNavigationBar: Container(
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: colorScreenBg,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                ],
+              ),
+              child: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/home.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/chat.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/location.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/notification.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                    BottomNavigationBarItem(
+                        icon: ImageIcon(
+                          AssetImage("assets/profile1.png"),
+                        ),
+                        label: "",
+                        backgroundColor: Colors.green),
+                  ],
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: appThemeGreen,
+                  unselectedItemColor: Colors.black,
+                  iconSize: 30,
+                  onTap: _onItemTapped,
+                  elevation: 5),
             ),
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
+            body: loading
+                ? const Center(child: CircularProgressIndicator())
+                : container,
           );
-        }),
-      ),
-      drawer: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [const MyDrawerHeader(), MyDrawerList()],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: colorScreenBg,
-          borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-          boxShadow: const [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: BottomNavigationBar(
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/home.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/chat.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/location.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/notification.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-              BottomNavigationBarItem(
-                  icon: ImageIcon(
-                    AssetImage("assets/profile1.png"),
-                  ),
-                  label: "",
-                  backgroundColor: Colors.green),
-            ],
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            selectedItemColor: appThemeGreen,
-            unselectedItemColor: Colors.black,
-            iconSize: 30,
-            onTap: _onItemTapped,
-            elevation: 5),
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : container,
-    );
   }
 }
 
@@ -389,5 +421,6 @@ enum DrawerSelection {
   SubscriptionAgreement,
   HowItWorks,
   Request,
-  Logout
+  Logout,
+  Profile
 }

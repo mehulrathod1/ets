@@ -22,19 +22,19 @@ class CompanyProfile extends StatefulWidget {
 
 class _CompanyProfileState extends State<CompanyProfile> {
   CompanyProfileController companyLoginController = CompanyProfileController();
-  late CompanyProfileModel companyProfileModel;
+  CompanyProfileModel? companyProfileModel;
   bool loading = false;
   XFile? image = null;
-  String con = "";
+  bool myImage = true;
 
   Future _imgFromGallery() async {
+    myImage = false;
     var image2 = await ImagePicker()
         .pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     print(image2!.path);
     setState(() {
       image = image2;
-      con = 'imageSelected';
     });
   }
 
@@ -67,58 +67,62 @@ class _CompanyProfileState extends State<CompanyProfile> {
     loading = true;
     await companyLoginController.getCompanyProfile(context).then((value) {
       setState(() {
-        companyProfileModel = value;
-        debugPrint(companyProfileModel.data.companyName);
-
-        urlToFile(companyProfileModel.data.companyLogo);
-        loading = false;
+        if (value != null) {
+          companyProfileModel = value;
+          debugPrint(companyProfileModel?.data.companyName);
+          urlToFile(companyProfileModel!.data.companyLogo);
+          loading = false;
+        } else {
+          loading = false;
+        }
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorScreenBg,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Profile",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: companyProfileModel.data.companyLogo.isEmpty
-                ? const CircleAvatar(
-                    radius: 18,
-                    backgroundImage: AssetImage('assets/man.jpeg'),
-                  )
-                : CircleAvatar(
-                    radius: 18,
-                    backgroundImage:
-                        NetworkImage(companyProfileModel.data.companyLogo),
-                  ),
-          ),
-        ],
-        leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          );
-        }),
-      ),
-      body: loading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
+    return loading
+        ? const Scaffold(body: Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            backgroundColor: colorScreenBg,
+            // appBar: AppBar(
+            //   elevation: 0,
+            //   backgroundColor: colorScreenBg,
+            //   systemOverlayStyle:
+            //       SystemUiOverlayStyle(statusBarColor: Colors.blue),
+            //   title: Center(
+            //     child: Text("Profile",
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(color: Colors.black)),
+            //   ),
+            //   actions: <Widget>[
+            //     Padding(
+            //       padding: const EdgeInsets.only(right: 16.0),
+            //       child: companyProfileModel!.data.companyLogo.isEmpty
+            //           ? const CircleAvatar(
+            //               radius: 18,
+            //               backgroundImage: AssetImage('assets/man.jpeg'),
+            //             )
+            //           : CircleAvatar(
+            //               radius: 18,
+            //               backgroundImage: NetworkImage(
+            //                   companyProfileModel!.data.companyLogo),
+            //             ),
+            //     ),
+            //   ],
+            //   leading: Builder(builder: (context) {
+            //     return GestureDetector(
+            //       child: Icon(
+            //         Icons.arrow_back,
+            //         color: Colors.black,
+            //       ),
+            //       onTap: () {
+            //         Navigator.pop(context);
+            //       },
+            //     );
+            //   }),
+            // ),
+            body: SingleChildScrollView(
               child: Container(
                 child: Column(
                   children: [
@@ -129,24 +133,30 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           _imgFromGallery();
                         },
                         child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8)),
-                          child: companyProfileModel.data.companyLogo.isEmpty
-                              ? const CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage:
-                                      AssetImage('assets/man.jpeg'),
-                                )
-                              : CircleAvatar(
-                                  radius: 80,
-                                  backgroundImage: NetworkImage(
-                                      companyProfileModel.data.companyLogo),
-                                ),
-                        ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: myImage
+                                ? companyProfileModel!.data.companyLogo.isEmpty
+                                    ? const CircleAvatar(
+                                        radius: 80,
+                                        backgroundImage:
+                                            AssetImage('assets/man.jpeg'),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 80,
+                                        backgroundImage: NetworkImage(
+                                            companyProfileModel!
+                                                .data.companyLogo),
+                                      )
+                                : CircleAvatar(
+                                    radius: 80,
+                                    child: Image.file(File(image!.path),
+                                        fit: BoxFit.fitHeight),
+                                  )),
                       ),
                     ),
                     Text(
-                      companyProfileModel.data.companyName,
+                      companyProfileModel!.data.companyName,
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -155,7 +165,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        companyProfileModel.data.email,
+                        companyProfileModel!.data.email,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
@@ -184,7 +194,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.username,
+                                    companyProfileModel!.data.username,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -202,7 +212,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.email,
+                                    companyProfileModel!.data.email,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -220,7 +230,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.companyName,
+                                    companyProfileModel!.data.companyName,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -238,7 +248,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.contactPerson,
+                                    companyProfileModel!.data.contactPerson,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -256,7 +266,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.phone,
+                                    companyProfileModel!.data.phone,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -274,7 +284,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.address,
+                                    companyProfileModel!.data.address,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -292,7 +302,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.city,
+                                    companyProfileModel!.data.city,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -310,7 +320,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.state,
+                                    companyProfileModel!.data.state,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -328,7 +338,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.zip,
+                                    companyProfileModel!.data.zip,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -346,7 +356,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.creditcardNo,
+                                    companyProfileModel!.data.creditcardNo,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -364,7 +374,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.creditcardExpDate,
+                                    companyProfileModel!.data.creditcardExpDate,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -382,7 +392,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    companyProfileModel.data.securityCode,
+                                    companyProfileModel!.data.securityCode,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
                                   ),
@@ -424,8 +434,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      CompanyChangePassword()));
+                                  builder: (context) => CompanyChangePassword(
+                                      profilePicture: companyProfileModel!
+                                          .data.companyLogo)));
                         },
                         child: Container(
                             width: double.infinity,
@@ -471,6 +482,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
                 ),
               ),
             ),
-    );
+          );
   }
 }

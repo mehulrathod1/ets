@@ -7,6 +7,7 @@ import '../../Controller/CompanyController/company_edit_employee_controller.dart
 import '../../Controller/CompanyController/company_employee_detail_controller.dart';
 import '../../Models/CompanyModels/company_edit_employee_model.dart';
 import '../../Models/CompanyModels/company_employee_detail_model.dart';
+import '../../../Network/api_constant.dart';
 
 class EditEmployee extends StatefulWidget {
   EditEmployee({required this.employeeId, Key? key}) : super(key: key);
@@ -47,10 +48,9 @@ class _EditEmployeeState extends State<EditEmployee> {
               }
           });
     });
-
-    Future.delayed(Duration.zero, () {
-      initialize(context, widget.employeeId);
-    });
+    // Future.delayed(Duration.zero, () {
+    initialize(context, widget.employeeId);
+    // });
     super.initState();
   }
 
@@ -60,6 +60,11 @@ class _EditEmployeeState extends State<EditEmployee> {
       setState(() {
         employeeDetailModel = value;
         debugPrint(employeeDetailModel.data.employeeName);
+
+        editEmployeeController.email.text = employeeDetailModel.data.email;
+        editEmployeeController.employeeName.text =
+            employeeDetailModel.data.employeeName;
+
         loading = false;
       });
     });
@@ -105,12 +110,18 @@ class _EditEmployeeState extends State<EditEmployee> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -215,7 +226,7 @@ class _EditEmployeeState extends State<EditEmployee> {
                             const Padding(
                               padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                               child: Text(
-                                "Password",
+                                "Password:(only add if you want to change)",
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),
@@ -229,7 +240,6 @@ class _EditEmployeeState extends State<EditEmployee> {
                                     color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                  hintText: '********',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
@@ -301,20 +311,11 @@ class _EditEmployeeState extends State<EditEmployee> {
                                       ),
                                     );
                                   } else if (editEmployeeController
-                                      .email.text.isEmpty) {
+                                      .employeeName.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text(
                                             "Oops!, Employee Name missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (editEmployeeController
-                                      .password.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text("Oops!, password missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );

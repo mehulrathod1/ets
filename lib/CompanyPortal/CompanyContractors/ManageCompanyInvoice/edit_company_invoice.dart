@@ -1,6 +1,7 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../Network/api_constant.dart';
 
 class EditCompanyInvoice extends StatefulWidget {
   const EditCompanyInvoice({Key? key}) : super(key: key);
@@ -19,16 +20,25 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Invoice",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -67,7 +77,8 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -82,10 +93,15 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -101,17 +117,24 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Testing the estimate section description',
+                            hintText:
+                                'Testing the estimate section description',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -127,17 +150,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '500000',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -153,17 +182,24 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Testing the estimate section description',
+                            hintText:
+                                'Testing the estimate section description',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -179,17 +215,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '5000',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -205,17 +247,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '50000',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -231,17 +279,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '50000',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -257,17 +311,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '50',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -283,17 +343,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '50',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -309,17 +375,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '5',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -335,17 +407,23 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -357,7 +435,8 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor: MaterialStateProperty.all(appThemeGreen),
+                                fillColor:
+                                    MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
@@ -386,11 +465,15 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       ),
                       Container(
                         height: 150,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -398,7 +481,8 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -407,10 +491,13 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: colorred),
                                 child: const Center(
                                     child: Padding(
                                   padding: EdgeInsets.all(8),
@@ -424,14 +511,19 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 16.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 16.0, right: 8),
                               child: Container(
                                 height: 40,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: appThemeGreen),
                                 child: const Center(
                                     child: Padding(
                                   padding: EdgeInsets.all(8),
-                                  child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                  child: Text("Submit Signature",
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.white)),
                                 )),
                               ),
                             ),
@@ -443,11 +535,14 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )
