@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:etsemployee/Screens/Contractors/ManageConstruction/add_estimate.dart';
 import 'package:etsemployee/Screens/Contractors/ManageOrder/add_order.dart';
 import 'package:etsemployee/utils/Colors.dart';
@@ -7,7 +9,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'add_event.dart';
 
 class ManageSchedule extends StatefulWidget {
-  const ManageSchedule({Key? key}) : super(key: key);
+  ManageSchedule({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ManageSchedule> createState() => _ManageScheduleState();
@@ -32,12 +35,18 @@ class _ManageScheduleState extends State<ManageSchedule> {
         title: const Center(
           child: Text("Manage Schedule", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(widget.profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

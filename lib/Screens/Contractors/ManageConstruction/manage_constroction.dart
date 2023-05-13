@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:etsemployee/Controller/EmployeeController/employee_estimate_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_estimate_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageConstruction/add_estimate.dart';
@@ -7,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ManageConstruction extends StatefulWidget {
-  const ManageConstruction({Key? key}) : super(key: key);
+  ManageConstruction({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ManageConstruction> createState() => _ManageConstructionState();
@@ -51,12 +54,18 @@ class _ManageConstructionState extends State<ManageConstruction> {
         title: const Center(
           child: Text("Manage Estimate", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(widget.profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

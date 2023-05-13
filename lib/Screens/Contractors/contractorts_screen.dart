@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:etsemployee/Screens/Contractors/ManageConstruction/manage_constroction.dart';
 import 'package:etsemployee/Screens/Contractors/ManageContacts/manage_contacts.dart';
 import 'package:etsemployee/Screens/Contractors/ManageInvoice/manage_invoice.dart';
@@ -9,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'ManageNotes/manage_notes.dart';
 
 class ContractorsScreen extends StatefulWidget {
-  const ContractorsScreen({Key? key}) : super(key: key);
+  ContractorsScreen({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ContractorsScreen> createState() => _ContractorsScreenState();
@@ -32,7 +35,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageContactScreen()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -61,7 +64,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageInvoice()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageInvoice(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -97,7 +100,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageOrder()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageOrder(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -126,7 +129,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageConstruction()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageConstruction(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -162,7 +165,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageTask()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageTask(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -191,7 +194,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageNote()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -227,7 +230,7 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageSchedule()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageSchedule(profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,

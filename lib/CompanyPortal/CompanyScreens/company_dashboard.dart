@@ -1,20 +1,17 @@
 // ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, non_constant_identifier_names, constant_identifier_names
 
-import 'package:etsemployee/CommonWidget/my_drawer_header.dart';
 import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyProfile/company_profile.dart';
 import 'package:etsemployee/CompanyPortal/CompanyContractors/company_contractors_screen.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/employee_management.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/request.dart';
 import 'package:etsemployee/Controller/CompanyController/company_profile_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Screens/UserSelectionScreen.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/api_constant.dart';
-import '../CompanyContractors/ManageCompanyProfile/company_profile.dart';
 import 'agency_management.dart';
 import 'company_agreement.dart';
 import 'company_drawer_header.dart';
@@ -39,8 +36,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   String appBarTitle = "";
   int _selectedIndex = 0;
   var container;
-  CompanyProfileController companyProfileController =
-      CompanyProfileController();
+  CompanyProfileController companyProfileController = CompanyProfileController();
   CompanyProfileModel? companyProfileModel;
 
   Future<void> navigate() async {
@@ -256,12 +252,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: colorScreenBg,
-              systemOverlayStyle:
-                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
               title: Center(
-                child: Text(appBarTitle,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.black)),
+                child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
               ),
               actions: <Widget>[
                 GestureDetector(
@@ -272,7 +265,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
                   //           builder: (context) => const CompanyProfile()));
                   // },
                   child: Padding(
-                    padding: EdgeInsets.only(right: 16.0),
+                    padding: const EdgeInsets.only(right: 16.0),
                     child: companyProfileModel!.data.companyLogo.isEmpty
                         ? const CircleAvatar(
                             radius: 18,
@@ -280,8 +273,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
                           )
                         : CircleAvatar(
                             radius: 18,
-                            backgroundImage: NetworkImage(
-                                companyProfileModel!.data.companyLogo),
+                            backgroundImage: NetworkImage(companyProfileModel!.data.companyLogo),
                           ),
                   ),
                 ),
@@ -316,12 +308,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: colorScreenBg,
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(30),
-                    topLeft: Radius.circular(30)),
+                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
                 boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
                 ],
               ),
               child: BottomNavigationBar(
@@ -367,27 +356,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
                   onTap: _onItemTapped,
                   elevation: 5),
             ),
-            body: loading
-                ? const Center(child: CircularProgressIndicator())
-                : container,
+            body: loading ? const Center(child: CircularProgressIndicator()) : container,
           );
   }
 }
 
-enum DrawerSelection {
-  Dashboard,
-  EmployeeManagement,
-  AgencyAgentManagement,
-  Inbox,
-  Notification,
-  FixHoursRequest,
-  Approval,
-  Department,
-  Report,
-  ContractorsBackOffice,
-  SubscriptionAgreement,
-  HowItWorks,
-  Request,
-  Logout,
-  Profile
-}
+enum DrawerSelection { Dashboard, EmployeeManagement, AgencyAgentManagement, Inbox, Notification, FixHoursRequest, Approval, Department, Report, ContractorsBackOffice, SubscriptionAgreement, HowItWorks, Request, Logout, Profile }

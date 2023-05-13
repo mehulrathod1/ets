@@ -1,12 +1,12 @@
 import 'package:etsemployee/Controller/CompanyController/comapny_delete_contact_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_contact_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_contacts_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'add_company_contcat.dart';
 import 'edit_company_contcat.dart';
-import '../../../Network/api_constant.dart';
 
 class ManageCompanyContact extends StatefulWidget {
   const ManageCompanyContact({Key? key}) : super(key: key);
@@ -18,8 +18,7 @@ class ManageCompanyContact extends StatefulWidget {
 class _ManageCompanyContactState extends State<ManageCompanyContact> {
   bool loading = false;
   CompanyContactController commonCompanyController = CompanyContactController();
-  CompanyDeleteContactController deleteContactController =
-      CompanyDeleteContactController();
+  CompanyDeleteContactController deleteContactController = CompanyDeleteContactController();
   late CompanyContactModel companyContactModel;
   List<ListElement> contactList = [];
 
@@ -41,9 +40,9 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
           contactList.clear();
           loading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('No data found'),
-              duration: const Duration(seconds: 2),
+              duration: Duration(seconds: 2),
             ),
           );
         }
@@ -57,16 +56,13 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle:
-            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Contacts",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+          child: Text("Manage Contacts", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
+            padding: const EdgeInsets.only(right: 16.0),
             child: ApiConstant.profileImage.isEmpty
                 ? const CircleAvatar(
                     radius: 18,
@@ -113,12 +109,8 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding:
-                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(7)),
+                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -131,17 +123,11 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(
-                      color: appThemeGreen,
-                      borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddCompanyContact()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyContact()));
                       },
                       child: const Text(
                         'Add New Contact',
@@ -166,11 +152,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(15),
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
+                                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
@@ -185,9 +167,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                   Container(
                                       height: 180,
                                       width: double.infinity,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(80)),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
                                       child: Image.asset(
                                         'assets/man.jpeg',
                                         fit: BoxFit.cover,
@@ -195,32 +175,25 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           detail.firstName,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                         ),
                                         const SizedBox(
                                           height: 8,
                                         ),
                                         Text(
                                           detail.companyName,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
+                                          style: TextStyle(fontSize: 14, color: colorTextGray),
                                         ),
                                         const SizedBox(
                                           height: 8,
                                         ),
                                         Text(
                                           detail.address,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
+                                          style: TextStyle(fontSize: 14, color: colorTextGray),
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -229,15 +202,11 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                           children: [
                                             const Text(
                                               "Email: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               detail.email,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
+                                              style: TextStyle(fontSize: 14, color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -248,15 +217,11 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                           children: [
                                             const Text(
                                               "Office/House No: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               detail.homeOrOfficeNo,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
+                                              style: TextStyle(fontSize: 14, color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -267,15 +232,11 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                           children: [
                                             const Text(
                                               "Mobile No: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               detail.mobileNo,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
+                                              style: TextStyle(fontSize: 14, color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -284,9 +245,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                         ),
                                         Text(
                                           'Contractor',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorTextGray),
+                                          style: TextStyle(fontSize: 14, color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -296,12 +255,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                     child: Container(
                                       width: double.infinity,
                                       height: 35,
-                                      decoration: BoxDecoration(
-                                          color: appThemeBlue,
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              bottomRight:
-                                                  Radius.circular(15))),
+                                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -310,35 +264,23 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EditCompanyContact(
-                                                              customerType: detail
-                                                                  .customerType,
-                                                              fistName: detail
-                                                                  .firstName,
-                                                              laseName: detail
-                                                                  .lastName,
-                                                              companyName: detail
-                                                                  .companyName,
-                                                              address: detail
-                                                                  .address,
+                                                        builder: (context) => EditCompanyContact(
+                                                              customerType: detail.customerType,
+                                                              fistName: detail.firstName,
+                                                              laseName: detail.lastName,
+                                                              companyName: detail.companyName,
+                                                              address: detail.address,
                                                               city: detail.city,
-                                                              state:
-                                                                  detail.state,
-                                                              zipCode: detail
-                                                                  .zipcode,
-                                                              email:
-                                                                  detail.email,
-                                                              homeNo: detail
-                                                                  .homeOrOfficeNo,
-                                                              mobileNo: detail
-                                                                  .mobileNo,
+                                                              state: detail.state,
+                                                              zipCode: detail.zipcode,
+                                                              email: detail.email,
+                                                              homeNo: detail.homeOrOfficeNo,
+                                                              mobileNo: detail.mobileNo,
                                                               id: detail.id,
                                                             )));
                                               },
                                               child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: const [
                                                   Icon(
                                                     Icons.edit,
@@ -346,13 +288,10 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                     size: 20,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 8.0),
+                                                    padding: EdgeInsets.only(left: 8.0),
                                                     child: Text(
                                                       "Edit",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: Colors.white),
+                                                      style: TextStyle(fontSize: 14, color: Colors.white),
                                                     ),
                                                   )
                                                 ],
@@ -363,32 +302,21 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                             width: 1,
                                             height: 35,
                                             child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white),
+                                              decoration: BoxDecoration(color: Colors.white),
                                             ),
                                           ),
                                           Expanded(
                                             child: GestureDetector(
                                               onTap: () {
-                                                deleteContactController
-                                                    .deleteContact(
-                                                        context, detail.id)
-                                                    .then((value) {
+                                                deleteContactController.deleteContact(context, detail.id).then((value) {
                                                   initialize(context);
                                                 });
                                               },
                                               child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: colorred,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15))),
+                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
                                                 height: double.infinity,
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.delete_outline,
@@ -396,14 +324,10 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
+                                                      padding: EdgeInsets.only(left: 8.0),
                                                       child: Text(
                                                         "Delete",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
+                                                        style: TextStyle(fontSize: 14, color: Colors.white),
                                                       ),
                                                     )
                                                   ],

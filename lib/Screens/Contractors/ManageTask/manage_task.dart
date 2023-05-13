@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:etsemployee/Controller/EmployeeController/employee_delete_task_conteroller.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_task_controller.dart';
@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ManageTask extends StatefulWidget {
-  const ManageTask({Key? key}) : super(key: key);
+  ManageTask({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ManageTask> createState() => _ManageTaskState();
@@ -55,12 +56,18 @@ class _ManageTaskState extends State<ManageTask> {
         title: const Center(
           child: Text("Manage Tasks", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(widget.profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
