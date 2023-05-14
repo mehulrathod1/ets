@@ -249,7 +249,21 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const EditCompanyTask()));
+                                                                EditCompanyTask(
+                                                                  orderId: detail
+                                                                      .orderId,
+                                                                  orderStatus:
+                                                                      detail
+                                                                          .taskStatus,
+                                                                  taskName: detail
+                                                                      .taskName,
+                                                                  dueDate: detail
+                                                                      .dueDate
+                                                                      .toString(),
+                                                                  taskDescription:
+                                                                      detail
+                                                                          .taskDescription,
+                                                                )));
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:

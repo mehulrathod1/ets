@@ -1,6 +1,8 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import '../../Controller/CompanyController/company_accepr_profile_controller.dart';
 import '../../Controller/CompanyController/company_approval_controller.dart';
+import '../../Controller/CompanyController/compay_reject_profile_request.dart';
 import '../../Models/CompanyModels/company_approval_model.dart';
 
 class ManageApproval extends StatefulWidget {
@@ -15,6 +17,11 @@ class _ManageApprovalState extends State<ManageApproval> {
   CompanyApprovalController approvalController = CompanyApprovalController();
   late CompanyApprovalModel approvalModel;
   List<ListElement> approvalList = [];
+
+  CompanyAcceptProfileController acceptProfileController =
+      CompanyAcceptProfileController();
+  CompanyRejectProfileRequest rejectProfileRequest =
+      CompanyRejectProfileRequest();
 
   @override
   void initState() {
@@ -66,16 +73,18 @@ class _ManageApprovalState extends State<ManageApproval> {
                             children: [
                               CircleAvatar(
                                 radius: 28,
-                                backgroundImage: NetworkImage(data.currentEmployeeImg),
+                                backgroundImage:
+                                    NetworkImage(data.currentEmployeeImg),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, top: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 8),
                                     child: Text(
                                       data.employeeName,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -90,12 +99,42 @@ class _ManageApprovalState extends State<ManageApproval> {
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0, top: 8),
-                                    child: Text(
-                                      "Approved",
-                                      style: TextStyle(fontSize: 12, color: appThemeBlue),
-                                    ),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          acceptProfileController
+                                              .acceptProfileRequest(
+                                                  context, data.id, '1');
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, top: 8, right: 10),
+                                          child: Text(
+                                            "Approve",
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: appThemeBlue),
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          rejectProfileRequest
+                                              .rejectProfileRequest(
+                                                  context, data.id, '1');
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10.0, top: 8),
+                                          child: Text(
+                                            "Cancle",
+                                            style: TextStyle(
+                                                fontSize: 12, color: colorred),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -107,7 +146,8 @@ class _ManageApprovalState extends State<ManageApproval> {
                               width: double.infinity,
                               height: 1,
                               child: const DecoratedBox(
-                                decoration: const BoxDecoration(color: Colors.black),
+                                decoration:
+                                    const BoxDecoration(color: Colors.black),
                               ),
                             ),
                           ),

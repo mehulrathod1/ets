@@ -1,11 +1,27 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_edit_task_controller.dart';
+import '../../../Controller/CompanyController/get_company_task_controller.dart';
 import '../../../Network/api_constant.dart';
 
 class EditCompanyTask extends StatefulWidget {
-  const EditCompanyTask({Key? key}) : super(key: key);
+  EditCompanyTask(
+      {required this.orderId,
+      required this.orderStatus,
+      required this.taskName,
+      required this.dueDate,
+      required this.taskDescription,
+      Key? key})
+      : super(key: key);
+
+  String orderId;
+  String orderStatus;
+  String taskName;
+  String dueDate;
+  String taskDescription;
 
   @override
   State<EditCompanyTask> createState() => _EditCompanyTaskState();
@@ -13,6 +29,72 @@ class EditCompanyTask extends StatefulWidget {
 
 class _EditCompanyTaskState extends State<EditCompanyTask> {
   bool termsandcond = false;
+  GetCompanyTaskController getCompanyTaskController =
+      GetCompanyTaskController();
+  List<DropdownMenuItem<Object?>> taskOrderListItems = [];
+  String selectedOrder = "Select Order";
+
+  CompanyEditTaskController editTaskController = CompanyEditTaskController();
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      editTaskController.orderId.text = selectedTest['id'];
+      selectedOrder = selectedTest['order_name'];
+      debugPrint(selectedTest['order_name']);
+      debugPrint(selectedTest['id']);
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['order_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () {
+      getCompanyTaskController.getTaskOrderList(context).then((value) => {
+            if (value != null)
+              {
+                setState(() {
+                  taskOrderListItems = buildTaskSizeListItems(value);
+                }),
+              }
+            else
+              {
+                setState(() {
+                  taskOrderListItems.clear();
+                }),
+              }
+          });
+    });
+// TODO: implement initState
+
+    editTaskController.orderId.text = widget.orderId;
+    editTaskController.orderStatus.text = widget.orderStatus;
+    editTaskController.taskName.text = widget.taskName;
+    editTaskController.dueDate.text = widget.dueDate;
+    editTaskController.taskDescription.text = widget.taskDescription;
+
+    if (widget.orderStatus == '0') {
+      termsandcond = false;
+    } else {
+      termsandcond = true;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +103,25 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Tasks", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Tasks",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions:  <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
             child: ApiConstant.profileImage.isEmpty
                 ? const CircleAvatar(
-              radius: 18,
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            )
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
                 : CircleAvatar(
-              radius: 18,
-              backgroundImage:
-              NetworkImage(ApiConstant.profileImage),
-            ),
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -73,40 +157,44 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            suffixIcon: Align(
-                              widthFactor: 1,
-                              heightFactor: 1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: appThemeGreen,
-                              ),
-                            ),
-                            hintText: 'Test Estimate Section',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
                           ),
-                        ),
-                      ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedOrder,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedOrder == "Test Order Section"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: taskOrderListItems),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor: MaterialStateProperty.all(appThemeGreen),
+                                fillColor:
+                                    MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
@@ -129,17 +217,23 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Test',
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -155,17 +249,24 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: editTaskController.taskName,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -181,17 +282,24 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: editTaskController.dueDate,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -206,11 +314,16 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            controller: editTaskController.taskDescription,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -218,7 +331,8 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -233,7 +347,8 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -248,10 +363,15 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -262,11 +382,14 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )
