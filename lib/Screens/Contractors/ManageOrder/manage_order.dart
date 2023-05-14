@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:etsemployee/Controller/EmployeeController/employee_delete_order_controller.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_order_controller.dart';
@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ManageOrder extends StatefulWidget {
-  const ManageOrder({Key? key}) : super(key: key);
+  ManageOrder({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ManageOrder> createState() => _ManageOrderState();
@@ -55,12 +56,18 @@ class _ManageOrderState extends State<ManageOrder> {
         title: const Center(
           child: Text("Manage Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(widget.profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

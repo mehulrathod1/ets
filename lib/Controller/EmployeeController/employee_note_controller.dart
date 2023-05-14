@@ -40,7 +40,7 @@ class EmployeeNoteController {
       var res = EmployeeAddNoteModel.fromJson(response);
       employeeAddNoteModel = res;
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageNote()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -72,7 +72,7 @@ class EmployeeNoteController {
     debugPrint("editNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageNote()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

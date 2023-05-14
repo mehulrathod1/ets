@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
-import '../../Models/CompanyModels/company_add_order_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
+import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyOrder/manage_company_order.dart';
+import 'package:etsemployee/Models/CompanyModels/company_add_order_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
+import 'package:flutter/material.dart';
 
 class CompanyAddOrderController {
   CompanyAddOrderModel? addOrderModel;
@@ -22,26 +23,25 @@ class CompanyAddOrderController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(
-        paramUri: ApiConstant.companyAddOrder,
-        params: {
-          'order_name': orderName.text,
-          'order_description': orderDescription.text,
-          'change_description': changeDescription.text,
-          'amount': amount.text,
-          'start_date': startDate.text,
-          'due_date': dueDate.text,
-          'orderstatus': orderStatus.text,
-          'sig-dataUrl': signature!,
-          'estimate_id': estimateId.text,
-          'employeelist': '',
-          'sign_name': '',
-        });
+    var response = await postDataWithHeader(paramUri: ApiConstant.companyAddOrder, params: {
+      'order_name': orderName.text,
+      'order_description': orderDescription.text,
+      'change_description': changeDescription.text,
+      'amount': amount.text,
+      'start_date': startDate.text,
+      'due_date': dueDate.text,
+      'orderstatus': orderStatus.text,
+      'sig-dataUrl': signature!,
+      'estimate_id': estimateId.text,
+      'employeelist': '',
+      'sign_name': '',
+    });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = CompanyAddOrderModel.fromJson(response);
       addOrderModel = res;
       Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

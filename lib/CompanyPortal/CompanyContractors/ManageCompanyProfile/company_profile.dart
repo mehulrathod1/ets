@@ -1,12 +1,9 @@
 import 'dart:io';
-import 'dart:math';
-import 'package:http/http.dart' as http;
 import 'package:etsemployee/Controller/CompanyController/company_profile_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
 
@@ -24,37 +21,10 @@ class _CompanyProfileState extends State<CompanyProfile> {
   XFile? image;
   bool myImage = true;
 
-  Future _imgFromGallery() async {
-    myImage = false;
-    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
-    debugPrint(image2!.path);
-    setState(() {
-      image = image2;
-    });
-  }
-
   @override
   void initState() {
     initialize(context);
     super.initState();
-  }
-
-  Future<File> urlToFile(String imageUrl) async {
-// generate random number.
-    var rng = Random();
-// get temporary directory of device.
-    Directory tempDir = await getTemporaryDirectory();
-// get temporary path from temporary directory.
-    String tempPath = tempDir.path;
-// create a new file in temporary path with random file name.
-    File file = File('$tempPath${rng.nextInt(100)}.png');
-// call http.get method and pass imageUrl into it to get response.
-    http.Response response = await http.get(Uri.parse(imageUrl));
-// write bodyBytes received in response to file.
-    await file.writeAsBytes(response.bodyBytes);
-// now return the file which is created with random name in
-// temporary directory and image bytes from response is written to // that file.
-    return file;
   }
 
   Future initialize(BuildContext context) async {
@@ -63,8 +33,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
       setState(() {
         if (value != null) {
           companyProfileModel = value;
-          debugPrint(companyProfileModel?.data.companyName);
-          urlToFile(companyProfileModel!.data.companyLogo);
           loading = false;
         } else {
           loading = false;
@@ -79,68 +47,27 @@ class _CompanyProfileState extends State<CompanyProfile> {
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))
         : Scaffold(
             backgroundColor: colorScreenBg,
-            // appBar: AppBar(
-            //   elevation: 0,
-            //   backgroundColor: colorScreenBg,
-            //   systemOverlayStyle:
-            //       SystemUiOverlayStyle(statusBarColor: Colors.blue),
-            //   title: Center(
-            //     child: Text("Profile",
-            //         textAlign: TextAlign.center,
-            //         style: TextStyle(color: Colors.black)),
-            //   ),
-            //   actions: <Widget>[
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 16.0),
-            //       child: companyProfileModel!.data.companyLogo.isEmpty
-            //           ? const CircleAvatar(
-            //               radius: 18,
-            //               backgroundImage: AssetImage('assets/man.jpeg'),
-            //             )
-            //           : CircleAvatar(
-            //               radius: 18,
-            //               backgroundImage: NetworkImage(
-            //                   companyProfileModel!.data.companyLogo),
-            //             ),
-            //     ),
-            //   ],
-            //   leading: Builder(builder: (context) {
-            //     return GestureDetector(
-            //       child: Icon(
-            //         Icons.arrow_back,
-            //         color: Colors.black,
-            //       ),
-            //       onTap: () {
-            //         Navigator.pop(context);
-            //       },
-            //     );
-            //   }),
-            // ),
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        _imgFromGallery();
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                          child: myImage
-                              ? companyProfileModel!.data.companyLogo.isEmpty
-                                  ? const CircleAvatar(
-                                      radius: 80,
-                                      backgroundImage: AssetImage('assets/man.jpeg'),
-                                    )
-                                  : CircleAvatar(
-                                      radius: 80,
-                                      backgroundImage: NetworkImage(companyProfileModel!.data.companyLogo),
-                                    )
+                    child: Container(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      child: myImage
+                          ? companyProfileModel!.data.companyLogo.isEmpty
+                              ? const CircleAvatar(
+                                  radius: 80,
+                                  backgroundImage: AssetImage('assets/man.jpeg'),
+                                )
                               : CircleAvatar(
                                   radius: 80,
-                                  child: Image.file(File(image!.path), fit: BoxFit.fitHeight),
-                                )),
+                                  backgroundImage: NetworkImage(companyProfileModel!.data.companyLogo),
+                                )
+                          : CircleAvatar(
+                              radius: 80,
+                              child: Image.file(File(image!.path), fit: BoxFit.fitHeight),
+                            ),
                     ),
                   ),
                   Text(
@@ -352,15 +279,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyEditProfile()));
                       },
                       child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                            child: Text(
-                              'Edit Profile',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          )),
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -370,15 +298,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyChangePassword(profilePicture: companyProfileModel!.data.companyLogo)));
                       },
                       child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                            child: Text(
-                              'Change Password',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          )),
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Change Password',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -391,15 +320,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
                         //         builder: (context) => ProfileChangeRequest()));
                       },
                       child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
-                          child: const Center(
-                            child: Text(
-                              'Delete Account',
-                              style: TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          )),
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Delete Account',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
                     ),
                   )
                 ],

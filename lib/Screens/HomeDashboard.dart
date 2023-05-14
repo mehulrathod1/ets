@@ -164,6 +164,8 @@ class _HomeDashboard extends State<HomeDashboard> {
         }
       });
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("profilePic", employeeProfileDetailsModel!.data.profileImg);
   }
 
   @override
@@ -196,7 +198,7 @@ class _HomeDashboard extends State<HomeDashboard> {
       container = const NotificationScreen();
       appBarTitle = "Notification";
     } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
-      container = const ContractorsScreen();
+      container = ContractorsScreen(profilePic: employeeProfileDetailsModel!.data.profileImg);
       appBarTitle = "Contractors Back Office";
     } else if (currentPage == DrawerSelection.Profile) {
       container = const Profile();
@@ -243,10 +245,7 @@ class _HomeDashboard extends State<HomeDashboard> {
             drawer: Drawer(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [
-                    MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg),
-                    MyDrawerList()
-                  ],
+                  children: [MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg), MyDrawerList()],
                 ),
               ),
             ),

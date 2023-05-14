@@ -5,6 +5,7 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:etsemployee/Screens/Contractors/ManageContacts/manage_contacts.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeAddContactController {
   EmployeeAddContactModel? employeeAddContactModel;
@@ -44,7 +45,8 @@ class EmployeeAddContactController {
       var res = EmployeeAddContactModel.fromJson(response);
       employeeAddContactModel = res;
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageContactScreen()));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -84,7 +86,8 @@ class EmployeeAddContactController {
     debugPrint("editContact response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageContactScreen()));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

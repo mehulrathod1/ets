@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:etsemployee/Controller/EmployeeController/employee_delete_note_controller.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_note_controller.dart';
@@ -10,7 +10,8 @@ import 'add_note.dart';
 import 'edit_note.dart';
 
 class ManageNote extends StatefulWidget {
-  const ManageNote({Key? key}) : super(key: key);
+  ManageNote({Key? key, this.profilePic}) : super(key: key);
+  String? profilePic;
 
   @override
   State<ManageNote> createState() => _ManageNoteState();
@@ -55,12 +56,18 @@ class _ManageNoteState extends State<ManageNote> {
         title: const Center(
           child: Text("Manage Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(widget.profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
