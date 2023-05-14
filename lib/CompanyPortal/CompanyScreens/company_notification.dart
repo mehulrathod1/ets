@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Controller/CompanyController/company_notification_controller.dart';
 import '../../Models/CompanyModels/company_notification_model.dart';
+import 'compnay_notification_detail.dart';
 
 class CompanyNotification extends StatefulWidget {
   const CompanyNotification({Key? key}) : super(key: key);
@@ -77,8 +78,8 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 8.0, top: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8),
                                       child: Text(
                                         data.notificationMsg,
                                         style: const TextStyle(
@@ -96,13 +97,25 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                         style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, top: 8),
-                                      child: Text(
-                                        data.button.button.toString(),
-                                        style: TextStyle(
-                                            fontSize: 12, color: appThemeBlue),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompanyNotificationDetail(),
+                                          ),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8.0, top: 8),
+                                        child: Text(
+                                          data.button.button.toString(),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: appThemeBlue),
+                                        ),
                                       ),
                                     ),
                                   ],

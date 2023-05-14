@@ -661,7 +661,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                'detail.department',
+                                                detail.department!,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -796,7 +796,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const LiveLocation(),
+                                                          LiveLocation(
+                                                              employeeId: detail
+                                                                  .employeeId),
                                                     ),
                                                   );
                                                 },

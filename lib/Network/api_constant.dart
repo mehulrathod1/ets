@@ -8,19 +8,19 @@ class ApiConstant {
   static const companyLogin = 'company-login/';
   static const companyProfile = 'company/get-profile';
   static const companyAllEmployee =
-      'company/get-employee-list?show=10&searchName=&page=';
+      'company/get-employee-list?show=100&searchName=&page=';
   static const companyDepartment = 'company/department-list/';
   static const companyContacts =
-      'company/get-all-contact?show=10&searchName=&page=';
+      'company/get-all-contact?show=100&searchName=&page=';
   static const addCompanyContacts = 'company/add-contact/';
   static const companyAddContact = 'company/add-contact/';
   static const companyEditContact = 'company/edit-contact/';
   static const getCompanyOrder =
-      'company/get-all-order?show=10&searchName=&page=';
+      'company/get-all-order?show=100&searchName=&page=';
   static const getCompanyTask =
-      'company/get-all-task?show=10&searchName=&page=';
+      'company/get-all-task?show=100&searchName=&page=';
   static const getCompanyEstimate =
-      'company/get-all-estimate?show=10&searchName=&page=';
+      'company/get-all-estimate?show=100&searchName=&page=';
   static const companyAddOrder = 'company/add-order/';
   static const companyDeleteOrder = 'company/delete-order/';
   static const companyEstimateForOrder = 'company/get-orders-estiment/';
@@ -40,11 +40,11 @@ class ApiConstant {
   static const companyViewAttendance = 'company/view-attendance/';
   static const companyViewHours = 'company/view-hours-employee/';
   static const companyViewImage = 'company/view-image-employee/';
-  static const companyViewMap = 'company/view-map-employee/281/2022-11-18/';
+  static const companyViewMap = 'company/view-map-employee/';
   static const sendLocationRequest =
-      'company/send_live_location_request_employee.php?id=281';
+      'company/send_live_location_request_employee.php?id=';
   static const sendCallRequest =
-      'company/send_call_for_attendance_request.php?id=281';
+      'company/send_call_for_attendance_request.php?id=';
   static const companyHoldAccessEmployee =
       'company/hold_access_employee.php?id=';
   static const companyDeleteContact = 'company/delete-contact/';
@@ -84,6 +84,10 @@ class ApiConstant {
       'company/accept-emp-profile-request';
   static const companyrejectProfileRequest =
       'company/reject-emp-profile-request';
+
+  static const companyEmployeeLiveLocation =
+      'company/view-live-location-employee?id=';
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
