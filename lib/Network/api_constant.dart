@@ -33,7 +33,7 @@ class ApiConstant {
       'company/get-all-notes?show=10&searchName=&page=';
   static const companyAddTask = 'company/add-task/';
 
-  static const companyEditTask = '  company/edit-task/';
+  static const companyEditTask = 'company/edit-task/';
   static const companyDeleteTask = 'company/delete-task/';
   static const companyDeleteNote = 'company/delete-notes/';
   static const companyEditNote = 'company/edit-notes/';

@@ -9,16 +9,18 @@ import '../../../Network/api_constant.dart';
 
 class EditCompanyTask extends StatefulWidget {
   EditCompanyTask(
-      {required this.orderId,
-      required this.orderStatus,
+      {required this.id,
+      required this.orderId,
+      required this.taskStatus,
       required this.taskName,
       required this.dueDate,
       required this.taskDescription,
       Key? key})
       : super(key: key);
 
+  String id;
   String orderId;
-  String orderStatus;
+  String taskStatus;
   String taskName;
   String dueDate;
   String taskDescription;
@@ -83,12 +85,12 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
 // TODO: implement initState
 
     editTaskController.orderId.text = widget.orderId;
-    editTaskController.orderStatus.text = widget.orderStatus;
+    editTaskController.taskName.text = widget.taskStatus;
     editTaskController.taskName.text = widget.taskName;
     editTaskController.dueDate.text = widget.dueDate;
     editTaskController.taskDescription.text = widget.taskDescription;
 
-    if (widget.orderStatus == '0') {
+    if (widget.taskStatus == '0') {
       termsandcond = false;
     } else {
       termsandcond = true;
@@ -198,6 +200,15 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
+                                    if (termsandcond == true) {
+                                      editTaskController.testStatus.text = '1';
+                                      debugPrint(
+                                          editTaskController.testStatus.text);
+                                    } else {
+                                      editTaskController.testStatus.text = '0';
+                                      debugPrint(
+                                          editTaskController.testStatus.text);
+                                    }
                                   });
                                 }),
                             const Text(
@@ -379,19 +390,25 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            editTaskController.editTask(
+                                context, widget.orderId);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

@@ -6,7 +6,7 @@ import '../../Network/post_api_client.dart';
 
 class CompanyEditTaskController {
   TextEditingController orderId = TextEditingController();
-  TextEditingController orderStatus = TextEditingController();
+  TextEditingController testStatus = TextEditingController();
   TextEditingController taskName = TextEditingController();
   TextEditingController dueDate = TextEditingController();
   TextEditingController taskDescription = TextEditingController();
@@ -21,7 +21,7 @@ class CompanyEditTaskController {
         paramUri: ApiConstant.companyEditTask + id,
         params: {
           'order_id': orderId.text,
-          'taskstatus': orderStatus.text,
+          'taskstatus': testStatus.text,
           'task_name': taskName.text,
           'task_description': taskDescription.text,
           'due_date': dueDate.text,

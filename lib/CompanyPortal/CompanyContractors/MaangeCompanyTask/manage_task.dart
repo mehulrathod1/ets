@@ -250,11 +250,11 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                         MaterialPageRoute(
                                                             builder: (context) =>
                                                                 EditCompanyTask(
+                                                                  id: detail.id,
                                                                   orderId: detail
                                                                       .orderId,
-                                                                  orderStatus:
-                                                                      detail
-                                                                          .taskStatus,
+                                                                  taskStatus: detail
+                                                                      .taskStatus,
                                                                   taskName: detail
                                                                       .taskName,
                                                                   dueDate: detail
