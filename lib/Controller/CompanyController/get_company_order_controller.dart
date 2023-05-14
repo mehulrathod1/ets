@@ -1,8 +1,7 @@
+import 'package:etsemployee/Models/CompanyModels/get_company_order.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../Models/CompanyModels/get_company_order.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
 
 class GetCompanyOrderController {
   Future getAllCompanyOrder(BuildContext context) async {

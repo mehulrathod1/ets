@@ -239,7 +239,21 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: () {
-                                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditCompanyOrder()));
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditCompanyOrder(
+                                                    id: detail.id,
+                                                    orderStatus: detail.orderstatus,
+                                                    orderName: detail.orderName,
+                                                    orderDescription: detail.orderDescription,
+                                                    changeDescription: detail.changeDescription,
+                                                    amount: detail.amount,
+                                                    startDate: detail.startDate,
+                                                    dueDate: detail.dueDate,
+                                                  ),
+                                                ),
+                                              );
                                             },
                                             child: Row(
                                               mainAxisAlignment: MainAxisAlignment.center,

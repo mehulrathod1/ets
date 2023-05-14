@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyOrder/manage_company_order.dart';
-import 'package:etsemployee/Models/CompanyModels/company_add_order_model.dart';
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
-class CompanyAddOrderController {
-  CompanyAddOrderModel? addOrderModel;
+class CompanyEditOrderController {
   TextEditingController estimateId = TextEditingController();
   TextEditingController orderStatus = TextEditingController();
   TextEditingController orderName = TextEditingController();
@@ -18,13 +16,13 @@ class CompanyAddOrderController {
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
 
-  Future addOrder(BuildContext context, {required String? signature, required String? employeeId}) async {
+  Future editOrder(BuildContext context, {required String? signature, required String? employeeId, required String? id}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.companyAddOrder, params: {
+    var response = await postDataWithHeader(paramUri: "${ApiConstant.companyEditOrder}${id!}/", params: {
       'order_name': orderName.text,
       'order_description': orderDescription.text,
       'change_description': changeDescription.text,
@@ -37,15 +35,13 @@ class CompanyAddOrderController {
       'employeelist': employeeId!,
       'sign_name': 'company_sign',
     });
-    debugPrint("addOrder response :- ${response.toString()}");
+    debugPrint("editOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
-      var res = CompanyAddOrderModel.fromJson(response);
-      addOrderModel = res;
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(res.message),
+          content: Text(response["message"]),
           duration: const Duration(seconds: 2),
         ),
       );
