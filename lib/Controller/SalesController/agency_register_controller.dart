@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/SalesPortal/SalesScreen/sales_login_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../../Models/SalesModel/sales_agency_refgister_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
-import '../../SalesPortal/SalesScreen/sales_login_screen.dart';
-
 class AgencyRegisterController {
-  AgencyRegisterModel? agencyRegisterModel;
-
   TextEditingController name = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController city = TextEditingController();
@@ -20,40 +18,47 @@ class AgencyRegisterController {
 
   Future agencyRegister(BuildContext context, String logo) async {
     showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(child: CircularProgressIndicator());
-        });
-    var response =
-        await postDataWithHeader(paramUri: ApiConstant.agencyRegister, params: {
-      'name': name.text,
-      'address': address.text,
-      'city': city.text,
-      'state': state.text,
-      'zip': zip.text,
-      'email': email.text,
-      'phone': phone.text,
-      'profile_img': logo,
-      'role': role.text,
-    });
-    if (response["status"] == 'True') {
-      var res = AgencyRegisterModel.fromJson(response);
-      agencyRegisterModel = res;
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+    var request = http.MultipartRequest('POST', Uri.parse(ApiConstant.baseUrl + ApiConstant.agencyRegister));
+    request.headers.addAll({"Content-Type": "multipart/form-data; boundary=<calculated when request is sent>"});
+    request.fields['name'] = name.text;
+    request.fields['address'] = address.text;
+    request.fields['city'] = city.text;
+    request.fields['state'] = state.text;
+    request.fields['zip'] = zip.text;
+    request.fields['email'] = email.text;
+    request.fields['phone'] = phone.text;
+    request.fields['role'] = role.text;
+    request.files.add(
+      http.MultipartFile(
+        'profile_img',
+        File(logo).readAsBytes().asStream(),
+        File(logo).lengthSync(),
+        filename: logo.split("/").last,
+      ),
+    );
+    var response = await request.send();
+    debugPrint("agencyRegister response :- ${response.statusCode}");
+    debugPrint("agencyRegister response :- ${response.stream}");
+    if (response.statusCode == 200) {
       Navigator.pop(context);
-      Navigator.pop(context,
-          MaterialPageRoute(builder: (context) => const SalesLoginScreen()));
+      Navigator.pop(context, MaterialPageRoute(builder: (context) => const SalesLoginScreen()));
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(res.message),
-          duration: const Duration(seconds: 2),
+        const SnackBar(
+          content: Text("Agency register successfully."),
+          duration: Duration(seconds: 2),
         ),
       );
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(response["message"]),
-          duration: const Duration(seconds: 2),
+        const SnackBar(
+          content: Text("Oops!, Agency registration failed."),
+          duration: Duration(seconds: 2),
         ),
       );
     }

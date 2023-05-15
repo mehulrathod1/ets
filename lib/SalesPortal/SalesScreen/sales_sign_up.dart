@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/SalesController/agency_register_controller.dart';
@@ -17,36 +16,37 @@ class SalesSignUp extends StatefulWidget {
 class _SalesSignUpState extends State<SalesSignUp> {
   String selectedRole = "Select Role";
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
-  XFile? image;
-  String con = "";
   List roleList = [
     {'no': '1', 'keyword': 'Agency'},
     {'no': '2', 'keyword': 'Agent'},
   ];
   AgencyRegisterController agencyRegisterController = AgencyRegisterController();
+  String salesProfileUrl = "";
+
+  Future pickImage({bool gallery = true}) async {
+    try {
+      final image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
+      if (image == null) {
+        setState(() {
+          salesProfileUrl = "";
+        });
+      } else {
+        setState(() {
+          File imageFile = File(image.path);
+          salesProfileUrl = imageFile.path;
+        });
+      }
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pick image: $e');
+    }
+  }
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       agencyRegisterController.role.text = selectedTest['no'];
       selectedRole = selectedTest['keyword'];
-      // addEmployeeController.department.text = selectedTest['id'];
       debugPrint(agencyRegisterController.role.text);
     });
-  }
-
-  Future _imgFromGallery() async {
-    var image2 = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
-    debugPrint(image2!.path);
-    setState(() {
-      image = image2;
-      con = 'imageSelected';
-    });
-  }
-
-  @override
-  void initState() {
-    taskOrderListItems = buildDropdownTestItems(roleList);
-    super.initState();
   }
 
   List<DropdownMenuItem<Object?>> buildDropdownTestItems(List roleList) {
@@ -69,17 +69,10 @@ class _SalesSignUpState extends State<SalesSignUp> {
     });
   }
 
-  Future pickImage({bool gallery = true}) async {
-    try {
-      var image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
-      if (image == null) return;
-      File imageFile = File(image.path);
-      Uint8List imageBytes = await imageFile.readAsBytes();
-      String base64string = base64.encode(imageBytes);
-      debugPrint(imageFile.path);
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
-    }
+  @override
+  void initState() {
+    taskOrderListItems = buildDropdownTestItems(roleList);
+    super.initState();
   }
 
   @override
@@ -89,7 +82,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
       appBar: AppBar(
         elevation: 0,
         title: const Text(
-          "Slase Registration",
+          "Sales Registration",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -113,95 +106,73 @@ class _SalesSignUpState extends State<SalesSignUp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    _imgFromGallery();
+                  onTap: () async {
+                    await showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(25.0),
+                          ),
+                        ),
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 150,
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await pickImage(gallery: true);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                  child: const Center(
+                                    child: Text(
+                                      'Pick Image from Gallery',
+                                      style: TextStyle(color: Colors.white, fontSize: 18),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                  await pickImage(gallery: false);
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 40,
+                                  decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                                  child: const Center(
+                                    child: Text(
+                                      'Pick Image from Camera',
+                                      style: TextStyle(color: Colors.white, fontSize: 18),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                          );
+                        });
                   },
-                  // async {
-                  //   await showModalBottomSheet(
-                  //       shape: const RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.vertical(
-                  //           top: Radius.circular(25.0),
-                  //         ),
-                  //       ),
-                  //       context: context,
-                  //       builder: (BuildContext context) {
-                  //         return Container(
-                  //           height: 150,
-                  //           padding: const EdgeInsets.symmetric(
-                  //               vertical: 15, horizontal: 20),
-                  //           child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.center,
-                  //               mainAxisAlignment:
-                  //                   MainAxisAlignment.spaceEvenly,
-                  //               children: [
-                  //                 GestureDetector(
-                  //                   onTap: () async {
-                  //                     Navigator.pop(context);
-                  //                     await _imgFromGallery();
-                  //                     ;
-                  //                   },
-                  //                   child: Container(
-                  //                     width: double.infinity,
-                  //                     height: 40,
-                  //                     decoration: BoxDecoration(
-                  //                         color: appThemeGreen,
-                  //                         borderRadius:
-                  //                             BorderRadius.circular(8)),
-                  //                     child: const Center(
-                  //                       child: Text(
-                  //                         'Pick Image from Gallery',
-                  //                         style: TextStyle(
-                  //                             color: Colors.white,
-                  //                             fontSize: 18),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //                 GestureDetector(
-                  //                   onTap: () async {
-                  //                     Navigator.pop(context);
-                  //                     await pickImage(gallery: false);
-                  //                   },
-                  //                   child: Container(
-                  //                     width: double.infinity,
-                  //                     height: 40,
-                  //                     decoration: BoxDecoration(
-                  //                         color: appThemeBlue,
-                  //                         borderRadius:
-                  //                             BorderRadius.circular(8)),
-                  //                     child: const Center(
-                  //                       child: Text(
-                  //                         'Pick Image from Camera',
-                  //                         style: TextStyle(
-                  //                             color: Colors.white,
-                  //                             fontSize: 18),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ]),
-                  //         );
-                  //       });
-                  // },
-                  // Image.file(File(image!.path)
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: Center(
-                        child: CircleAvatar(
-                          radius: 80,
-                          child: CircleAvatar(
-                            radius: 80.0,
-                            backgroundColor: Colors.white,
-                            child: (image != null)
-                                ? Image.file(
-                                    File(image!.path),
-                                    fit: BoxFit.fitHeight,
-                                  )
-                                : Image.asset('assets/etslogo.png'),
-                          ),
-                        ),
+                        child: salesProfileUrl.isEmpty
+                            ? const CircleAvatar(
+                                radius: 80.0,
+                                backgroundColor: Colors.white,
+                                backgroundImage: AssetImage('assets/etslogo.png'),
+                              )
+                            : CircleAvatar(
+                                radius: 80.0,
+                                backgroundColor: Colors.white,
+                                backgroundImage: FileImage(File(salesProfileUrl)),
+                              ),
                       ),
                     ),
                   ),
@@ -434,7 +405,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (con == "") {
+                      } else if (salesProfileUrl.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops,Please select logo From Gallery !"),
@@ -442,7 +413,7 @@ class _SalesSignUpState extends State<SalesSignUp> {
                           ),
                         );
                       } else {
-                        agencyRegisterController.agencyRegister(context, image!.path);
+                        agencyRegisterController.agencyRegister(context, salesProfileUrl);
                       }
                     },
                     child: Container(
