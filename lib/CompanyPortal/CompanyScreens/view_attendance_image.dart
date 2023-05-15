@@ -39,6 +39,12 @@ class _ViewAttendanceImageState extends State<ViewAttendanceImage> {
           loading = false;
         } else {
           loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Attendance image found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
         }
       });
     });

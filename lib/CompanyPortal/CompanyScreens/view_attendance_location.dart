@@ -6,7 +6,11 @@ import 'package:flutter/services.dart';
 import '../../../Network/api_constant.dart';
 
 class ViewAttendanceLocation extends StatefulWidget {
-  const ViewAttendanceLocation({Key? key}) : super(key: key);
+  ViewAttendanceLocation({required this.id, required this.date, Key? key})
+      : super(key: key);
+
+  String id;
+  String date;
 
   @override
   State<ViewAttendanceLocation> createState() => _ViewAttendanceLocationState();
@@ -26,11 +30,21 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await mapController.getMap(context).then((value) {
+    await mapController.getMap(context, widget.id, widget.date).then((value) {
       setState(() {
-        mapModel = value;
-        mapList = mapModel.data.mapList;
-        loading = false;
+        if (value != null) {
+          mapModel = value;
+          mapList = mapModel.data.mapList;
+          loading = false;
+        } else {
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('No Attendance map found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       });
     });
   }

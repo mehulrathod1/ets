@@ -64,9 +64,9 @@ class _ViewAttendanceState extends State<ViewAttendance> {
           attendanceList.clear();
           loading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('No Attandance found'),
-              duration: const Duration(seconds: 2),
+            const SnackBar(
+              content: Text('No Attendance found'),
+              duration: Duration(seconds: 2),
             ),
           );
         }
@@ -674,7 +674,11 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const ViewAttendanceLocation()));
+                                                              ViewAttendanceLocation(
+                                                                id: widget
+                                                                    .employeeId,
+                                                                date: date!,
+                                                              )));
                                                 },
                                                 child: Text(
                                                   "View Map",

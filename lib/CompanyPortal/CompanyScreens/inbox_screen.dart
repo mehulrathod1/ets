@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../Controller/CompanyController/company_inboc_controller.dart';
 import '../../Models/CompanyModels/company_inbox_model.dart';
+import 'company_message_dashboard.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({Key? key}) : super(key: key);
@@ -149,11 +150,23 @@ class _InboxScreenState extends State<InboxScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 8.0, top: 8),
-                                    child: Expanded(
-                                      child: Text(
-                                        "View Message",
-                                        style: TextStyle(
-                                            fontSize: 12, color: appThemeBlue),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompanyMessageDashboard(),
+                                          ),
+                                        );
+                                      },
+                                      child: Expanded(
+                                        child: Text(
+                                          "View Message",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: appThemeBlue),
+                                        ),
                                       ),
                                     ),
                                   ),
