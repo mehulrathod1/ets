@@ -12,7 +12,8 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   bool loading = false;
-  EmployeeNotificationController notificationController = EmployeeNotificationController();
+  EmployeeNotificationController notificationController =
+      EmployeeNotificationController();
   late EmployeeNotificationModel notificationModel;
   List<ListElement> notificationList = [];
 
@@ -63,10 +64,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8),
                                       child: Text(
                                         detail.notificationMsg,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     const SizedBox(height: 12),
@@ -80,10 +84,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0, top: 8),
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8),
                                       child: Text(
-                                        "View Task",
-                                        style: TextStyle(fontSize: 12, color: appThemeBlue),
+                                        detail.button.button,
+                                        style: TextStyle(
+                                            fontSize: 12, color: appThemeBlue),
                                       ),
                                     ),
                                   ],

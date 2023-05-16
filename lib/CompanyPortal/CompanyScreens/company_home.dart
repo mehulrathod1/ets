@@ -16,12 +16,15 @@ class CompanyHome extends StatefulWidget {
   State<CompanyHome> createState() => _CompanyHomeState();
 }
 
-class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStateMixin {
+class _CompanyHomeState extends State<CompanyHome>
+    with SingleTickerProviderStateMixin {
   late TabController _controller;
-  CompanyTotalEmployeeController totalEmployeeController = CompanyTotalEmployeeController();
+  CompanyTotalEmployeeController totalEmployeeController =
+      CompanyTotalEmployeeController();
   TotalEmployeeModel? totalEmployeeModel;
   CompanyTotalDepartmentModel? departmentModel;
-  CompanyTotalDepartmentController companyTotalDepartmentController = CompanyTotalDepartmentController();
+  CompanyTotalDepartmentController companyTotalDepartmentController =
+      CompanyTotalDepartmentController();
   bool loading = false;
   String totalEmployee = 'aaa';
 
@@ -79,7 +82,7 @@ class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStat
                           padding: const EdgeInsets.all(8.0),
                           child: GestureDetector(
                             onTap: () {
-                              widget.changeScreen!(1);
+                              widget.changeScreen!(0);
                             },
                             child: Container(
                               height: 130,
@@ -92,11 +95,14 @@ class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStat
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
                                         totalEmployeeModel!.data.toString(),
-                                        style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontSize: 34,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       const ImageIcon(
                                         AssetImage("assets/nounGroup.png"),
@@ -130,11 +136,14 @@ class _CompanyHomeState extends State<CompanyHome> with SingleTickerProviderStat
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
                                         departmentModel!.data.toString(),
-                                        style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                                        style: const TextStyle(
+                                            fontSize: 34,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                       const ImageIcon(
                                         AssetImage("assets/department.png"),

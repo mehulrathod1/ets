@@ -6,18 +6,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditProfile extends StatefulWidget {
-  EditProfile({required this.userName, required this.employeeName, required this.employeeEmail, required this.employeeProfilePic, Key? key}) : super(key: key);
+  EditProfile(
+      {required this.userName,
+      required this.employeeName,
+      required this.employeeEmail,
+      required this.employeeProfilePic,
+      required this.companyName,
+      required this.departmentName,
+      Key? key})
+      : super(key: key);
   String userName;
   String employeeName;
   String employeeEmail;
   String employeeProfilePic;
+  String companyName;
+  String departmentName;
 
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
-  EmployeeProfileController employeeProfileController = EmployeeProfileController();
+  EmployeeProfileController employeeProfileController =
+      EmployeeProfileController();
 
   @override
   void initState() {
@@ -38,9 +49,12 @@ class _EditProfileState extends State<EditProfile> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: colorScreenBg,
-          systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+          systemOverlayStyle:
+              const SystemUiOverlayStyle(statusBarColor: Colors.blue),
           title: const Center(
-            child: Text("Edit Details", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+            child: Text("Edit Details",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black)),
           ),
           actions: <Widget>[
             Padding(
@@ -72,30 +86,31 @@ class _EditProfileState extends State<EditProfile> {
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-                    child: Center(
-                      child: widget.employeeProfilePic.isEmpty
-                          ? const CircleAvatar(
-                              radius: 80,
-                              backgroundImage: AssetImage('assets/man.jpeg'),
-                            )
-                          : CircleAvatar(
-                              radius: 80,
-                              backgroundImage: NetworkImage(widget.employeeProfilePic),
-                            ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                //     child: Center(
+                //       child: widget.employeeProfilePic.isEmpty
+                //           ? const CircleAvatar(
+                //               radius: 80,
+                //               backgroundImage: AssetImage('assets/man.jpeg'),
+                //             )
+                //           : CircleAvatar(
+                //               radius: 80,
+                //               backgroundImage: NetworkImage(widget.employeeProfilePic),
+                //             ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                        padding:
+                            EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                         child: Text(
                           "Employee Name",
                           style: TextStyle(fontSize: 14),
@@ -104,7 +119,8 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           controller: employeeProfileController.employeeName,
                           decoration: InputDecoration(
@@ -112,17 +128,23 @@ class _EditProfileState extends State<EditProfile> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                        padding:
+                            EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                         child: Text(
                           "Employee Email",
                           style: TextStyle(fontSize: 14),
@@ -131,7 +153,8 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           controller: employeeProfileController.employeeEmail,
                           decoration: InputDecoration(
@@ -139,17 +162,23 @@ class _EditProfileState extends State<EditProfile> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                        padding:
+                            EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                         child: Text(
                           "Company Name",
                           style: TextStyle(fontSize: 14),
@@ -158,24 +187,32 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          readOnly: true,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'test11',
+                            hintText: widget.companyName,
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
+                        padding:
+                            EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                         child: Text(
                           "Department",
                           style: TextStyle(fontSize: 14),
@@ -184,17 +221,24 @@ class _EditProfileState extends State<EditProfile> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          readOnly: true,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'IT',
+                            hintText: widget.departmentName,
                             fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -204,32 +248,40 @@ class _EditProfileState extends State<EditProfile> {
                         padding: const EdgeInsets.only(top: 18.0),
                         child: InkWell(
                           onTap: () async {
-                            if (employeeProfileController.employeeName.text.isEmpty) {
+                            if (employeeProfileController
+                                .employeeName.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text("Oops!, Employee name missing."),
+                                  content:
+                                      Text("Oops!, Employee name missing."),
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            } else if (employeeProfileController.employeeEmail.text.isEmpty) {
+                            } else if (employeeProfileController
+                                .employeeEmail.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text("Oops!, Employee email missing."),
+                                  content:
+                                      Text("Oops!, Employee email missing."),
                                   duration: Duration(seconds: 1),
                                 ),
                               );
                             } else {
-                              await employeeProfileController.editProfileDetails(context);
+                              await employeeProfileController
+                                  .editProfileDetails(context);
                             }
                           },
                           child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Update',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             ),
                           ),
