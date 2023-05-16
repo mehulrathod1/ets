@@ -11,19 +11,24 @@ import '../../Models/CompanyModels/company_employee_detail_model.dart';
 import '../../../Network/api_constant.dart';
 
 class EditEmployee extends StatefulWidget {
-  EditEmployee({required this.employeeId, Key? key}) : super(key: key);
+  EditEmployee(
+      {required this.employeeId, required this.departmentName, Key? key})
+      : super(key: key);
 
   String employeeId;
+  String departmentName;
 
   @override
   State<EditEmployee> createState() => _EditEmployeeState();
 }
 
 class _EditEmployeeState extends State<EditEmployee> {
-  CompanyEmployeeDetailController employeeDetailController = CompanyEmployeeDetailController();
+  CompanyEmployeeDetailController employeeDetailController =
+      CompanyEmployeeDetailController();
   late CompanyEmployeeDetailModel employeeDetailModel;
   bool loading = false;
-  CompanyEditEmployeeController editEmployeeController = CompanyEditEmployeeController();
+  CompanyEditEmployeeController editEmployeeController =
+      CompanyEditEmployeeController();
   late CompanyEditEmployeeModel companyEditEmployeeModel;
   String selectedDepartment = "Select Department";
   List<DropdownMenuItem<Object?>> departmentListItems = [];
@@ -31,6 +36,8 @@ class _EditEmployeeState extends State<EditEmployee> {
   @override
   void initState() {
     // TODO: implement initState
+    selectedDepartment = widget.departmentName;
+
     Future.delayed(const Duration(microseconds: 0), () {
       employeeDetailController.getDepartmentList(context).then((value) => {
             if (value != null)
@@ -58,8 +65,9 @@ class _EditEmployeeState extends State<EditEmployee> {
     await employeeDetailController.employeeDetail(context, id).then((value) {
       setState(() {
         employeeDetailModel = value;
+        editEmployeeController.department.text =
+            employeeDetailModel.data.departmentId;
         debugPrint(employeeDetailModel.data.employeeName);
-
         editEmployeeController.email.text = employeeDetailModel.data.email;
         editEmployeeController.employeeName.text =
             employeeDetailModel.data.employeeName;
@@ -101,9 +109,12 @@ class _EditEmployeeState extends State<EditEmployee> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Employee", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Employee",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -158,17 +169,25 @@ class _EditEmployeeState extends State<EditEmployee> {
                               height: 40,
                               child: TextField(
                                 controller: editEmployeeController.email,
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   hintText: employeeDetailModel.data.email,
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -185,17 +204,26 @@ class _EditEmployeeState extends State<EditEmployee> {
                               height: 40,
                               child: TextField(
                                 controller: editEmployeeController.employeeName,
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                  hintText: employeeDetailModel.data.employeeName,
+                                  hintText:
+                                      employeeDetailModel.data.employeeName,
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -212,7 +240,10 @@ class _EditEmployeeState extends State<EditEmployee> {
                               height: 40,
                               child: TextField(
                                 controller: editEmployeeController.password,
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   fillColor: colorScreenBg,
@@ -240,72 +271,76 @@ class _EditEmployeeState extends State<EditEmployee> {
                               ),
                             ),
                             DropdownBelow(
-                                itemWidth: MediaQuery.of(context).size.width - 30,
-                                itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
-                                boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                                itemWidth:
+                                    MediaQuery.of(context).size.width - 30,
+                                itemTextstyle: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                                boxTextstyle: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
                                 boxWidth: MediaQuery.of(context).size.width,
                                 boxHeight: 40,
                                 boxDecoration: BoxDecoration(
                                   color: colorScreenBg,
-                                  border: Border.all(color: colorGray, width: 1.0),
-                                  borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                                  border:
+                                      Border.all(color: colorGray, width: 1.0),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(7.0)),
                                 ),
-                                boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                                boxPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6, right: 10),
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_outlined,
                                   color: appThemeGreen,
                                 ),
                                 hint: Text(
                                   selectedDepartment,
-                                  style: TextStyle(fontSize: 18, color: selectedDepartment == "Test Estimate Section" ? Colors.black.withOpacity(0.60) : Colors.black),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: selectedDepartment ==
+                                              "Test Estimate Section"
+                                          ? Colors.black.withOpacity(0.60)
+                                          : Colors.black),
                                 ),
                                 onChanged: onChangeDropdownBoxSize,
                                 items: departmentListItems),
                             Padding(
-                              padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                              padding:
+                                  const EdgeInsets.only(top: 20.0, bottom: 20),
                               child: GestureDetector(
                                 onTap: () async {
-                                  if (editEmployeeController.email.text.isEmpty) {
+                                  if (editEmployeeController
+                                      .email.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
                                         content: Text("Oops!, Email missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (editEmployeeController
-                                      .employeeName.text.isEmpty) {
+                                  } else if (selectedDepartment ==
+                                      "Select Department") {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Employee Name missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (editEmployeeController.password.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Oops!, password missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (selectedDepartment == "Select Department") {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text("Oops!, Please select Department from list."),
+                                        content: Text(
+                                            "Oops!, Please select Department from list."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
                                   } else {
-                                    await editEmployeeController.editEmployee(context);
+                                    await editEmployeeController
+                                        .editEmployee(context);
                                   }
                                 },
                                 child: Container(
                                     width: double.infinity,
                                     height: 40,
-                                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                    decoration: BoxDecoration(
+                                        color: appThemeGreen,
+                                        borderRadius: BorderRadius.circular(8)),
                                     child: const Center(
                                       child: Text(
                                         'Save',
-                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 18),
                                       ),
                                     )),
                               ),

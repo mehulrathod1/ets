@@ -296,7 +296,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             height: 40,
                             child: TextField(
                               style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                                  fontSize: 14, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 suffixIcon: Align(
@@ -355,7 +355,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                               hint: Text(
                                 selectedDepartment,
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 13,
                                     color: selectedDepartment ==
                                             "Test Estimate Section"
                                         ? Colors.black.withOpacity(0.60)
@@ -762,6 +762,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                               EditEmployee(
                                                                 employeeId: detail
                                                                     .employeeId,
+                                                                departmentName:
+                                                                    detail
+                                                                        .department!,
                                                               )));
                                                 },
                                                 child: const Icon(

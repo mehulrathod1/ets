@@ -82,9 +82,9 @@ class _HomeDashboard extends State<HomeDashboard> {
               currentPage == DrawerSelection.Dashboard ? true : false),
           menuItem(2, "Attendance", Icons.check_circle_outline,
               currentPage == DrawerSelection.Attendance ? true : false),
-          menuItem(3, "FixHoursRequest", Icons.access_time_outlined,
+          menuItem(3, "Fix Hours Request", Icons.access_time_outlined,
               currentPage == DrawerSelection.FixHoursRequest ? true : false),
-          menuItem(4, "ShareLocation", Icons.location_on_outlined,
+          menuItem(4, "Share Location", Icons.location_on_outlined,
               currentPage == DrawerSelection.ShareLocation ? true : false),
           menuItem(5, "History", Icons.refresh_outlined,
               currentPage == DrawerSelection.History ? true : false),
@@ -94,12 +94,12 @@ class _HomeDashboard extends State<HomeDashboard> {
               currentPage == DrawerSelection.Notification ? true : false),
           menuItem(
               8,
-              "ContractorsBackOffice",
+              "Contractors Back Office",
               Icons.work_outline,
               currentPage == DrawerSelection.ContractorsBackOffice
                   ? true
                   : false),
-          menuItem(9, "HowItWorks", Icons.help_outline,
+          menuItem(9, "How It Works", Icons.help_outline,
               currentPage == DrawerSelection.Howitworks ? true : false),
           menuItem(10, "Settings", Icons.settings_outlined,
               currentPage == DrawerSelection.Settings ? true : false),
