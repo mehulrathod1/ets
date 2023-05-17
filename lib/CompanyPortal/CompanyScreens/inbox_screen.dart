@@ -156,7 +156,8 @@ class _InboxScreenState extends State<InboxScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                CompanyMessageDashboard(),
+                                                CompanyMessageDashboard(
+                                                    employeeId: data.id),
                                           ),
                                         );
                                       },

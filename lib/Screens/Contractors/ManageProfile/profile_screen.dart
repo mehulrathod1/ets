@@ -23,7 +23,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  EmployeeProfileController employeeProfileController = EmployeeProfileController();
+  EmployeeProfileController employeeProfileController =
+      EmployeeProfileController();
   EmployeeProfileDetailsModel? employeeProfileDetailsModel;
   bool loading = false;
 
@@ -49,7 +50,8 @@ class _ProfileState extends State<Profile> {
 
   Future pickImage({bool gallery = true}) async {
     try {
-      final image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
+      final image = await ImagePicker().pickImage(
+          source: gallery ? ImageSource.gallery : ImageSource.camera);
       if (image == null) return;
       File imageFile = File(image.path);
       Uint8List imageBytes = await imageFile.readAsBytes();
@@ -60,7 +62,10 @@ class _ProfileState extends State<Profile> {
           if (value != null) {
             employeeProfileDetailsModel = value;
             Timer(const Duration(seconds: 3), () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const HomeDashboard()));
             });
           }
         });
@@ -92,64 +97,87 @@ class _ProfileState extends State<Profile> {
                           builder: (BuildContext context) {
                             return Container(
                               height: 150,
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    await pickImage(gallery: true);
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 40,
-                                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                                    child: const Center(
-                                      child: Text(
-                                        'Pick Image from Gallery',
-                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 20),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Navigator.pop(context);
+                                        await pickImage(gallery: true);
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: appThemeGreen,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: const Center(
+                                          child: Text(
+                                            'Pick Image from Gallery',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    Navigator.pop(context);
-                                    await pickImage(gallery: false);
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 40,
-                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
-                                    child: const Center(
-                                      child: Text(
-                                        'Pick Image from Camera',
-                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Navigator.pop(context);
+                                        await pickImage(gallery: false);
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                BorderRadius.circular(8)),
+                                        child: const Center(
+                                          child: Text(
+                                            'Pick Image from Camera',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18),
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ]),
+                                  ]),
                             );
                           });
                     },
                     child: Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: Center(
-                        child: employeeProfileDetailsModel!.data.profileImg.isEmpty
+                        child: employeeProfileDetailsModel!
+                                .data.profileImg.isEmpty
                             ? const CircleAvatar(
                                 radius: 80,
                                 backgroundImage: AssetImage('assets/man.jpeg'),
                               )
                             : CachedNetworkImage(
-                                placeholder: (context, url) => const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                imageUrl: employeeProfileDetailsModel!.data.profileImg,
-                                imageBuilder: (context, imageProvider) => Container(
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                imageUrl: employeeProfileDetailsModel!
+                                    .data.profileImg,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
                                   width: 160,
                                   height: 160,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
                                   ),
                                 ),
                               ),
@@ -158,21 +186,31 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Text(
-                  employeeProfileDetailsModel!.data.companyName,
-                  style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                  employeeProfileDetailsModel!.data.employeeName,
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     employeeProfileDetailsModel!.data.email,
-                    style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 18.0, left: 8, right: 8, bottom: 8),
+                  padding: const EdgeInsets.only(
+                      top: 18.0, left: 8, right: 8, bottom: 8),
                   child: Container(
                     width: double.infinity,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(width: 1, color: Colors.black), color: Colors.white),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(width: 1, color: Colors.black),
+                        color: Colors.white),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
@@ -181,11 +219,13 @@ class _ProfileState extends State<Profile> {
                             children: [
                               const Text(
                                 "Name: ",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 employeeProfileDetailsModel!.data.employeeName,
-                                style: TextStyle(fontSize: 18, color: colorTextGray),
+                                style: TextStyle(
+                                    fontSize: 18, color: colorTextGray),
                               ),
                             ],
                           ),
@@ -196,11 +236,13 @@ class _ProfileState extends State<Profile> {
                             children: [
                               const Text(
                                 "Email: ",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 employeeProfileDetailsModel!.data.email,
-                                style: TextStyle(fontSize: 18, color: colorTextGray),
+                                style: TextStyle(
+                                    fontSize: 18, color: colorTextGray),
                               ),
                             ],
                           ),
@@ -211,11 +253,13 @@ class _ProfileState extends State<Profile> {
                             children: [
                               const Text(
                                 "Company Name: ",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 employeeProfileDetailsModel!.data.companyName,
-                                style: TextStyle(fontSize: 18, color: colorTextGray),
+                                style: TextStyle(
+                                    fontSize: 18, color: colorTextGray),
                               ),
                             ],
                           ),
@@ -226,11 +270,14 @@ class _ProfileState extends State<Profile> {
                             children: [
                               const Text(
                                 "Department: ",
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                employeeProfileDetailsModel!.data.departmentName,
-                                style: TextStyle(fontSize: 18, color: colorTextGray),
+                                employeeProfileDetailsModel!
+                                    .data.departmentName,
+                                style: TextStyle(
+                                    fontSize: 18, color: colorTextGray),
                               ),
                             ],
                           ),
@@ -247,10 +294,18 @@ class _ProfileState extends State<Profile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => EditProfile(
-                            userName: employeeProfileDetailsModel!.data.username,
-                            employeeName: employeeProfileDetailsModel!.data.employeeName,
-                            employeeEmail: employeeProfileDetailsModel!.data.email,
-                            employeeProfilePic: employeeProfileDetailsModel!.data.profileImg,
+                            userName:
+                                employeeProfileDetailsModel!.data.username,
+                            employeeName:
+                                employeeProfileDetailsModel!.data.employeeName,
+                            employeeEmail:
+                                employeeProfileDetailsModel!.data.email,
+                            employeeProfilePic:
+                                employeeProfileDetailsModel!.data.profileImg,
+                            companyName:
+                                employeeProfileDetailsModel!.data.companyName,
+                            departmentName: employeeProfileDetailsModel!
+                                .data.departmentName,
                           ),
                         ),
                       );
@@ -258,7 +313,9 @@ class _ProfileState extends State<Profile> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeGreen,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Edit Info',
@@ -272,12 +329,17 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.all(8),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ResetPassword()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ResetPassword()));
                     },
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Change Password',
@@ -290,12 +352,18 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.all(8),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileChangeRequest()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ProfileChangeRequest()));
                     },
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Request Change Profile',

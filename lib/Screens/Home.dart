@@ -24,7 +24,9 @@ class _Home extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    widget.changeScreen!(0);
+                  },
                   child: Container(
                     height: 130,
                     width: 160,

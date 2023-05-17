@@ -14,14 +14,13 @@ class HourRequest extends StatefulWidget {
 }
 
 class _HourRequestState extends State<HourRequest> {
-  EmployeeSendHourRequestController employeeSendHourRequestController = EmployeeSendHourRequestController();
+  EmployeeSendHourRequestController employeeSendHourRequestController =
+      EmployeeSendHourRequestController();
+  TextEditingController fromDate = TextEditingController();
+  TextEditingController toDate = TextEditingController();
 
   @override
   void initState() {
-    employeeSendHourRequestController.attendanceIn.text = "";
-    employeeSendHourRequestController.attendanceOut.text = "";
-    employeeSendHourRequestController.inTime.text = "";
-    employeeSendHourRequestController.outTime.text = "";
     super.initState();
   }
 
@@ -40,7 +39,10 @@ class _HourRequestState extends State<HourRequest> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHourRequest()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ViewHourRequest()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -75,8 +77,10 @@ class _HourRequestState extends State<HourRequest> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          controller: employeeSendHourRequestController.attendanceIn,
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller:
+                              employeeSendHourRequestController.attendanceIn,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -87,30 +91,35 @@ class _HourRequestState extends State<HourRequest> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '01/11/2023',
+                            hintText: 'select in date',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101),
-                            );
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
                             if (pickedDate != null) {
-                              debugPrint(pickedDate as String?); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                              debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
                               setState(() {
-                                employeeSendHourRequestController.attendanceIn.text = formattedDate; //set output date to TextField value.
+                                employeeSendHourRequestController
+                                        .attendanceIn.text =
+                                    formattedDate; //set output date to TextField value.
                               });
                             } else {
                               debugPrint("Date is not selected");
@@ -128,8 +137,10 @@ class _HourRequestState extends State<HourRequest> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          controller: employeeSendHourRequestController.attendanceOut,
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller:
+                              employeeSendHourRequestController.attendanceOut,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -140,30 +151,35 @@ class _HourRequestState extends State<HourRequest> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '01/11/2023',
+                            hintText: 'select out date',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                              lastDate: DateTime(2101),
-                            );
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
                             if (pickedDate != null) {
-                              debugPrint(pickedDate as String?); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
-                              debugPrint(formattedDate); //formatted date output using intl package =>  2021-03-16
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
                               setState(() {
-                                employeeSendHourRequestController.attendanceOut.text = formattedDate; //set output date to TextField value.
+                                employeeSendHourRequestController
+                                        .attendanceOut.text =
+                                    formattedDate; //set output date to TextField value.
                               });
                             } else {
                               debugPrint("Date is not selected");
@@ -182,7 +198,8 @@ class _HourRequestState extends State<HourRequest> {
                         height: 40,
                         child: TextField(
                           controller: employeeSendHourRequestController.inTime,
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -193,14 +210,19 @@ class _HourRequestState extends State<HourRequest> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '04:32 PM',
+                            hintText: 'select in time',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -211,12 +233,15 @@ class _HourRequestState extends State<HourRequest> {
                             );
                             if (pickedTime != null) {
                               debugPrint(pickedTime.format(context));
-                              DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                              debugPrint(parsedTime as String?);
-                              String formattedTime = DateFormat('HH:mm').format(parsedTime);
+                              DateTime parsedTime = DateFormat.jm()
+                                  .parse(pickedTime.format(context).toString());
+                              String formattedTime =
+                                  DateFormat('HH:mm').format(parsedTime);
                               debugPrint(formattedTime);
                               setState(() {
-                                employeeSendHourRequestController.inTime.text = formattedTime;
+                                employeeSendHourRequestController.inTime.text =
+                                    formattedTime;
+                                debugPrint("Time is not ");
                               });
                             } else {
                               debugPrint("Time is not selected");
@@ -235,7 +260,8 @@ class _HourRequestState extends State<HourRequest> {
                         height: 40,
                         child: TextField(
                           controller: employeeSendHourRequestController.outTime,
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -246,14 +272,19 @@ class _HourRequestState extends State<HourRequest> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '04:32 PM',
+                            hintText: 'select out time ',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -264,12 +295,14 @@ class _HourRequestState extends State<HourRequest> {
                             );
                             if (pickedTime != null) {
                               debugPrint(pickedTime.format(context));
-                              DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                              debugPrint(parsedTime as String?);
-                              String formattedTime = DateFormat('HH:mm').format(parsedTime);
+                              DateTime parsedTime = DateFormat.jm()
+                                  .parse(pickedTime.format(context).toString());
+                              String formattedTime =
+                                  DateFormat('HH:mm').format(parsedTime);
                               debugPrint(formattedTime);
                               setState(() {
-                                employeeSendHourRequestController.outTime.text = formattedTime;
+                                employeeSendHourRequestController.outTime.text =
+                                    formattedTime;
                               });
                             } else {
                               debugPrint("Time is not selected");
@@ -286,12 +319,17 @@ class _HourRequestState extends State<HourRequest> {
                       ),
                       Container(
                         height: 150,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            controller: employeeSendHourRequestController.message,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            controller:
+                                employeeSendHourRequestController.message,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -299,7 +337,8 @@ class _HourRequestState extends State<HourRequest> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -307,17 +346,56 @@ class _HourRequestState extends State<HourRequest> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: GestureDetector(
-                          onTap: () {
-                            employeeSendHourRequestController.addHourRequest(context);
+                          onTap: () async {
+                            if (employeeSendHourRequestController
+                                .attendanceIn.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, attendanceIn missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (employeeSendHourRequestController
+                                .attendanceOut.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Oops!, attendanceOut missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (employeeSendHourRequestController
+                                .inTime.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, inTime missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (employeeSendHourRequestController
+                                .outTime.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, outTime missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              await employeeSendHourRequestController
+                                  .addHourRequest(context);
+                            }
                           },
                           child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Send Request',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             ),
                           ),

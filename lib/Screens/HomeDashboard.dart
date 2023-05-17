@@ -26,7 +26,8 @@ class HomeDashboard extends StatefulWidget {
 }
 
 class _HomeDashboard extends State<HomeDashboard> {
-  EmployeeProfileController employeeProfileController = EmployeeProfileController();
+  EmployeeProfileController employeeProfileController =
+      EmployeeProfileController();
   EmployeeProfileDetailsModel? employeeProfileDetailsModel;
   bool loading = false;
   var currentPage = DrawerSelection.Dashboard;
@@ -37,7 +38,10 @@ class _HomeDashboard extends State<HomeDashboard> {
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const UserSelectionScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const UserSelectionScreen()),
+        (route) => false);
   }
 
   void _onItemTapped(int index) {
@@ -52,7 +56,7 @@ class _HomeDashboard extends State<HomeDashboard> {
       } else if (_selectedIndex == 3) {
         currentPage = DrawerSelection.Notification;
       } else if (_selectedIndex == 4) {
-        currentPage = DrawerSelection.Dashboard;
+        currentPage = DrawerSelection.Profile;
       }
     });
   }
@@ -74,17 +78,33 @@ class _HomeDashboard extends State<HomeDashboard> {
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         children: [
-          menuItem(1, "Dashboard", Icons.grid_view_outlined, currentPage == DrawerSelection.Dashboard ? true : false),
-          menuItem(2, "Attendance", Icons.check_circle_outline, currentPage == DrawerSelection.Attendance ? true : false),
-          menuItem(3, "FixHoursRequest", Icons.access_time_outlined, currentPage == DrawerSelection.FixHoursRequest ? true : false),
-          menuItem(4, "ShareLocation", Icons.location_on_outlined, currentPage == DrawerSelection.ShareLocation ? true : false),
-          menuItem(5, "History", Icons.refresh_outlined, currentPage == DrawerSelection.History ? true : false),
-          menuItem(6, "Message", Icons.sms_outlined, currentPage == DrawerSelection.Message ? true : false),
-          menuItem(7, "Notification", Icons.notifications_none, currentPage == DrawerSelection.Notification ? true : false),
-          menuItem(8, "ContractorsBackOffice", Icons.work_outline, currentPage == DrawerSelection.ContractorsBackOffice ? true : false),
-          menuItem(9, "Howitworks", Icons.help_outline, currentPage == DrawerSelection.Howitworks ? true : false),
-          menuItem(10, "Settings", Icons.settings_outlined, currentPage == DrawerSelection.Settings ? true : false),
-          menuItem(11, "Logout", Icons.logout, currentPage == DrawerSelection.Logout ? true : false),
+          menuItem(1, "Dashboard", Icons.grid_view_outlined,
+              currentPage == DrawerSelection.Dashboard ? true : false),
+          menuItem(2, "Attendance", Icons.check_circle_outline,
+              currentPage == DrawerSelection.Attendance ? true : false),
+          menuItem(3, "Fix Hours Request", Icons.access_time_outlined,
+              currentPage == DrawerSelection.FixHoursRequest ? true : false),
+          menuItem(4, "Share Location", Icons.location_on_outlined,
+              currentPage == DrawerSelection.ShareLocation ? true : false),
+          menuItem(5, "History", Icons.refresh_outlined,
+              currentPage == DrawerSelection.History ? true : false),
+          menuItem(6, "Message", Icons.sms_outlined,
+              currentPage == DrawerSelection.Message ? true : false),
+          menuItem(7, "Notification", Icons.notifications_none,
+              currentPage == DrawerSelection.Notification ? true : false),
+          menuItem(
+              8,
+              "Contractors Back Office",
+              Icons.work_outline,
+              currentPage == DrawerSelection.ContractorsBackOffice
+                  ? true
+                  : false),
+          menuItem(9, "How It Works", Icons.help_outline,
+              currentPage == DrawerSelection.Howitworks ? true : false),
+          menuItem(10, "Settings", Icons.settings_outlined,
+              currentPage == DrawerSelection.Settings ? true : false),
+          menuItem(11, "Logout", Icons.logout,
+              currentPage == DrawerSelection.Logout ? true : false),
           const Padding(
             padding: EdgeInsets.only(top: 100.0, right: 16, bottom: 16),
             child: Align(
@@ -142,7 +162,9 @@ class _HomeDashboard extends State<HomeDashboard> {
                 flex: 6,
                 child: Text(
                   title,
-                  style: TextStyle(color: selected ? appThemeGreen : Colors.black, fontSize: 16),
+                  style: TextStyle(
+                      color: selected ? appThemeGreen : Colors.black,
+                      fontSize: 16),
                 ),
               )
             ],
@@ -165,7 +187,8 @@ class _HomeDashboard extends State<HomeDashboard> {
       });
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("profilePic", employeeProfileDetailsModel!.data.profileImg);
+    await prefs.setString(
+        "profilePic", employeeProfileDetailsModel!.data.profileImg);
   }
 
   @override
@@ -198,7 +221,8 @@ class _HomeDashboard extends State<HomeDashboard> {
       container = const NotificationScreen();
       appBarTitle = "Notification";
     } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
-      container = ContractorsScreen(profilePic: employeeProfileDetailsModel!.data.profileImg);
+      container = ContractorsScreen(
+          profilePic: employeeProfileDetailsModel!.data.profileImg);
       appBarTitle = "Contractors Back Office";
     } else if (currentPage == DrawerSelection.Profile) {
       container = const Profile();
@@ -212,9 +236,12 @@ class _HomeDashboard extends State<HomeDashboard> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: colorScreenBg,
-              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
               title: Center(
-                child: Text(appBarTitle, textAlign: TextAlign.center, style: const TextStyle(color: Colors.black)),
+                child: Text(appBarTitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.black)),
               ),
               actions: <Widget>[
                 Padding(
@@ -226,7 +253,8 @@ class _HomeDashboard extends State<HomeDashboard> {
                         )
                       : CircleAvatar(
                           radius: 18,
-                          backgroundImage: NetworkImage(employeeProfileDetailsModel!.data.profileImg),
+                          backgroundImage: NetworkImage(
+                              employeeProfileDetailsModel!.data.profileImg),
                         ),
                 ),
               ],
@@ -245,7 +273,14 @@ class _HomeDashboard extends State<HomeDashboard> {
             drawer: Drawer(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [MyDrawerHeader(userName: employeeProfileDetailsModel!.data.username, email: employeeProfileDetailsModel!.data.email, profilePicture: employeeProfileDetailsModel!.data.profileImg), MyDrawerList()],
+                  children: [
+                    MyDrawerHeader(
+                        userName: employeeProfileDetailsModel!.data.username,
+                        email: employeeProfileDetailsModel!.data.email,
+                        profilePicture:
+                            employeeProfileDetailsModel!.data.profileImg),
+                    MyDrawerList()
+                  ],
                 ),
               ),
             ),
@@ -253,9 +288,12 @@ class _HomeDashboard extends State<HomeDashboard> {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 color: colorScreenBg,
-                borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30)),
                 boxShadow: const [
-                  BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+                  BoxShadow(
+                      color: Colors.black38, spreadRadius: 0, blurRadius: 10),
                 ],
               ),
               child: ClipRRect(
@@ -312,4 +350,17 @@ class _HomeDashboard extends State<HomeDashboard> {
   }
 }
 
-enum DrawerSelection { Dashboard, Attendance, FixHoursRequest, ShareLocation, History, Message, Notification, ContractorsBackOffice, Howitworks, Settings, Logout, Profile }
+enum DrawerSelection {
+  Dashboard,
+  Attendance,
+  FixHoursRequest,
+  ShareLocation,
+  History,
+  Message,
+  Notification,
+  ContractorsBackOffice,
+  Howitworks,
+  Settings,
+  Logout,
+  Profile
+}
