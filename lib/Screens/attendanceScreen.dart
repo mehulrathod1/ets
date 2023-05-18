@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:etsemployee/Controller/EmployeeController/employee_add_attendance_controller.dart';
 import 'package:etsemployee/Popup/attandance_popup.dart';
+import 'package:etsemployee/Screens/HomeDashboard.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({Key? key}) : super(key: key);
+
+   const AttendanceScreen({Key? key}) : super(key: key);
 
   @override
   State<AttendanceScreen> createState() => _AttendanceScreen();
@@ -128,7 +130,14 @@ class _AttendanceScreen extends State<AttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    return  WillPopScope(
+      onWillPop: ()async{
+      //  Navigator.pop(context);
+         Navigator.push(context, MaterialPageRoute(builder: (context) =>  const HomeDashboard(currentTableSelected: 0),maintainState: true));
+        return true;
+      },
+      child:Scaffold(
       body: SingleChildScrollView(
         child: Container(
           color: colorScreenBg,
@@ -166,10 +175,14 @@ class _AttendanceScreen extends State<AttendanceScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return Container(
-                                  height: 150,
+                                  height: 100,
                                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                                    GestureDetector(
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                                      children: [
+                                    /*GestureDetector(
                                       onTap: () async {
                                         Navigator.pop(context);
                                         await pickImage(gallery: true);
@@ -186,7 +199,7 @@ class _AttendanceScreen extends State<AttendanceScreen> {
                                           ),
                                         ),
                                       ),
-                                    ),
+                                    ),*/
                                     GestureDetector(
                                       onTap: () async {
                                         Navigator.pop(context);
@@ -328,6 +341,7 @@ class _AttendanceScreen extends State<AttendanceScreen> {
                       } else {
                         String status = await getAttendanceValue();
                         await controller.addAttendanceHistory(context: context, address: currentAddress, profileImage: base64ImagePath, status: status, place: place!);
+
                       }
                     },
                     child: Container(
@@ -348,6 +362,6 @@ class _AttendanceScreen extends State<AttendanceScreen> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }

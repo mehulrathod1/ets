@@ -16,8 +16,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
-
+   Profile({Key? key,this.changeScreen}) : super(key: key);
+  Function(int)? changeScreen;
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -65,7 +65,7 @@ class _ProfileState extends State<Profile> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const HomeDashboard()));
+                      builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
             });
           }
         });

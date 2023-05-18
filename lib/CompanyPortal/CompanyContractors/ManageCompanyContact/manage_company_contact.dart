@@ -1,3 +1,4 @@
+import 'package:etsemployee/CompanyPortal/CompanyContractors/company_contractors_screen.dart';
 import 'package:etsemployee/Controller/CompanyController/comapny_delete_contact_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_contact_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_contacts_model.dart';
@@ -82,6 +83,8 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
             ),
             onTap: () {
               Navigator.pop(context);
+
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyContractorsScreen()));
             },
           );
         }),

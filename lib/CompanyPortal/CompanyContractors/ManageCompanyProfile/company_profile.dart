@@ -166,12 +166,27 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    companyProfileModel!.data.contactPerson,
+
+//                                 Expanded(
+//                                   child: Text(
+//                                     companyProfileModel!.data.contactPerson,
+//                                     style: TextStyle(
+//                                         fontSize: 18, color: colorTextGray),
+
+                                Container(
+                                  //height: 40,
+                                  // color:Colors.red,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.46,
+                                  child: FittedBox(
+                                      child: Text(
+                                    "${companyProfileModel!.data.contactPerson}",
+                                    maxLines: 2,
+                                    softWrap: true,
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontSize: 18, color: colorTextGray),
-                                  ),
+                                  )),
                                 ),
                               ],
                             ),

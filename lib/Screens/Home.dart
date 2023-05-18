@@ -83,7 +83,8 @@ class _Home extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    widget.changeScreen!(2);
+                    widget.changeScreen!(4);
+
                   },
                   child: Container(
                     height: 130,

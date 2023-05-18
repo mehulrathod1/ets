@@ -2,7 +2,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
 class MessageScreen extends StatefulWidget {
-  const MessageScreen({Key? key}) : super(key: key);
+  const MessageScreen({Key? key }) : super(key: key);
 
   @override
   State<MessageScreen> createState() => _MessageScreenState();

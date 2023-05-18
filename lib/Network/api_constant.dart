@@ -81,8 +81,7 @@ class ApiConstant {
   static const companyAddEvent = 'company/add-event/';
   static const companyInbox = 'company/get_employee_list.php';
   static const companySubscription = 'company/send-subscription-aggrement';
-  static const companyAcceptProfileRequest =
-      'company/accept-emp-profile-request';
+  static const companyAcceptProfileRequest = 'company/accept-emp-profile-request';
   static const companyRejectProfileRequest =
       'company/reject-emp-profile-request';
   static const companyEmployeeLiveLocation =

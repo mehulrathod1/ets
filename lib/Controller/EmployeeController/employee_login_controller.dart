@@ -37,7 +37,9 @@ class EmployeeLoginController {
           duration: const Duration(seconds: 2),
         ),
       );
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
+
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

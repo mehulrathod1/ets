@@ -21,12 +21,22 @@ class CompanyUpdateProfileController {
   TextEditingController creditCardExp = TextEditingController();
   TextEditingController securityCode = TextEditingController();
 
+  bool isLoad=false;
+
   Future updateProfileDetails(BuildContext context, {required File companyProfilePic}) async {
-    showDialog(
+    isLoad=true;
+    if(isLoad=true){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CircularProgressIndicator());
+          });
+    }
+    /*showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
-        });
+        });*/
     var request = http.MultipartRequest('POST', Uri.parse(ApiConstant.baseUrl + ApiConstant.companyUpdateProfile));
     request.headers.addAll({"Content-Type": "multipart/form-data; boundary=<calculated when request is sent>", 'X-Access-Token': ApiConstant.userToken});
     request.fields['company_name'] = companyName.text;
@@ -50,10 +60,12 @@ class CompanyUpdateProfileController {
         filename: companyProfilePic.path.split("/").last,
       ),
     );
+    print("+++++++++++++++${companyProfilePic.path}");
     var response = await request.send();
     debugPrint("editProfileDetails response :- ${response.statusCode}");
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+      isLoad=false;
+      //Navigator.pop(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard()));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

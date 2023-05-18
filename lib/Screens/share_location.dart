@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ShareLocationScreen extends StatefulWidget {
   const ShareLocationScreen({Key? key}) : super(key: key);
 
+
   @override
   State<ShareLocationScreen> createState() => _ShareLocationScreenState();
 }
@@ -95,6 +96,7 @@ class _ShareLocationScreenState extends State<ShareLocationScreen> {
       backgroundColor: colorScreenBg,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -128,32 +130,28 @@ class _ShareLocationScreenState extends State<ShareLocationScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 510,
-              width: double.infinity,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: appThemeGreen)),
-              child: loading
-                  ? const Center(child: CircularProgressIndicator())
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        height: 510,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: GoogleMap(
-                          mapType: MapType.hybrid,
-                          initialCameraPosition: kGooglePlex,
-                          myLocationEnabled: true,
-                          markers: Set<Marker>.of(markers),
-                          onMapCreated: (GoogleMapController controller) {
-                            googleMapController.complete(controller);
-                          },
-                        ),
+            child: loading
+                ? const Center(child: CircularProgressIndicator())
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 480,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: appThemeGreen)
+                      ),
+                      child: GoogleMap(
+                        mapType: MapType.hybrid,
+                        initialCameraPosition: kGooglePlex,
+                        myLocationEnabled: true,
+                        markers: Set<Marker>.of(markers),
+                        onMapCreated: (GoogleMapController controller) {
+                          googleMapController.complete(controller);
+                        },
                       ),
                     ),
-            ),
+                  ),
           ),
           Row(
             children: [

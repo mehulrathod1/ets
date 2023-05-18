@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
+import 'package:etsemployee/CompanyPortal/CompanyContractors/company_contractors_screen.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_contact_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_contact_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageContacts/add_new_contact.dart';
@@ -74,7 +75,9 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
               color: Colors.black,
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+              Navigator.pop(context);
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyContractorsScreen()));
             },
           );
         }),
