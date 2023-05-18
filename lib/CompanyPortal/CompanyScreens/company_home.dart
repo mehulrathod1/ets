@@ -196,9 +196,9 @@ class _CompanyHomeState extends State<CompanyHome>
                 Expanded(
                   child: TabBarView(
                     controller: _controller,
-                    children: const [
+                    children: [
                       CompanyNotification(),
-                      ManageApproval(),
+                      ManageApproval(appBar: false),
                     ],
                   ),
                 )

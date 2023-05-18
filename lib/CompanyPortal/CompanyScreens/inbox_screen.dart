@@ -1,12 +1,15 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../Controller/CompanyController/company_inboc_controller.dart';
 import '../../Models/CompanyModels/company_inbox_model.dart';
+import '../../Network/api_constant.dart';
 import 'company_message_dashboard.dart';
 
 class InboxScreen extends StatefulWidget {
-  const InboxScreen({Key? key}) : super(key: key);
+  InboxScreen({required this.appBar, Key? key}) : super(key: key);
+  bool appBar;
 
   @override
   State<InboxScreen> createState() => _InboxScreenState();
@@ -52,6 +55,45 @@ class _InboxScreenState extends State<InboxScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.appBar
+          ? AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: const Center(
+                child: Text("Inbox",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: ApiConstant.profileImage.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              NetworkImage(ApiConstant.profileImage),
+                        ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            )
+          : null,
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

@@ -8,14 +8,18 @@ import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
 import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../../Controller/CompanyController/company_add_employee_controller.dart';
 import '../../Controller/CompanyController/company_hold_access_controller.dart';
+import '../../Network/api_constant.dart';
+import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
 
 class EmployeeManagement extends StatefulWidget {
-  const EmployeeManagement({Key? key}) : super(key: key);
+  EmployeeManagement({required this.appBar, Key? key}) : super(key: key);
+  bool appBar;
 
   @override
   State<EmployeeManagement> createState() => _EmployeeManagementState();
@@ -281,6 +285,45 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.appBar
+          ? AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: const Center(
+                child: Text("Employee",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: ApiConstant.profileImage.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              NetworkImage(ApiConstant.profileImage),
+                        ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            )
+          : null,
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -857,12 +900,38 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  deleteCompanyController
-                                                      .deleteEmployee(context,
-                                                          detail.employeeId)
-                                                      .then((value) {
-                                                    initialize(context);
-                                                  });
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return ConfirmationPopup(
+                                                        title: 'Confirmation',
+                                                        message:
+                                                            'Are you sure you want to delete?',
+                                                        onConfirm: () {
+                                                          // Perform delete operation here
+                                                          deleteCompanyController
+                                                              .deleteEmployee(
+                                                                  context,
+                                                                  detail
+                                                                      .employeeId)
+                                                              .then((value) {
+                                                            initialize(context);
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          });
+                                                          // Close the dialog
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                  // deleteCompanyController
+                                                  //     .deleteEmployee(context,
+                                                  //         detail.employeeId)
+                                                  //     .then((value) {
+                                                  //   initialize(context);
+                                                  // });
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(
@@ -897,6 +966,22 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                 ],
               ),
             ),
+    );
+  }
+
+  void showConfirmationPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationPopup(
+          title: 'Confirmation',
+          message: 'Are you sure you want to delete?',
+          onConfirm: () {
+            // Perform delete operation here
+            Navigator.of(context).pop(); // Close the dialog
+          },
+        );
+      },
     );
   }
 }

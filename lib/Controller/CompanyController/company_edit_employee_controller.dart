@@ -36,8 +36,12 @@ class CompanyEditEmployeeController {
       var res = CompanyEditEmployeeModel.fromJson(response);
       addEmployeeModel = res;
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const EmployeeManagement()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EmployeeManagement(
+                    appBar: true,
+                  )));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
