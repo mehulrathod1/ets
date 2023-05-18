@@ -23,7 +23,7 @@ class EmployeeResetPasswordController {
     debugPrint("resetPassword response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

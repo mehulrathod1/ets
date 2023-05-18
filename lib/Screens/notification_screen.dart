@@ -1,10 +1,12 @@
 import 'package:etsemployee/Controller/EmployeeController/employee_notification_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_notification_model.dart';
+import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+   NotificationScreen({this.changeScreen,Key? key,}) : super(key: key);
+  Function(int)? changeScreen;
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -86,10 +88,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 8.0, top: 8),
-                                      child: Text(
-                                        detail.button.button,
-                                        style: TextStyle(
-                                            fontSize: 12, color: appThemeBlue),
+                                      child: InkWell(
+                                        onTap: () {
+                                         // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
+                                          if(detail.button.button=="Change Profile"){
+                                            widget.changeScreen!(0);
+                                             //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
+                                          }else if(detail.button.button=="Share location"){
+                                            widget.changeScreen!(1);
+                                          }else if(detail.button.button=="Call For Attendance"){
+                                            widget.changeScreen!(2);
+                                          }else if(detail.button.button=="View Details"){
+                                            widget.changeScreen!(3);
+                                          }else if(detail.button.button=="View Task"){
+                                            widget.changeScreen!(4);
+                                          }
+                                        },
+                                        child: Text(
+                                          detail.button.button,
+                                          style: TextStyle(
+                                              fontSize: 12, color: appThemeBlue),
+                                        ),
                                       ),
                                     ),
                                   ],

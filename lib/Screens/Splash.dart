@@ -29,10 +29,11 @@ class _SplashState extends State<Splash> {
     if (usertype == 'company') {
       Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard())));
     } else if (usertype == 'employee') {
-      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard())));
+      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,))));
     } else if (usertype == 'sales') {
       Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SalesDashboard())));
     } else {
+      print("Not any three+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
       Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const UserSelectionScreen())));
     }
   }
