@@ -231,15 +231,21 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       appBarTitle = "Dashboard";
     }
     if (currentPage == DrawerSelection.EmployeeManagement) {
-      container = const EmployeeManagement();
+      container = EmployeeManagement(
+        appBar: false,
+      );
       appBarTitle = "Employee";
     }
     if (currentPage == DrawerSelection.AgencyAgentManagement) {
-      container = const AgencyManagement();
+      container = AgencyManagement(
+        appBar: false,
+      );
       appBarTitle = "Agent Or Agency";
     }
     if (currentPage == DrawerSelection.Inbox) {
-      container = const InboxScreen();
+      container = InboxScreen(
+        appBar: false,
+      );
       appBarTitle = "Inbox";
     }
     if (currentPage == DrawerSelection.Notification) {
@@ -247,11 +253,15 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
       appBarTitle = "Notification";
     }
     if (currentPage == DrawerSelection.FixHoursRequest) {
-      container = const CompanyFixHourRequest();
+      container = CompanyFixHourRequest(
+        appBar: false,
+      );
       appBarTitle = "Fix Hours Request";
     }
     if (currentPage == DrawerSelection.Approval) {
-      container = const ManageApproval();
+      container = ManageApproval(
+        appBar: false,
+      );
       appBarTitle = "Manage Approval";
     }
     if (currentPage == DrawerSelection.Department) {

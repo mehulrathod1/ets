@@ -89,6 +89,8 @@ class ApiConstant {
       'company/view-live-location-employee?id=';
   static const companyMessage = 'company/get-message/';
 
+  // static const companyMessage = 'view-edit-attendence/239/2023-01-03';
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';

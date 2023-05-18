@@ -23,9 +23,14 @@ Future viewAddress(BuildContext context, String address) async {
                         style: TextStyle(color: Colors.black),
                       ),
                     )),
-                    Icon(
-                      Icons.close,
-                      color: Colors.black,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
