@@ -1,13 +1,11 @@
-import 'dart:developer';
+// ignore_for_file: file_names, must_be_immutable
 
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
-import '../utils/Colors.dart';
-import 'Contractors/ManageProfile/profile_screen.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  Home({this.changeScreen, Key? key}) : super(key: key);
+  Function(int)? changeScreen;
 
   @override
   State<Home> createState() => _Home();
@@ -27,7 +25,7 @@ class _Home extends State<Home> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {});
+                    widget.changeScreen!(0);
                   },
                   child: Container(
                     height: 130,
@@ -39,54 +37,54 @@ class _Home extends State<Home> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Image.asset('assets/noun-history.png'),
+                      children: const [
                         ImageIcon(
                           AssetImage("assets/noun_location.png"),
                           size: 60,
                         ),
-                        // Icon(
-                        //   Icons.location_on_outlined,
-                        //   size: 60,
-                        // ),
                         SizedBox(height: 8),
                         Text("Live Location")
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  height: 130,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    color: colorBlueLight,
-                    border: Border.all(color: colorBlue, width: 1),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ImageIcon(
-                        AssetImage("assets/noun_history_.png"),
-                        size: 60,
-                      ),
-                      SizedBox(height: 8),
-                      Text("History")
-                    ],
+                GestureDetector(
+                  onTap: () {
+                    widget.changeScreen!(1);
+                  },
+                  child: Container(
+                    height: 130,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      color: colorBlueLight,
+                      border: Border.all(color: colorBlue, width: 1),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        ImageIcon(
+                          AssetImage("assets/noun_history_.png"),
+                          size: 60,
+                        ),
+                        SizedBox(height: 8),
+                        Text("History")
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 16),
+            padding: const EdgeInsets.only(top: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
+                    widget.changeScreen!(4);
+
                   },
                   child: Container(
                     height: 130,
@@ -98,7 +96,7 @@ class _Home extends State<Home> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         ImageIcon(
                           AssetImage("assets/profile.png"),
                           size: 60,
@@ -109,6 +107,10 @@ class _Home extends State<Home> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 130,
+                  width: 160,
+                )
               ],
             ),
           ),

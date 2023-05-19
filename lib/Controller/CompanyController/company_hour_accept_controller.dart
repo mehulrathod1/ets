@@ -6,19 +6,41 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyAcceptHourController {
-  Future<CompanyHourAcceptModel> acceptHourRequest(
-      BuildContext context, String id) async {
-    var response =
-        await getData(paramUri: ApiConstant.cmpAcceptHourRequest + id);
+  CompanyHourAcceptModel? addCompanyContactModel;
 
-    print(response);
+  Future acceptHourRequest(BuildContext context, String id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
 
-    var res = CompanyHourAcceptModel.fromJson(response);
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.cmpAcceptHourRequest,
+        params: {
+          'id': id,
+          'request_id': '1',
+        });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(res.message),
-      duration: const Duration(seconds: 2),
-    ));
-    return res;
+    if (response["status"] == 'True') {
+      var res = CompanyHourAcceptModel.fromJson(response);
+      addCompanyContactModel = res;
+      Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res.message),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }

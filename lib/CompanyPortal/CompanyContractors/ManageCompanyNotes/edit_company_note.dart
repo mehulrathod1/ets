@@ -1,18 +1,50 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:etsemployee/Controller/CompanyController/company_edit_note_controller.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
-import '../../../utils/Colors.dart';
+import '../../../Controller/CompanyController/company_edit_note_controller.dart';
+import '../../../Network/api_constant.dart';
 
 class EditCompanyNote extends StatefulWidget {
-  const EditCompanyNote({Key? key}) : super(key: key);
+  EditCompanyNote(
+      {required this.id,
+      required this.noteStatus,
+      required this.noteName,
+      required this.noteDescription,
+      required this.employeeList,
+      Key? key})
+      : super(key: key);
+
+  String id;
+  String noteStatus;
+  String noteName;
+  String noteDescription;
+  String employeeList;
 
   @override
   State<EditCompanyNote> createState() => _EditCompanyNoteState();
 }
 
 class _EditCompanyNoteState extends State<EditCompanyNote> {
-  bool termsandcond = false;
+  bool termsAndCond = false;
+  CompanyEditNoteController editNoteController = CompanyEditNoteController();
+
+  @override
+  void initState() {
+    editNoteController.noteStatus.text = widget.noteStatus;
+    editNoteController.noteDescription.text = widget.noteDescription;
+    editNoteController.noteName.text = widget.noteName;
+
+    if (widget.noteStatus == '0') {
+      termsAndCond = false;
+    } else {
+      termsAndCond = true;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,23 +53,30 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
           child: Text("Edit Notes",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: EdgeInsets.only(right: 16.0),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -66,32 +105,34 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                         child: Row(
                           children: [
                             Checkbox(
-                                value: termsandcond,
+                                value: termsAndCond,
                                 fillColor:
                                     MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
-                                    termsandcond = v!;
+                                    termsAndCond = v!;
+                                    if (termsAndCond == true) {}
                                   });
                                 }),
-                            Text(
+                            const Text(
                               'Mark As Complete',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Name",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
+                          controller: editNoteController.noteName,
+                          style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -99,8 +140,8 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -113,8 +154,8 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Description",
                           style: TextStyle(fontSize: 14),
@@ -124,11 +165,14 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                         height: 100,
                         decoration: BoxDecoration(
                             border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            controller: editNoteController.noteDescription,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -136,23 +180,24 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Employee List",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -167,8 +212,8 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -183,19 +228,24 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            editNoteController.editNote(context, widget.id);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

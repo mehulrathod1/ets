@@ -1,18 +1,19 @@
+import 'package:etsemployee/Controller/EmployeeController/employee_notification_controller.dart';
+import 'package:etsemployee/Models/EmployeeModel/employee_notification_model.dart';
+import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
-
-import '../Controller/EmployeeController/employee_notification_controller.dart';
-import '../Models/EmployeeModel/employee_notification_model.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({Key? key}) : super(key: key);
+   NotificationScreen({this.changeScreen,Key? key,}) : super(key: key);
+  Function(int)? changeScreen;
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  bool loading = false;
   EmployeeNotificationController notificationController =
       EmployeeNotificationController();
   late EmployeeNotificationModel notificationModel;
@@ -20,18 +21,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     initialize(context);
     super.initState();
   }
 
   Future initialize(BuildContext context) async {
-    notificationController.getNotification(context).then((value) {
+    loading = true;
+    await notificationController.getNotification(context).then((value) {
       setState(() {
         notificationModel = value;
         notificationList = notificationModel.data.list;
-        print(value.message);
-        //
+        loading = false;
+        debugPrint(value.message);
       });
     });
   }
@@ -40,77 +41,96 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-      body: SingleChildScrollView(
-        child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: notificationList.length,
-            itemBuilder: (context, index) {
-              var detail = notificationList[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          radius: 28,
-                          backgroundImage: AssetImage('assets/man.jpeg'),
-                        ),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: notificationList.length,
+                  itemBuilder: (context, index) {
+                    var detail = notificationList[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8),
-                                child: Text(
-                                  detail.notificationMsg,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                              const CircleAvatar(
+                                radius: 28,
+                                backgroundImage: AssetImage('assets/man.jpeg'),
                               ),
-                              SizedBox(height: 12),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8.0,
-                                ),
-                                child: Text(
-                                  detail.date.toString(),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 8),
-                                child: Text(
-                                  "View Task",
-                                  style: TextStyle(
-                                      fontSize: 12, color: appThemeBlue),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8),
+                                      child: Text(
+                                        detail.notificationMsg,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 8.0,
+                                      ),
+                                      child: Text(
+                                        detail.date.toString(),
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8),
+                                      child: InkWell(
+                                        onTap: () {
+                                         // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
+                                          if(detail.button.button=="Change Profile"){
+                                            widget.changeScreen!(0);
+                                             //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
+                                          }else if(detail.button.button=="Share location"){
+                                            widget.changeScreen!(1);
+                                          }else if(detail.button.button=="Call For Attendance"){
+                                            widget.changeScreen!(2);
+                                          }else if(detail.button.button=="View Details"){
+                                            widget.changeScreen!(3);
+                                          }else if(detail.button.button=="View Task"){
+                                            widget.changeScreen!(4);
+                                          }
+                                        },
+                                        child: Text(
+                                          detail.button.button,
+                                          style: TextStyle(
+                                              fontSize: 12, color: appThemeBlue),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 1,
-                        child: const DecoratedBox(
-                          decoration: const BoxDecoration(color: Colors.black),
-                        ),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 1,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-      ),
+                    );
+                  }),
+            ),
     );
   }
 }

@@ -5,8 +5,11 @@ import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyFixHourRequestController {
-  Future<CompanyHourRequestModel> getHourRequest(BuildContext context) async {
+  Future getHourRequest(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyFixHourRequest);
-    return CompanyHourRequestModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyHourRequestModel.fromJson(response);
+      return null;
+    }
   }
 }

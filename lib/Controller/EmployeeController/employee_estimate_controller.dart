@@ -1,15 +1,16 @@
+import 'package:etsemployee/Models/EmployeeModel/employee_estimate_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../Models/EmployeeModel/employee_estimate_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
-
 class EmployeeEstimateController {
-  Future<EmployeeEstimateModel> getEmployeeEstimate(
-      BuildContext context) async {
+  Future getEmployeeEstimate(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.employeeEstimateList);
-
-    print(response);
-    return EmployeeEstimateModel.fromJson(response);
+    if (response["status"] == "True" && response["data"] != null) {
+      print("DATA :- ${response["data"]}");
+      return EmployeeEstimateModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

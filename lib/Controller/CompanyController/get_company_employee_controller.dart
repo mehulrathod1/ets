@@ -1,18 +1,24 @@
+import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
-import '../../Models/CompanyModels/GetCompanyEmployeeModel.dart';
-
 class GetCompanyEmployeeController {
-  // late Map<String, dynamic> doctors;
-
-  Future<GetCompanyEmployeeModel> getCompanyEmployee(
-      BuildContext context) async {
+  Future getCompanyEmployee(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyAllEmployee);
+    if (response["status"] == "True" && response["data"] != null) {
+      return GetCompanyEmployeeModel.fromJson(response);
+    } else {
+      return null;
+    }
+  }
 
-    print(response);
-
-    return GetCompanyEmployeeModel.fromJson(response);
+  Future getCompanyEmployeeList(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyInbox);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
+    } else {
+      return null;
+    }
   }
 }

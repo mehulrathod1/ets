@@ -1,14 +1,10 @@
-// To parse this JSON data, do
-//
-//     final employeeContactModel = employeeContactModelFromJson(jsonString);
+// ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
 
-EmployeeContactModel employeeContactModelFromJson(String str) =>
-    EmployeeContactModel.fromJson(json.decode(str));
+EmployeeContactModel employeeContactModelFromJson(String str) => EmployeeContactModel.fromJson(json.decode(str));
 
-String employeeContactModelToJson(EmployeeContactModel data) =>
-    json.encode(data.toJson());
+String employeeContactModelToJson(EmployeeContactModel data) => json.encode(data.toJson());
 
 class EmployeeContactModel {
   EmployeeContactModel({
@@ -21,8 +17,7 @@ class EmployeeContactModel {
   String message;
   Data data;
 
-  factory EmployeeContactModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeContactModel(
+  factory EmployeeContactModel.fromJson(Map<String, dynamic> json) => EmployeeContactModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -45,8 +40,7 @@ class Data {
   PaginationInfo paginationInfo;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -58,6 +52,7 @@ class Data {
 
 class ListElement {
   ListElement({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.companyName,
@@ -71,26 +66,28 @@ class ListElement {
     required this.mobileNo,
   });
 
+  String id;
   String firstName;
   String lastName;
   String companyName;
   String customerType;
   String address;
-  City? city;
-  MyState? state;
+  String city;
+  String state;
   String zipcode;
   String email;
   String homeOrOfficeNo;
   String mobileNo;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+        id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
-        companyName: json["company_name"],
+        companyName: json["company_name"] ?? "",
         customerType: json["customer_type"],
         address: json["address"],
-        city: cityValues.map[json["city"]],
-        state: stateValues.map[json["state"]],
+        city: json["city"],
+        state: json["state"],
         zipcode: json["zipcode"],
         email: json["email"],
         homeOrOfficeNo: json["home_or_office_no"],
@@ -98,13 +95,14 @@ class ListElement {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "first_name": firstName,
         "last_name": lastName,
         "company_name": companyName,
         "customer_type": customerType,
         "address": address,
-        "city": cityValues.reverse[city],
-        "state": stateValues.reverse[state],
+        "city": city,
+        "state": state,
         "zipcode": zipcode,
         "email": email,
         "home_or_office_no": homeOrOfficeNo,
@@ -112,18 +110,13 @@ class ListElement {
       };
 }
 
-enum City { TEST_CITY, TEST, COCOA }
-
-final cityValues = EnumValues(
-    {"Cocoa": City.COCOA, "test": City.TEST, "test city": City.TEST_CITY});
-
-enum MyState { STATE_TAST, TEST, FLORIDA }
-
-final stateValues = EnumValues({
-  "Florida": MyState.FLORIDA,
-  "state tast": MyState.STATE_TAST,
-  "test": MyState.TEST
-});
+// enum City { TEST_CITY, TEST, COCOA }
+//
+// final cityValues = EnumValues({"Cocoa": City.COCOA, "test": City.TEST, "test city": City.TEST_CITY});
+//
+// enum MyState { STATE_TAST, TEST, FLORIDA }
+//
+// final stateValues = EnumValues({"Florida": MyState.FLORIDA, "state tast": MyState.STATE_TAST, "test": MyState.TEST});
 
 class PaginationInfo {
   PaginationInfo({

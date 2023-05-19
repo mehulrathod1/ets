@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final employeeInvoiceModel = employeeInvoiceModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class EmployeeInvoiceModel {
@@ -15,13 +11,11 @@ class EmployeeInvoiceModel {
   String message;
   Data data;
 
-  factory EmployeeInvoiceModel.fromRawJson(String str) =>
-      EmployeeInvoiceModel.fromJson(json.decode(str));
+  factory EmployeeInvoiceModel.fromRawJson(String str) => EmployeeInvoiceModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeInvoiceModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeInvoiceModel(
+  factory EmployeeInvoiceModel.fromJson(Map<String, dynamic> json) => EmployeeInvoiceModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -48,8 +42,7 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -61,6 +54,7 @@ class Data {
 
 class ListElement {
   ListElement({
+    required this.id,
     required this.invoiceId,
     required this.companyId,
     required this.employeeId,
@@ -70,58 +64,71 @@ class ListElement {
     required this.amount,
     required this.invoiceDate,
     required this.tax,
-    required this.costPlus,
-    this.signature,
+    required this.dueAmount,
+    required this.totalAmount,
     required this.isPaid,
+    required this.paidBy,
+    required this.signature,
+    required this.signatureName,
   });
 
+  String id;
   String invoiceId;
   String companyId;
-  String? employeeId;
+  String employeeId;
   String estimateId;
   String invoiceFor;
   String invoiceDescription;
   String amount;
-  DateTime invoiceDate;
-  String? tax;
-  String? costPlus;
-  dynamic signature;
+  String invoiceDate;
+  String tax;
+  String dueAmount;
+  String totalAmount;
   String isPaid;
+  String paidBy;
+  String signature;
+  String signatureName;
 
-  factory ListElement.fromRawJson(String str) =>
-      ListElement.fromJson(json.decode(str));
+  factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+        id: json["id"],
         invoiceId: json["invoice_id"],
         companyId: json["company_id"],
-        employeeId: json["employee_id"],
+        employeeId: json["employee_id"] ?? "",
         estimateId: json["estimate_id"],
         invoiceFor: json["invoice_for"],
         invoiceDescription: json["invoice_description"],
         amount: json["amount"],
-        invoiceDate: DateTime.parse(json["invoice_date"]),
+        invoiceDate: json["invoice_date"],
         tax: json["tax"],
-        costPlus: json["cost_plus"],
-        signature: json["signature"],
+        dueAmount: json["due_amount"],
+        totalAmount: json["total_amount"],
         isPaid: json["isPaid"],
+        paidBy: json["paid_by"],
+        signature: json["signature"],
+        signatureName: json["signature_name"],
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "invoice_id": invoiceId,
         "company_id": companyId,
         "employee_id": employeeId,
         "estimate_id": estimateId,
         "invoice_for": invoiceFor,
         "invoice_description": invoiceDescription,
-        "amount": 'amount',
-        "invoice_date":
-            "${invoiceDate.year.toString().padLeft(4, '0')}-${invoiceDate.month.toString().padLeft(2, '0')}-${invoiceDate.day.toString().padLeft(2, '0')}",
+        "amount": amount,
+        "invoice_date": invoiceDate,
         "tax": tax,
-        "cost_plus": costPlus,
-        "signature": signature,
+        "due_amount": dueAmount,
+        "total_amount": totalAmount,
         "isPaid": isPaid,
+        "paid_by": paidBy,
+        "signature": signature,
+        "signature_name": signatureName,
       };
 }
 
@@ -138,8 +145,7 @@ class PaginationInfo {
   int totalRows;
   int totalPages;
 
-  factory PaginationInfo.fromRawJson(String str) =>
-      PaginationInfo.fromJson(json.decode(str));
+  factory PaginationInfo.fromRawJson(String str) => PaginationInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 

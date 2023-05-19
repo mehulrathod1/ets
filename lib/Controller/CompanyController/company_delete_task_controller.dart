@@ -1,23 +1,39 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:etsemployee/Models/CompanyModels/company_delete_task_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
-import '../../Models/CompanyModels/company_delete_task_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
-
 class CompanyDeleteTaskController {
-  Future<CompanyDeleteTaskModel> deleteTask(
-      BuildContext context, String id) async {
+  CompanyDeleteTaskModel? deleteTaskModel;
+
+  Future deleteTask(BuildContext context, String id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
     var response = await getData(paramUri: ApiConstant.companyDeleteTask + id);
-
-    print(response);
-
-    var res = CompanyDeleteTaskModel.fromJson(response);
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(res.message),
-      duration: const Duration(seconds: 2),
-    ));
-    return res;
+    debugPrint("deleteTask response :- ${response.toString()}");
+    if (response["status"] == 'True') {
+      var res = CompanyDeleteTaskModel.fromJson(response);
+      deleteTaskModel = res;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res.message),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }

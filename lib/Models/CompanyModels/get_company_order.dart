@@ -4,12 +4,6 @@
 
 import 'dart:convert';
 
-GetCompanyOrderModel getCompanyOrderModelFromJson(String str) =>
-    GetCompanyOrderModel.fromJson(json.decode(str));
-
-String getCompanyOrderModelToJson(GetCompanyOrderModel data) =>
-    json.encode(data.toJson());
-
 class GetCompanyOrderModel {
   GetCompanyOrderModel({
     required this.status,
@@ -20,6 +14,11 @@ class GetCompanyOrderModel {
   String status;
   String message;
   Data data;
+
+  factory GetCompanyOrderModel.fromRawJson(String str) =>
+      GetCompanyOrderModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory GetCompanyOrderModel.fromJson(Map<String, dynamic> json) =>
       GetCompanyOrderModel(
@@ -44,6 +43,10 @@ class Data {
   List<ListElement> list;
   PaginationInfo paginationInfo;
 
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: List<ListElement>.from(
             json["List"].map((x) => ListElement.fromJson(x))),
@@ -58,6 +61,7 @@ class Data {
 
 class ListElement {
   ListElement({
+    required this.id,
     required this.orderstatus,
     required this.orderName,
     required this.orderDescription,
@@ -68,8 +72,10 @@ class ListElement {
     required this.dueDate,
     required this.estimateAmount,
     required this.totalAmount,
+    this.signatureName,
   });
 
+  String id;
   String orderstatus;
   String orderName;
   String orderDescription;
@@ -78,10 +84,17 @@ class ListElement {
   String signature;
   DateTime startDate;
   DateTime dueDate;
-  String estimateAmount;
+  dynamic estimateAmount;
   int totalAmount;
+  String? signatureName;
+
+  factory ListElement.fromRawJson(String str) =>
+      ListElement.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+        id: json["id"],
         orderstatus: json["orderstatus"],
         orderName: json["order_name"],
         orderDescription: json["order_description"],
@@ -92,9 +105,11 @@ class ListElement {
         dueDate: DateTime.parse(json["due_date"]),
         estimateAmount: json["estimate_amount"],
         totalAmount: json["total_amount"],
+        signatureName: json["signature_name"],
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "orderstatus": orderstatus,
         "order_name": orderName,
         "order_description": orderDescription,
@@ -107,6 +122,7 @@ class ListElement {
             "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
         "estimate_amount": estimateAmount,
         "total_amount": totalAmount,
+        "signature_name": signatureName,
       };
 }
 
@@ -122,6 +138,11 @@ class PaginationInfo {
   int pageNumber;
   int totalRows;
   int totalPages;
+
+  factory PaginationInfo.fromRawJson(String str) =>
+      PaginationInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory PaginationInfo.fromJson(Map<String, dynamic> json) => PaginationInfo(
         itemPerPage: json["item_per_page"],

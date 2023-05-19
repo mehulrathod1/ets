@@ -1,23 +1,22 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:etsemployee/Models/SalesModel/sales_login_model.dart';
+import 'package:etsemployee/Network/api_constant.dart';
+import 'package:etsemployee/Network/post_api_client.dart';
+import 'package:etsemployee/SalesPortal/SalesScreen/sales_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Models/SalesModel/sales_login_model.dart';
-import '../../Network/api_constant.dart';
-import '../../Network/post_api_client.dart';
-import '../../SalesPortal/SalesScreen/sales_dashboard.dart';
-
 class SalesLoginController {
-  late SalesLoginModel salesLoginModel;
-
+  SalesLoginModel? salesLoginModel;
   TextEditingController userName = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  Future<SalesLoginModel> salesLogin(BuildContext context) async {
+  Future salesLogin(BuildContext context) async {
     showDialog(
         context: context,
         builder: (context) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         });
 
     var response = await postData(
@@ -25,34 +24,31 @@ class SalesLoginController {
       params: {'username': userName.text, 'password': password.text},
     );
 
-    var res = SalesLoginModel.fromJson(response);
+    debugPrint("salesLogin response :- ${response.toString()}");
 
-    if (res.status == 'True') {
-      print('sucessful');
-
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   content: Text(response['msg']),
-      //   duration: Duration(seconds: 1),
-      // ));
-
+    if (response["status"] == 'True') {
+      var res = SalesLoginModel.fromJson(response);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', res.data.token);
       prefs.setString('userIdentity', 'sales');
-
       ApiConstant.userToken = res.data.token;
-
+      salesLoginModel = res;
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(res.message),
-        duration: Duration(seconds: 2),
-      ));
-
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => SalesDashboard()));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res.message),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SalesDashboard()));
     } else {
-      print('no');
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     }
-
-    return res;
   }
 }

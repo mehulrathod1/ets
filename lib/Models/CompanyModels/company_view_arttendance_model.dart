@@ -4,21 +4,22 @@
 
 import 'dart:convert';
 
+CompanyAttendanceModel companyAttendanceModelFromJson(String str) =>
+    CompanyAttendanceModel.fromJson(json.decode(str));
+
+String companyAttendanceModelToJson(CompanyAttendanceModel data) =>
+    json.encode(data.toJson());
+
 class CompanyAttendanceModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyAttendanceModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
-
-  factory CompanyAttendanceModel.fromRawJson(String str) =>
-      CompanyAttendanceModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory CompanyAttendanceModel.fromJson(Map<String, dynamic> json) =>
       CompanyAttendanceModel(
@@ -35,17 +36,13 @@ class CompanyAttendanceModel {
 }
 
 class Data {
+  List<ListElement> list;
+  PaginationInfo paginationInfo;
+
   Data({
     required this.list,
     required this.paginationInfo,
   });
-
-  List<ListElement> list;
-  PaginationInfo paginationInfo;
-
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: List<ListElement>.from(
@@ -60,30 +57,43 @@ class Data {
 }
 
 class ListElement {
+  String name;
+  String employeeId;
+  String companyName;
+  String? listIn;
+  String? out;
+  DateTime date;
+  String workHours;
+  String breakHours;
+  String? location;
+  Hours hours;
+  Hours image;
+  Hours map;
+
   ListElement({
     required this.name,
+    required this.employeeId,
+    required this.companyName,
+    required this.listIn,
+    required this.out,
     required this.date,
+    required this.workHours,
+    required this.breakHours,
     required this.location,
     required this.hours,
     required this.image,
     required this.map,
   });
 
-  String name;
-  DateTime date;
-  String location;
-  Hours hours;
-  Hours image;
-  Hours map;
-
-  factory ListElement.fromRawJson(String str) =>
-      ListElement.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         name: json["name"],
+        employeeId: json["employee_id"],
+        companyName: json["company_name"],
+        listIn: json["in"],
+        out: json["out"],
         date: DateTime.parse(json["date"]),
+        workHours: json["work_hours"],
+        breakHours: json["break_hours"],
         location: json["location"],
         hours: Hours.fromJson(json["Hours"]),
         image: Hours.fromJson(json["Image"]),
@@ -92,8 +102,14 @@ class ListElement {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "employee_id": employeeId,
+        "company_name": companyName,
+        "in": listIn,
+        "out": out,
         "date":
             "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "work_hours": workHours,
+        "break_hours": breakHours,
         "location": location,
         "Hours": hours.toJson(),
         "Image": image.toJson(),
@@ -102,17 +118,13 @@ class ListElement {
 }
 
 class Hours {
+  Textt text;
+  String link;
+
   Hours({
     required this.text,
     required this.link,
   });
-
-  MyText text;
-  String link;
-
-  factory Hours.fromRawJson(String str) => Hours.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory Hours.fromJson(Map<String, dynamic> json) => Hours(
         text: textValues.map[json["text"]]!,
@@ -125,31 +137,26 @@ class Hours {
       };
 }
 
-enum MyText { VIEW_HOURS, VIEW_IMAGE, VIEW_MAP }
+enum Textt { VIEW_HOURS, VIEW_IMAGE, VIEW_MAP }
 
 final textValues = EnumValues({
-  "view hours": MyText.VIEW_HOURS,
-  "view image": MyText.VIEW_IMAGE,
-  "view map": MyText.VIEW_MAP
+  "view hours": Textt.VIEW_HOURS,
+  "view image": Textt.VIEW_IMAGE,
+  "view map": Textt.VIEW_MAP
 });
 
 class PaginationInfo {
+  int itemPerPage;
+  int pageNumber;
+  int totalRows;
+  int totalPages;
+
   PaginationInfo({
     required this.itemPerPage,
     required this.pageNumber,
     required this.totalRows,
     required this.totalPages,
   });
-
-  int itemPerPage;
-  int pageNumber;
-  int totalRows;
-  int totalPages;
-
-  factory PaginationInfo.fromRawJson(String str) =>
-      PaginationInfo.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory PaginationInfo.fromJson(Map<String, dynamic> json) => PaginationInfo(
         itemPerPage: json["item_per_page"],

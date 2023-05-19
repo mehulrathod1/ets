@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class CompanyHourRequestModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyHourRequestModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory CompanyHourRequestModel.fromRawJson(String str) =>
       CompanyHourRequestModel.fromJson(json.decode(str));
@@ -35,13 +35,13 @@ class CompanyHourRequestModel {
 }
 
 class Data {
+  List<ListElement> list;
+  PaginationInfo paginationInfo;
+
   Data({
     required this.list,
     required this.paginationInfo,
   });
-
-  List<ListElement> list;
-  PaginationInfo paginationInfo;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -60,6 +60,18 @@ class Data {
 }
 
 class ListElement {
+  String id;
+  String employeeId;
+  String employeeName;
+  String companyId;
+  DateTime attendanceDateIn;
+  String inTime;
+  DateTime attendanceDateOut;
+  String outTime;
+  String message;
+  String status;
+  DateTime createAt;
+
   ListElement({
     required this.id,
     required this.employeeId,
@@ -74,18 +86,6 @@ class ListElement {
     required this.createAt,
   });
 
-  String id;
-  String employeeId;
-  EmployeeName employeeName;
-  String companyId;
-  DateTime attendanceDateIn;
-  String inTime;
-  DateTime attendanceDateOut;
-  String outTime;
-  String message;
-  String status;
-  DateTime createAt;
-
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
 
@@ -94,7 +94,7 @@ class ListElement {
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         id: json["id"],
         employeeId: json["employee_id"],
-        employeeName: employeeNameValues.map[json["employee_name"]]!,
+        employeeName: json["employee_name"],
         companyId: json["company_id"],
         attendanceDateIn: DateTime.parse(json["attendance_date_in"]),
         inTime: json["in_time"],
@@ -108,7 +108,7 @@ class ListElement {
   Map<String, dynamic> toJson() => {
         "id": id,
         "employee_id": employeeId,
-        "employee_name": employeeNameValues.reverse[employeeName],
+        "employee_name": employeeName,
         "company_id": companyId,
         "attendance_date_in":
             "${attendanceDateIn.year.toString().padLeft(4, '0')}-${attendanceDateIn.month.toString().padLeft(2, '0')}-${attendanceDateIn.day.toString().padLeft(2, '0')}",
@@ -122,23 +122,18 @@ class ListElement {
       };
 }
 
-enum EmployeeName { TEST1771, TEST_API }
-
-final employeeNameValues = EnumValues(
-    {"test1771": EmployeeName.TEST1771, "Test API": EmployeeName.TEST_API});
-
 class PaginationInfo {
+  int itemPerPage;
+  int pageNumber;
+  int totalRows;
+  int totalPages;
+
   PaginationInfo({
     required this.itemPerPage,
     required this.pageNumber,
     required this.totalRows,
     required this.totalPages,
   });
-
-  int itemPerPage;
-  int pageNumber;
-  int totalRows;
-  int totalPages;
 
   factory PaginationInfo.fromRawJson(String str) =>
       PaginationInfo.fromJson(json.decode(str));
@@ -158,16 +153,4 @@ class PaginationInfo {
         "total_rows": totalRows,
         "total_pages": totalPages,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

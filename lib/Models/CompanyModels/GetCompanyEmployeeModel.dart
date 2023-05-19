@@ -2,14 +2,7 @@
 //
 //     final getCompanyEmployeeModel = getCompanyEmployeeModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
-
-GetCompanyEmployeeModel getCompanyEmployeeModelFromJson(String str) =>
-    GetCompanyEmployeeModel.fromJson(json.decode(str));
-
-String getCompanyEmployeeModelToJson(GetCompanyEmployeeModel data) =>
-    json.encode(data.toJson());
 
 class GetCompanyEmployeeModel {
   GetCompanyEmployeeModel({
@@ -21,6 +14,11 @@ class GetCompanyEmployeeModel {
   String status;
   String message;
   Data data;
+
+  factory GetCompanyEmployeeModel.fromRawJson(String str) =>
+      GetCompanyEmployeeModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory GetCompanyEmployeeModel.fromJson(Map<String, dynamic> json) =>
       GetCompanyEmployeeModel(
@@ -45,6 +43,10 @@ class Data {
   List<ListElement> list;
   PaginationInfo paginationInfo;
 
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         list: List<ListElement>.from(
             json["List"].map((x) => ListElement.fromJson(x))),
@@ -63,7 +65,7 @@ class ListElement {
     required this.email,
     required this.employeeName,
     required this.department,
-    required this.totalHrs,
+    this.totalHrs,
     required this.viewAttendance,
     required this.editEmployee,
     required this.deleteEmployee,
@@ -74,10 +76,10 @@ class ListElement {
   });
 
   String employeeId;
-  Email email;
+  String email;
   String employeeName;
-  Department department;
-  String? totalHrs;
+  String? department;
+  dynamic totalHrs;
   CallForAttendance viewAttendance;
   CallForAttendance editEmployee;
   CallForAttendance deleteEmployee;
@@ -86,11 +88,16 @@ class ListElement {
   CallForAttendance callForAttendance;
   CallForAttendance otherOptions;
 
+  factory ListElement.fromRawJson(String str) =>
+      ListElement.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
         employeeId: json["employee_id"],
-        email: emailValues.map[json["email"]]!,
+        email: json["email"],
         employeeName: json["employee_name"],
-        department: departmentValues.map[json["department"]]!,
+        department: json["department"],
         totalHrs: json["total_hrs"],
         viewAttendance: CallForAttendance.fromJson(json["view_attendance"]),
         editEmployee: CallForAttendance.fromJson(json["edit_employee"]),
@@ -106,9 +113,9 @@ class ListElement {
 
   Map<String, dynamic> toJson() => {
         "employee_id": employeeId,
-        "email": emailValues.reverse[email],
+        "email": email,
         "employee_name": employeeName,
-        "department": departmentValues.reverse[department],
+        "department": department,
         "total_hrs": totalHrs,
         "view_attendance": viewAttendance.toJson(),
         "edit_employee": editEmployee.toJson(),
@@ -122,59 +129,29 @@ class ListElement {
 
 class CallForAttendance {
   CallForAttendance({
-    required this.textt,
+    required this.text,
     required this.link,
   });
 
-  Textt textt;
+  String text;
   String link;
+
+  factory CallForAttendance.fromRawJson(String str) =>
+      CallForAttendance.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory CallForAttendance.fromJson(Map<String, dynamic> json) =>
       CallForAttendance(
-        textt: textValues.map[json["text"]]!,
+        text: json["text"],
         link: json["link"],
       );
 
   Map<String, dynamic> toJson() => {
-        "text": textValues.reverse[textt],
+        "text": text,
         "link": link,
       };
 }
-
-enum Textt {
-  CALL_FOR_ATTENDANCE_REQUEST,
-  DELETE_EMPLOYEE,
-  EDIT_EMPLOYEE,
-  HOLD_ACCESS,
-  SEND_LOCATION_REQUEST,
-  VIEW_ATTENDANCE_FOR_THE_EMPLOYEE,
-  VIEW_LOCATION
-}
-
-final textValues = EnumValues({
-  "Call for attendance request": Textt.CALL_FOR_ATTENDANCE_REQUEST,
-  "Delete Employee": Textt.DELETE_EMPLOYEE,
-  "Edit Employee": Textt.EDIT_EMPLOYEE,
-  "hold_access": Textt.HOLD_ACCESS,
-  "Send Location Request": Textt.SEND_LOCATION_REQUEST,
-  "view attendance for the employee": Textt.VIEW_ATTENDANCE_FOR_THE_EMPLOYEE,
-  "View Location": Textt.VIEW_LOCATION
-});
-
-enum Department { IT, ACCOUNT, MANAGEMENT }
-
-final departmentValues = EnumValues({
-  "Account": Department.ACCOUNT,
-  "IT": Department.IT,
-  "Management": Department.MANAGEMENT
-});
-
-enum Email { CRAZYCODER09_GMAIL_COM, CRAZYCODER08_GMAIL_COM }
-
-final emailValues = EnumValues({
-  "crazycoder08@gmail.com": Email.CRAZYCODER08_GMAIL_COM,
-  "crazycoder09@gmail.com": Email.CRAZYCODER09_GMAIL_COM
-});
 
 class PaginationInfo {
   PaginationInfo({
@@ -189,6 +166,11 @@ class PaginationInfo {
   int totalRows;
   int totalPages;
 
+  factory PaginationInfo.fromRawJson(String str) =>
+      PaginationInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory PaginationInfo.fromJson(Map<String, dynamic> json) => PaginationInfo(
         itemPerPage: json["item_per_page"],
         pageNumber: json["page_number"],
@@ -202,16 +184,4 @@ class PaginationInfo {
         "total_rows": totalRows,
         "total_pages": totalPages,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

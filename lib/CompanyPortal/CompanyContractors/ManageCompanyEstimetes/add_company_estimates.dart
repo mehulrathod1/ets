@@ -1,8 +1,12 @@
+import 'package:dropdown_below/dropdown_below.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import '../../../Network/api_constant.dart';
 
-import '../../../utils/Colors.dart';
+import '../../../Controller/CompanyController/company_add_estimate_controller.dart';
+import '../../../Controller/CompanyController/get_company_employee_controller.dart';
 
 class AddCompanyEstimates extends StatefulWidget {
   const AddCompanyEstimates({Key? key}) : super(key: key);
@@ -12,6 +16,65 @@ class AddCompanyEstimates extends StatefulWidget {
 }
 
 class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
+  CompanyAddEstimateController addEstimateController =
+      CompanyAddEstimateController();
+
+  List<DropdownMenuItem<Object?>> contactListItems = [];
+  String selectedContact = "Select Contact";
+
+  GetCompanyEmployeeController companyEmployeeController =
+      GetCompanyEmployeeController();
+  List<DropdownMenuItem<Object?>> employeeListItems = [];
+  String selectedEmployee = "Select Employee";
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await addEstimateController
+          .companyGetContactListForEstimate(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      contactListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      contactListItems.clear();
+                    }),
+                  }
+              });
+    });
+
+    super.initState();
+  }
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      addEstimateController.contactId.text = selectedTest['id'];
+      selectedContact = selectedTest['first_name'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['first_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,23 +82,30 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
           child: Text("Add Estimate",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: EdgeInsets.only(right: 16.0),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -59,56 +129,55 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Billed For",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
-                        height: 40,
-                        child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            suffixIcon: Align(
-                              widthFactor: 1,
-                              heightFactor: 1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: appThemeGreen,
-                              ),
-                            ),
-                            hintText: 'Test Estimate Section',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedContact,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedContact == "Select Contact"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: contactListItems),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Estimate Name",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
+                          controller: addEstimateController.estimateName,
+                          style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -116,8 +185,8 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -130,17 +199,18 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Estimate Description",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
+                          controller: addEstimateController.estimateDescription,
+                          style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -148,8 +218,8 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -162,17 +232,18 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Employee List",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -187,8 +258,8 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -201,27 +272,28 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Due Date",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
+                          controller: addEstimateController.dueDate,
+                          //editing controller of this TextField
+                          style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText:
-                                'Testing the estimate section description',
+                            hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -232,27 +304,47 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              setState(() {
+                                addEstimateController.dueDate.text =
+                                    formattedDate;
+                              });
+                            } else {
+                              debugPrint("Date is not selected");
+                            }
+                          },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           'Amount',
                           style: TextStyle(height: 1.7, fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          controller: addEstimateController.amount,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Add Amount',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -265,25 +357,28 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Markup(%)",
                           style: TextStyle(height: 1.7, fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(fontSize: 18, color: Colors.black),
+                          controller: addEstimateController.markup,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Add Markup',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -296,17 +391,19 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Tax(%)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
+                          controller: addEstimateController.tax,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -314,8 +411,8 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
                             enabledBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.grey, width: 1.0),
@@ -330,19 +427,24 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            addEstimateController.addEstimate(context);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

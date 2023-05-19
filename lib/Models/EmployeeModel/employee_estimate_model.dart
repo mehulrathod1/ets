@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final employeeEstimateModel = employeeEstimateModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class EmployeeEstimateModel {
@@ -15,8 +11,7 @@ class EmployeeEstimateModel {
   String message;
   Data data;
 
-  factory EmployeeEstimateModel.fromRawJson(String str) =>
-      EmployeeEstimateModel.fromJson(json.decode(str));
+  factory EmployeeEstimateModel.fromRawJson(String str) => EmployeeEstimateModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 

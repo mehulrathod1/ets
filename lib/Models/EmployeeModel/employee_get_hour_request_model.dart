@@ -72,8 +72,8 @@ class ListElement {
   String employeeId;
   String employeeName;
   String companyId;
-  DateTime attendanceDateIn;
-  DateTime attendanceDateOut;
+  String attendanceDateIn;
+  String attendanceDateOut;
   String inTime;
   String outTime;
   String message;
@@ -83,8 +83,8 @@ class ListElement {
         employeeId: json["employee_id"],
         employeeName: json["employee_name"],
         companyId: json["company_id"],
-        attendanceDateIn: DateTime.parse(json["attendance_date_in"]),
-        attendanceDateOut: DateTime.parse(json["attendance_date_out"]),
+        attendanceDateIn: json["attendance_date_in"],
+        attendanceDateOut: json["attendance_date_out"],
         inTime: json["in_time"],
         outTime: json["out_time"],
         message: json["message"],
@@ -95,10 +95,8 @@ class ListElement {
         "employee_id": employeeId,
         "employee_name": employeeName,
         "company_id": companyId,
-        "attendance_date_in":
-            "${attendanceDateIn.year.toString().padLeft(4, '0')}-${attendanceDateIn.month.toString().padLeft(2, '0')}-${attendanceDateIn.day.toString().padLeft(2, '0')}",
-        "attendance_date_out":
-            "${attendanceDateOut.year.toString().padLeft(4, '0')}-${attendanceDateOut.month.toString().padLeft(2, '0')}-${attendanceDateOut.day.toString().padLeft(2, '0')}",
+        "attendance_date_in": attendanceDateIn,
+        "attendance_date_out": attendanceDateOut,
         "in_time": inTime,
         "out_time": outTime,
         "message": message,
@@ -115,7 +113,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

@@ -1,18 +1,32 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:etsemployee/Controller/EmployeeController/employee_note_controller.dart';
+import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
-import '../../../utils/Colors.dart';
-
 class EditNote extends StatefulWidget {
-  const EditNote({Key? key}) : super(key: key);
+  EditNote({required this.id, required this.noteName, required this.noteDescription, required this.noteStatus, Key? key}) : super(key: key);
+  String id;
+  String noteName;
+  String noteDescription;
+  String noteStatus;
 
   @override
   State<EditNote> createState() => _EditNoteState();
 }
 
 class _EditNoteState extends State<EditNote> {
+  EmployeeNoteController employeeNoteController = EmployeeNoteController();
   bool termsandcond = false;
+
+  @override
+  void initState() {
+    termsandcond = widget.noteStatus == "1" ? true : false;
+    employeeNoteController.noteName.text = widget.noteName;
+    employeeNoteController.noteDescription.text = widget.noteDescription;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +35,13 @@ class _EditNoteState extends State<EditNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: Center(
-          child: Text("Edit Notes",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black)),
+        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+          child: Text("Edit Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
         ),
-        actions: <Widget>[
+        actions: const <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
+            padding: EdgeInsets.only(right: 16.0),
             child: CircleAvatar(
               backgroundImage: AssetImage('assets/man.jpeg'),
             ),
@@ -37,7 +49,7 @@ class _EditNoteState extends State<EditNote> {
         ],
         leading: Builder(builder: (context) {
           return GestureDetector(
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -67,54 +79,48 @@ class _EditNoteState extends State<EditNote> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor:
-                                    MaterialStateProperty.all(appThemeGreen),
+                                fillColor: MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
                                   });
                                 }),
-                            Text(
+                            const Text(
                               'Mark As Complete',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Name",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         height: 40,
                         child: TextField(
-                          style: TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
+                          controller: employeeNoteController.noteName,
                           decoration: InputDecoration(
                             hintText: 'Enter task name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding:
-                                EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              borderSide: BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
                           "Note Description",
                           style: TextStyle(fontSize: 14),
@@ -122,41 +128,57 @@ class _EditNoteState extends State<EditNote> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: colorGray),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
+                            controller: employeeNoteController.noteDescription,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Enter description',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding:
-                                  EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: InkWell(
+                          onTap: () async {
+                            if (employeeNoteController.noteName.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Note name missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (employeeNoteController.noteDescription.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Note description missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              await employeeNoteController.editNotes(context, markAsComplete: termsandcond, id: widget.id);
+                            }
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

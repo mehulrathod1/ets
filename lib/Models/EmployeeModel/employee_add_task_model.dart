@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final employeeAddTaskModel = employeeAddTaskModelFromJson(jsonString);
-
 import 'dart:convert';
 
 class EmployeeAddTaskModel {
@@ -15,13 +11,11 @@ class EmployeeAddTaskModel {
   String message;
   int data;
 
-  factory EmployeeAddTaskModel.fromRawJson(String str) =>
-      EmployeeAddTaskModel.fromJson(json.decode(str));
+  factory EmployeeAddTaskModel.fromRawJson(String str) => EmployeeAddTaskModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeAddTaskModel.fromJson(Map<String, dynamic> json) =>
-      EmployeeAddTaskModel(
+  factory EmployeeAddTaskModel.fromJson(Map<String, dynamic> json) => EmployeeAddTaskModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],
