@@ -26,7 +26,6 @@ import 'edit_attendance_list.dart';
 class ViewAttendance extends StatefulWidget {
   ViewAttendance({required this.employeeId, Key? key}) : super(key: key);
   String employeeId;
-
   @override
   State<ViewAttendance> createState() => _ViewAttendanceState();
 }
@@ -737,7 +736,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const EditAttendanceList()));
+                                                                EditAttendanceList(
+                                                                    employeeId:
+                                                                        detail
+                                                                            .employeeId,
+                                                                    date:
+                                                                        date!)));
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

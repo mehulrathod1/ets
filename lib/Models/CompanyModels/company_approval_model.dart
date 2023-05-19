@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class CompanyApprovalModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyApprovalModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory CompanyApprovalModel.fromRawJson(String str) =>
       CompanyApprovalModel.fromJson(json.decode(str));
@@ -35,11 +35,11 @@ class CompanyApprovalModel {
 }
 
 class Data {
+  List<ListElement> list;
+
   Data({
     required this.list,
   });
-
-  List<ListElement> list;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -56,19 +56,25 @@ class Data {
 }
 
 class ListElement {
+  String id;
+  String currentEmployeeImg;
+  String employeeName;
+  String reasonToChangeImg;
+  String date;
+  String approval;
+  String status;
+  String employeeId;
+
   ListElement({
     required this.id,
     required this.currentEmployeeImg,
     required this.employeeName,
     required this.reasonToChangeImg,
     required this.date,
+    required this.approval,
+    required this.status,
+    required this.employeeId,
   });
-
-  String id;
-  String currentEmployeeImg;
-  String employeeName;
-  String reasonToChangeImg;
-  String date;
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -81,6 +87,9 @@ class ListElement {
         employeeName: json["employee_name"],
         reasonToChangeImg: json["reason_to_change_img"],
         date: json["date"],
+        approval: json["approval"],
+        status: json["status"],
+        employeeId: json["employee_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,5 +98,8 @@ class ListElement {
         "employee_name": employeeName,
         "reason_to_change_img": reasonToChangeImg,
         "date": date,
+        "approval": approval,
+        "status": status,
+        "employee_id": employeeId,
       };
 }
