@@ -737,7 +737,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                const EditAttendanceList()));
+                                                                EditAttendanceList(
+                                                                    employeeId:
+                                                                        detail
+                                                                            .employeeId,
+                                                                    date:
+                                                                        date!)));
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
