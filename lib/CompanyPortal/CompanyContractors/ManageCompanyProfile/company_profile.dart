@@ -53,39 +53,53 @@ class _CompanyProfileState extends State<CompanyProfile> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                      decoration:
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: myImage
                           ? companyProfileModel!.data.companyLogo.isEmpty
                               ? const CircleAvatar(
                                   radius: 80,
-                                  backgroundImage: AssetImage('assets/man.jpeg'),
+                                  backgroundImage:
+                                      AssetImage('assets/man.jpeg'),
                                 )
                               : CircleAvatar(
                                   radius: 80,
-                                  backgroundImage: NetworkImage(companyProfileModel!.data.companyLogo),
+                                  backgroundImage: NetworkImage(
+                                      companyProfileModel!.data.companyLogo),
                                 )
                           : CircleAvatar(
                               radius: 80,
-                              child: Image.file(File(image!.path), fit: BoxFit.fitHeight),
+                              child: Image.file(File(image!.path),
+                                  fit: BoxFit.fitHeight),
                             ),
                     ),
                   ),
                   Text(
                     companyProfileModel!.data.companyName,
-                    style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
                       companyProfileModel!.data.email,
-                      style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 18.0, left: 8, right: 8, bottom: 8),
+                    padding: const EdgeInsets.only(
+                        top: 18.0, left: 8, right: 8, bottom: 8),
                     child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(width: 1, color: Colors.black), color: Colors.white),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(width: 1, color: Colors.black),
+                          color: Colors.white),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -94,11 +108,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Name: ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.username,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -109,11 +126,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Email: ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.email,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -124,11 +144,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Company Name: ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.companyName,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -139,11 +162,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Contact Person: ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                  companyProfileModel!.data.contactPerson,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                Expanded(
+                                  child: Text(
+                                    companyProfileModel!.data.contactPerson,
+                                    style: TextStyle(
+                                        fontSize: 18, color: colorTextGray),
+                                  ),
                                 ),
                               ],
                             ),
@@ -154,11 +182,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Phone : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.phone,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -169,11 +200,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Address : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.address,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -184,11 +218,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "City : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.city,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -199,11 +236,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "State : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.state,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -214,11 +254,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Zip Code : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.zip,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -229,11 +272,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Creditcard No : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.creditcardNo,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -244,11 +290,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Creditcard Exp date: ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.creditcardExpDate,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -259,11 +308,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               children: [
                                 const Text(
                                   "Security Code : ",
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 Text(
                                   companyProfileModel!.data.securityCode,
-                                  style: TextStyle(fontSize: 18, color: colorTextGray),
+                                  style: TextStyle(
+                                      fontSize: 18, color: colorTextGray),
                                 ),
                               ],
                             ),
@@ -276,12 +328,18 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     padding: const EdgeInsets.all(8),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyEditProfile()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompanyEditProfile()));
                       },
                       child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Edit Profile',
@@ -295,12 +353,19 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     padding: const EdgeInsets.all(8),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyChangePassword(profilePicture: companyProfileModel!.data.companyLogo)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompanyChangePassword(
+                                    profilePicture: companyProfileModel!
+                                        .data.companyLogo)));
                       },
                       child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Change Password',
@@ -311,7 +376,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 18),
+                    padding: const EdgeInsets.only(
+                        top: 8, left: 8, right: 8, bottom: 18),
                     child: GestureDetector(
                       onTap: () {
                         // Navigator.push(
@@ -322,7 +388,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                       child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Delete Account',

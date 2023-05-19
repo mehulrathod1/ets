@@ -1,12 +1,15 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../Controller/CompanyController/company_accepr_profile_controller.dart';
 import '../../Controller/CompanyController/company_approval_controller.dart';
 import '../../Controller/CompanyController/compay_reject_profile_request.dart';
 import '../../Models/CompanyModels/company_approval_model.dart';
+import '../../Network/api_constant.dart';
 
 class ManageApproval extends StatefulWidget {
-  const ManageApproval({Key? key}) : super(key: key);
+  ManageApproval({required this.appBar, Key? key}) : super(key: key);
+  bool appBar;
 
   @override
   State<ManageApproval> createState() => _ManageApprovalState();
@@ -55,6 +58,45 @@ class _ManageApprovalState extends State<ManageApproval> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: widget.appBar
+          ? AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: const Center(
+                child: Text("Manage Approval",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: ApiConstant.profileImage.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              NetworkImage(ApiConstant.profileImage),
+                        ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            )
+          : null,
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(

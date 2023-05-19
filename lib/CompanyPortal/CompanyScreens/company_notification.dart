@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../Controller/CompanyController/company_notification_controller.dart';
 import '../../Models/CompanyModels/company_notification_model.dart';
+import 'agency_management.dart';
+import 'company_fix_hour_request.dart';
 import 'compnay_notification_detail.dart';
+import 'employee_management.dart';
+import 'inbox_screen.dart';
+import 'manage_approval.dart';
 
 class CompanyNotification extends StatefulWidget {
   const CompanyNotification({Key? key}) : super(key: key);
@@ -99,13 +104,80 @@ class _CompanyNotificationState extends State<CompanyNotification> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                CompanyNotificationDetail(),
-                                          ),
-                                        );
+                                        if (data.button.button ==
+                                            'Manage Request') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AgencyManagement(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (data.button.button ==
+                                            'Manage Approval') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ManageApproval(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (data.button.button ==
+                                            'View Location') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmployeeManagement(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (data.button.button ==
+                                            'View Call For Attendance') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EmployeeManagement(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (data.button.button ==
+                                            'View Details') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CompanyFixHourRequest(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (data.button.button ==
+                                            'View Message') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => InboxScreen(
+                                                appBar: true,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        // EmployeeManagement
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) =>
+                                        //         CompanyNotificationDetail(),
+                                        //   ),
+                                        // );
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.only(

@@ -24,7 +24,8 @@ class CompanyEmployeeDetailModel {
       CompanyEmployeeDetailModel(
         status: json["status"],
         message: json["message"],
-        data: Data.fromJson(json["data"]),
+        data: Data.fromJson(json[""
+            "data"]),
       );
 
   Map<String, dynamic> toJson() => {

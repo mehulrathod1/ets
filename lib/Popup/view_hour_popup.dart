@@ -12,7 +12,7 @@ Future viewHours(BuildContext context, List<HoursList> list) async {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Center(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
@@ -23,9 +23,14 @@ Future viewHours(BuildContext context, List<HoursList> list) async {
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.close,
-                    color: Colors.black,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),
@@ -79,7 +84,8 @@ Future viewHours(BuildContext context, List<HoursList> list) async {
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
                                 detail.hoursListIn,
-                                style: const TextStyle(fontSize: 14, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.black),
                               ),
                             ),
                           ),
@@ -88,7 +94,8 @@ Future viewHours(BuildContext context, List<HoursList> list) async {
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
                                 detail.out,
-                                style: const TextStyle(fontSize: 14, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.black),
                               ),
                             ),
                           ),
@@ -97,7 +104,8 @@ Future viewHours(BuildContext context, List<HoursList> list) async {
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
                                 detail.totalHours,
-                                style: const TextStyle(fontSize: 14, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.black),
                               ),
                             ),
                           ),
