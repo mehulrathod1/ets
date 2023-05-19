@@ -146,74 +146,86 @@ class _ManageApprovalState extends State<ManageApproval> {
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 8, right: 10),
                                           child: Text(
-                                            "Approve",
+                                            data.status,
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 color: appThemeBlue),
                                           ),
                                         )
-                                      : Row(
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                acceptProfileController
-                                                    .acceptProfileRequest(
-                                                        context,
-                                                        data.id,
-                                                        data.employeeId)
-                                                    .then((value) {
-                                                  initialize(context);
-                                                });
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0,
-                                                    top: 8,
-                                                    right: 10),
-                                                child: Text(
-                                                  "Approve",
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: appThemeBlue),
-                                                ),
+                                      : data.status == 'rejected'
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 8, right: 10),
+                                              child: Text(
+                                                data.status,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: colorred),
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                rejectProfileRequest
-                                                    .rejectProfileRequest(
-                                                        context,
-                                                        data.id,
-                                                        data.employeeId)
-                                                    .then((value) {
-                                                  initialize(context);
-                                                });
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10.0, top: 8),
-                                                child: Text(
-                                                  "Cancle",
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: colorred),
+                                            )
+                                          : Row(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    acceptProfileController
+                                                        .acceptProfileRequest(
+                                                            context,
+                                                            data.id,
+                                                            data.employeeId)
+                                                        .then((value) {
+                                                      initialize(context);
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0,
+                                                            top: 8,
+                                                            right: 10),
+                                                    child: Text(
+                                                      "Approve",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: appThemeBlue),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    rejectProfileRequest
+                                                        .rejectProfileRequest(
+                                                            context,
+                                                            data.id,
+                                                            data.employeeId)
+                                                        .then((value) {
+                                                      initialize(context);
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10.0, top: 8),
+                                                    child: Text(
+                                                      "Cancle",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: colorred),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
                                 ],
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: SizedBox(
                               width: double.infinity,
                               height: 1,
-                              child: const DecoratedBox(
-                                decoration:
-                                    const BoxDecoration(color: Colors.black),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.black),
                               ),
                             ),
                           ),
