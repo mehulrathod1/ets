@@ -141,15 +141,8 @@ class _ManageApprovalState extends State<ManageApproval> {
                                       style: TextStyle(fontSize: 12),
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          acceptProfileController
-                                              .acceptProfileRequest(
-                                                  context, data.id, '1');
-                                        },
-                                        child: Padding(
+                                  data.status == 'accepted'
+                                      ? Padding(
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 8, right: 10),
                                           child: Text(
@@ -158,26 +151,57 @@ class _ManageApprovalState extends State<ManageApproval> {
                                                 fontSize: 12,
                                                 color: appThemeBlue),
                                           ),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          rejectProfileRequest
-                                              .rejectProfileRequest(
-                                                  context, data.id, '1');
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0, top: 8),
-                                          child: Text(
-                                            "Cancle",
-                                            style: TextStyle(
-                                                fontSize: 12, color: colorred),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                        )
+                                      : Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                acceptProfileController
+                                                    .acceptProfileRequest(
+                                                        context,
+                                                        data.id,
+                                                        data.employeeId)
+                                                    .then((value) {
+                                                  initialize(context);
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                    top: 8,
+                                                    right: 10),
+                                                child: Text(
+                                                  "Approve",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: appThemeBlue),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                rejectProfileRequest
+                                                    .rejectProfileRequest(
+                                                        context,
+                                                        data.id,
+                                                        data.employeeId)
+                                                    .then((value) {
+                                                  initialize(context);
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 10.0, top: 8),
+                                                child: Text(
+                                                  "Cancle",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: colorred),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
                                 ],
                               ),
                             ],

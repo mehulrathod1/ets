@@ -26,7 +26,6 @@ import 'edit_attendance_list.dart';
 class ViewAttendance extends StatefulWidget {
   ViewAttendance({required this.employeeId, Key? key}) : super(key: key);
   String employeeId;
-
   @override
   State<ViewAttendance> createState() => _ViewAttendanceState();
 }
