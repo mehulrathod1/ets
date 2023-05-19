@@ -21,20 +21,24 @@ class CompanyUpdateProfileController {
   TextEditingController creditCardExp = TextEditingController();
   TextEditingController securityCode = TextEditingController();
 
-  Future updateProfileDetails(BuildContext context,
-      {required File companyProfilePic}) async {
-    showDialog(
+  bool isLoad=false;
+
+  Future updateProfileDetails(BuildContext context, {required File companyProfilePic}) async {
+    isLoad=true;
+    if(isLoad=true){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CircularProgressIndicator());
+          });
+    }
+    /*showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
-        });
-    var request = http.MultipartRequest('POST',
-        Uri.parse(ApiConstant.baseUrl + ApiConstant.companyUpdateProfile));
-    request.headers.addAll({
-      "Content-Type":
-          "multipart/form-data; boundary=<calculated when request is sent>",
-      'X-Access-Token': ApiConstant.userToken
-    });
+        });*/
+    var request = http.MultipartRequest('POST', Uri.parse(ApiConstant.baseUrl + ApiConstant.companyUpdateProfile));
+    request.headers.addAll({"Content-Type": "multipart/form-data; boundary=<calculated when request is sent>", 'X-Access-Token': ApiConstant.userToken});
     request.fields['company_name'] = companyName.text;
     request.fields['contact_person'] = contactPerson.text;
     request.fields['email'] = email.text;
@@ -56,12 +60,13 @@ class CompanyUpdateProfileController {
         filename: companyProfilePic.path.split("/").last,
       ),
     );
+    print("+++++++++++++++${companyProfilePic.path}");
     var response = await request.send();
     debugPrint("editProfileDetails response :- ${response.statusCode}");
     if (response.statusCode == 200) {
-      Navigator.pop(context);
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const CompanyDashboard()));
+      isLoad=false;
+      //Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard()));
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("profile details update successfully"),

@@ -1,3 +1,4 @@
+import 'package:etsemployee/CompanyPortal/CompanyContractors/company_contractors_screen.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,7 +82,9 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
               color: Colors.black,
             ),
             onTap: () {
-              Navigator.pop(context);
+              //Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyContractorsScreen()));
+
             },
           );
         }),

@@ -45,7 +45,7 @@ Future AttendancePopUP(BuildContext context) async {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
                         },
                         child: Container(
                           alignment: Alignment.topCenter,

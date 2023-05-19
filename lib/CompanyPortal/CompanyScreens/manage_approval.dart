@@ -131,7 +131,7 @@ class _ManageApprovalState extends State<ManageApproval> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                  SizedBox(height: 12),
+                                  const SizedBox(height: 12),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                       left: 8.0,

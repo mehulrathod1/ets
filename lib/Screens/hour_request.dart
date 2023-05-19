@@ -6,6 +6,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'HomeDashboard.dart';
+
 class HourRequest extends StatefulWidget {
   const HourRequest({Key? key}) : super(key: key);
 
@@ -26,7 +28,13 @@ class _HourRequestState extends State<HourRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: ()async{
+          //Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  const HomeDashboard(),maintainState: true));
+          return true;
+        },
+    child:Scaffold(
       backgroundColor: colorScreenBg,
       body: SingleChildScrollView(
         child: Container(
@@ -409,6 +417,6 @@ class _HourRequestState extends State<HourRequest> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }

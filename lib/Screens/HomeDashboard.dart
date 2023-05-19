@@ -19,20 +19,20 @@ import 'message_screen.dart';
 import 'notification_screen.dart';
 
 class HomeDashboard extends StatefulWidget {
-  const HomeDashboard({Key? key}) : super(key: key);
+  final int? currentTableSelected;
+  const HomeDashboard({Key? key, this.currentTableSelected,}) : super(key: key);
 
   @override
   State<HomeDashboard> createState() => _HomeDashboard();
 }
 
 class _HomeDashboard extends State<HomeDashboard> {
-  EmployeeProfileController employeeProfileController =
-      EmployeeProfileController();
+  EmployeeProfileController employeeProfileController = EmployeeProfileController();
   EmployeeProfileDetailsModel? employeeProfileDetailsModel;
   bool loading = false;
   var currentPage = DrawerSelection.Dashboard;
   var container;
-  int _selectedIndex = 0;
+  //int _selectedIndex = 0;
   String appBarTitle = "";
 
   Future<void> navigate() async {
@@ -63,12 +63,87 @@ class _HomeDashboard extends State<HomeDashboard> {
 
   void changeScreen(int index) {
     setState(() {
+      _selectedIndex = index;
       if (index == 0) {
         currentPage = DrawerSelection.ShareLocation;
+        _selectedIndex==0;
+        setState(() {
+        });
       } else if (index == 1) {
         currentPage = DrawerSelection.History;
+        _selectedIndex==1;
+        setState(() {
+        });
       } else if (index == 2) {
+        currentPage = DrawerSelection.ShareLocation;
+        _selectedIndex==2;
+        setState(() {
+        });
+      }else if (index == 3) {
+        currentPage = DrawerSelection.Notification;
+        _selectedIndex==3;
+        setState(() {
+        });
+      }else if (index == 4) {
         currentPage = DrawerSelection.Profile;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 5) {
+        currentPage = DrawerSelection.ShareLocationScreen;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 5) {
+        currentPage = DrawerSelection.ShareLocationScreen;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 6) {
+        currentPage = DrawerSelection.AttendanceScreen;
+        _selectedIndex==4;
+        setState(() {});
+      }else if (index == 7) {
+        currentPage = DrawerSelection.ViewHourRequest;
+        _selectedIndex==4;
+        setState(() {});
+      }else if (index == 8) {
+        currentPage = DrawerSelection.ContractorsBackOffice;
+        _selectedIndex==4;
+        setState(() {});
+      }
+    });
+  }
+  void changeScreen1(int index) {
+    setState(() {
+      _selectedIndex = index;
+       if (index == 0) {
+        currentPage = DrawerSelection.Profile;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 1) {
+        currentPage = DrawerSelection.ShareLocationScreen;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 2) {
+        currentPage = DrawerSelection.ShareLocationScreen;
+        _selectedIndex==4;
+        setState(() {
+        });
+      }else if (index == 3) {
+        currentPage = DrawerSelection.AttendanceScreen;
+        _selectedIndex==4;
+        setState(() {});
+      }else if (index == 4) {
+        currentPage = DrawerSelection.ViewHourRequest;
+        _selectedIndex==4;
+        setState(() {});
+      }else if (index == 5) {
+        currentPage = DrawerSelection.ContractorsBackOffice;
+        _selectedIndex==4;
+        setState(() {});
       }
     });
   }
@@ -79,7 +154,7 @@ class _HomeDashboard extends State<HomeDashboard> {
       child: Column(
         children: [
           menuItem(1, "Dashboard", Icons.grid_view_outlined,
-              currentPage == DrawerSelection.Dashboard ? true : false),
+              currentPage == DrawerSelection.Dashboard ? true : false,),
           menuItem(2, "Attendance", Icons.check_circle_outline,
               currentPage == DrawerSelection.Attendance ? true : false),
           menuItem(3, "Fix Hours Request", Icons.access_time_outlined,
@@ -92,13 +167,8 @@ class _HomeDashboard extends State<HomeDashboard> {
               currentPage == DrawerSelection.Message ? true : false),
           menuItem(7, "Notification", Icons.notifications_none,
               currentPage == DrawerSelection.Notification ? true : false),
-          menuItem(
-              8,
-              "Contractors Back Office",
-              Icons.work_outline,
-              currentPage == DrawerSelection.ContractorsBackOffice
-                  ? true
-                  : false),
+          menuItem(8, "Contractors Back Office", Icons.work_outline,
+              currentPage == DrawerSelection.ContractorsBackOffice ? true : false),
           menuItem(9, "How It Works", Icons.help_outline,
               currentPage == DrawerSelection.Howitworks ? true : false),
           menuItem(10, "Settings", Icons.settings_outlined,
@@ -128,20 +198,34 @@ class _HomeDashboard extends State<HomeDashboard> {
           setState(() {
             if (id == 1) {
               currentPage = DrawerSelection.Dashboard;
+              _selectedIndex = 0;
+              setState(() {});
             } else if (id == 2) {
               currentPage = DrawerSelection.Attendance;
+              _selectedIndex = 0;
+              setState(() {});
             } else if (id == 3) {
               currentPage = DrawerSelection.FixHoursRequest;
+              _selectedIndex = 0;
+              setState(() {});
             } else if (id == 4) {
               currentPage = DrawerSelection.ShareLocation;
+              _selectedIndex = 2;
+              setState(() {});
             } else if (id == 5) {
               currentPage = DrawerSelection.History;
             } else if (id == 6) {
               currentPage = DrawerSelection.Message;
+              _selectedIndex = 1;
+              setState(() {});
             } else if (id == 7) {
               currentPage = DrawerSelection.Notification;
+              _selectedIndex = 3;
+              setState(() {});
             } else if (id == 8) {
               currentPage = DrawerSelection.ContractorsBackOffice;
+              _selectedIndex = 0;
+              setState(() {});
             } else if (id == 11) {
               currentPage = DrawerSelection.Logout;
             }
@@ -194,6 +278,9 @@ class _HomeDashboard extends State<HomeDashboard> {
   @override
   void initState() {
     initialize(context);
+setState(() {
+  _selectedIndex=widget.currentTableSelected!;
+});
     super.initState();
   }
 
@@ -202,32 +289,41 @@ class _HomeDashboard extends State<HomeDashboard> {
     if (currentPage == DrawerSelection.Dashboard) {
       container = Home(changeScreen: changeScreen);
       appBarTitle = "Dashboard";
-    } else if (currentPage == DrawerSelection.Attendance) {
-      container = const AttendanceScreen();
+    }
+    else if (currentPage == DrawerSelection.Attendance) {
+      container =  const AttendanceScreen();
       appBarTitle = "Attendance";
-    } else if (currentPage == DrawerSelection.FixHoursRequest) {
+    }
+    else if (currentPage == DrawerSelection.FixHoursRequest) {
       container = const HourRequest();
       appBarTitle = "Hours Request";
-    } else if (currentPage == DrawerSelection.ShareLocation) {
+    }
+    else if (currentPage == DrawerSelection.ShareLocation) {
       container = const ShareLocationScreen();
       appBarTitle = "Share Location";
-    } else if (currentPage == DrawerSelection.History) {
+    }
+    else if (currentPage == DrawerSelection.History) {
       container = const HistoryScreen();
       appBarTitle = "History";
-    } else if (currentPage == DrawerSelection.Message) {
+    }
+    else if (currentPage == DrawerSelection.Message) {
       container = const MessageScreen();
       appBarTitle = "Message";
-    } else if (currentPage == DrawerSelection.Notification) {
-      container = const NotificationScreen();
+    }
+    else if (currentPage == DrawerSelection.Notification) {
+      container =  NotificationScreen(changeScreen: changeScreen1);
       appBarTitle = "Notification";
-    } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
+    }
+    else if (currentPage == DrawerSelection.ContractorsBackOffice) {
       container = ContractorsScreen(
           profilePic: employeeProfileDetailsModel!.data.profileImg);
       appBarTitle = "Contractors Back Office";
-    } else if (currentPage == DrawerSelection.Profile) {
-      container = const Profile();
+    }
+    else if (currentPage == DrawerSelection.Profile) {
+      container =  Profile(changeScreen: changeScreen);
       appBarTitle = "Profile";
-    } else if (currentPage == DrawerSelection.Logout) {
+    }
+    else if (currentPage == DrawerSelection.Logout) {
       navigate();
     }
     return loading
@@ -362,5 +458,22 @@ enum DrawerSelection {
   Howitworks,
   Settings,
   Logout,
-  Profile
+  Profile,
+  ShareLocationScreen, AttendanceScreen, ViewHourRequest
+}enum DrawerSelection1 {
+  Dashboard,
+  Attendance,
+  FixHoursRequest,
+  ShareLocation,
+  History,
+  Message,
+  Notification,
+  ContractorsBackOffice,
+  Howitworks,
+  Settings,
+  Logout,
+  Profile,
+  ShareLocationScreen, AttendanceScreen, ViewHourRequest
 }
+
+int _selectedIndex = 0;

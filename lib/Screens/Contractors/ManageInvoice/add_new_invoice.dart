@@ -125,6 +125,25 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              hintText: 'Test estimate section',
+                              fillColor: colorScreenBg,
+                              filled: true,
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                        ),
+                        /*SizedBox(
+                          height: 40,
+                          child: TextField(
                             style: const TextStyle(fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -148,7 +167,9 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
+
+
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -189,7 +210,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '500000',
-                              fillColor: colorLightGray,
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
@@ -201,6 +222,25 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             ),
                           ),
                         ),
+                       /* SizedBox(
+                          height: 40,
+                          child: TextField(
+                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              hintText: '500000',
+                              fillColor: colorLightGray,
+                              filled: true,
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                        ),*/
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -215,7 +255,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: 'Testing the estimate section description',
-                              fillColor: colorLightGray,
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
@@ -227,6 +267,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             ),
                           ),
                         ),
+
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -240,8 +281,8 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '5000',
-                              fillColor: colorLightGray,
+                              hintText: '500000',
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
@@ -266,8 +307,8 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '50000',
-                              fillColor: colorLightGray,
+                              hintText: '500000',
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
@@ -320,7 +361,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '50',
-                              fillColor: colorLightGray,
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
@@ -346,7 +387,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '50',
-                              fillColor: colorLightGray,
+                              fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
                               contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
