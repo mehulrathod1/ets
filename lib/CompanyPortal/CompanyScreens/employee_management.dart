@@ -422,11 +422,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                               controller: startDate,
                               style: const TextStyle(
                                   height: 1.7,
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: 'selectStartDate',
+                                hintText: 'Select StartDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
@@ -481,11 +481,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                               controller: endDate,
                               style: const TextStyle(
                                   height: 1.7,
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
-                                hintText: 'SelectEndDate',
+                                hintText: 'Select EndDate',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
