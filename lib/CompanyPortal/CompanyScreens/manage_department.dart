@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import '../../Controller/CompanyController/comapny_edit_deparment_controller.dart';
 import '../../Controller/CompanyController/company_department_detail_controller.dart';
 import '../../Models/CompanyModels/company_department_detail_model.dart';
+import '../PopUps/delete_conformation_popup.dart';
 
 class ManageDepartment extends StatefulWidget {
   const ManageDepartment({Key? key}) : super(key: key);
@@ -549,14 +550,40 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                                           ),
                                           Expanded(
                                             child: GestureDetector(
+                                              // onTap: () {
+                                              //   departmentController
+                                              //       .deleteDepartment(
+                                              //           context, detail.id)
+                                              //       .then((value) {
+                                              //     initialize(context);
+                                              //   });
+                                              // },
                                               onTap: () {
-                                                departmentController
-                                                    .deleteDepartment(
-                                                        context, detail.id)
-                                                    .then((value) {
-                                                  initialize(context);
-                                                });
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return ConfirmationPopup(
+                                                      title: 'Confirmation',
+                                                      message:
+                                                          'Are you sure you want to delete?',
+                                                      onConfirm: () {
+                                                        departmentController
+                                                            .deleteDepartment(
+                                                                context,
+                                                                detail.id)
+                                                            .then((value) {
+                                                          initialize(context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                        // Close the dialog
+                                                      },
+                                                    );
+                                                  },
+                                                );
                                               },
+
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                     color: colorred,

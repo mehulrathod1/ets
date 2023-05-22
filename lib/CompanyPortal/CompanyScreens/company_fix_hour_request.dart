@@ -21,9 +21,7 @@ class CompanyFixHourRequest extends StatefulWidget {
 
 class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
   bool loading = false;
-  bool acceptRequest = false;
-  bool accepted = false;
-  bool rejected = false;
+
   String? date;
   CompanyFixHourRequestController hourRequestController =
       CompanyFixHourRequestController();
@@ -263,16 +261,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                       itemBuilder: (context, index) {
                         var data = requestList[index];
                         date = DateFormat('dd-MM-yyy').format(data.createAt);
-                        if (data.status == '1') {
-                          accepted = true;
-                        } else {
-                          accepted = false;
-                        }
-                        if (data.status == '2') {
-                          rejected = true;
-                        } else {
-                          rejected = false;
-                        }
+
                         return Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                           child: ClipRRect(
@@ -399,10 +388,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: accepted
-                                                      ? appThemeGreen
-                                                      : appThemeteallight,
-                                                ),
+                                                    color: appThemeGreen),
                                                 height: double.infinity,
                                                 child: Row(
                                                   mainAxisAlignment:
@@ -442,12 +428,10 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                 });
                                               },
                                               child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: accepted
-                                                        ? Colors.red.shade300
-                                                        : Colors.red,
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.red,
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                             bottomRight:
                                                                 Radius.circular(
                                                                     15))),

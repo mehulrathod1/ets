@@ -3,10 +3,25 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import '../../../Network/api_constant.dart';
 
 import '../../../Controller/CompanyController/company_add_estimate_controller.dart';
 import '../../../Controller/CompanyController/get_company_employee_controller.dart';
+import '../ManageCompanyOrder/add_company_order.dart';
+
+class EmployeeListData {
+  String? id;
+  String? employeeName;
+  String? email;
+
+  EmployeeListData({
+    this.id,
+    this.employeeName,
+    this.email,
+  });
+}
 
 class AddCompanyEstimates extends StatefulWidget {
   const AddCompanyEstimates({Key? key}) : super(key: key);
@@ -22,15 +37,20 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
   List<DropdownMenuItem<Object?>> contactListItems = [];
   String selectedContact = "Select Contact";
 
-  GetCompanyEmployeeController companyEmployeeController =
-      GetCompanyEmployeeController();
-  List<DropdownMenuItem<Object?>> employeeListItems = [];
-  String selectedEmployee = "Select Employee";
+  // GetCompanyEmployeeController companyEmployeeController =
+  //     GetCompanyEmployeeController();
+  // List<DropdownMenuItem<Object?>> employeeListItems = [];
+
+  List<EmployeeListData> employeeListItems = [];
+  String selectedOrder = "Select Estimate";
+  String selectedEmployeeListId = "";
+  List<EmployeeListData> selectedEmployeeList = [];
+  bool loading = false;
 
   @override
   void initState() {
-    Future.delayed(const Duration(microseconds: 0), () async {
-      await addEstimateController
+    Future.delayed(const Duration(microseconds: 0), () {
+      addEstimateController
           .companyGetContactListForEstimate(context)
           .then((value) => {
                 if (value != null)
@@ -46,6 +66,28 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                     }),
                   }
               });
+
+      addEstimateController.getEmployeeListForCompany(context).then((value) => {
+            if (value != null)
+              {
+                setState(() {
+                  for (int i = 0; i < value.length; i++) {
+                    employeeListItems.add(EmployeeListData(
+                        id: value[i]["id"],
+                        employeeName: value[i]["employee_name"],
+                        email: value[i]["email"]));
+                  }
+                  loading = false;
+                }),
+              }
+            else
+              {
+                setState(() {
+                  employeeListItems.clear();
+                  loading = false;
+                }),
+              }
+          });
     });
 
     super.initState();
@@ -73,6 +115,39 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
       );
     }
     return items;
+  }
+
+  void showMultiSelect(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return MultiSelectDialog(
+          items: employeeListItems
+              .map((e) => MultiSelectItem(e, e.employeeName!))
+              .toList(),
+          initialValue: selectedEmployeeList,
+          onConfirm: (values) {
+            setState(() {
+              selectedEmployeeListId = "";
+              addEstimateController.employeeList.clear();
+              selectedEmployeeList = values;
+              for (int i = 0; i < selectedEmployeeList.length; i++) {
+                addEstimateController.employeeList.text =
+                    addEstimateController.employeeList.text +
+                        selectedEmployeeList[i].employeeName!;
+                selectedEmployeeListId =
+                    selectedEmployeeListId + selectedEmployeeList[i].id!;
+                if (i != selectedEmployeeList.length - 1) {
+                  addEstimateController.employeeList.text =
+                      "${addEstimateController.employeeList.text}, ";
+                  selectedEmployeeListId = "$selectedEmployeeListId,";
+                }
+              }
+            });
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -242,6 +317,7 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addEstimateController.employeeList,
                           style: const TextStyle(
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -270,6 +346,9 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () {
+                            showMultiSelect(context);
+                          },
                         ),
                       ),
                       const Padding(
@@ -429,7 +508,8 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            addEstimateController.addEstimate(context);
+                            addEstimateController.addEstimate(context,
+                                employeeId: selectedEmployeeListId);
                           },
                           child: Container(
                               width: double.infinity,
