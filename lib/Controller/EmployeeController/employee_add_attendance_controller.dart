@@ -4,8 +4,10 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Screens/Contractors/ManageProfile/profile_screen.dart';
+import '../../Screens/HomeDashboard.dart';
 
 class EmployeeAddAttendanceController {
   Future<bool> addAttendanceHistory(
@@ -35,16 +37,41 @@ class EmployeeAddAttendanceController {
           "location": address,
           "time_zone": ""
         });
-    print("+++++++++$response");
-    if (response["status"] == "True") {
+    if (response["status"] == "true") {
+      Navigator.of(context).pop();
+
+      // ApiConstant.isAttendance = true;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var status = prefs.get('attendanceStatus').toString();
+      print('${status}ooooo');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
           duration: const Duration(seconds: 2),
         ),
       );
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeDashboard(
+                    currentTableSelected: 0,
+                  )));
       return true;
     } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String status = prefs.get('attendanceStatus').toString();
+      if (status == '1') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("attendanceStatus", '2');
+        print('${prefs}two');
+      } else if (status == '2') {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("attendanceStatus", '1');
+        print('${prefs}one');
+      } else {
+        await prefs.remove('attendanceStatus');
+      }
+
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -52,7 +79,6 @@ class EmployeeAddAttendanceController {
           duration: const Duration(seconds: 2),
         ),
       );
-
       if (response["message"] == 'please set the profile picture.') {
         Navigator.push(
           context,

@@ -26,15 +26,39 @@ class _SplashState extends State<Splash> {
     debugPrint(ApiConstant.userToken);
     var usertype = prefs.get('userIdentity').toString();
 
+    var status = prefs.get('attendanceStatus').toString();
+    // await prefs.remove('attendanceStatus');
+    print('aaaaaa --- ${status}');
+
     if (usertype == 'company') {
-      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard())));
+      Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CompanyDashboard())));
     } else if (usertype == 'employee') {
-      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,))));
+      Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomeDashboard(
+                        currentTableSelected: 0,
+                      ))));
     } else if (usertype == 'sales') {
-      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SalesDashboard())));
+      Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const SalesDashboard())));
     } else {
-      print("Not any three+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-      Timer(const Duration(seconds: 3), () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const UserSelectionScreen())));
+      print("Not any three+++++++++++++++++++++++++++++++++");
+      Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const UserSelectionScreen())));
     }
   }
 

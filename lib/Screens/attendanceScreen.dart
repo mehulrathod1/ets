@@ -17,6 +17,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Network/api_constant.dart';
+
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
 
@@ -66,6 +68,14 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     } on PlatformException catch (e) {
       debugPrint('Failed to pick image: $e');
     }
+
+    String status = await getAttendanceValue();
+    await controller.addAttendanceHistory(
+        context: context,
+        address: currentAddress,
+        profileImage: base64ImagePath,
+        status: status,
+        place: place!);
   }
 
   Future<void> getCurrentPosition() async {
@@ -144,8 +154,12 @@ class _AttendanceScreen extends State<AttendanceScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 0), () {
-      AttendancePopUP(context);
+    Future.delayed(const Duration(seconds: 0), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String s = prefs.get('attendanceStatus').toString();
+      // print('${status}ooooo');
+
+      AttendancePopUP(context, s);
       getCurrentPosition();
     });
     super.initState();
@@ -153,284 +167,279 @@ class _AttendanceScreen extends State<AttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        //  Navigator.pop(context);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    const HomeDashboard(currentTableSelected: 0),
-                maintainState: true));
-        return true;
-      },
-      child: Scaffold(
-        backgroundColor: colorScreenBg,
-        body: SingleChildScrollView(
-          child: Container(
-            color: colorScreenBg,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 180,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(80)),
-                          child: profileImagePath.isEmpty
-                              ? Image.asset(
-                                  'assets/man.jpeg',
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.file(
-                                  File(profileImagePath),
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await pickImage(gallery: false);
-                          },
-                          // {
-                          //   await showModalBottomSheet(
-                          //       shape: const RoundedRectangleBorder(
-                          //         borderRadius: BorderRadius.vertical(
-                          //           top: Radius.circular(25.0),
-                          //         ),
-                          //       ),
-                          //       context: context,
-                          //       builder: (BuildContext context) {
-                          //         return Container(
-                          //           height: 100,
-                          //           padding: const EdgeInsets.symmetric(
-                          //               vertical: 15, horizontal: 20),
-                          //           child: Column(
-                          //               crossAxisAlignment:
-                          //                   CrossAxisAlignment.center,
-                          //               mainAxisAlignment:
-                          //                   MainAxisAlignment.spaceEvenly,
-                          //               children: [
-                          //                 /*GestureDetector(
-                          //             onTap: () async {
-                          //               Navigator.pop(context);
-                          //               await pickImage(gallery: true);
-                          //               await getCurrentPosition();
-                          //             },
-                          //             child: Container(
-                          //               width: double.infinity,
-                          //               height: 40,
-                          //               decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                          //               child: const Center(
-                          //                 child: Text(
-                          //                   'Pick Image from Gallery',
-                          //                   style: TextStyle(color: Colors.white, fontSize: 18),
-                          //                 ),
-                          //               ),
-                          //             ),
-                          //           ),*/
-                          //                 GestureDetector(
-                          //                   onTap: () async {
-                          //                     Navigator.pop(context);
-                          //                     await pickImage(gallery: false);
-                          //                     await getCurrentPosition();
-                          //                   },
-                          //                   child: Container(
-                          //                     width: double.infinity,
-                          //                     height: 40,
-                          //                     decoration: BoxDecoration(
-                          //                         color: appThemeBlue,
-                          //                         borderRadius:
-                          //                             BorderRadius.circular(8)),
-                          //                     child: const Center(
-                          //                       child: Text(
-                          //                         'Pick Image from Camera',
-                          //                         style: TextStyle(
-                          //                             color: Colors.white,
-                          //                             fontSize: 18),
-                          //                       ),
-                          //                     ),
-                          //                   ),
-                          //                 ),
-                          //               ]),
-                          //         );
-                          //       });
-                          // },
-                          child: Container(
-                            width: double.infinity,
-                            height: 35,
-                            color: appThemeBlue,
-                            child: const Center(
-                              child: Text(
-                                'Click Photo',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+    return Scaffold(
+      backgroundColor: colorScreenBg,
+      body: SingleChildScrollView(
+        child: Container(
+          color: colorScreenBg,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 180,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(80)),
+                        child: profileImagePath.isEmpty
+                            ? Image.asset(
+                                'assets/man.jpeg',
+                                fit: BoxFit.cover,
+                              )
+                            : Image.file(
+                                File(profileImagePath),
+                                fit: BoxFit.cover,
                               ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          if (currentAddress.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Oops!, Please wait while we fetching your location."),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                          } else {
+                            await pickImage(gallery: false);
+                          }
+                        },
+                        // {
+                        //   await showModalBottomSheet(
+                        //       shape: const RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.vertical(
+                        //           top: Radius.circular(25.0),
+                        //         ),
+                        //       ),
+                        //       context: context,
+                        //       builder: (BuildContext context) {
+                        //         return Container(
+                        //           height: 100,
+                        //           padding: const EdgeInsets.symmetric(
+                        //               vertical: 15, horizontal: 20),
+                        //           child: Column(
+                        //               crossAxisAlignment:
+                        //                   CrossAxisAlignment.center,
+                        //               mainAxisAlignment:
+                        //                   MainAxisAlignment.spaceEvenly,
+                        //               children: [
+                        //                 /*GestureDetector(
+                        //             onTap: () async {
+                        //               Navigator.pop(context);
+                        //               await pickImage(gallery: true);
+                        //               await getCurrentPosition();
+                        //             },
+                        //             child: Container(
+                        //               width: double.infinity,
+                        //               height: 40,
+                        //               decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        //               child: const Center(
+                        //                 child: Text(
+                        //                   'Pick Image from Gallery',
+                        //                   style: TextStyle(color: Colors.white, fontSize: 18),
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ),*/
+                        //                 GestureDetector(
+                        //                   onTap: () async {
+                        //                     Navigator.pop(context);
+                        //                     await pickImage(gallery: false);
+                        //                     await getCurrentPosition();
+                        //                   },
+                        //                   child: Container(
+                        //                     width: double.infinity,
+                        //                     height: 40,
+                        //                     decoration: BoxDecoration(
+                        //                         color: appThemeBlue,
+                        //                         borderRadius:
+                        //                             BorderRadius.circular(8)),
+                        //                     child: const Center(
+                        //                       child: Text(
+                        //                         'Pick Image from Camera',
+                        //                         style: TextStyle(
+                        //                             color: Colors.white,
+                        //                             fontSize: 18),
+                        //                       ),
+                        //                     ),
+                        //                   ),
+                        //                 ),
+                        //               ]),
+                        //         );
+                        //       });
+                        // },
+                        child: Container(
+                          width: double.infinity,
+                          height: 35,
+                          color: appThemeBlue,
+                          child: const Center(
+                            child: Text(
+                              'Click Photo',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
+                ),
+                const SizedBox(height: 16),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
                       height: 180,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(80)),
-                      child: profileImagePath.isEmpty
+                      child: ApiConstant.profileImage.isEmpty
                           ? Image.asset(
                               'assets/man.jpeg',
                               fit: BoxFit.cover,
                             )
-                          : Image.file(
-                              File(profileImagePath),
-                              fit: BoxFit.cover,
-                            ),
-                    ),
+                          : Image.network(ApiConstant.profileImage)),
+                ),
+
+                // const Padding(
+                //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                //   child: Text(
+                //     "Location",
+                //     style: TextStyle(fontSize: 18),
+                //   ),
+                // ),
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(8),
+                //   child: SizedBox(
+                //     height: 180,
+                //     width: double.infinity,
+                //     child: loading
+                //         ? Container(
+                //             height: 180,
+                //             width: double.infinity,
+                //             alignment: Alignment.center,
+                //             decoration: BoxDecoration(
+                //                 borderRadius: BorderRadius.circular(8),
+                //                 border: Border.all(
+                //                     color: Colors.black, width: 0.5)),
+                //             child: const Center(
+                //                 child: CircularProgressIndicator()))
+                //         : currentAddress.isEmpty
+                //             ? Container(
+                //                 height: 180,
+                //                 width: double.infinity,
+                //                 alignment: Alignment.center,
+                //                 decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(8),
+                //                     border: Border.all(
+                //                         color: Colors.black, width: 0.5)),
+                //                 child: const Text(
+                //                   "No Location found!",
+                //                   style: TextStyle(
+                //                       fontSize: 20, color: Colors.black),
+                //                 ),
+                //               )
+                //             : Container(
+                //                 height: 180,
+                //                 width: double.infinity,
+                //                 decoration: BoxDecoration(
+                //                     borderRadius: BorderRadius.circular(8),
+                //                     border: Border.all(
+                //                         color: Colors.black, width: 0.5)),
+                //                 child: GoogleMap(
+                //                   mapType: MapType.hybrid,
+                //                   initialCameraPosition: kGooglePlex,
+                //                   myLocationEnabled: true,
+                //                   markers: Set<Marker>.of(markers),
+                //                   onMapCreated:
+                //                       (GoogleMapController controller) {
+                //                     googleMapController.complete(controller);
+                //                   },
+                //                 ),
+                //               ),
+                //   ),
+                // ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                  child: Text(
+                    "Address",
+                    style: TextStyle(fontSize: 18),
                   ),
-                  // const Padding(
-                  //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                  //   child: Text(
-                  //     "Location",
-                  //     style: TextStyle(fontSize: 18),
-                  //   ),
-                  // ),
-                  // ClipRRect(
-                  //   borderRadius: BorderRadius.circular(8),
-                  //   child: SizedBox(
-                  //     height: 180,
-                  //     width: double.infinity,
-                  //     child: loading
-                  //         ? Container(
-                  //             height: 180,
-                  //             width: double.infinity,
-                  //             alignment: Alignment.center,
-                  //             decoration: BoxDecoration(
-                  //                 borderRadius: BorderRadius.circular(8),
-                  //                 border: Border.all(
-                  //                     color: Colors.black, width: 0.5)),
-                  //             child: const Center(
-                  //                 child: CircularProgressIndicator()))
-                  //         : currentAddress.isEmpty
-                  //             ? Container(
-                  //                 height: 180,
-                  //                 width: double.infinity,
-                  //                 alignment: Alignment.center,
-                  //                 decoration: BoxDecoration(
-                  //                     borderRadius: BorderRadius.circular(8),
-                  //                     border: Border.all(
-                  //                         color: Colors.black, width: 0.5)),
-                  //                 child: const Text(
-                  //                   "No Location found!",
-                  //                   style: TextStyle(
-                  //                       fontSize: 20, color: Colors.black),
-                  //                 ),
-                  //               )
-                  //             : Container(
-                  //                 height: 180,
-                  //                 width: double.infinity,
-                  //                 decoration: BoxDecoration(
-                  //                     borderRadius: BorderRadius.circular(8),
-                  //                     border: Border.all(
-                  //                         color: Colors.black, width: 0.5)),
-                  //                 child: GoogleMap(
-                  //                   mapType: MapType.hybrid,
-                  //                   initialCameraPosition: kGooglePlex,
-                  //                   myLocationEnabled: true,
-                  //                   markers: Set<Marker>.of(markers),
-                  //                   onMapCreated:
-                  //                       (GoogleMapController controller) {
-                  //                     googleMapController.complete(controller);
-                  //                   },
-                  //                 ),
-                  //               ),
-                  //   ),
-                  // ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                    child: Text(
-                      "Address",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  TextField(
-                    enabled: false,
-                    style: const TextStyle(height: 1.7, color: Colors.black),
-                    maxLines: 1,
-                    controller: addressController,
-                    decoration: InputDecoration(
-                      hintText: 'Ahmedabad,Gujarat',
-                      fillColor: colorTextField,
-                      filled: true,
-                      isDense: true,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                          borderRadius: BorderRadius.circular(7)),
-                      focusedBorder: OutlineInputBorder(
+                ),
+                TextField(
+                  enabled: false,
+                  style: const TextStyle(height: 1.7, color: Colors.black),
+                  maxLines: 1,
+                  controller: addressController,
+                  decoration: InputDecoration(
+                    hintText: 'Please wait Searching your location',
+                    fillColor: colorTextField,
+                    filled: true,
+                    isDense: true,
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.grey, width: 1.0),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
+                        borderRadius: BorderRadius.circular(7)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.grey, width: 1.0),
+                      borderRadius: BorderRadius.circular(7),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: InkWell(
-                      onTap: () async {
-                        if (profileImagePath.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text("Oops!, Please choose a photo first."),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        } else if (currentAddress.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  "Oops!, Please wait while we fetching your location."),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                        } else {
-                          String status = await getAttendanceValue();
-                          await controller.addAttendanceHistory(
-                              context: context,
-                              address: currentAddress,
-                              profileImage: base64ImagePath,
-                              status: status,
-                              place: place!);
-                        }
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: appThemeGreen,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Center(
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 20.0),
+                //   child: InkWell(
+                //     onTap: () async {
+                //       if (profileImagePath.isEmpty) {
+                //         ScaffoldMessenger.of(context).showSnackBar(
+                //           const SnackBar(
+                //             content:
+                //                 Text("Oops!, Please choose a photo first."),
+                //             duration: Duration(seconds: 1),
+                //           ),
+                //         );
+                //       } else if (currentAddress.isEmpty) {
+                //         ScaffoldMessenger.of(context).showSnackBar(
+                //           const SnackBar(
+                //             content: Text(
+                //                 "Oops!, Please wait while we fetching your location."),
+                //             duration: Duration(seconds: 1),
+                //           ),
+                //         );
+                //       } else {
+                //         String status = await getAttendanceValue();
+                //         await controller.addAttendanceHistory(
+                //             context: context,
+                //             address: currentAddress,
+                //             profileImage: base64ImagePath,
+                //             status: status,
+                //             place: place!);
+                //       }
+                //     },
+                //     child: Container(
+                //       width: double.infinity,
+                //       height: 40,
+                //       decoration: BoxDecoration(
+                //           color: appThemeGreen,
+                //           borderRadius: BorderRadius.circular(8)),
+                //       child: const Center(
+                //         child: Text(
+                //           'Submit',
+                //           style: TextStyle(color: Colors.white, fontSize: 18),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
+              ],
             ),
           ),
         ),

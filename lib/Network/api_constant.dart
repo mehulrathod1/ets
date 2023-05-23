@@ -5,6 +5,7 @@ class ApiConstant {
 
   static String userToken = '';
   static String profileImage = '';
+  static bool isAttendance = false;
   static const companyLogin = 'company-login/';
   static const companyProfile = 'company/get-profile';
   static const companyAllEmployee =
