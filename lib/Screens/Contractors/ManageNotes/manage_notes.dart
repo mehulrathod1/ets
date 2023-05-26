@@ -21,7 +21,8 @@ class _ManageNoteState extends State<ManageNote> {
   bool loading = false;
   late EmployeeNoteModel noteModel;
   List<ListElement> noteList = [];
-  EmployeeDeleteNoteController deleteNoteController = EmployeeDeleteNoteController();
+  EmployeeDeleteNoteController deleteNoteController =
+      EmployeeDeleteNoteController();
   EmployeeNoteController employeeNoteController = EmployeeNoteController();
 
   @override
@@ -52,9 +53,12 @@ class _ManageNoteState extends State<ManageNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Notes",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -105,8 +109,12 @@ class _ManageNoteState extends State<ManageNote> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -119,11 +127,16 @@ class _ManageNoteState extends State<ManageNote> {
                 child: Container(
                     width: double.infinity,
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeGreen,
+                        borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNote()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AddNote()));
                         },
                         child: const Text(
                           'Add New Notes',
@@ -142,11 +155,16 @@ class _ManageNoteState extends State<ManageNote> {
                           itemBuilder: (context, index) {
                             var detail = noteList[index];
                             return Padding(
-                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -161,7 +179,9 @@ class _ManageNoteState extends State<ManageNote> {
                                     Container(
                                       height: 150,
                                       width: double.infinity,
-                                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(80)),
                                       child: Image.asset(
                                         'assets/man.jpeg',
                                         fit: BoxFit.cover,
@@ -170,18 +190,23 @@ class _ManageNoteState extends State<ManageNote> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             detail.noteName,
-                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Text(
                                             detail.noteDescription,
-                                            style: TextStyle(fontSize: 14, color: colorTextGray),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: colorTextGray),
                                           ),
                                         ],
                                       ),
@@ -191,16 +216,35 @@ class _ManageNoteState extends State<ManageNote> {
                                       child: Container(
                                         width: double.infinity,
                                         height: 35,
-                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                    bottomRight:
+                                                        Radius.circular(15))),
                                         child: Row(
                                           children: [
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => EditNote(id: detail.id, noteName: detail.noteName, noteDescription: detail.noteDescription, noteStatus: detail.noteStatus)));
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => EditNote(
+                                                              id: detail.id,
+                                                              noteName: detail
+                                                                  .noteName,
+                                                              noteDescription:
+                                                                  detail
+                                                                      .noteDescription,
+                                                              noteStatus: detail
+                                                                  .noteStatus)));
                                                 },
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.edit,
@@ -208,10 +252,14 @@ class _ManageNoteState extends State<ManageNote> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
                                                       child: Text(
                                                         "Edit",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     )
                                                   ],
@@ -222,18 +270,25 @@ class _ManageNoteState extends State<ManageNote> {
                                               width: 1,
                                               height: 35,
                                               child: DecoratedBox(
-                                                decoration: BoxDecoration(color: Colors.white),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
                                               ),
                                             ),
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () async {
-                                                  await deleteNoteController.deleteNote(context, detail.id);
-                                                  await employeeNoteController.getEmployeeContact(context).then((value) {
+                                                  await deleteNoteController
+                                                      .deleteNote(
+                                                          context, detail.id);
+                                                  await employeeNoteController
+                                                      .getEmployeeContact(
+                                                          context)
+                                                      .then((value) {
                                                     setState(() {
                                                       if (value != null) {
                                                         noteModel = value;
-                                                        noteList = noteModel.data.list;
+                                                        noteList =
+                                                            noteModel.data.list;
                                                       } else {
                                                         noteList.clear();
                                                       }
@@ -241,10 +296,20 @@ class _ManageNoteState extends State<ManageNote> {
                                                   });
                                                 },
                                                 child: Container(
-                                                  decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                  decoration: BoxDecoration(
+                                                      color: colorred,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
                                                   height: double.infinity,
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: const [
                                                       Icon(
                                                         Icons.delete_outline,
@@ -252,10 +317,15 @@ class _ManageNoteState extends State<ManageNote> {
                                                         size: 20,
                                                       ),
                                                       Padding(
-                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
                                                         child: Text(
                                                           "Delete",
-                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
                                                         ),
                                                       )
                                                     ],

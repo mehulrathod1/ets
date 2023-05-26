@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,10 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+
+import '../../../Controller/EmployeeController/employee_add_invoice_controller.dart';
+import '../../../Controller/EmployeeController/employee_estimate_controller.dart';
+import '../../../Models/EmployeeModel/employee_estimate_model.dart';
 
 class AddNewInvoice extends StatefulWidget {
   const AddNewInvoice({Key? key}) : super(key: key);
@@ -23,6 +28,70 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
   TextEditingController invoiceDate = TextEditingController();
   bool termsandcond = false;
   String signaturePath = "";
+  bool loading = false;
+  //
+  EmployeeAddInvoiceController addInvoiceController =
+      EmployeeAddInvoiceController();
+  // late EmployeeEstimateModel estimateModel;
+  // List<ListElement> estimateList = [];
+
+  List<DropdownMenuItem<Object?>> orderListItems = [];
+  String selectEstimate = "Select Estimate";
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      // estimateController.estimateId.text = selectedTest['estimate_id'];
+      selectEstimate = selectedTest['estimate_name'];
+      addInvoiceController.description.text =
+          selectedTest['estimate_description'];
+      addInvoiceController.estimateAmount.text = selectedTest['amount'];
+      addInvoiceController.changeDescription.text =
+          selectedTest['estimate_description'];
+      addInvoiceController.orderAmount.text = selectedTest['amount'];
+      addInvoiceController.tax.text = selectedTest['tax'];
+      addInvoiceController.markup.text = selectedTest['markup'];
+      addInvoiceController.costPlus.text = selectedTest['markup'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await addInvoiceController.getEmployeeEstimate(context).then((value) => {
+            if (value != null)
+              {
+                setState(() {
+                  orderListItems = buildTaskSizeListItems(value);
+                }),
+              }
+            else
+              {
+                setState(() {
+                  orderListItems.clear();
+                }),
+              }
+          });
+    });
+    getPermission();
+    super.initState();
+  }
 
   void getPermission() async {
     var status = await Permission.storage.status;
@@ -39,12 +108,17 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
 
   void _handleSaveButtonPressed() async {
     signaturePath = "";
-    final data = await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final data =
+        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    var path = Platform.isAndroid ? await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS) : await getApplicationDocumentsDirectory();
+    var path = Platform.isAndroid
+        ? await ExternalPath.getExternalStoragePublicDirectory(
+            ExternalPath.DIRECTORY_DOWNLOADS)
+        : await getApplicationDocumentsDirectory();
     await Directory('$path/Ets signature').create(recursive: true);
     setState(() {
-      File('$path/Ets signature/signature.png').writeAsBytesSync(bytes!.buffer.asInt8List());
+      File('$path/Ets signature/signature.png')
+          .writeAsBytesSync(bytes!.buffer.asInt8List());
       signaturePath = '$path/Ets signature/signature.png';
     });
     await Navigator.of(context).push(
@@ -65,21 +139,18 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
   }
 
   @override
-  void initState() {
-    getPermission();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Invoice",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -122,25 +193,37 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Test estimate section',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
+                        DropdownBelow(
+                            itemWidth: MediaQuery.of(context).size.width - 30,
+                            itemTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxWidth: MediaQuery.of(context).size.width,
+                            boxHeight: 40,
+                            boxDecoration: BoxDecoration(
+                              color: colorScreenBg,
+                              border: Border.all(color: colorGray, width: 1.0),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(7.0)),
                             ),
-                          ),
-                        ),
+                            boxPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6, right: 10),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: appThemeGreen,
+                            ),
+                            hint: Text(
+                              selectEstimate,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      selectEstimate == "Test Estimate Section"
+                                          ? Colors.black.withOpacity(0.60)
+                                          : Colors.black),
+                            ),
+                            onChanged: onChangeDropdownBoxSize,
+                            items: orderListItems),
                         /*SizedBox(
                           height: 40,
                           child: TextField(
@@ -169,7 +252,6 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                           ),
                         ),*/
 
-
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -180,17 +262,23 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.description,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Testing the estimate section description',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -206,23 +294,29 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.estimateAmount,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '500000',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
                           ),
                         ),
-                       /* SizedBox(
+                        /* SizedBox(
                           height: 40,
                           child: TextField(
                             style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
@@ -241,59 +335,70 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             ),
                           ),
                         ),*/
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                          child: Text(
-                            "Changes Order Description",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: 'Testing the estimate section description',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                          child: Text(
-                            "Change Order Amount",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: '500000',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const Padding(
+                        //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        //   child: Text(
+                        //     "Changes Order Description",
+                        //     style: TextStyle(fontSize: 14),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 40,
+                        //   child: TextField(
+                        //     controller: addInvoiceController.description,
+                        //     style: const TextStyle(
+                        //         height: 1.7, fontSize: 18, color: Colors.black),
+                        //     maxLines: 1,
+                        //     decoration: InputDecoration(
+                        //       fillColor: colorScreenBg,
+                        //       filled: true,
+                        //       isDense: true,
+                        //       contentPadding: const EdgeInsets.only(
+                        //           left: 12, top: 6, bottom: 6),
+                        //       enabledBorder: OutlineInputBorder(
+                        //           borderSide: const BorderSide(
+                        //               color: Colors.grey, width: 1.0),
+                        //           borderRadius: BorderRadius.circular(7)),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: colorGray, width: 1.0),
+                        //         borderRadius: BorderRadius.circular(7),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const Padding(
+                        //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        //   child: Text(
+                        //     "Change Order Amount",
+                        //     style: TextStyle(fontSize: 14),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 40,
+                        //   child: TextField(
+                        //     controller: addInvoiceController.orderAmount,
+                        //     style: const TextStyle(
+                        //         height: 1.7, fontSize: 18, color: Colors.black),
+                        //     maxLines: 1,
+                        //     decoration: InputDecoration(
+                        //       fillColor: colorScreenBg,
+                        //       filled: true,
+                        //       isDense: true,
+                        //       contentPadding: const EdgeInsets.only(
+                        //           left: 12, top: 6, bottom: 6),
+                        //       enabledBorder: OutlineInputBorder(
+                        //           borderSide: const BorderSide(
+                        //               color: Colors.grey, width: 1.0),
+                        //           borderRadius: BorderRadius.circular(7)),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: colorGray, width: 1.0),
+                        //         borderRadius: BorderRadius.circular(7),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -304,17 +409,23 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '500000',
+                              hintText: 'na',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -330,18 +441,24 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.paidAmount,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             keyboardType: TextInputType.number,
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '50000',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -357,17 +474,23 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.tax,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '50',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -383,17 +506,23 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.markup,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '50',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -409,18 +538,24 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            controller: addInvoiceController.costPlus,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             keyboardType: TextInputType.number,
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '5',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -437,17 +572,22 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                           height: 40,
                           child: TextField(
                             controller: invoiceDate,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '12/31/1996',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -460,9 +600,11 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                   lastDate: DateTime(2101));
 
                               if (pickedDate != null) {
-                                String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
                                 setState(() {
-                                  invoiceDate.text = formattedDate; //set output date to TextField value.
+                                  invoiceDate.text =
+                                      formattedDate; //set output date to TextField value.
                                 });
                               } else {
                                 debugPrint("Date is not selected");
@@ -476,7 +618,8 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             children: [
                               Checkbox(
                                   value: termsandcond,
-                                  fillColor: MaterialStateProperty.all(appThemeGreen),
+                                  fillColor:
+                                      MaterialStateProperty.all(appThemeGreen),
                                   onChanged: (v) {
                                     setState(() {
                                       termsandcond = v!;
@@ -505,24 +648,36 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         ),
                         Container(
                           height: 150,
-                          decoration: BoxDecoration(color: Colors.white, border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: SfSignaturePad(key: signatureGlobalKey, backgroundColor: Colors.white, strokeColor: Colors.black, minimumStrokeWidth: 1.0, maximumStrokeWidth: 4.0),
+                            child: SfSignaturePad(
+                                key: signatureGlobalKey,
+                                backgroundColor: Colors.white,
+                                strokeColor: Colors.black,
+                                minimumStrokeWidth: 1.0,
+                                maximumStrokeWidth: 4.0),
                           ),
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, right: 8),
                                 child: GestureDetector(
                                   onTap: () {
                                     _handleClearButtonPressed();
                                   },
                                   child: Container(
                                     height: 40,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: colorred),
                                     child: const Center(
                                       child: Padding(
                                         padding: EdgeInsets.all(8),
@@ -538,18 +693,24 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, right: 8),
                                 child: GestureDetector(
                                   onTap: () {
                                     _handleSaveButtonPressed();
                                   },
                                   child: Container(
                                     height: 40,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: appThemeGreen),
                                     child: const Center(
                                       child: Padding(
                                         padding: EdgeInsets.all(8),
-                                        child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                        child: Text("Submit Signature",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white)),
                                       ),
                                     ),
                                   ),
@@ -563,11 +724,14 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                           child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             ),
                           ),

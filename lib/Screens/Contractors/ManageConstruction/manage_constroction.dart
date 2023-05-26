@@ -8,6 +8,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/EmployeeController/detele_estimate_conteroller.dart';
+
 class ManageConstruction extends StatefulWidget {
   ManageConstruction({Key? key, this.profilePic}) : super(key: key);
   String? profilePic;
@@ -21,7 +23,8 @@ class _ManageConstructionState extends State<ManageConstruction> {
   EmployeeEstimateController estimateController = EmployeeEstimateController();
   late EmployeeEstimateModel estimateModel;
   List<ListElement> estimateList = [];
-
+  DeleteEstimateController deleteEstimateController =
+      DeleteEstimateController();
   @override
   void initState() {
     initialize(context);
@@ -50,9 +53,12 @@ class _ManageConstructionState extends State<ManageConstruction> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Estimate", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Estimate",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -103,8 +109,12 @@ class _ManageConstructionState extends State<ManageConstruction> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -117,11 +127,16 @@ class _ManageConstructionState extends State<ManageConstruction> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddEstimate()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddEstimate()));
                       },
                       child: const Text(
                         'Add New Estimate',
@@ -141,11 +156,16 @@ class _ManageConstructionState extends State<ManageConstruction> {
                           itemBuilder: (context, index) {
                             var detail = estimateList[index];
                             return Padding(
-                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                  borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(15),
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15),
+                                      bottomRight: Radius.circular(15)),
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
@@ -160,7 +180,9 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                     Container(
                                         height: 150,
                                         width: double.infinity,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(80)),
                                         child: Image.asset(
                                           'assets/man.jpeg',
                                           fit: BoxFit.cover,
@@ -168,25 +190,32 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                     Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             detail.estimateName,
-                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Text(
                                             detail.estimateDescription,
-                                            style: TextStyle(fontSize: 14, color: colorTextGray),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: colorTextGray),
                                           ),
                                           const SizedBox(
                                             height: 8,
                                           ),
                                           Text(
                                             detail.dueDate.toString(),
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                            style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ],
                                       ),
@@ -196,35 +225,64 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                       child: Container(
                                         width: double.infinity,
                                         height: 35,
-                                        decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                        decoration: BoxDecoration(
+                                            color: appThemeBlue,
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(15),
+                                                    bottomRight:
+                                                        Radius.circular(15))),
                                         child: Row(
                                           children: [
                                             Expanded(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const EditEstimate()));
+                                                  debugPrint(detail.empId);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditEstimate(
+                                                                contactId: detail
+                                                                    .contactId,
+                                                                estimateName: detail
+                                                                    .estimateName,
+                                                                estimateDescription:
+                                                                    detail
+                                                                        .estimateDescription,
+                                                                dueDate: detail
+                                                                    .dueDate,
+                                                                amount: detail
+                                                                    .amount,
+                                                                markup: detail
+                                                                    .markup,
+                                                                tax: detail.tax,
+                                                                id: detail
+                                                                    .estimateId,
+                                                              )));
                                                 },
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    debugPrint(detail.empId);
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: const [
-                                                      Icon(
-                                                        Icons.edit,
-                                                        color: Colors.white,
-                                                        size: 20,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.edit,
+                                                      color: Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        "Edit",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(left: 8.0),
-                                                        child: Text(
-                                                          "Edit",
-                                                          style: TextStyle(fontSize: 14, color: Colors.white),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
+                                                    )
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -232,7 +290,8 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                               width: 1,
                                               height: 35,
                                               child: DecoratedBox(
-                                                decoration: BoxDecoration(color: Colors.white),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
                                               ),
                                             ),
                                             Expanded(
@@ -242,7 +301,8 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                                 ),
                                                 height: double.infinity,
                                                 child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
                                                   children: const [
                                                     Icon(
                                                       Icons.download,
@@ -250,10 +310,14 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                                       size: 20,
                                                     ),
                                                     Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
                                                       child: Text(
                                                         "Download",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
                                                       ),
                                                     )
                                                   ],
@@ -264,29 +328,56 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                               width: 1,
                                               height: 35,
                                               child: DecoratedBox(
-                                                decoration: BoxDecoration(color: Colors.white),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white),
                                               ),
                                             ),
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.delete_outline,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(left: 8.0),
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(fontSize: 14, color: Colors.white),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  deleteEstimateController
+                                                      .employeeDeleteEstimate(
+                                                          context,
+                                                          detail.estimateId)
+                                                      .then((value) {
+                                                    initialize(context);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: colorred,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),

@@ -20,7 +20,8 @@ class ManageContactScreen extends StatefulWidget {
 
 class _ManageContactScreenState extends State<ManageContactScreen> {
   bool loading = false;
-  EmployeeContactController employeeContactController = EmployeeContactController();
+  EmployeeContactController employeeContactController =
+      EmployeeContactController();
   late EmployeeContactModel employeeContactModel;
   List<ListElement> contactList = [];
 
@@ -52,8 +53,12 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
-        title: const Center(child: Text("Manage Contacts", textAlign: TextAlign.center, style: TextStyle(color: Colors.black))),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        title: const Center(
+            child: Text("Manage Contacts",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black))),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -76,7 +81,7 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
             ),
             onTap: () {
               Navigator.pop(context);
-             // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
               //Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyContractorsScreen()));
             },
           );
@@ -105,8 +110,12 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -119,11 +128,16 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddNewContact()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddNewContact()));
                       },
                       child: const Text(
                         'Add New Contact',
@@ -143,13 +157,18 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                           itemBuilder: (context, index) {
                             var detail = contactList[index];
                             return Padding(
-                              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                    borderRadius: const BorderRadius.only(
+                                        bottomLeft: Radius.circular(15),
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                        bottomRight: Radius.circular(15)),
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.5),
@@ -159,12 +178,15 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         height: 180,
                                         width: double.infinity,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(80)),
                                         child: Image.asset(
                                           'assets/man.jpeg',
                                           fit: BoxFit.cover,
@@ -173,25 +195,34 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              detail.firstName,
-                                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              detail.firstName +
+                                                  " " +
+                                                  detail.lastName,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             const SizedBox(
                                               height: 8,
                                             ),
                                             Text(
                                               detail.companyName,
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                             const SizedBox(
                                               height: 8,
                                             ),
                                             Text(
                                               detail.address,
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                             const SizedBox(
                                               height: 8,
@@ -200,11 +231,16 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                               children: [
                                                 const Text(
                                                   "Email: ",
-                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 Text(
                                                   detail.email,
-                                                  style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: colorTextGray),
                                                 ),
                                               ],
                                             ),
@@ -215,11 +251,16 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                               children: [
                                                 const Text(
                                                   "Office/House No: ",
-                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 Text(
                                                   detail.homeOrOfficeNo,
-                                                  style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: colorTextGray),
                                                 ),
                                               ],
                                             ),
@@ -230,11 +271,16 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                               children: [
                                                 const Text(
                                                   "Mobile No: ",
-                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                                 Text(
                                                   detail.mobileNo,
-                                                  style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: colorTextGray),
                                                 ),
                                               ],
                                             ),
@@ -243,17 +289,27 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                             ),
                                             Text(
                                               detail.customerType,
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 16.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 16.0),
                                         child: Container(
                                           width: double.infinity,
                                           height: 35,
-                                          decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                          decoration: BoxDecoration(
+                                              color: appThemeBlue,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(15),
+                                                      bottomRight:
+                                                          Radius.circular(15))),
                                           child: Row(
                                             children: [
                                               Expanded(
@@ -262,25 +318,36 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                        builder: (context) => EditContact(
+                                                        builder: (context) =>
+                                                            EditContact(
                                                           id: detail.id,
-                                                          customerType: detail.customerType,
-                                                          firstName: detail.firstName,
-                                                          lastName: detail.lastName,
-                                                          companyName: detail.companyName,
-                                                          address: detail.address,
+                                                          customerType: detail
+                                                              .customerType,
+                                                          firstName:
+                                                              detail.firstName,
+                                                          lastName:
+                                                              detail.lastName,
+                                                          companyName: detail
+                                                              .companyName,
+                                                          address:
+                                                              detail.address,
                                                           city: detail.city,
                                                           state: detail.state,
-                                                          zipcode: detail.zipcode,
+                                                          zipcode:
+                                                              detail.zipcode,
                                                           email: detail.email,
-                                                          homeNumber: detail.homeOrOfficeNo,
-                                                          mobileNumber: detail.mobileNo,
+                                                          homeNumber: detail
+                                                              .homeOrOfficeNo,
+                                                          mobileNumber:
+                                                              detail.mobileNo,
                                                         ),
                                                       ),
                                                     );
                                                   },
                                                   child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: const [
                                                       Icon(
                                                         Icons.edit,
@@ -288,10 +355,15 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                                         size: 20,
                                                       ),
                                                       Padding(
-                                                        padding: EdgeInsets.only(left: 8.0),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
                                                         child: Text(
                                                           "Edit",
-                                                          style: TextStyle(fontSize: 14, color: Colors.white),
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
                                                         ),
                                                       )
                                                     ],
@@ -302,23 +374,37 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                                 width: 1,
                                                 height: 35,
                                                 child: DecoratedBox(
-                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white),
                                                 ),
                                               ),
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () async {
-                                                    await employeeContactController.employeeDeleteContact(context: context, id: detail.id).then((value) {
+                                                    await employeeContactController
+                                                        .employeeDeleteContact(
+                                                            context: context,
+                                                            id: detail.id)
+                                                        .then((value) {
                                                       if (value) {
                                                         initialize(context);
                                                       }
                                                     });
                                                   },
                                                   child: Container(
-                                                    decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                                    decoration: BoxDecoration(
+                                                        color: colorred,
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .only(
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        15))),
                                                     height: double.infinity,
                                                     child: Row(
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: const [
                                                         Icon(
                                                           Icons.delete_outline,
@@ -326,10 +412,15 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
                                                           size: 20,
                                                         ),
                                                         Padding(
-                                                          padding: EdgeInsets.only(left: 8.0),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
                                                           child: Text(
                                                             "Delete",
-                                                            style: TextStyle(fontSize: 14, color: Colors.white),
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
                                                           ),
                                                         )
                                                       ],

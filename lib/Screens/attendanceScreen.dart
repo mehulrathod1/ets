@@ -16,6 +16,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controller/EmployeeController/employee_check_attendance_controller.dart';
+import '../Models/EmployeeModel/employee_check_attendance_model.dart';
 import '../Network/api_constant.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
@@ -46,10 +48,30 @@ class _AttendanceScreen extends State<AttendanceScreen> {
   static const CameraPosition kGooglePlex = CameraPosition(
       target: LatLng(37.42796133580664, -122.085749655962), zoom: 14);
 
+  EmployeeCheckAttendanceStatus checkAttendanceStatus =
+      EmployeeCheckAttendanceStatus();
+  late EmployeeCheckAttendanceModel checkAttendanceModel;
+
   Future<String> getAttendanceValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var status = prefs.get('attendanceStatus').toString();
     return status;
+  }
+
+  Future getStatus(BuildContext context) async {
+    // loading = true;
+    DateTime now = DateTime.now();
+    DateFormat format = DateFormat('yyyy-MM-dd');
+    String istFormattedTime = format.format(now);
+    debugPrint(istFormattedTime);
+
+    checkAttendanceStatus
+        .checkAttendanceStatus(context, istFormattedTime)
+        .then((value) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String s = prefs.get('attendanceStatus').toString();
+      AttendancePopUP(context, s);
+    });
   }
 
   Future pickImage({bool gallery = true}) async {
@@ -186,11 +208,8 @@ class _AttendanceScreen extends State<AttendanceScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 0), () async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String s = prefs.get('attendanceStatus').toString();
       // print('${status}ooooo');
-
-      AttendancePopUP(context, s);
+      getStatus(context);
       getCurrentPosition();
       tz.initializeTimeZones();
     });
