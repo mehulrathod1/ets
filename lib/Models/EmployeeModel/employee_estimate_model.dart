@@ -11,7 +11,8 @@ class EmployeeEstimateModel {
   String message;
   Data data;
 
-  factory EmployeeEstimateModel.fromRawJson(String str) => EmployeeEstimateModel.fromJson(json.decode(str));
+  factory EmployeeEstimateModel.fromRawJson(String str) =>
+      EmployeeEstimateModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -75,7 +76,7 @@ class ListElement {
   String estimateId;
   String estimateName;
   String estimateDescription;
-  DateTime dueDate;
+  String dueDate;
   String employeeList;
   String amount;
   String createdBy;
@@ -94,7 +95,7 @@ class ListElement {
         estimateId: json["estimate_id"],
         estimateName: json["estimate_name"],
         estimateDescription: json["estimate_description"],
-        dueDate: DateTime.parse(json["due_date"]),
+        dueDate: json["due_date"],
         employeeList: json["employee_list"],
         amount: json["amount"],
         createdBy: json["created_by "],
@@ -109,8 +110,7 @@ class ListElement {
         "estimate_id": estimateId,
         "estimate_name": estimateName,
         "estimate_description": estimateDescription,
-        "due_date":
-            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "due_date": dueDate,
         "employee_list": employeeList,
         "amount": amount,
         "created_by ": createdBy,

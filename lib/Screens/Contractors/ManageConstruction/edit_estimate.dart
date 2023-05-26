@@ -1,15 +1,105 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/EmployeeController/employee_edit_estimate_controller.dart';
+
 class EditEstimate extends StatefulWidget {
-  const EditEstimate({Key? key}) : super(key: key);
+  EditEstimate(
+      {required this.id,
+      required this.contactId,
+      required this.estimateName,
+      required this.estimateDescription,
+      required this.dueDate,
+      required this.amount,
+      required this.markup,
+      required this.tax,
+      Key? key})
+      : super(key: key);
+  String id;
+  String contactId;
+  String estimateName;
+  String estimateDescription;
+  String dueDate;
+  String amount;
+  String markup;
+  String tax;
 
   @override
   State<EditEstimate> createState() => _EditEstimateState();
 }
 
 class _EditEstimateState extends State<EditEstimate> {
+  EmployeeEditEstimateController editEstimateController =
+      EmployeeEditEstimateController();
+  List<DropdownMenuItem<Object?>> contactListItems = [];
+  String selectedContact = "Select contact";
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      editEstimateController.contactId.text = selectedTest['id'];
+      selectedContact = selectedTest['first_name'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['first_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    editEstimateController.contactId.text = widget.contactId;
+    editEstimateController.estimateName.text = widget.estimateName;
+    editEstimateController.estimateDescription.text =
+        widget.estimateDescription;
+    editEstimateController.dueDate.text = widget.dueDate;
+    editEstimateController.amount.text = widget.amount;
+    editEstimateController.markup.text = widget.markup;
+    editEstimateController.tax.text = widget.tax;
+
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await editEstimateController
+          .getContactListForEstimate(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      contactListItems = buildTaskSizeListItems(value);
+                      for (int i = 0; i < value.length; i++) {
+                        if (value[i]["id"] == widget.contactId) {
+                          editEstimateController.contactId.text =
+                              value[i]["id"];
+                          selectedContact = value[i]["first_name"];
+                        }
+                      }
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      contactListItems.clear();
+                    }),
+                  }
+              });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +107,12 @@ class _EditEstimateState extends State<EditEstimate> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Estimate", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Estimate",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -62,33 +155,36 @@ class _EditEstimateState extends State<EditEstimate> {
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            suffixIcon: Align(
-                              widthFactor: 1,
-                              heightFactor: 1,
-                              child: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: appThemeGreen,
-                              ),
-                            ),
-                            hintText: 'Test Estimate Section',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
                           ),
-                        ),
-                      ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedContact,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedContact == "Select contact"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: contactListItems),
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
@@ -99,17 +195,24 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: editEstimateController.estimateName,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter Estimate name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -125,17 +228,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller:
+                              editEstimateController.estimateDescription,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Enter estimate description',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -151,17 +262,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: editEstimateController.dueDate,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Testing the estimate section description',
+                            hintText:
+                                'Testing the estimate section description',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -177,17 +296,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller: editEstimateController.amount,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Add Amount',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -203,17 +330,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller: editEstimateController.markup,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Add Markup',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -229,17 +364,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          controller: editEstimateController.tax,
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText: 'Add tex',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -247,16 +390,25 @@ class _EditEstimateState extends State<EditEstimate> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                        child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
-                              ),
-                            )),
+                        child: GestureDetector(
+                          onTap: () {
+                            editEstimateController.editEstimate(
+                                context, widget.id);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )),
+                        ),
                       )
                     ],
                   ),

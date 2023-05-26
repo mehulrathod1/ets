@@ -1,28 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Models/EmployeeModel/employee_add_estimate_model.dart';
+import '../../Models/EmployeeModel/employee_edit_estimate_model.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
-class EmployeeAddEstimateController {
-  EmployeeAddEstimateModel? addEstimateModel;
-  TextEditingController dueDate = TextEditingController();
+class EmployeeEditEstimateController {
+  EmployeeEditEstimateModel? addEstimateModel;
   TextEditingController contactId = TextEditingController();
   TextEditingController estimateName = TextEditingController();
+  TextEditingController estimateDescription = TextEditingController();
+  TextEditingController dueDate = TextEditingController();
   TextEditingController amount = TextEditingController();
   TextEditingController markup = TextEditingController();
   TextEditingController tax = TextEditingController();
-  TextEditingController estimateDescription = TextEditingController();
 
-  Future addEstimate(BuildContext context) async {
+  Future editEstimate(BuildContext context, String id) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
     var response = await postDataWithHeader(
-        paramUri: ApiConstant.employeeAddEstimate,
+        paramUri: ApiConstant.employeeEditEstimate + id,
         params: {
           'contact': contactId.text,
           'estimate_name': estimateName.text,
@@ -34,7 +34,7 @@ class EmployeeAddEstimateController {
         });
     debugPrint("addContact response :- ${response.toString()}");
     if (response["status"] == 'True') {
-      var res = EmployeeAddEstimateModel.fromJson(response);
+      var res = EmployeeEditEstimateModel.fromJson(response);
       addEstimateModel = res;
       Navigator.pop(context);
 

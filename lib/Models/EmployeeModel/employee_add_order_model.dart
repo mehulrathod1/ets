@@ -9,13 +9,15 @@ class EmployeeAddOrderModel {
 
   String status;
   String message;
-  bool data;
+  dynamic data;
 
-  factory EmployeeAddOrderModel.fromRawJson(String str) => EmployeeAddOrderModel.fromJson(json.decode(str));
+  factory EmployeeAddOrderModel.fromRawJson(String str) =>
+      EmployeeAddOrderModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeAddOrderModel.fromJson(Map<String, dynamic> json) => EmployeeAddOrderModel(
+  factory EmployeeAddOrderModel.fromJson(Map<String, dynamic> json) =>
+      EmployeeAddOrderModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],

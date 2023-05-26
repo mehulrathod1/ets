@@ -22,7 +22,7 @@ class _AddEstimateState extends State<AddEstimate> {
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
-      // addEstimateController.estimateId.text = selectedTest['estimate_id'];
+      addEstimateController.contactId.text = selectedTest['id'];
       selectedContact = selectedTest['first_name'];
     });
   }
@@ -162,6 +162,7 @@ class _AddEstimateState extends State<AddEstimate> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: addEstimateController.estimateName,
                             style: const TextStyle(
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -194,6 +195,8 @@ class _AddEstimateState extends State<AddEstimate> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller:
+                                addEstimateController.estimateDescription,
                             style: const TextStyle(
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -277,6 +280,8 @@ class _AddEstimateState extends State<AddEstimate> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: addEstimateController.amount,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(
                                 fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -309,6 +314,8 @@ class _AddEstimateState extends State<AddEstimate> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: addEstimateController.markup,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(
                                 fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -341,6 +348,8 @@ class _AddEstimateState extends State<AddEstimate> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: addEstimateController.tax,
+                            keyboardType: TextInputType.number,
                             style: const TextStyle(
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -365,17 +374,22 @@ class _AddEstimateState extends State<AddEstimate> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                          child: GestureDetector(
+                            onTap: () async {
+                              await addEstimateController.addEstimate(context);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
                               ),
                             ),
                           ),

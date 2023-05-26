@@ -5,6 +5,7 @@ class ApiConstant {
 
   static String userToken = '';
   static String profileImage = '';
+  static String attendanceStatus = '';
   static bool isAttendance = false;
   static const companyLogin = 'company-login/';
   static const companyProfile = 'company/get-profile';
@@ -66,8 +67,8 @@ class ApiConstant {
   static const companyGetDepartmentDetail = 'company/edit-departments/';
   static const companyDeleteDepartment = 'company/delete-department/';
   static const companyAddDepartment = 'company/add-department';
-  static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request/?id=';
-  static const cmpRejectHourRequest = 'company/reject-fix-hrs-request/?id=';
+  static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request';
+  static const cmpRejectHourRequest = 'company/reject-fix-hrs-request';
   static const companyFixHourRequest =
       'company/view-fix-hrs-request?show=100&searchName=&page=';
   static const companyAllReport =
@@ -109,8 +110,12 @@ class ApiConstant {
   static const employeeAddContact = 'employee/add-contact';
   static const employeeEditContact = 'employee/edit-contact/';
   static const employeeDeleteContact = 'employee/delete-contact/';
-  static const employeeOrderList = 'employee/view-orders-lists';
-  static const employeeEstimateList = 'employee/view-estimate-lists';
+  static const employeeOrderList =
+      'employee/view-orders-lists?show=100&searchName=&page=';
+  static const employeeEstimateList =
+      'employee/view-estimate-lists?show=100&searchName=&page=';
+  static const employeeAddEstimate = 'employee/add-estimate';
+  static const employeeEditEstimate = 'employee/edit-estimate/';
 
   static const employeeEstimateContact = 'employee/get-estimate-contacts/';
 
@@ -121,7 +126,7 @@ class ApiConstant {
   static const employeeDeleteInvoice = 'employee/delete-invoice/';
   static const employeeGetEstimateOrder = 'employee/get-orders-estiment';
   static const employeeAddOrder = 'employee/add-orders';
-  static const employeeEditOrder = 'employee/edit_orders.php/';
+  static const employeeEditOrder = 'employee/edit_orders.php/?id=';
   static const employeeGetImage =
       'employee/view-image-employee?date=2023-02-03';
   static const employeeGetMap = 'employee/view-map-employee?date=2023-02-03';
@@ -131,6 +136,8 @@ class ApiConstant {
   static const employeeAddTask = 'employee/add-task';
   static const employeeEditTask = 'employee/edit-task/';
   static const employeeDeleteTask = 'employee/delete-task/';
+  static const employeeDeleteEstimate = 'employee/delete-estimate/';
+
   static const employeeDeleteNote = 'employee/delete-note/';
   static const employeeDeleteOrder = 'employee/delete_order.php?id=';
   static const employeeAddEvent = 'employee/add-event';
@@ -144,6 +151,7 @@ class ApiConstant {
       'employee/update-profile-details/';
   static const employeeUpdateProfilePicture =
       'employee/update-profile-picture/';
+  static const employeeCheckAttendanceStatus = 'employee/check_attendance';
 
   // --------------------------------- sales portal --------------------------------------------------------
 

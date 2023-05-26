@@ -30,17 +30,19 @@ class EmployeeNoteController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddNote, params: {
-      'note_name': noteName.text,
-      'note_description': noteDescription.text,
-      'notestatus': markAsComplete ? "1" : "0",
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeAddNote,
+        params: {
+          'note_name': noteName.text,
+          'note_description': noteDescription.text,
+          'notestatus': markAsComplete ? "1" : "0",
+        });
     debugPrint("addNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeAddNoteModel.fromJson(response);
       employeeAddNoteModel = res;
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -58,21 +60,25 @@ class EmployeeNoteController {
     }
   }
 
-  Future editNotes(BuildContext context, {bool markAsComplete = false, String? id}) async {
+  Future editNotes(BuildContext context,
+      {bool markAsComplete = false, String? id}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeEditNote + id!, params: {
-      'note_name': noteName.text,
-      'note_description': noteDescription.text,
-      'notestatus': markAsComplete ? "1" : "0",
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeEditNote + id!,
+        params: {
+          'note_name': noteName.text,
+          'note_description': noteDescription.text,
+          'notestatus': markAsComplete ? "1" : "0",
+        });
     debugPrint("editNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => ManageNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

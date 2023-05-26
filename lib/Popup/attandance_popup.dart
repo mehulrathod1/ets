@@ -13,7 +13,7 @@ Future<void> setAttendanceValue(String? value) async {
 }
 
 Future AttendancePopUP(BuildContext context, String attendanceStatus) async {
-  print('${attendanceStatus}ooooo');
+  print('${ApiConstant.attendanceStatus}ooooo');
 
   return showDialog(
       context: context,
@@ -77,7 +77,7 @@ Future AttendancePopUP(BuildContext context, String attendanceStatus) async {
                   style: TextStyle(color: Colors.black, fontSize: 13),
                 ),
                 const SizedBox(height: 15),
-                attendanceStatus == '' || attendanceStatus == '1'
+                ApiConstant.attendanceStatus == '1'
                     ? InkWell(
                         onTap: () async {
                           await setAttendanceValue("2");
@@ -130,6 +130,24 @@ Future AttendancePopUP(BuildContext context, String attendanceStatus) async {
                     child: const Center(
                       child: Text(
                         'CALL FOR ATTENDANCE',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                InkWell(
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: colorGreen,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: const Center(
+                      child: Text(
+                        'STOP SHARING LOCATION',
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
