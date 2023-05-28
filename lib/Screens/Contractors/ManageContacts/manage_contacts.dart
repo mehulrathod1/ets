@@ -18,7 +18,8 @@ class ManageContactScreen extends StatefulWidget {
   State<ManageContactScreen> createState() => _ManageContactScreenState();
 }
 
-class _ManageContactScreenState extends State<ManageContactScreen> {
+class _ManageContactScreenState extends State<ManageContactScreen>
+    with WidgetsBindingObserver {
   bool loading = false;
   EmployeeContactController employeeContactController =
       EmployeeContactController();
@@ -27,8 +28,31 @@ class _ManageContactScreenState extends State<ManageContactScreen> {
 
   @override
   void initState() {
-    initialize(context);
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+    initialize(context);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this); // Add this line
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // user returned to our app
+      initialize(context);
+      print('loduuuu lalit');
+    } else if (state == AppLifecycleState.inactive) {
+      // app is inactive
+
+    } else if (state == AppLifecycleState.paused) {
+      // user is about quit our app temporally
+
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   Future initialize(BuildContext context) async {

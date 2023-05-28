@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:dropdown_below/dropdown_below.dart';
@@ -25,11 +26,12 @@ class AddNewInvoice extends StatefulWidget {
 
 class _AddNewInvoiceState extends State<AddNewInvoice> {
   final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
-  TextEditingController invoiceDate = TextEditingController();
   bool termsandcond = false;
-  String signaturePath = "";
+  String base64ImagePath = "";
   bool loading = false;
-  //
+
+  String signaturePath = "";
+  String? signatureBase64;
   EmployeeAddInvoiceController addInvoiceController =
       EmployeeAddInvoiceController();
   // late EmployeeEstimateModel estimateModel;
@@ -40,7 +42,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
-      // estimateController.estimateId.text = selectedTest['estimate_id'];
+      addInvoiceController.invoiceForId.text = selectedTest['estimate_id'];
       selectEstimate = selectedTest['estimate_name'];
       addInvoiceController.description.text =
           selectedTest['estimate_description'];
@@ -107,35 +109,29 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
   }
 
   void _handleSaveButtonPressed() async {
-    signaturePath = "";
     final data =
         await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    var path = Platform.isAndroid
-        ? await ExternalPath.getExternalStoragePublicDirectory(
-            ExternalPath.DIRECTORY_DOWNLOADS)
-        : await getApplicationDocumentsDirectory();
-    await Directory('$path/Ets signature').create(recursive: true);
-    setState(() {
-      File('$path/Ets signature/signature.png')
-          .writeAsBytesSync(bytes!.buffer.asInt8List());
-      signaturePath = '$path/Ets signature/signature.png';
-    });
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    Uint8List lodu = bytes!.buffer.asUint8List();
+    base64ImagePath = base64.encode(lodu);
+
+    print(base64ImagePath);
+
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) {
+    //       return Scaffold(
+    //         appBar: AppBar(),
+    //         body: Center(
+    //           child: Container(
+    //             color: Colors.grey[300],
+    //             child: Image.memory(bytes!.buffer.asUint8List()),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 
   @override
@@ -409,11 +405,11 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
+                            controller: addInvoiceController.totalAmount,
                             style: const TextStyle(
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'na',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -571,7 +567,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            controller: invoiceDate,
+                            controller: addInvoiceController.invoiceDate,
                             style: const TextStyle(
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
@@ -603,7 +599,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                 String formattedDate =
                                     DateFormat('MM/dd/yyyy').format(pickedDate);
                                 setState(() {
-                                  invoiceDate.text =
+                                  addInvoiceController.invoiceDate.text =
                                       formattedDate; //set output date to TextField value.
                                 });
                               } else {
@@ -623,6 +619,11 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                   onChanged: (v) {
                                     setState(() {
                                       termsandcond = v!;
+                                      if (termsandcond == true) {
+                                        addInvoiceController.isPaid.text = '1';
+                                      } else {
+                                        addInvoiceController.isPaid.text = '0';
+                                      }
                                     });
                                   }),
                               const Text(
@@ -721,17 +722,108 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
-                          child: Container(
-                            width: double.infinity,
-                            height: 40,
-                            decoration: BoxDecoration(
-                                color: appThemeGreen,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Center(
-                              child: Text(
-                                'Save',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (selectEstimate == "Select Estimate") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Please select Estimate from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .description.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Estimate description missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .estimateAmount.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Estimate amount missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .totalAmount.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Total amount missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .paidAmount.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Paid amount missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .tax.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Tax missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .markup.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Markup missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .costPlus.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Costplus missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .invoiceDate.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Date missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (base64ImagePath.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!, Signature missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                await addInvoiceController.addInvoice(context,
+                                    signature: base64ImagePath);
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: const Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
                               ),
                             ),
                           ),

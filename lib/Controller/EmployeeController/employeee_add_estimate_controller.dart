@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Models/EmployeeModel/employee_add_estimate_model.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
+import '../../Screens/Contractors/ManageConstruction/manage_constroction.dart';
 
 class EmployeeAddEstimateController {
   EmployeeAddEstimateModel? addEstimateModel;
@@ -38,6 +40,12 @@ class EmployeeAddEstimateController {
       addEstimateModel = res;
       Navigator.pop(context);
 
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageConstruction(
+                  profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
