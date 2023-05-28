@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 
 class EmployeeInvoiceController {
   Future getEmployeeInvoice(BuildContext context) async {
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeViewInvoice, params: {});
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeViewInvoice, params: {});
     if (response["status"] == "True" && response["data"] != null) {
       return EmployeeInvoiceModel.fromJson(response);
     } else {
@@ -15,15 +16,18 @@ class EmployeeInvoiceController {
     }
   }
 
-  Future<bool> deleteEmployeeInvoice({BuildContext? context, String? id}) async {
+  Future<bool> deleteEmployeeInvoice(
+      {BuildContext? context, String? id}) async {
     showDialog(
         context: context!,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await getData(paramUri: ApiConstant.employeeDeleteInvoice + id!);
+    var response =
+        await getData(paramUri: ApiConstant.employeeDeleteInvoice + id!);
     if (response["status"] == "True" && response["data"] != null) {
       Navigator.pop(context);
+
       return true;
     } else {
       Navigator.pop(context);

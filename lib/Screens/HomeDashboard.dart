@@ -174,7 +174,7 @@ class _HomeDashboard extends State<HomeDashboard> {
               currentPage == DrawerSelection.ContractorsBackOffice
                   ? true
                   : false),
-          menuItem(9, "How It Works", Icons.help_outline,
+          menuItem(9, "Privacy Policy", Icons.help_outline,
               currentPage == DrawerSelection.Howitworks ? true : false),
           menuItem(10, "Settings", Icons.settings_outlined,
               currentPage == DrawerSelection.Settings ? true : false),

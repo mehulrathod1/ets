@@ -7,6 +7,8 @@ import 'package:etsemployee/Screens/Contractors/ManageTask/manage_task.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Screens/Contractors/ManageOrder/manage_order.dart';
+
 class EmployeeEditOrderController {
   EmployeeEditOrderModel? editOrderModel;
   TextEditingController estimateId = TextEditingController();
@@ -44,7 +46,13 @@ class EmployeeEditOrderController {
       var res = EmployeeEditOrderModel.fromJson(response);
       editOrderModel = res;
       Navigator.pop(context);
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ManageOrder(profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
