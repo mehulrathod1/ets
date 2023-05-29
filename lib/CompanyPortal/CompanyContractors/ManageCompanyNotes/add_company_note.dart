@@ -1,10 +1,24 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../../../Controller/CompanyController/company_add_note_controller.dart';
 import '../../../Models/CompanyModels/compay_add_note_model.dart';
 import '../../../Network/api_constant.dart';
+
+class EmployeeListData {
+  String? id;
+  String? employeeName;
+  String? email;
+
+  EmployeeListData({
+    this.id,
+    this.employeeName,
+    this.email,
+  });
+}
 
 class AddCompanyNote extends StatefulWidget {
   const AddCompanyNote({Key? key}) : super(key: key);
@@ -17,6 +31,75 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
   bool termsandcond = false;
   CompanyAddNoteController addNoteController = CompanyAddNoteController();
   late CompanyAddNoteModel companyAddNoteModel;
+
+  List<EmployeeListData> employeeListItems = [];
+  String selectedEmployeeListId = "";
+  List<EmployeeListData> selectedEmployeeList = [];
+  bool loading = false;
+
+  void showMultiSelect(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return MultiSelectDialog(
+          items: employeeListItems
+              .map((e) => MultiSelectItem(e, e.employeeName!))
+              .toList(),
+          initialValue: selectedEmployeeList,
+          onConfirm: (values) {
+            setState(() {
+              selectedEmployeeListId = "";
+              addNoteController.employeeList.clear();
+              selectedEmployeeList = values;
+              for (int i = 0; i < selectedEmployeeList.length; i++) {
+                addNoteController.employeeList.text =
+                    addNoteController.employeeList.text +
+                        selectedEmployeeList[i].employeeName!;
+                selectedEmployeeListId =
+                    selectedEmployeeListId + selectedEmployeeList[i].id!;
+                if (i != selectedEmployeeList.length - 1) {
+                  addNoteController.employeeList.text =
+                      "${addNoteController.employeeList.text}, ";
+                  selectedEmployeeListId = "$selectedEmployeeListId,";
+                }
+              }
+            });
+          },
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await addNoteController
+          .getEmployeeListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      for (int i = 0; i < value.length; i++) {
+                        employeeListItems.add(EmployeeListData(
+                            id: value[i]["id"],
+                            employeeName: value[i]["employee_name"],
+                            email: value[i]["email"]));
+                      }
+                      loading = false;
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      employeeListItems.clear();
+                      loading = false;
+                    }),
+                  }
+              });
+    });
+// TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,6 +257,7 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: addNoteController.employeeList,
                           style: const TextStyle(
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -202,13 +286,17 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () {
+                            showMultiSelect(context);
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            addNoteController.addCompanyNote(context);
+                            addNoteController.addCompanyNote(context,
+                                employeeId: selectedEmployeeListId);
                           },
                           child: Container(
                               width: double.infinity,

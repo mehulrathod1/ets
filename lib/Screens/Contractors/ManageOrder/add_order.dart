@@ -79,8 +79,8 @@ class _AddOrderState extends State<AddOrder> {
     final data =
         await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    Uint8List lodu = bytes!.buffer.asUint8List();
-    base64ImagePath = base64.encode(lodu);
+    Uint8List unit8 = bytes!.buffer.asUint8List();
+    base64ImagePath = base64.encode(unit8);
 
     print(base64ImagePath);
 

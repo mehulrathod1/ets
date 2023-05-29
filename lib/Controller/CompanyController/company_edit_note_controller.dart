@@ -9,9 +9,10 @@ class CompanyEditNoteController {
   TextEditingController noteStatus = TextEditingController();
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
-  TextEditingController noteEmployee = TextEditingController();
+  TextEditingController employeeList = TextEditingController();
 
-  Future editNote(BuildContext context, String id) async {
+  Future editNote(BuildContext context, String id,
+      {required String? employeeId}) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -23,7 +24,7 @@ class CompanyEditNoteController {
           'notestatus': noteStatus.text,
           'note_name': noteName.text,
           'note_description': noteDescription.text,
-          'employeelist': '',
+          'employeelist': employeeId!,
         });
     debugPrint("editNote response :- ${response.toString()}");
     if (response["status"] == 'True') {
@@ -44,6 +45,15 @@ class CompanyEditNoteController {
           duration: const Duration(seconds: 2),
         ),
       );
+    }
+  }
+
+  Future getEmployeeListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyEmployeeList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"];
+    } else {
+      return null;
     }
   }
 }

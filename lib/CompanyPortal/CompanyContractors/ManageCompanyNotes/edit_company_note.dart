@@ -4,9 +4,23 @@ import 'package:etsemployee/Controller/CompanyController/company_edit_note_contr
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../../../Controller/CompanyController/company_edit_note_controller.dart';
 import '../../../Network/api_constant.dart';
+
+class EmployeeListData {
+  String? id;
+  String? employeeName;
+  String? email;
+
+  EmployeeListData({
+    this.id,
+    this.employeeName,
+    this.email,
+  });
+}
 
 class EditCompanyNote extends StatefulWidget {
   EditCompanyNote(
@@ -32,11 +46,75 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
   bool termsAndCond = false;
   CompanyEditNoteController editNoteController = CompanyEditNoteController();
 
+  List<EmployeeListData> employeeListItems = [];
+  String selectedEmployeeListId = "";
+  List<EmployeeListData> selectedEmployeeList = [];
+  bool loading = false;
+
+  void showMultiSelect(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return MultiSelectDialog(
+          items: employeeListItems
+              .map((e) => MultiSelectItem(e, e.employeeName!))
+              .toList(),
+          initialValue: selectedEmployeeList,
+          onConfirm: (values) {
+            setState(() {
+              selectedEmployeeListId = "";
+              editNoteController.employeeList.clear();
+              selectedEmployeeList = values;
+              for (int i = 0; i < selectedEmployeeList.length; i++) {
+                editNoteController.employeeList.text =
+                    editNoteController.employeeList.text +
+                        selectedEmployeeList[i].employeeName!;
+                selectedEmployeeListId =
+                    selectedEmployeeListId + selectedEmployeeList[i].id!;
+                if (i != selectedEmployeeList.length - 1) {
+                  editNoteController.employeeList.text =
+                      "${editNoteController.employeeList.text}, ";
+                  selectedEmployeeListId = "$selectedEmployeeListId,";
+                }
+              }
+            });
+          },
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     editNoteController.noteStatus.text = widget.noteStatus;
     editNoteController.noteDescription.text = widget.noteDescription;
     editNoteController.noteName.text = widget.noteName;
+
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await editNoteController
+          .getEmployeeListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      for (int i = 0; i < value.length; i++) {
+                        employeeListItems.add(EmployeeListData(
+                            id: value[i]["id"],
+                            employeeName: value[i]["employee_name"],
+                            email: value[i]["email"]));
+                      }
+                      loading = false;
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      employeeListItems.clear();
+                      loading = false;
+                    }),
+                  }
+              });
+    });
 
     if (widget.noteStatus == '0') {
       termsAndCond = false;
@@ -196,6 +274,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
+                          controller: editNoteController.employeeList,
                           style: const TextStyle(
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
@@ -208,7 +287,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: 'Test, Test1, Test2',
+                            hintText: 'Select Employee',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -224,13 +303,17 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () {
+                            showMultiSelect(context);
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            editNoteController.editNote(context, widget.id);
+                            editNoteController.editNote(context, widget.id,
+                                employeeId: selectedEmployeeListId);
                           },
                           child: Container(
                               width: double.infinity,

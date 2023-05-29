@@ -31,7 +31,6 @@ class _MonthlyReportState extends State<MonthlyReport> {
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
 
-  bool manageList = true;
   String reportButton = 'Yearly Report';
 
   @override
@@ -50,11 +49,10 @@ class _MonthlyReportState extends State<MonthlyReport> {
         if (value != null) {
           monthlyReportModel = value;
           monthlyList = monthlyReportModel.data.list;
-          manageList = false;
           loading = false;
+          print("monthly");
         } else {
           loading = false;
-          manageList = false;
         }
       });
     });
@@ -69,11 +67,10 @@ class _MonthlyReportState extends State<MonthlyReport> {
         if (value != null) {
           yearlyReportModel = value;
           yearlyList = yearlyReportModel.data.list;
-          manageList = true;
+          print("yearly");
           loading = false;
         } else {
           loading = false;
-          manageList = true;
         }
       });
     });
@@ -368,11 +365,12 @@ class _MonthlyReportState extends State<MonthlyReport> {
                                       if (reportButton == 'Yearly Report') {
                                         reportButton = "Monthly Report";
                                         //monthaly call
-                                        getMonthlyReport(context);
+
+                                        getYearlyReport(context);
                                       } else {
                                         reportButton = "Yearly Report";
                                         //yearly call
-                                        getYearlyReport(context);
+                                        getMonthlyReport(context);
                                       }
                                     });
                                   },
@@ -408,371 +406,364 @@ class _MonthlyReportState extends State<MonthlyReport> {
                       ),
                     ],
                   ),
-                  manageList
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: monthlyList.length,
-                              itemBuilder: (context, index) {
-                                var data = monthlyList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 8),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Container(
-                                        child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(16)),
-                                        border: Border.all(
-                                            width: 1, color: appThemeBlue),
-                                      ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: monthlyList.length,
+                        itemBuilder: (context, index) {
+                          var data = monthlyList[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Container(
+                                  child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16)),
+                                  border:
+                                      Border.all(width: 1, color: appThemeBlue),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data.empName,
-                                                  style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
+                                          Text(
+                                            data.empName,
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "Month: ",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                data.month,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Row(
                                                   children: [
                                                     const Text(
-                                                      "Month: ",
+                                                      "Total Hours: ",
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
                                                     Text(
-                                                      data.month,
+                                                      data.totalHours,
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          const Text(
-                                                            "Total Hours: ",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            data.totalHours,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    colorTextGray),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          const Text(
-                                                            "Break Hours: ",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            data.breakHours,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    colorTextGray),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // SizedBox(
-                                                //   height: 8,
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text(
-                                                //       "Month: ",
-                                                //       style: TextStyle(
-                                                //           fontSize: 14,
-                                                //           fontWeight: FontWeight.bold),
-                                                //     ),
-                                                //     Text(
-                                                //       "October-2022",
-                                                //       style: TextStyle(
-                                                //           fontSize: 14,
-                                                //           color: colorTextGray),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                // SizedBox(
-                                                //   height: 8,
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Expanded(
-                                                //       child: Row(
-                                                //         children: [
-                                                //           Text(
-                                                //             "Total Hours: ",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 fontWeight:
-                                                //                     FontWeight.bold),
-                                                //           ),
-                                                //           Text(
-                                                //             "1",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 color: colorTextGray),
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //     Expanded(
-                                                //       child: Row(
-                                                //         children: [
-                                                //           Text(
-                                                //             "Break Hours: ",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 fontWeight:
-                                                //                     FontWeight.bold),
-                                                //           ),
-                                                //           Text(
-                                                //             "0",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 color: colorTextGray),
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                // SizedBox(
-                                                //   height: 8,
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Text(
-                                                //       "Month: ",
-                                                //       style: TextStyle(
-                                                //           fontSize: 14,
-                                                //           fontWeight: FontWeight.bold),
-                                                //     ),
-                                                //     Text(
-                                                //       "October-2022",
-                                                //       style: TextStyle(
-                                                //           fontSize: 14,
-                                                //           color: colorTextGray),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                // SizedBox(
-                                                //   height: 8,
-                                                // ),
-                                                // Row(
-                                                //   children: [
-                                                //     Expanded(
-                                                //       child: Row(
-                                                //         children: [
-                                                //           Text(
-                                                //             "Total Hours: ",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 fontWeight:
-                                                //                     FontWeight.bold),
-                                                //           ),
-                                                //           Text(
-                                                //             "1",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 color: colorTextGray),
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //     Expanded(
-                                                //       child: Row(
-                                                //         children: [
-                                                //           Text(
-                                                //             "Break Hours: ",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 fontWeight:
-                                                //                     FontWeight.bold),
-                                                //           ),
-                                                //           Text(
-                                                //             "0",
-                                                //             style: TextStyle(
-                                                //                 fontSize: 14,
-                                                //                 color: colorTextGray),
-                                                //           ),
-                                                //         ],
-                                                //       ),
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                  ),
-                                );
-                              }),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: yearlyList.length,
-                              itemBuilder: (context, index) {
-                                var data = yearlyList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 8.0, bottom: 8),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Container(
-                                        child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(16)),
-                                        border: Border.all(
-                                            width: 1, color: appThemeBlue),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data.empName,
-                                                  style: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
+                                              ),
+                                              Expanded(
+                                                child: Row(
                                                   children: [
                                                     const Text(
-                                                      "Year: ",
+                                                      "Break Hours: ",
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
                                                     Text(
-                                                      data.year,
+                                                      data.breakHours,
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: colorTextGray),
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          const Text(
-                                                            "Total Hours: ",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            data.totalHours,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    colorTextGray),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          const Text(
-                                                            "Break Hours: ",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                          Text(
-                                                            data.breakHours,
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                color:
-                                                                    colorTextGray),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
+                                          // SizedBox(
+                                          //   height: 8,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     Text(
+                                          //       "Month: ",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           fontWeight: FontWeight.bold),
+                                          //     ),
+                                          //     Text(
+                                          //       "October-2022",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           color: colorTextGray),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 8,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     Expanded(
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Text(
+                                          //             "Total Hours: ",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 fontWeight:
+                                          //                     FontWeight.bold),
+                                          //           ),
+                                          //           Text(
+                                          //             "1",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 color: colorTextGray),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //     Expanded(
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Text(
+                                          //             "Break Hours: ",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 fontWeight:
+                                          //                     FontWeight.bold),
+                                          //           ),
+                                          //           Text(
+                                          //             "0",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 color: colorTextGray),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 8,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     Text(
+                                          //       "Month: ",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           fontWeight: FontWeight.bold),
+                                          //     ),
+                                          //     Text(
+                                          //       "October-2022",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           color: colorTextGray),
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 8,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     Expanded(
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Text(
+                                          //             "Total Hours: ",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 fontWeight:
+                                          //                     FontWeight.bold),
+                                          //           ),
+                                          //           Text(
+                                          //             "1",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 color: colorTextGray),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //     Expanded(
+                                          //       child: Row(
+                                          //         children: [
+                                          //           Text(
+                                          //             "Break Hours: ",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 fontWeight:
+                                          //                     FontWeight.bold),
+                                          //           ),
+                                          //           Text(
+                                          //             "0",
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 color: colorTextGray),
+                                          //           ),
+                                          //         ],
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ],
                                       ),
-                                    )),
-                                  ),
-                                );
-                              }),
-                        ),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                            ),
+                          );
+                        }),
+                  )
+                  // Padding(
+                  //    padding: const EdgeInsets.all(8.0),
+                  //    child: ListView.builder(
+                  //        shrinkWrap: true,
+                  //        physics: const NeverScrollableScrollPhysics(),
+                  //        itemCount: yearlyList.length,
+                  //        itemBuilder: (context, index) {
+                  //          var data = yearlyList[index];
+                  //          return Padding(
+                  //            padding: const EdgeInsets.only(
+                  //                top: 8.0, bottom: 8),
+                  //            child: ClipRRect(
+                  //              borderRadius: BorderRadius.circular(8),
+                  //              child: Container(
+                  //                  child: Container(
+                  //                decoration: BoxDecoration(
+                  //                  color: Colors.white,
+                  //                  borderRadius: const BorderRadius.all(
+                  //                      Radius.circular(16)),
+                  //                  border: Border.all(
+                  //                      width: 1, color: appThemeBlue),
+                  //                ),
+                  //                child: Column(
+                  //                  crossAxisAlignment:
+                  //                      CrossAxisAlignment.start,
+                  //                  children: [
+                  //                    Padding(
+                  //                      padding: const EdgeInsets.all(12.0),
+                  //                      child: Column(
+                  //                        crossAxisAlignment:
+                  //                            CrossAxisAlignment.start,
+                  //                        children: [
+                  //                          Text(
+                  //                            data.empName,
+                  //                            style: const TextStyle(
+                  //                                fontSize: 16,
+                  //                                fontWeight:
+                  //                                    FontWeight.bold),
+                  //                          ),
+                  //                          const SizedBox(
+                  //                            height: 8,
+                  //                          ),
+                  //                          Row(
+                  //                            children: [
+                  //                              const Text(
+                  //                                "Year: ",
+                  //                                style: TextStyle(
+                  //                                    fontSize: 14,
+                  //                                    fontWeight:
+                  //                                        FontWeight.bold),
+                  //                              ),
+                  //                              Text(
+                  //                                data.year,
+                  //                                style: TextStyle(
+                  //                                    fontSize: 14,
+                  //                                    color: colorTextGray),
+                  //                              ),
+                  //                            ],
+                  //                          ),
+                  //                          const SizedBox(
+                  //                            height: 8,
+                  //                          ),
+                  //                          Row(
+                  //                            children: [
+                  //                              Expanded(
+                  //                                child: Row(
+                  //                                  children: [
+                  //                                    const Text(
+                  //                                      "Total Hours: ",
+                  //                                      style: TextStyle(
+                  //                                          fontSize: 14,
+                  //                                          fontWeight:
+                  //                                              FontWeight
+                  //                                                  .bold),
+                  //                                    ),
+                  //                                    Text(
+                  //                                      data.totalHours,
+                  //                                      style: TextStyle(
+                  //                                          fontSize: 14,
+                  //                                          color:
+                  //                                              colorTextGray),
+                  //                                    ),
+                  //                                  ],
+                  //                                ),
+                  //                              ),
+                  //                              Expanded(
+                  //                                child: Row(
+                  //                                  children: [
+                  //                                    const Text(
+                  //                                      "Break Hours: ",
+                  //                                      style: TextStyle(
+                  //                                          fontSize: 14,
+                  //                                          fontWeight:
+                  //                                              FontWeight
+                  //                                                  .bold),
+                  //                                    ),
+                  //                                    Text(
+                  //                                      data.breakHours,
+                  //                                      style: TextStyle(
+                  //                                          fontSize: 14,
+                  //                                          color:
+                  //                                              colorTextGray),
+                  //                                    ),
+                  //                                  ],
+                  //                                ),
+                  //                              ),
+                  //                            ],
+                  //                          ),
+                  //                        ],
+                  //                      ),
+                  //                    ),
+                  //                  ],
+                  //                ),
+                  //              )),
+                  //            ),
+                  //          );
+                  //        }),
+                  //  ),
                 ],
               ),
             ),

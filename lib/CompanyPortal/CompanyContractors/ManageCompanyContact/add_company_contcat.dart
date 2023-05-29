@@ -13,14 +13,16 @@ class AddCompanyContact extends StatefulWidget {
 }
 
 class _AddCompanyContactState extends State<AddCompanyContact> {
-  CompanyAddContactController addCompanyContactController = CompanyAddContactController();
+  CompanyAddContactController addCompanyContactController =
+      CompanyAddContactController();
   String selectedCustomerType = "Select Customer Type";
   List<DropdownMenuItem<Object?>> customerListItems = [];
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       selectedCustomerType = selectedTest['Type'];
-      addCompanyContactController.customerType.text = selectedTest['key'].toString();
+      addCompanyContactController.customerType.text =
+          selectedTest['key'].toString();
       debugPrint(selectedTest['key'].toString());
     });
   }
@@ -45,20 +47,22 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
   @override
   void initState() {
     Future.delayed(const Duration(microseconds: 0), () {
-      addCompanyContactController.getCustomerTypeForContact(context).then((value) => {
-            if (value != null)
-              {
-                setState(() {
-                  customerListItems = buildTaskSizeListItems(value);
-                }),
-              }
-            else
-              {
-                setState(() {
-                  customerListItems.clear();
-                }),
-              }
-          });
+      addCompanyContactController
+          .getCustomerTypeForContact(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      customerListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      customerListItems.clear();
+                    }),
+                  }
+              });
     });
 // TODO: implement initState
     super.initState();
@@ -71,9 +75,12 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Contacts", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Contacts",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -124,23 +131,32 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                         ),
                         DropdownBelow(
                             itemWidth: MediaQuery.of(context).size.width - 30,
-                            itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
-                            boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                            itemTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             boxWidth: MediaQuery.of(context).size.width,
                             boxHeight: 40,
                             boxDecoration: BoxDecoration(
                               color: colorScreenBg,
                               border: Border.all(color: colorGray, width: 1.0),
-                              borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(7.0)),
                             ),
-                            boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                            boxPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6, right: 10),
                             icon: Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: appThemeGreen,
                             ),
                             hint: Text(
                               selectedCustomerType,
-                              style: TextStyle(fontSize: 18, color: selectedCustomerType == "Select Customer Type" ? Colors.black.withOpacity(0.60) : Colors.black),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: selectedCustomerType ==
+                                          "Select Customer Type"
+                                      ? Colors.black.withOpacity(0.60)
+                                      : Colors.black),
                             ),
                             onChanged: onChangeDropdownBoxSize,
                             items: customerListItems),
@@ -155,7 +171,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.firstName,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -169,10 +186,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -189,7 +211,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.lastName,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -203,10 +226,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -222,7 +250,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -236,10 +265,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -256,7 +290,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.address,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -270,10 +305,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -290,7 +330,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.city,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -304,10 +345,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -324,7 +370,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.state,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -338,10 +385,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -358,7 +410,9 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.zipcode,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            keyboardType: TextInputType.number,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -372,10 +426,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -392,7 +451,8 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.email,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -406,10 +466,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -426,7 +491,9 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             controller: addCompanyContactController.homeNumber,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            keyboardType: TextInputType.number,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -440,10 +507,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -460,8 +532,10 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           height: 40,
                           child: TextField(
                             keyboardType: TextInputType.number,
-                            controller: addCompanyContactController.mobileNumber,
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            controller:
+                                addCompanyContactController.mobileNumber,
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               suffixIcon: Align(
@@ -475,10 +549,15 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -488,88 +567,106 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
                             onTap: () async {
-                              if (selectedCustomerType.isEmpty || addCompanyContactController.customerType.text.isEmpty) {
+                              if (selectedCustomerType.isEmpty ||
+                                  addCompanyContactController
+                                      .customerType.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Please select customer type from list."),
+                                    content: Text(
+                                        "Oops!, Please select customer type from list."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.firstName.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .firstName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, First name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.lastName.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .lastName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Last name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.address.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .address.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Address missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.city.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .city.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, City name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.state.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .state.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, State name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.zipcode.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .zipcode.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Zipcode missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.email.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .email.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Email missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.homeNumber.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .homeNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Home/Office number missing."),
+                                    content: Text(
+                                        "Oops!, Home/Office number missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController.mobileNumber.text.isEmpty) {
+                              } else if (addCompanyContactController
+                                  .mobileNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Mobile number missing."),
+                                    content:
+                                        Text("Oops!, Mobile number missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
                               } else {
-                                await addCompanyContactController.addCompanyContact(context);
+                                await addCompanyContactController
+                                    .addCompanyContact(context);
                               }
                             },
                             child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             ),
