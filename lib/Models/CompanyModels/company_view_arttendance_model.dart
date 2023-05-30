@@ -57,6 +57,7 @@ class Data {
 }
 
 class ListElement {
+  String id;
   String name;
   String employeeId;
   String companyName;
@@ -71,6 +72,7 @@ class ListElement {
   Hours map;
 
   ListElement({
+    required this.id,
     required this.name,
     required this.employeeId,
     required this.companyName,
@@ -86,6 +88,7 @@ class ListElement {
   });
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+        id: json["id"],
         name: json["name"],
         employeeId: json["employee_id"],
         companyName: json["company_name"],
@@ -101,6 +104,7 @@ class ListElement {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "employee_id": employeeId,
         "company_name": companyName,

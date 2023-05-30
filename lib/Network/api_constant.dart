@@ -96,6 +96,10 @@ class ApiConstant {
       'company/get-agency-or-agent-request-list/';
   static const companyAcceptAgencyRequest = 'company/reject-agency-request/';
 
+  static const companyDeleteViewAttendance =
+      'company/delete-view-attendence//?id=';
+  static const companyDeleteAttendance = 'company/delete-attendence/?id=';
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';

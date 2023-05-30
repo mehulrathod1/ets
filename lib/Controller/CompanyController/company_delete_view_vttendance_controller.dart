@@ -1,25 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../Models/CompanyModels/company_delete_attendance_model.dart';
+import '../../Models/CompanyModels/company_delete_view_attendance.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 
-class CompanyDeleteAttendanceController {
-  CompanyDeleteAttendanceModel? deleteAttendanceModel;
-  Future deleteAttendance(BuildContext context, String id) async {
+class CompanyDeleteViewAttendanceController {
+  CompanyDeleteViewAttendanceModel? deleteViewAttendanceModel;
+
+  Future deleteViewAttendance(BuildContext context, String id) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
     var response =
-        await getData(paramUri: ApiConstant.companyDeleteAttendance + id);
-    debugPrint("deleteEmployee response :- ${response.toString()}");
-
+        await getData(paramUri: ApiConstant.companyDeleteViewAttendance + id);
+    debugPrint("deleteContact response :- ${response.toString()}");
     if (response["status"] == 'True') {
-      var res = CompanyDeleteAttendanceModel.fromJson(response);
-      deleteAttendanceModel = res;
+      var res = CompanyDeleteViewAttendanceModel.fromJson(response);
+      deleteViewAttendanceModel = res;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
