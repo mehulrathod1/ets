@@ -80,30 +80,30 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SalesLoginScreen()));
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: appThemeBlue,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: const Center(
-                    child: Text(
-                      'Sign In Sales Portal',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => const SalesLoginScreen()));
+            //     },
+            //     child: Container(
+            //       width: double.infinity,
+            //       height: 40,
+            //       decoration: BoxDecoration(
+            //           color: appThemeBlue,
+            //           borderRadius: BorderRadius.circular(8)),
+            //       child: const Center(
+            //         child: Text(
+            //           'Sign In Sales Portal',
+            //           style: TextStyle(color: Colors.white, fontSize: 18),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
