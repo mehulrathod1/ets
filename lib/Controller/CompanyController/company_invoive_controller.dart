@@ -22,4 +22,13 @@ class CompanyInvoiceController {
       return null;
     }
   }
+
+  Future getCompanyEstimate(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.getCompanyEstimate);
+    if (response["status"] == "True" && response["data"]["List"] != null) {
+      return response["data"]["List"];
+    } else {
+      return null;
+    }
+  }
 }
