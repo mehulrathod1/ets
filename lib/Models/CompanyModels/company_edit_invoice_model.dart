@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final companyAddInvoiceModel = companyAddInvoiceModelFromJson(jsonString);
+//     final companyEditInvoiceModel = companyEditInvoiceModelFromJson(jsonString);
 
 import 'dart:convert';
 
-class CompanyAddInvoiceModel {
+class CompanyEditInvoiceModel {
   String status;
   String message;
-  dynamic data;
+  String data;
 
-  CompanyAddInvoiceModel({
+  CompanyEditInvoiceModel({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory CompanyAddInvoiceModel.fromRawJson(String str) =>
-      CompanyAddInvoiceModel.fromJson(json.decode(str));
+  factory CompanyEditInvoiceModel.fromRawJson(String str) =>
+      CompanyEditInvoiceModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CompanyAddInvoiceModel.fromJson(Map<String, dynamic> json) =>
-      CompanyAddInvoiceModel(
+  factory CompanyEditInvoiceModel.fromJson(Map<String, dynamic> json) =>
+      CompanyEditInvoiceModel(
         status: json["status"],
         message: json["message"],
         data: json["data"],
