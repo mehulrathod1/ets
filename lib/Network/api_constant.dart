@@ -100,6 +100,7 @@ class ApiConstant {
       'company/delete-view-attendence//?id=';
   static const companyDeleteAttendance = 'company/delete-attendence/?id=';
   static const companyAddInvoice = 'company/add-invoice/';
+  static const companyEditInvoice = 'company/edit-invoice/';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 

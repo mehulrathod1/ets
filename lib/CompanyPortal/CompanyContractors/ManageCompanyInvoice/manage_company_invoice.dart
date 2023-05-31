@@ -86,11 +86,11 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
               color: Colors.black,
             ),
             onTap: () {
-              //Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CompanyContractorsScreen()));
+              Navigator.pop(context);
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => const CompanyContractorsScreen()));
             },
           );
         }),
@@ -291,7 +291,31 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const EditCompanyInvoice()));
+                                                              EditCompanyInvoice(
+                                                                id: data.id,
+                                                                estimateId: data
+                                                                    .estimateId,
+                                                                invoiceFor: data
+                                                                    .invoiceFor,
+                                                                invoiceDescription:
+                                                                    data.invoiceDescription,
+                                                                amount:
+                                                                    data.amount,
+                                                                invoiceDate: data
+                                                                    .invoiceDate
+                                                                    .toString(),
+                                                                tax: data.tax,
+                                                                dueAmount: data
+                                                                    .dueAmount,
+                                                                totalAmount: data
+                                                                    .totalAmount,
+                                                                isPaid:
+                                                                    data.isPaid,
+                                                                paidBy:
+                                                                    data.paidBy,
+                                                                signatureName: data
+                                                                    .signatureName,
+                                                              )));
                                                 },
                                                 child: Row(
                                                   mainAxisAlignment:
