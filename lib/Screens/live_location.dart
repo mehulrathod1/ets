@@ -19,8 +19,7 @@ class LiveLocation extends StatefulWidget {
 
 class _LiveLocationState extends State<LiveLocation> {
   bool loading = false;
-  bool startLocation = false;
-  bool stopLocation = false;
+
   String? currentAddress;
   Position? currentPosition;
   List<Marker> markers = <Marker>[];
@@ -101,10 +100,10 @@ class _LiveLocationState extends State<LiveLocation> {
       setState(() {
         if (value != null) {
           employeeLiveLocation = value;
-          print("employeeLiveLocation.data.location");
+          print(employeeLiveLocation.data.location);
         } else {
           loading = false;
-          print("employeeLiveLocation.data.location");
+          print('employeeLiveLocation.data.location');
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
