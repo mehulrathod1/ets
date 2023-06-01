@@ -50,6 +50,12 @@ dependencies:
   flutter_image_compress: any
   timezone: ^0.7.0
   flutter_native_timezone: ^2.0.0
+  webview_flutter: ^2.0.14
+  flutter_downloader: ^1.10.4
+  flutter_pdfview: ^1.0.2
+  dio: ^5.1.2
+  eticon_downloader: ^1.0.4
+
 
 
   # The following adds the Cupertino Icons font to your application.

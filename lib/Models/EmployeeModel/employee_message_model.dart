@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final companyMessageModel = companyMessageModelFromJson(jsonString);
+//     final employeeMessageModel = employeeMessageModelFromJson(jsonString);
 
 import 'dart:convert';
 
-class CompanyMessageModel {
+class EmployeeMessageModel {
   String status;
   String message;
   List<Datum> data;
 
-  CompanyMessageModel({
+  EmployeeMessageModel({
     required this.status,
     required this.message,
     required this.data,
   });
 
-  factory CompanyMessageModel.fromRawJson(String str) =>
-      CompanyMessageModel.fromJson(json.decode(str));
+  factory EmployeeMessageModel.fromRawJson(String str) =>
+      EmployeeMessageModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CompanyMessageModel.fromJson(Map<String, dynamic> json) =>
-      CompanyMessageModel(
+  factory EmployeeMessageModel.fromJson(Map<String, dynamic> json) =>
+      EmployeeMessageModel(
         status: json["status"],
         message: json["message"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
@@ -36,7 +36,6 @@ class CompanyMessageModel {
 
 class Datum {
   String id;
-  String messageType;
   String employeeId;
   String companyId;
   String message;
@@ -48,7 +47,6 @@ class Datum {
 
   Datum({
     required this.id,
-    required this.messageType,
     required this.employeeId,
     required this.companyId,
     required this.message,
@@ -65,7 +63,6 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        messageType: json["message_type"],
         employeeId: json["employee_id"],
         companyId: json["company_id"],
         message: json["message"],
@@ -78,7 +75,6 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "message_type": messageType,
         "employee_id": employeeId,
         "company_id": companyId,
         "message": message,
