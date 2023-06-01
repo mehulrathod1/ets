@@ -84,6 +84,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
 
   Future initialize(BuildContext context) async {
     loading = true;
+    //s
     await employeeInvoiceController.getEmployeeInvoice(context).then((value) {
       setState(() {
         if (value != null) {
