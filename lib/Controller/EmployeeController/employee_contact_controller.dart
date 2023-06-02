@@ -6,8 +6,11 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeContactController {
-  Future getEmployeeContact(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeContactList);
+  Future getEmployeeContact(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.employeeContactList}searchName=$search&page=$page");
     if (response["status"] == "True" && response["data"] != null) {
       return EmployeeContactModel.fromJson(response);
     } else {
@@ -15,13 +18,15 @@ class EmployeeContactController {
     }
   }
 
-  Future<bool> employeeDeleteContact({BuildContext? context, String? id}) async {
+  Future<bool> employeeDeleteContact(
+      {BuildContext? context, String? id}) async {
     showDialog(
         context: context!,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await getData(paramUri: ApiConstant.employeeDeleteContact + id!);
+    var response =
+        await getData(paramUri: ApiConstant.employeeDeleteContact + id!);
     if (response["status"] == "True" && response["data"] != null) {
       Navigator.pop(context);
       return true;

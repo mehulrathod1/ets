@@ -32,11 +32,34 @@ class _ManageInvoiceState extends State<ManageInvoice> {
   CompanyDownloadInvoiceModel? downloadInvoiceModel;
 
   String _platformVersion = 'Unknown';
+
   @override
   void initState() {
     initPlatformState();
-    initialize(context);
+    initialize(context, '');
     super.initState();
+  }
+
+  Future initialize(BuildContext context, String search) async {
+    setState(() {
+      loading = true;
+    });
+    //s
+    await employeeInvoiceController
+        .getEmployeeInvoice(context, search: search, page: 1)
+        .then((value) {
+      setState(() {
+        if (value != null) {
+          invoiceModel = value;
+          invoiceList = invoiceModel.data.list;
+          loading = false;
+          print(loading);
+        } else {
+          invoiceList.clear();
+          loading = false;
+        }
+      });
+    });
   }
 
   Future<void> initPlatformState() async {
@@ -77,23 +100,6 @@ class _ManageInvoiceState extends State<ManageInvoice> {
               duration: const Duration(seconds: 2),
             ),
           );
-        }
-      });
-    });
-  }
-
-  Future initialize(BuildContext context) async {
-    loading = true;
-    //s
-    await employeeInvoiceController.getEmployeeInvoice(context).then((value) {
-      setState(() {
-        if (value != null) {
-          invoiceModel = value;
-          invoiceList = invoiceModel.data.list;
-          loading = false;
-        } else {
-          invoiceList.clear();
-          loading = false;
         }
       });
     });
@@ -146,6 +152,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
               SizedBox(
                 height: 40,
                 child: TextField(
+                  textInputAction: TextInputAction.search,
                   style: const TextStyle(fontSize: 18, color: Colors.black),
                   maxLines: 1,
                   decoration: InputDecoration(
@@ -172,6 +179,13 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                       borderRadius: BorderRadius.circular(7),
                     ),
                   ),
+                  onSubmitted: (value) {
+                    print(loading);
+                    initialize(context, value);
+                  },
+                  onChanged: (value) {
+                    initialize(context, value);
+                  },
                 ),
               ),
               Padding(
@@ -433,7 +447,8 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                             if (value)
                                                               {
                                                                 initialize(
-                                                                    context),
+                                                                    context,
+                                                                    ''),
                                                               }
                                                           });
                                                 },

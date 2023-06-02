@@ -6,9 +6,12 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeInvoiceController {
-  Future getEmployeeInvoice(BuildContext context) async {
-    var response = await postDataWithHeader(
-        paramUri: ApiConstant.employeeViewInvoice, params: {});
+  Future getEmployeeInvoice(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.employeeViewInvoice}searchName=$search&page=$page");
+
     if (response["status"] == "True" && response["data"] != null) {
       return EmployeeInvoiceModel.fromJson(response);
     } else {
