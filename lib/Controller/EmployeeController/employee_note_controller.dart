@@ -12,8 +12,11 @@ class EmployeeNoteController {
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
 
-  Future getEmployeeContact(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeNoteList);
+  Future getEmployeeContact(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.employeeNoteList}searchName=$search&page=$page");
     if (response["status"] == "True" && response["data"] != null) {
       return EmployeeNoteModel.fromJson(response);
     } else {
