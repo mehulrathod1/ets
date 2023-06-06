@@ -147,7 +147,7 @@ class ListElement {
 
 class PaginationInfo {
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

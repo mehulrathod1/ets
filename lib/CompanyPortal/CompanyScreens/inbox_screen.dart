@@ -33,7 +33,6 @@ class _InboxScreenState extends State<InboxScreen> {
         } else {
           notificationList.clear();
           loading = false;
-          print('lododwww');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Inbox not found'),
