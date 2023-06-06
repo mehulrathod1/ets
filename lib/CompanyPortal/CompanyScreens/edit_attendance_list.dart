@@ -43,12 +43,12 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
           editAttendanceListModel = value;
           attendanceList = editAttendanceListModel.data.list;
           loading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(' Attendance found'),
-              duration: Duration(seconds: 2),
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(
+          //     content: Text(' Attendance found'),
+          //     duration: Duration(seconds: 2),
+          //   ),
+          // );
         } else {
           attendanceList.clear();
           loading = false;
@@ -327,7 +327,13 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const EditEmployeeDetail()));
+                                                              EditEmployeeDetail(
+                                                                inTime: data
+                                                                    .attendanceInTime,
+                                                                outTime: data
+                                                                    .attendanceOutTime,
+                                                                id: data.id,
+                                                              )));
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(

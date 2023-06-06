@@ -47,6 +47,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   String selectedDepartment = "Select Department";
   List<DropdownMenuItem<Object?>> departmentListItems = [];
 
+  TextEditingController searchText = TextEditingController();
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       // addTaskController.orderId.text = selectedTest['estimate_id'];
@@ -73,12 +74,18 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
     return items;
   }
 
-  Future initialize(BuildContext context, String search) async {
+  Future initialize(BuildContext context, String search, String department,
+      String startDate, String endDate) async {
     setState(() {
       loading = true;
     });
     await getCompanyEmployeeController
-        .getCompanyEmployee(context, search: search, page: 1)
+        .getCompanyEmployee(context,
+            search: search,
+            page: 1,
+            department: department,
+            startDate: startDate,
+            endDate: endDate)
         .then((value) {
       setState(() {
         if (value != null) {
@@ -280,7 +287,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
           });
     });
 
-    initialize(context, '');
+    initialize(context, '', '', '', '');
     super.initState();
   }
 
@@ -338,6 +345,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     height: 40,
                     child: TextField(
                       textInputAction: TextInputAction.search,
+                      controller: searchText,
                       style: const TextStyle(fontSize: 14, color: Colors.black),
                       maxLines: 1,
                       decoration: InputDecoration(
@@ -366,10 +374,10 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                       ),
                       onSubmitted: (value) {
                         print(loading);
-                        initialize(context, value);
+                        initialize(context, value, '', '', '');
                       },
                       onChanged: (value) {
-                        initialize(context, value);
+                        initialize(context, value, '', '', '');
                       },
                     ),
                   ),
@@ -377,7 +385,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: DropdownBelow(
                       itemWidth: MediaQuery.of(context).size.width - 130,
                       itemTextstyle:
@@ -417,7 +426,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: SizedBox(
                     height: 40,
                     child: TextField(
@@ -453,7 +463,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           print(
                               pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                           String formattedDate =
-                              DateFormat('MM/dd/yyyy').format(pickedDate);
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           print(
                               formattedDate); //formatted date output using intl package =>  2021-03-16
                           //you can implement different kind of Date Format here according to your requirement
@@ -472,7 +482,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: SizedBox(
                     height: 40,
                     child: TextField(
@@ -508,7 +519,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           print(
                               pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                           String formattedDate =
-                              DateFormat('MM/dd/yyyy').format(pickedDate);
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           print(
                               formattedDate); //formatted date output using intl package =>  2021-03-16
                           //you can implement different kind of Date Format here according to your requirement
@@ -532,7 +543,81 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      debugPrint(searchText.text);
+                      debugPrint(addEmployeeController.department.text);
+                      debugPrint(startDate.text);
+                      debugPrint(endDate.text);
+
+                      initialize(
+                          context,
+                          searchText.text,
+                          addEmployeeController.department.text,
+                          startDate.text,
+                          endDate.text);
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Search',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        searchText.clear();
+                        addEmployeeController.department.clear();
+                        startDate.clear();
+                        endDate.clear();
+                        selectedDepartment = "Select Department";
+                      });
+
+                      initialize(context, '', '', '', '');
+                      debugPrint(searchText.text);
+                      debugPrint(addEmployeeController.department.text);
+                      debugPrint(startDate.text);
+                      debugPrint(endDate.text);
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: appThemeBlue,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Clear filter',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -542,7 +627,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     },
                     child: Container(
                         width: double.infinity,
-                        height: 40,
+                        height: 35,
                         decoration: BoxDecoration(
                             color: appThemeGreen,
                             borderRadius: BorderRadius.circular(8)),
@@ -557,10 +642,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: Container(
                       width: double.infinity,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           color: appThemeBlue,
                           borderRadius: BorderRadius.circular(8)),
@@ -582,10 +668,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: Container(
                       width: double.infinity,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           color: appThemeBlue,
                           borderRadius: BorderRadius.circular(8)),
@@ -602,10 +689,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: Container(
                       width: double.infinity,
-                      height: 40,
+                      height: 35,
                       decoration: BoxDecoration(
                           color: appThemeBlue,
                           borderRadius: BorderRadius.circular(8)),
@@ -624,10 +712,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, left: 8.0, right: 8.0),
                   child: Container(
                     width: double.infinity,
-                    height: 40,
+                    height: 35,
                     decoration: BoxDecoration(
                         color: appThemeBlue,
                         borderRadius: BorderRadius.circular(8)),
@@ -923,6 +1012,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                                       (value) {
                                                                 initialize(
                                                                     context,
+                                                                    '',
+                                                                    '',
+                                                                    '',
                                                                     '');
                                                                 Navigator.of(
                                                                         context)

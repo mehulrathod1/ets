@@ -1,15 +1,37 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+
+import '../../Controller/CompanyController/company_edit_view_attendance_controller.dart';
+import '../../Network/api_constant.dart';
 
 class EditEmployeeDetail extends StatefulWidget {
-  const EditEmployeeDetail({Key? key}) : super(key: key);
+  EditEmployeeDetail(
+      {required this.inTime, required this.outTime, required this.id, Key? key})
+      : super(key: key);
 
+  String inTime;
+  String outTime;
+  String id;
   @override
   State<EditEmployeeDetail> createState() => _EditEmployeeDetailState();
 }
 
 class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
+  CompanyViewEditAttendance companyViewEditAttendance =
+      CompanyViewEditAttendance();
+  TextEditingController inTime = TextEditingController();
+  TextEditingController outTime = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    inTime.text = widget.inTime;
+    outTime.text = widget.outTime;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,16 +39,25 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Details", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Details",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -65,7 +96,9 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller: inTime,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -76,17 +109,42 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '04:32 PM',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              initialTime: TimeOfDay.now(),
+                              context: context,
+                            );
+                            if (pickedTime != null) {
+                              debugPrint(pickedTime.format(context));
+                              DateTime parsedTime = DateFormat.jm()
+                                  .parse(pickedTime.format(context).toString());
+                              String formattedTime =
+                                  DateFormat('HH:mm:ss').format(parsedTime);
+                              debugPrint(formattedTime);
+                              setState(() {
+                                inTime.text = formattedTime;
+                                debugPrint("Time is not ");
+                                debugPrint(formattedTime);
+                              });
+                            } else {
+                              debugPrint("Time is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -99,7 +157,9 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(fontSize: 18, color: Colors.black),
+                          controller: outTime,
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
                             suffixIcon: Align(
@@ -110,17 +170,42 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: '04:32 PM',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              initialTime: TimeOfDay.now(),
+                              context: context,
+                            );
+                            if (pickedTime != null) {
+                              debugPrint(pickedTime.format(context));
+                              DateTime parsedTime = DateFormat.jm()
+                                  .parse(pickedTime.format(context).toString());
+                              String formattedTime =
+                                  DateFormat('HH:mm:ss').format(parsedTime);
+                              debugPrint(formattedTime);
+                              setState(() {
+                                outTime.text = formattedTime;
+                                debugPrint("Time is not ");
+                                debugPrint(formattedTime);
+                              });
+                            } else {
+                              debugPrint("Time is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -132,11 +217,15 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               border: InputBorder.none,
@@ -144,7 +233,8 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -154,11 +244,14 @@ class _EditEmployeeDetailState extends State<EditEmployeeDetail> {
                         child: Container(
                             width: double.infinity,
                             height: 40,
-                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                            decoration: BoxDecoration(
+                                color: appThemeGreen,
+                                borderRadius: BorderRadius.circular(8)),
                             child: const Center(
                               child: Text(
                                 'Submit',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             )),
                       )
