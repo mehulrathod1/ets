@@ -9,20 +9,16 @@ class ApiConstant {
   static bool isAttendance = false;
   static const companyLogin = 'company-login/';
   static const companyProfile = 'company/get-profile';
-  static const companyAllEmployee =
-      'company/get-employee-list?show=100&searchName=&page=';
+  static const companyAllEmployee = 'company/get-employee-list?show=500&';
+
   static const companyDepartment = 'company/department-list/';
-  static const companyContacts =
-      'company/get-all-contact?show=10&searchName=&page=';
+  static const companyContacts = 'company/get-all-contact?show=500&';
   static const addCompanyContacts = 'company/add-contact/';
   static const companyAddContact = 'company/add-contact/';
   static const companyEditContact = 'company/edit-contact/';
-  static const getCompanyOrder =
-      'company/get-all-order?show=100&searchName=&page=';
-  static const getCompanyTask =
-      'company/get-all-task?show=10&searchName=&page=';
-  static const getCompanyEstimate =
-      'company/get-all-estimate?show=100&searchName=&page=';
+  static const getCompanyOrder = 'company/get-all-order?show=500&';
+  static const getCompanyTask = 'company/get-all-task?show=500&';
+  static const getCompanyEstimate = 'company/get-all-estimate?show=500&';
   static const companyAddOrder = 'company/add-order/';
   static const companyEditOrder = 'company/edit-order/';
   static const companyDeleteOrder = 'company/delete-order/';
@@ -33,8 +29,7 @@ class ApiConstant {
   static const companyAddEstimate = 'company/add-estimate/';
   static const companyAddNote = 'company/add-notes/';
   static const deleteCompanyEmployee = 'company/get-profile';
-  static const companyNoteList =
-      'company/get-all-notes?show=10&searchName=&page=';
+  static const companyNoteList = 'company/get-all-notes?show=500&';
   static const companyAddTask = 'company/add-task/';
   static const companyEditTask = 'company/edit-task/';
   static const companyDeleteTask = 'company/delete-task/';
@@ -57,8 +52,7 @@ class ApiConstant {
   static const companyEditDepartment = 'company/edit-department/';
   static const companyUpdateProfile = 'company/update-company-details/';
   static const companyChangePassword = 'company/reset-password/';
-  static const companyAllInvoice =
-      'company/get-all-invoice?show=10&searchName=&page=';
+  static const companyAllInvoice = 'company/get-all-invoice?show=500&';
   static const companyDeleteInvoice = 'employee/delete-invoice/';
   static const companyInvoiceFor = 'company/get-invoice-estiment/';
   static const companyTaskOrder = 'company/get-task-orders/';
@@ -70,9 +64,8 @@ class ApiConstant {
   static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request';
   static const cmpRejectHourRequest = 'company/reject-fix-hrs-request';
   static const companyFixHourRequest =
-      'company/view-fix-hrs-request?show=100&searchName=&page=';
-  static const companyAllReport =
-      'company/get-all-report/?show=10&searchName=&page=2';
+      'company/view-fix-hrs-request?show=500&searchName=&page=';
+  static const companyAllReport = 'company/get-all-report/?show=500&';
   static const companyMonthlyReport = 'company/get-monthly-report/';
   static const companyYearlyReport = 'company/get-yearly-report/';
   static const companyTotalEmployee = 'company/get-total-employee/';
