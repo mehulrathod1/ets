@@ -8,6 +8,7 @@ import 'dart:async';
 
 import '../Controller/CompanyController/compay_employee_live_location_controller.dart';
 import '../Models/CompanyModels/get_employee_live_location.dart';
+import '../Network/api_constant.dart';
 
 class LiveLocation extends StatefulWidget {
   LiveLocation({required this.employeeId, Key? key}) : super(key: key);
@@ -130,12 +131,18 @@ class _LiveLocationState extends State<LiveLocation> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
