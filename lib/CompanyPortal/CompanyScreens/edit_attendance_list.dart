@@ -1,9 +1,11 @@
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../Controller/CompanyController/company_delete_attendance_controller.dart';
 import '../../Controller/CompanyController/compnay_edit_attendance_list_controller.dart';
 import '../../Models/CompanyModels/company_edit_employee_list_model.dart';
 import '../../Network/api_constant.dart';
+import '../PopUps/delete_conformation_popup.dart';
 import 'edit_employee_detail.dart';
 
 class EditAttendanceList extends StatefulWidget {
@@ -21,7 +23,8 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
       CompanyEditAttendanceListController();
   late CompanyEditAttendanceListModel editAttendanceListModel;
   bool loading = false;
-
+  CompanyDeleteAttendanceController deleteAttendanceController =
+      CompanyDeleteAttendanceController();
   List<ListElement> attendanceList = [];
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
   }
 
   Future getEditAttendanceList(BuildContext context) async {
+    attendanceList.clear();
     loading = true;
     await editAttendanceListController
         .getEditAttendance(context, widget.employeeId, widget.date)
@@ -363,36 +367,70 @@ class _EditAttendanceListState extends State<EditAttendanceList> {
                                               ),
                                             ),
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: colorred,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.delete_outline,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return ConfirmationPopup(
+                                                        title: 'Confirmation',
+                                                        message:
+                                                            'Are you sure you want to delete?',
+                                                        onConfirm: () {
+                                                          // Perform delete operation here
+                                                          deleteAttendanceController
+                                                              .deleteAttendance(
+                                                                  context,
+                                                                  data.id)
+                                                              .then((value) {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            print(data.id);
+                                                          });
+
+                                                          // Close the dialog
+                                                        },
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      color: colorred,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          15))),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.delete_outline,
+                                                        color: Colors.white,
+                                                        size: 20,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
