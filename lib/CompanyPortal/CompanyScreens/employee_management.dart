@@ -16,6 +16,7 @@ import '../../Controller/CompanyController/company_hold_access_controller.dart';
 import '../../Network/api_constant.dart';
 import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
+import 'crate_excel.dart';
 import 'edit_employee.dart';
 
 import 'package:excel/excel.dart';
@@ -33,6 +34,8 @@ class EmployeeManagement extends StatefulWidget {
 class _EmployeeManagementState extends State<EmployeeManagement> {
   bool loading = false;
   List<ListElement> employeeList = [];
+  List<String> excel = [];
+
   late GetCompanyEmployeeModel getCompanyEmployeeModel;
   GetCompanyEmployeeController getCompanyEmployeeController =
       GetCompanyEmployeeController();
@@ -112,26 +115,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       print('Error: $e');
     }
   }
-
-  void createFolderInExternalStorage() async {
-    Directory? externalDirectory = await getExternalStorageDirectory();
-
-    if (externalDirectory != null) {
-      String folderName = 'MyFolder';
-
-      String folderPath = '${externalDirectory.path}/$folderName';
-
-      Directory(folderPath).create(recursive: true).then((Directory directory) {
-        print('Folder created: ${directory.path}');
-      }).catchError((e) {
-        print('Error creating folder: $e');
-      });
-    } else {
-      print('External storage directory not found.');
-    }
-  }
-
-  // /data/user/0/com.employee.etsemployee/app_flutter/example.xlsx
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];
@@ -775,7 +758,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                       child: Center(
                         child: GestureDetector(
                           onTap: () async {
-                            generateExcel();
                             print('download excel');
                           },
                           child: const Text(
