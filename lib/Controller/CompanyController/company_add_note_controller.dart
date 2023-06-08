@@ -13,23 +13,26 @@ class CompanyAddNoteController {
   TextEditingController noteDescription = TextEditingController();
   TextEditingController employeeList = TextEditingController();
 
-  Future addCompanyNote(BuildContext context) async {
+  Future addCompanyNote(BuildContext context,
+      {required String? employeeId}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.companyAddNote, params: {
+    var response =
+        await postDataWithHeader(paramUri: ApiConstant.companyAddNote, params: {
       'notestatus': noteStatus.text,
       'note_name': noteName.text,
       'note_description': noteDescription.text,
-      'employeelist': '',
+      'employeelist': employeeId!,
     });
     if (response["status"] == 'True') {
       var res = CompanyAddNoteModel.fromJson(response);
       addNoteModel = res;
       Navigator.pop(context);
-      Navigator.pop(context, MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
+      Navigator.pop(context,
+          MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -44,6 +47,15 @@ class CompanyAddNoteController {
           duration: const Duration(seconds: 2),
         ),
       );
+    }
+  }
+
+  Future getEmployeeListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyEmployeeList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"];
+    } else {
+      return null;
     }
   }
 }

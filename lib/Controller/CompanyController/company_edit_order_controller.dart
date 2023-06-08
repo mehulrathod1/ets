@@ -15,30 +15,37 @@ class CompanyEditOrderController {
   TextEditingController amount = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
+  TextEditingController signName = TextEditingController();
 
-  Future editOrder(BuildContext context, {required String? signature, required String? employeeId, required String? id}) async {
+  Future editOrder(BuildContext context,
+      {required String? signature,
+      required String? employeeId,
+      required String? id}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: "${ApiConstant.companyEditOrder}${id!}/", params: {
-      'order_name': orderName.text,
-      'order_description': orderDescription.text,
-      'change_description': changeDescription.text,
-      'amount': amount.text,
-      'start_date': startDate.text,
-      'due_date': dueDate.text,
-      'orderstatus': orderStatus.text,
-      'sig-dataUrl': signature!,
-      'estimate_id': estimateId.text,
-      'employeelist': employeeId!,
-      'sign_name': 'company_sign',
-    });
+    var response = await postDataWithHeader(
+        paramUri: "${ApiConstant.companyEditOrder}${id!}/",
+        params: {
+          'order_name': orderName.text,
+          'order_description': orderDescription.text,
+          'change_description': changeDescription.text,
+          'amount': amount.text,
+          'start_date': startDate.text,
+          'due_date': dueDate.text,
+          'orderstatus': orderStatus.text,
+          'sig-dataUrl': signature!,
+          'estimate_id': estimateId.text,
+          'employeelist': employeeId!,
+          'sign_name': signName.text,
+        });
     debugPrint("editOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

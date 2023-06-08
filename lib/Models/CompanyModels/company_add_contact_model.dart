@@ -7,7 +7,7 @@ import 'dart:convert';
 class CompanyAddContactModel {
   String status;
   String message;
-  bool data;
+  dynamic data;
 
   CompanyAddContactModel({
     required this.status,

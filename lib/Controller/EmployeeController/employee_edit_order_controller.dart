@@ -19,6 +19,7 @@ class EmployeeEditOrderController {
   TextEditingController amount = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
+  TextEditingController signName = TextEditingController();
 
   Future editOrder(BuildContext context,
       {required String? id, required String? signature}) async {
@@ -39,7 +40,7 @@ class EmployeeEditOrderController {
           'amount': amount.text,
           'start_date': startDate.text,
           'due_date': dueDate.text,
-          'sign_name': '',
+          'sign_name': signName,
         });
     debugPrint("editOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {

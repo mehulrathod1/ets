@@ -291,6 +291,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                     amount: detail.amount,
                                                     startDate: detail.startDate,
                                                     dueDate: detail.dueDate,
+                                                    signName:
+                                                        detail.signatureName,
                                                   ),
                                                 ),
                                               );

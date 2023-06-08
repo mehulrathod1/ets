@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../CompanyPortal/CompanyContractors/ManageCompanyEstimetes/company_estimeates.dart';
 import '../../Models/CompanyModels/company_add_estimate_model.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
@@ -41,6 +42,9 @@ class CompanyAddEstimateController {
       var res = CompanyAddEstimateModel.fromJson(response);
       addEstimateModel = res;
       Navigator.pop(context);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const CompanyEstimate()));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

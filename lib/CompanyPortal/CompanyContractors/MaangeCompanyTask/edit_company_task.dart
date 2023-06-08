@@ -2,10 +2,25 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../../../Controller/CompanyController/company_edit_task_controller.dart';
 import '../../../Controller/CompanyController/get_company_task_controller.dart';
 import '../../../Network/api_constant.dart';
+
+class EmployeeListData {
+  String? id;
+  String? employeeName;
+  String? email;
+
+  EmployeeListData({
+    this.id,
+    this.employeeName,
+    this.email,
+  });
+}
 
 class EditCompanyTask extends StatefulWidget {
   EditCompanyTask(
@@ -36,6 +51,11 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
   String selectedOrder = "Select Order";
 
+  List<EmployeeListData> employeeListItems = [];
+  String selectedEmployeeListId = "";
+  List<EmployeeListData> selectedEmployeeList = [];
+  bool loading = false;
+
   CompanyEditTaskController editTaskController = CompanyEditTaskController();
 
   onChangeDropdownBoxSize(selectedTest) {
@@ -45,6 +65,39 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
       debugPrint(selectedTest['order_name']);
       debugPrint(selectedTest['id']);
     });
+  }
+
+  void showMultiSelect(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return MultiSelectDialog(
+          items: employeeListItems
+              .map((e) => MultiSelectItem(e, e.employeeName!))
+              .toList(),
+          initialValue: selectedEmployeeList,
+          onConfirm: (values) {
+            setState(() {
+              selectedEmployeeListId = "";
+              editTaskController.employeeList.clear();
+              selectedEmployeeList = values;
+              for (int i = 0; i < selectedEmployeeList.length; i++) {
+                editTaskController.employeeList.text =
+                    editTaskController.employeeList.text +
+                        selectedEmployeeList[i].employeeName!;
+                selectedEmployeeListId =
+                    selectedEmployeeListId + selectedEmployeeList[i].id!;
+                if (i != selectedEmployeeList.length - 1) {
+                  editTaskController.employeeList.text =
+                      "${editTaskController.employeeList.text}, ";
+                  selectedEmployeeListId = "$selectedEmployeeListId,";
+                }
+              }
+            });
+          },
+        );
+      },
+    );
   }
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
@@ -66,12 +119,18 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(microseconds: 0), () {
-      getCompanyTaskController.getTaskOrderList(context).then((value) => {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await getCompanyTaskController.getTaskOrderList(context).then((value) => {
             if (value != null)
               {
                 setState(() {
                   taskOrderListItems = buildTaskSizeListItems(value);
+                  for (int i = 0; i < value.length; i++) {
+                    if (value[i]["id"] == widget.orderId) {
+                      editTaskController.orderId.text = value[i]["id"];
+                      selectedOrder = value[i]["order_name"];
+                    }
+                  }
                 }),
               }
             else
@@ -81,9 +140,35 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                 }),
               }
           });
-    });
-// TODO: implement initState
 
+      await editTaskController
+          .getEmployeeListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      for (int i = 0; i < value.length; i++) {
+                        employeeListItems.add(EmployeeListData(
+                            id: value[i]["id"],
+                            employeeName: value[i]["employee_name"],
+                            email: value[i]["email"]));
+                      }
+                      loading = false;
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      employeeListItems.clear();
+                      loading = false;
+                    }),
+                  }
+              });
+    });
+
+// TODO: implement initState
+    DateTime now = DateTime.now();
+    widget.dueDate = DateFormat('yyyy-MM-dd').format(now);
     editTaskController.orderId.text = widget.orderId;
     editTaskController.taskName.text = widget.taskStatus;
     editTaskController.taskName.text = widget.taskName;
@@ -95,6 +180,7 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
     } else {
       termsandcond = true;
     }
+
     super.initState();
   }
 
@@ -298,7 +384,7 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: '12/31/1996',
+                            hintText: 'select date',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -314,6 +400,22 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2101));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                              setState(() {
+                                editTaskController.dueDate.text = formattedDate;
+                              });
+                            } else {
+                              debugPrint("Date is not selected");
+                            }
+                          },
                         ),
                       ),
                       const Padding(
@@ -360,7 +462,9 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                         child: TextField(
                           style: const TextStyle(
                               fontSize: 18, color: Colors.black),
+                          controller: editTaskController.employeeList,
                           maxLines: 1,
+                          readOnly: true,
                           decoration: InputDecoration(
                             suffixIcon: Align(
                               widthFactor: 1,
@@ -370,7 +474,6 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: 'Test ',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -386,14 +489,17 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
+                          onTap: () {
+                            showMultiSelect(context);
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            editTaskController.editTask(
-                                context, widget.orderId);
+                            editTaskController.editTask(context, widget.id,
+                                employeeId: selectedEmployeeListId);
                           },
                           child: Container(
                               width: double.infinity,
