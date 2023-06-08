@@ -10,12 +10,15 @@ import '../../Screens/Contractors/ManageProfile/profile_screen.dart';
 import '../../Screens/HomeDashboard.dart';
 
 class EmployeeAddAttendanceController {
-  Future<bool> addAttendanceHistory(
-      {required BuildContext context,
-      required String address,
-      required String profileImage,
-      required String status,
-      required Placemark place}) async {
+  Future<bool> addAttendanceHistory({
+    required BuildContext context,
+    required String address,
+    required String profileImage,
+    required String status,
+    required Placemark place,
+    required String timeZon,
+    required String time,
+  }) async {
     print("==========================+${profileImage}");
     showDialog(
         context: context,
@@ -35,15 +38,26 @@ class EmployeeAddAttendanceController {
           "country": place.country,
           "formatted_address": address,
           "location": address,
-          "time_zone": ""
+          "time_zone": timeZon,
+          "current_time": time
         });
     if (response["status"] == "true") {
       Navigator.of(context).pop();
 
       // ApiConstant.isAttendance = true;
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var status = prefs.get('attendanceStatus').toString();
-      print('${status}ooooo');
+      String status = prefs.get('attendanceStatus').toString();
+
+      if (status == '1') {
+        await prefs.remove('attendanceStatus');
+        await prefs.setString("attendanceStatus", '1');
+      } else if (status == '2') {
+        await prefs.remove('attendanceStatus');
+        await prefs.setString("attendanceStatus", '2');
+      } else {
+        await prefs.remove('attendanceStatus');
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

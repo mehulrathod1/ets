@@ -16,8 +16,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Network/api_constant.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key}) : super(key: key);
@@ -70,12 +74,39 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     }
 
     String status = await getAttendanceValue();
+
+    DateTime now = DateTime.now();
+    String timeZone = now.timeZoneName;
+    print('Time zone: $timeZone');
+
+    // DateTime noww = DateTime.now().toUtc();
+    // tz.Location istLocation = tz.getLocation('America/New_York');
+    // tz.TZDateTime istTime = tz.TZDateTime.from(now, now);
+    DateFormat format = DateFormat('HH:mm:ss');
+    String istFormattedTime = format.format(now);
+    print('IST Time: $istFormattedTime');
+
+    String timezone = await FlutterNativeTimezone.getLocalTimezone();
+    print('IST Time: $timezone');
+
     await controller.addAttendanceHistory(
         context: context,
         address: currentAddress,
         profileImage: base64ImagePath,
         status: status,
-        place: place!);
+        place: place!,
+        timeZon: timeZone,
+        time: istFormattedTime);
+  }
+
+  Future<String> getTimeZone() async {
+    String timeZone;
+    try {
+      timeZone = await FlutterNativeTimezone.getLocalTimezone();
+    } on PlatformException {
+      timeZone = 'Failed to get the time zone.';
+    }
+    return timeZone;
   }
 
   Future<void> getCurrentPosition() async {
@@ -161,6 +192,7 @@ class _AttendanceScreen extends State<AttendanceScreen> {
 
       AttendancePopUP(context, s);
       getCurrentPosition();
+      tz.initializeTimeZones();
     });
     super.initState();
   }

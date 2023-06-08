@@ -111,6 +111,9 @@ class ApiConstant {
   static const employeeDeleteContact = 'employee/delete-contact/';
   static const employeeOrderList = 'employee/view-orders-lists';
   static const employeeEstimateList = 'employee/view-estimate-lists';
+
+  static const employeeEstimateContact = 'employee/get-estimate-contacts/';
+
   static const employeeNoteList = 'employee/view-notes-list';
   static const employeeAddNote = 'employee/add-notes';
   static const employeeEditNote = 'employee/edit-note/';
