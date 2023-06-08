@@ -206,7 +206,7 @@ class _ManageApprovalState extends State<ManageApproval> {
                                                         const EdgeInsets.only(
                                                             left: 10.0, top: 8),
                                                     child: Text(
-                                                      "Cancle",
+                                                      "Cancel",
                                                       style: TextStyle(
                                                           fontSize: 12,
                                                           color: colorred),

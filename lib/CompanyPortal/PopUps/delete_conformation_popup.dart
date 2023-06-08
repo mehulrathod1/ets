@@ -20,7 +20,7 @@ class ConfirmationPopup extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         TextButton(
-          child: Text('Confirm'),
+          child: Text('Delete'),
           onPressed: onConfirm,
         ),
       ],

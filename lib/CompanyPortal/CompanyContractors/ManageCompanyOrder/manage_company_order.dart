@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../../../Controller/CompanyController/company_delete_order_controller.dart';
+import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_order.dart';
 import 'edit_company_order.dart';
 import '../../../Network/api_constant.dart';
@@ -20,10 +21,12 @@ class ManageCompanyOrder extends StatefulWidget {
 
 class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
   bool loading = false;
-  GetCompanyOrderController companyOrderController = GetCompanyOrderController();
+  GetCompanyOrderController companyOrderController =
+      GetCompanyOrderController();
   late GetCompanyOrderModel getCompanyOrderModel;
   List<ListElement> orderList = [];
-  CompanyDeleteOrderController deleteOrderController = CompanyDeleteOrderController();
+  CompanyDeleteOrderController deleteOrderController =
+      CompanyDeleteOrderController();
   String? startDate;
   String? endDate;
 
@@ -62,9 +65,12 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Order",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -115,8 +121,12 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                     fillColor: colorScreenBg,
                     filled: true,
                     isDense: true,
-                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: colorGray, width: 1.0),
                       borderRadius: BorderRadius.circular(7),
@@ -129,11 +139,16 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                 child: Container(
                   width: double.infinity,
                   height: 40,
-                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyOrder()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddCompanyOrder()));
                       },
                       child: const Text(
                         'Add New Order',
@@ -152,14 +167,19 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                     itemCount: orderList.length,
                     itemBuilder: (context, index) {
                       var detail = orderList[index];
-                      startDate = DateFormat('dd/MM/yyyy').format(detail.startDate);
+                      startDate =
+                          DateFormat('dd/MM/yyyy').format(detail.startDate);
                       endDate = DateFormat('dd/MM/yyyy').format(detail.dueDate);
                       return Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -174,7 +194,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                               Container(
                                   height: 150,
                                   width: double.infinity,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(80)),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(80)),
                                   child: Image.asset(
                                     'assets/man.jpeg',
                                     fit: BoxFit.cover,
@@ -186,14 +207,17 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                   children: [
                                     Text(
                                       detail.orderName,
-                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     const SizedBox(
                                       height: 8,
                                     ),
                                     Text(
                                       detail.orderDescription,
-                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                      style: TextStyle(
+                                          fontSize: 14, color: colorTextGray),
                                     ),
                                     const SizedBox(
                                       height: 8,
@@ -202,11 +226,15 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                       children: [
                                         const Text(
                                           "Total Amount: ",
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           detail.totalAmount.toString(),
-                                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorTextGray),
                                         ),
                                       ],
                                     ),
@@ -217,11 +245,15 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                       children: [
                                         Text(
                                           '${startDate!} - ',
-                                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         Text(
                                           endDate!,
-                                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -233,7 +265,11 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                 child: Container(
                                     width: double.infinity,
                                     height: 35,
-                                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                    decoration: BoxDecoration(
+                                        color: appThemeBlue,
+                                        borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(15),
+                                            bottomRight: Radius.circular(15))),
                                     child: Row(
                                       children: [
                                         Expanded(
@@ -242,12 +278,16 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) => EditCompanyOrder(
+                                                  builder: (context) =>
+                                                      EditCompanyOrder(
                                                     id: detail.id,
-                                                    orderStatus: detail.orderstatus,
+                                                    orderStatus:
+                                                        detail.orderstatus,
                                                     orderName: detail.orderName,
-                                                    orderDescription: detail.orderDescription,
-                                                    changeDescription: detail.changeDescription,
+                                                    orderDescription:
+                                                        detail.orderDescription,
+                                                    changeDescription: detail
+                                                        .changeDescription,
                                                     amount: detail.amount,
                                                     startDate: detail.startDate,
                                                     dueDate: detail.dueDate,
@@ -256,7 +296,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                               );
                                             },
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: const [
                                                 Icon(
                                                   Icons.edit,
@@ -264,10 +305,13 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                   size: 20,
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(left: 8.0),
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0),
                                                   child: Text(
                                                     "Edit",
-                                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Colors.white),
                                                   ),
                                                 )
                                               ],
@@ -278,29 +322,62 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                           width: 1,
                                           height: 35,
                                           child: DecoratedBox(
-                                            decoration: BoxDecoration(color: Colors.white),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white),
                                           ),
                                         ),
                                         Expanded(
                                           child: GestureDetector(
-                                            onTap: () async {
-                                              await deleteOrderController.deleteOrder(context, detail.id);
-                                              await companyOrderController.getAllCompanyOrder(context).then((value) {
-                                                setState(() {
-                                                  if (value != null) {
-                                                    getCompanyOrderModel = value;
-                                                    orderList = getCompanyOrderModel.data.list;
-                                                  } else {
-                                                    orderList.clear();
-                                                  }
-                                                });
-                                              });
+                                            // onTap: () async {
+                                            //   await deleteOrderController.deleteOrder(context, detail.id);
+                                            //   await companyOrderController.getAllCompanyOrder(context).then((value) {
+                                            //     setState(() {
+                                            //       if (value != null) {
+                                            //         getCompanyOrderModel = value;
+                                            //         orderList = getCompanyOrderModel.data.list;
+                                            //       } else {
+                                            //         orderList.clear();
+                                            //       }
+                                            //     });
+                                            //   });
+                                            // },
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return ConfirmationPopup(
+                                                    title: 'Confirmation',
+                                                    message:
+                                                        'Are you sure you want to delete?',
+                                                    onConfirm: () async {
+                                                      // Close the dialog
+                                                      await deleteOrderController
+                                                          .deleteOrder(context,
+                                                              detail.id)
+                                                          .then((value) {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        initialize(context);
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                              );
                                             },
+
                                             child: Container(
-                                              decoration: BoxDecoration(color: colorred, borderRadius: const BorderRadius.only(bottomRight: Radius.circular(15))),
+                                              decoration: BoxDecoration(
+                                                  color: colorred,
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          bottomRight:
+                                                              Radius.circular(
+                                                                  15))),
                                               height: double.infinity,
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: const [
                                                   Icon(
                                                     Icons.delete_outline,
@@ -308,10 +385,13 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                     size: 20,
                                                   ),
                                                   Padding(
-                                                    padding: EdgeInsets.only(left: 8.0),
+                                                    padding: EdgeInsets.only(
+                                                        left: 8.0),
                                                     child: Text(
                                                       "Delete",
-                                                      style: TextStyle(fontSize: 14, color: Colors.white),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Colors.white),
                                                     ),
                                                   )
                                                 ],

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../../../Controller/CompanyController/company_delete_invoice_controller.dart';
 import '../../../Controller/CompanyController/company_invoive_controller.dart';
 import '../../../Models/CompanyModels/company_invoice_model.dart';
+import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_invoice.dart';
 import 'edit_company_invoice.dart';
 import '../../../Network/api_constant.dart';
@@ -57,9 +58,12 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Invoice", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Invoice",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -83,8 +87,10 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
             ),
             onTap: () {
               //Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyContractorsScreen()));
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CompanyContractorsScreen()));
             },
           );
         }),
@@ -321,14 +327,41 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                             ),
                                             Expanded(
                                               child: GestureDetector(
+                                                // onTap: () {
+                                                //   deleteInvoiceController
+                                                //       .deleteInvoice(
+                                                //           context, data.id)
+                                                //       .then((value) {
+                                                //     initialize(context);
+                                                //   });
+                                                // },
                                                 onTap: () {
-                                                  deleteInvoiceController
-                                                      .deleteInvoice(
-                                                          context, data.id)
-                                                      .then((value) {
-                                                    initialize(context);
-                                                  });
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return ConfirmationPopup(
+                                                        title: 'Confirmation',
+                                                        message:
+                                                            'Are you sure you want to delete?',
+                                                        onConfirm: () {
+                                                          deleteInvoiceController
+                                                              .deleteInvoice(
+                                                                  context,
+                                                                  data.id)
+                                                              .then((value) {
+                                                            initialize(context);
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          });
+                                                          // Close the dialog
+                                                        },
+                                                      );
+                                                    },
+                                                  );
                                                 },
+
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                       color: colorred,

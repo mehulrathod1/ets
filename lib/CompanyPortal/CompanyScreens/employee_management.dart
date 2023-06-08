@@ -968,20 +968,4 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
             ),
     );
   }
-
-  void showConfirmationPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return ConfirmationPopup(
-          title: 'Confirmation',
-          message: 'Are you sure you want to delete?',
-          onConfirm: () {
-            // Perform delete operation here
-            Navigator.of(context).pop(); // Close the dialog
-          },
-        );
-      },
-    );
-  }
 }

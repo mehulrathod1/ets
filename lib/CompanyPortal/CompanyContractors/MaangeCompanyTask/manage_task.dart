@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import '../../../Controller/CompanyController/company_profile_controller.dart';
 import '../../../Models/CompanyModels/company_profile_model.dart';
 import '../../../Network/api_constant.dart';
+import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_task.dart';
 import 'edit_company_task.dart';
 
@@ -301,13 +302,42 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                               ),
                                               Expanded(
                                                 child: GestureDetector(
+                                                  // onTap: () {
+                                                  //   deleteTaskController
+                                                  //       .deleteTask(
+                                                  //           context, detail.id)
+                                                  //       .then((value) {
+                                                  //     initialize(context);
+                                                  //   Navigator.of(context)
+                                                  //       .pop();
+                                                  //   });
+                                                  // },
                                                   onTap: () {
-                                                    deleteTaskController
-                                                        .deleteTask(
-                                                            context, detail.id)
-                                                        .then((value) {
-                                                      initialize(context);
-                                                    });
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () {
+                                                            deleteTaskController
+                                                                .deleteTask(
+                                                                    context,
+                                                                    detail.id)
+                                                                .then((value) {
+                                                              initialize(
+                                                                  context);
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            });
+                                                            // Close the dialog
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

@@ -40,12 +40,20 @@ Future AttendancePopUP(BuildContext context) async {
                         padding: EdgeInsets.only(top: 5),
                         child: Text(
                           'Status',
-                          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeDashboard(
+                                        currentTableSelected: 0,
+                                      )));
                         },
                         child: Container(
                           alignment: Alignment.topCenter,
@@ -72,7 +80,9 @@ Future AttendancePopUP(BuildContext context) async {
                   },
                   child: Container(
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeGreen,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'IN',
@@ -89,7 +99,9 @@ Future AttendancePopUP(BuildContext context) async {
                   },
                   child: Container(
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeBlack, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeBlack,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'CALL FOR ATTENDANCE',
@@ -106,7 +118,9 @@ Future AttendancePopUP(BuildContext context) async {
                   },
                   child: Container(
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeBlue,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'STOP SHARING LOCATION',

@@ -15,8 +15,10 @@ class CompanyAddEstimateController {
   TextEditingController amount = TextEditingController();
   TextEditingController markup = TextEditingController();
   TextEditingController tax = TextEditingController();
+  TextEditingController employeeList = TextEditingController();
 
-  Future addEstimate(BuildContext context) async {
+  Future addEstimate(BuildContext context,
+      {required String? employeeId}) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -32,7 +34,7 @@ class CompanyAddEstimateController {
           'amount': amount.text,
           'markup': markup.text,
           'tax': tax.text,
-          'employeelist': '',
+          'employeelist': employeeId!,
         });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
@@ -61,6 +63,15 @@ class CompanyAddEstimateController {
         await getData(paramUri: ApiConstant.companyGetContactForEstimate);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
+    } else {
+      return null;
+    }
+  }
+
+  Future getEmployeeListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyEmployeeList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"];
     } else {
       return null;
     }

@@ -4,6 +4,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../Controller/CompanyController/company_delete_note_controller.dart';
+import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_note.dart';
 import '../../../Network/api_constant.dart';
 import 'edit_company_note.dart';
@@ -279,13 +280,37 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                           ),
                                           Expanded(
                                             child: GestureDetector(
-                                              onTap: () async {
-                                                await deleteNoteController
-                                                    .deleteNote(
-                                                        context, detail.id)
-                                                    .then((value) {
-                                                  initialize(context);
-                                                });
+                                              // onTap: () async {
+                                              //   await deleteNoteController
+                                              //       .deleteNote(
+                                              //           context, detail.id)
+                                              //       .then((value) {
+                                              //     initialize(context);
+                                              //   });
+                                              // },
+                                              onTap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return ConfirmationPopup(
+                                                      title: 'Confirmation',
+                                                      message:
+                                                          'Are you sure you want to delete?',
+                                                      onConfirm: () async {
+                                                        await deleteNoteController
+                                                            .deleteNote(context,
+                                                                detail.id)
+                                                            .then((value) {
+                                                          initialize(context);
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                        // Close the dialog
+                                                      },
+                                                    );
+                                                  },
+                                                );
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(

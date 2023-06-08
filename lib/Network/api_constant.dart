@@ -81,7 +81,8 @@ class ApiConstant {
   static const companyAddEvent = 'company/add-event/';
   static const companyInbox = 'company/get_employee_list.php';
   static const companySubscription = 'company/send-subscription-aggrement';
-  static const companyAcceptProfileRequest = 'company/accept-emp-profile-request';
+  static const companyAcceptProfileRequest =
+      'company/accept-emp-profile-request';
   static const companyRejectProfileRequest =
       'company/reject-emp-profile-request';
   static const companyEmployeeLiveLocation =
@@ -89,6 +90,9 @@ class ApiConstant {
   static const companyMessage = 'company/get-message/';
 
   static const companyEditAttendanceList = 'company/view-edit-attendence/';
+  static const companyAgencyRequest =
+      'company/get-agency-or-agent-request-list/';
+  static const companyAcceptAgencyRequest = 'company/reject-agency-request/';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 
