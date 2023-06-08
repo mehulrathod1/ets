@@ -12,8 +12,9 @@ class CompanyAddEventController {
   TextEditingController eventDescription = TextEditingController();
   TextEditingController evtStart = TextEditingController();
   TextEditingController evtEnd = TextEditingController();
+  TextEditingController employeeList = TextEditingController();
 
-  Future addEvent(BuildContext context) async {
+  Future addEvent(BuildContext context, {required String? employeeId}) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -27,7 +28,7 @@ class CompanyAddEventController {
           'event_description': eventDescription.text,
           'evtStart': eventName.text,
           'evtEnd': evtEnd.text,
-          'employeelist': '',
+          'employeelist': employeeId!,
         });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
@@ -48,6 +49,15 @@ class CompanyAddEventController {
           duration: const Duration(seconds: 2),
         ),
       );
+    }
+  }
+
+  Future getEmployeeListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyEmployeeList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"];
+    } else {
+      return null;
     }
   }
 }

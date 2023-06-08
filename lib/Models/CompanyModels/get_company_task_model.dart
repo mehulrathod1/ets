@@ -76,7 +76,7 @@ class ListElement {
   String taskName;
   String taskDescription;
   String? assignedTo;
-  DateTime dueDate;
+  String dueDate;
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -90,7 +90,7 @@ class ListElement {
         taskName: json["task_name"],
         taskDescription: json["task_description"],
         assignedTo: json["assigned_to"],
-        dueDate: DateTime.parse(json["due_date"]),
+        dueDate: json["due_date"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -100,8 +100,7 @@ class ListElement {
         "task_name": taskName,
         "task_description": taskDescription,
         "assigned_to": assignedTo,
-        "due_date":
-            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "due_date": dueDate
       };
 }
 
@@ -114,7 +113,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

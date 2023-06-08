@@ -4,6 +4,8 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
+import '../../CompanyPortal/CompanyContractors/ManageCompanyContact/manage_company_contact.dart';
+
 class CompanyEditContactController {
   TextEditingController customerType = TextEditingController();
   TextEditingController firstName = TextEditingController();
@@ -23,21 +25,27 @@ class CompanyEditContactController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.companyEditContact + id, params: {
-      'customer_type': customerType.text,
-      'first_name': firstName.text,
-      'last_name': laseName.text,
-      'address': address.text,
-      'city': city.text,
-      'state': state.text,
-      'zipcode': zipCode.text,
-      'email': email.text,
-      'home_number': homeNo.text,
-      'mobile_number': mobileNo.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.companyEditContact + id,
+        params: {
+          'customer_type': customerType.text,
+          'first_name': firstName.text,
+          'last_name': laseName.text,
+          'address': address.text,
+          'city': city.text,
+          'state': state.text,
+          'zipcode': zipCode.text,
+          'email': email.text,
+          'home_number': homeNo.text,
+          'mobile_number': mobileNo.text,
+        });
     debugPrint("editNote response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const ManageCompanyContact()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

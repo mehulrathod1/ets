@@ -15,15 +15,14 @@ class CompanyFixHourRequest extends StatefulWidget {
   CompanyFixHourRequest({required this.appBar, Key? key}) : super(key: key);
 
   bool appBar;
+
   @override
   State<CompanyFixHourRequest> createState() => _CompanyFixHourRequestState();
 }
 
 class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
   bool loading = false;
-  bool acceptRequest = false;
-  bool accepted = false;
-  bool rejected = false;
+
   String? date;
   CompanyFixHourRequestController hourRequestController =
       CompanyFixHourRequestController();
@@ -78,7 +77,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
+                    children: [
                       Center(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
@@ -89,9 +88,14 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                           ),
                         ),
                       ),
-                      Icon(
-                        Icons.close,
-                        color: Colors.black,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
@@ -263,16 +267,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                       itemBuilder: (context, index) {
                         var data = requestList[index];
                         date = DateFormat('dd-MM-yyy').format(data.createAt);
-                        if (data.status == '1') {
-                          accepted = true;
-                        } else {
-                          accepted = false;
-                        }
-                        if (data.status == '2') {
-                          rejected = true;
-                        } else {
-                          rejected = false;
-                        }
+
                         return Padding(
                           padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                           child: ClipRRect(
@@ -385,98 +380,227 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                               ),
                                             ),
                                           ),
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                acceptHourController
-                                                    .acceptHourRequest(
-                                                        context, data.id)
-                                                    .then((value) {
-                                                  debugPrint(value.data);
-                                                  initialize(context);
-                                                  debugPrint(data.id);
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: accepted
-                                                      ? appThemeGreen
-                                                      : appThemeteallight,
-                                                ),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.done,
-                                                      color: Colors.white,
-                                                      size: 20,
+                                          data.status == '1'
+                                              ? Expanded(
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      // acceptHourController
+                                                      //     .acceptHourRequest(
+                                                      //         context, data.id)
+                                                      //     .then((value) {
+                                                      //   debugPrint(value.data);
+                                                      //   initialize(context);
+                                                      //   debugPrint(data.id);
+                                                      // });
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          15)),
+                                                          color: appThemeGreen),
+                                                      height: double.infinity,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: const [
+                                                          Icon(
+                                                            Icons.done,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              "Accepted",
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Accept",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
+                                                  ),
+                                                )
+                                              : data.status == '2'
+                                                  ? Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          // hourRejectController
+                                                          //     .rejectHourRequest(
+                                                          //         context,
+                                                          //         data.id
+                                                          //             .toString())
+                                                          //     .then((value) {
+                                                          //   initialize(context);
+                                                          //
+                                                          //   debugPrint(
+                                                          //       value.message);
+                                                          // });
+                                                        },
+                                                        child: Container(
+                                                          decoration: const BoxDecoration(
+                                                              color: Colors.red,
+                                                              borderRadius: BorderRadius.only(
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          15))),
+                                                          height:
+                                                              double.infinity,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: const [
+                                                              Icon(
+                                                                Icons.close,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 20,
+                                                              ),
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            8.0),
+                                                                child: Text(
+                                                                  "Rejectrd",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
                                                     )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                hourRejectController
-                                                    .rejectHourRequest(context,
-                                                        data.id.toString())
-                                                    .then((value) {
-                                                  initialize(context);
-
-                                                  debugPrint(value.message);
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: accepted
-                                                        ? Colors.red.shade300
-                                                        : Colors.red,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.close,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Reject",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
+                                                  : Expanded(
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                acceptHourController
+                                                                    .acceptHourRequest(
+                                                                        context,
+                                                                        data.id)
+                                                                    .then(
+                                                                        (value) {
+                                                                  initialize(
+                                                                      context);
+                                                                  debugPrint(
+                                                                      data.id);
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                        color:
+                                                                            appThemeGreen),
+                                                                height: double
+                                                                    .infinity,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: const [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .done,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size: 20,
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        "Accept",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                hourRejectController
+                                                                    .rejectHourRequest(
+                                                                        context,
+                                                                        data.id
+                                                                            .toString())
+                                                                    .then(
+                                                                        (value) {
+                                                                  initialize(
+                                                                      context);
+                                                                  ;
+                                                                });
+                                                              },
+                                                              child: Container(
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    borderRadius:
+                                                                        BorderRadius.only(
+                                                                            bottomRight:
+                                                                                Radius.circular(15))),
+                                                                height: double
+                                                                    .infinity,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: const [
+                                                                    Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size: 20,
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          left:
+                                                                              8.0),
+                                                                      child:
+                                                                          Text(
+                                                                        "Reject",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
                                                     )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),

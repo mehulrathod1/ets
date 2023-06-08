@@ -88,7 +88,8 @@ class ListElement {
   String changeDescription;
   String signature;
 
-  factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
+  factory ListElement.fromRawJson(String str) =>
+      ListElement.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -134,7 +135,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

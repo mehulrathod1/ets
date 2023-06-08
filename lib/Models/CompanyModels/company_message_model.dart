@@ -36,6 +36,7 @@ class CompanyMessageModel {
 
 class Datum {
   String id;
+  String messageType;
   String employeeId;
   String companyId;
   String message;
@@ -47,6 +48,7 @@ class Datum {
 
   Datum({
     required this.id,
+    required this.messageType,
     required this.employeeId,
     required this.companyId,
     required this.message,
@@ -63,6 +65,7 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
+        messageType: json["message_type"],
         employeeId: json["employee_id"],
         companyId: json["company_id"],
         message: json["message"],
@@ -75,6 +78,7 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "message_type": messageType,
         "employee_id": employeeId,
         "company_id": companyId,
         "message": message,

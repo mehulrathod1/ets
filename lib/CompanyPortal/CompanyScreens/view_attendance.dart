@@ -15,12 +15,14 @@ import 'package:intl/intl.dart';
 import '../../../Network/api_constant.dart';
 
 import '../../Controller/CompanyController/company_attendance_controller.dart';
+import '../../Controller/CompanyController/company_delete_view_vttendance_controller.dart';
 import '../../Controller/CompanyController/company_hour_controller.dart';
 import '../../Models/CompanyModels/company_hour_model.dart';
 import '../../Models/CompanyModels/company_view_arttendance_model.dart';
 import '../../Popup/view_hour_popup.dart';
 import '../../utils/Colors.dart';
 import '../PopUps/address_popup.dart';
+import '../PopUps/delete_conformation_popup.dart';
 import 'edit_attendance_list.dart';
 
 class ViewAttendance extends StatefulWidget {
@@ -40,10 +42,13 @@ class _ViewAttendanceState extends State<ViewAttendance> {
   CompanyHourController hourController = CompanyHourController();
   late CompanyHourModel hourModel;
   List<HoursList> hourList = [];
+  CompanyDeleteViewAttendanceController deleteViewAttendanceController =
+      CompanyDeleteViewAttendanceController();
 
   TextEditingController fromDate = TextEditingController();
   TextEditingController toDate = TextEditingController();
   String? date;
+
   @override
   void initState() {
     initialize(context);
@@ -782,40 +787,70 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                 ),
                                               ),
                                               Expanded(
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      color: colorred,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                                  .only(
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          15))),
-                                                  height: double.infinity,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: const [
-                                                      Icon(
-                                                        Icons.delete_outline,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 8.0),
-                                                        child: Text(
-                                                          "Delete",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color:
-                                                                  Colors.white),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () {
+                                                            // Perform delete operation here
+                                                            deleteViewAttendanceController
+                                                                .deleteViewAttendance(
+                                                                    context,
+                                                                    detail.id)
+                                                                .then((value) {
+                                                              initialize(
+                                                                  context);
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            });
+
+                                                            // Close the dialog
+                                                          },
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        color: colorred,
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .only(
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        15))),
+                                                    height: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: const [
+                                                        Icon(
+                                                          Icons.delete_outline,
+                                                          color: Colors.white,
+                                                          size: 20,
                                                         ),
-                                                      )
-                                                    ],
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
+                                                          child: Text(
+                                                            "Delete",
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),

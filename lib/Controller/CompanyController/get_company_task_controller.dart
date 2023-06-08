@@ -4,8 +4,10 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class GetCompanyTaskController {
-  Future getAllCompanyTask(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.getCompanyTask);
+  Future getAllCompanyTask(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri: "${ApiConstant.getCompanyTask}searchName=$search&page=$page");
     if (response["status"] == "True" && response["data"] != null) {
       return CompanyTaskModel.fromJson(response);
     } else {

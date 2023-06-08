@@ -11,11 +11,13 @@ class EmployeeTaskModel {
   String message;
   Data data;
 
-  factory EmployeeTaskModel.fromRawJson(String str) => EmployeeTaskModel.fromJson(json.decode(str));
+  factory EmployeeTaskModel.fromRawJson(String str) =>
+      EmployeeTaskModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EmployeeTaskModel.fromJson(Map<String, dynamic> json) => EmployeeTaskModel(
+  factory EmployeeTaskModel.fromJson(Map<String, dynamic> json) =>
+      EmployeeTaskModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -42,7 +44,8 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(
+            json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -53,7 +56,15 @@ class Data {
 }
 
 class ListElement {
-  ListElement({required this.id, required this.companyId, required this.orderId, this.taskStatus, required this.taskName, required this.taskDescription, required this.dueDate, this.selfAssigned});
+  ListElement(
+      {required this.id,
+      required this.companyId,
+      required this.orderId,
+      this.taskStatus,
+      required this.taskName,
+      required this.taskDescription,
+      required this.dueDate,
+      this.selfAssigned});
 
   String id;
   String companyId;
@@ -64,7 +75,8 @@ class ListElement {
   DateTime dueDate;
   dynamic selfAssigned;
 
-  factory ListElement.fromRawJson(String str) => ListElement.fromJson(json.decode(str));
+  factory ListElement.fromRawJson(String str) =>
+      ListElement.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -79,7 +91,17 @@ class ListElement {
         selfAssigned: json["self_assigned"],
       );
 
-  Map<String, dynamic> toJson() => {"id": id, "company_id": companyId, "order_id": orderId, "task_status": taskStatus, "task_name": taskName, "task_description": taskDescription, "due_date": "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}", "self_assigned": selfAssigned};
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "company_id": companyId,
+        "order_id": orderId,
+        "task_status": taskStatus,
+        "task_name": taskName,
+        "task_description": taskDescription,
+        "due_date":
+            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "self_assigned": selfAssigned
+      };
 }
 
 class PaginationInfo {
@@ -91,11 +113,12 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 
-  factory PaginationInfo.fromRawJson(String str) => PaginationInfo.fromJson(json.decode(str));
+  factory PaginationInfo.fromRawJson(String str) =>
+      PaginationInfo.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 

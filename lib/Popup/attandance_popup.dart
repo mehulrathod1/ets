@@ -5,12 +5,16 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Network/api_constant.dart';
+
 Future<void> setAttendanceValue(String? value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString("attendanceStatus", value!);
 }
 
-Future AttendancePopUP(BuildContext context) async {
+Future AttendancePopUP(BuildContext context, String attendanceStatus) async {
+  print('${ApiConstant.attendanceStatus}ooooo');
+
   return showDialog(
       context: context,
       barrierDismissible: false,
@@ -40,12 +44,20 @@ Future AttendancePopUP(BuildContext context) async {
                         padding: EdgeInsets.only(top: 5),
                         child: Text(
                           'Status',
-                          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeDashboard(
+                                        currentTableSelected: 0,
+                                      )));
                         },
                         child: Container(
                           alignment: Alignment.topCenter,
@@ -65,39 +77,45 @@ Future AttendancePopUP(BuildContext context) async {
                   style: TextStyle(color: Colors.black, fontSize: 13),
                 ),
                 const SizedBox(height: 15),
-                InkWell(
-                  onTap: () async {
-                    await setAttendanceValue("1");
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
-                    child: const Center(
-                      child: Text(
-                        'IN',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                ApiConstant.attendanceStatus == '1'
+                    ? InkWell(
+                        onTap: () async {
+                          await setAttendanceValue("2");
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: appThemeBlack,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'OUT',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () async {
+                          await setAttendanceValue("1");
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: appThemeGreen,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'IN',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                InkWell(
-                  onTap: () async {
-                    await setAttendanceValue("2");
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(color: appThemeBlack, borderRadius: BorderRadius.circular(8)),
-                    child: const Center(
-                      child: Text(
-                        'CALL FOR ATTENDANCE',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () async {
@@ -106,7 +124,27 @@ Future AttendancePopUP(BuildContext context) async {
                   },
                   child: Container(
                     height: 40,
-                    decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                    decoration: BoxDecoration(
+                        color: appThemeBlue,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: const Center(
+                      child: Text(
+                        'CALL FOR ATTENDANCE',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                InkWell(
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: colorGreen,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
                         'STOP SHARING LOCATION',

@@ -2,9 +2,11 @@
 
 import 'dart:convert';
 
-EmployeeContactModel employeeContactModelFromJson(String str) => EmployeeContactModel.fromJson(json.decode(str));
+EmployeeContactModel employeeContactModelFromJson(String str) =>
+    EmployeeContactModel.fromJson(json.decode(str));
 
-String employeeContactModelToJson(EmployeeContactModel data) => json.encode(data.toJson());
+String employeeContactModelToJson(EmployeeContactModel data) =>
+    json.encode(data.toJson());
 
 class EmployeeContactModel {
   EmployeeContactModel({
@@ -17,7 +19,8 @@ class EmployeeContactModel {
   String message;
   Data data;
 
-  factory EmployeeContactModel.fromJson(Map<String, dynamic> json) => EmployeeContactModel(
+  factory EmployeeContactModel.fromJson(Map<String, dynamic> json) =>
+      EmployeeContactModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -40,7 +43,8 @@ class Data {
   PaginationInfo paginationInfo;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(
+            json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -127,7 +131,7 @@ class PaginationInfo {
   });
 
   int itemPerPage;
-  int pageNumber;
+  String pageNumber;
   int totalRows;
   int totalPages;
 

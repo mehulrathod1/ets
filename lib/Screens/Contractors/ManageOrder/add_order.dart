@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:dropdown_below/dropdown_below.dart';
@@ -28,6 +29,7 @@ class _AddOrderState extends State<AddOrder> {
   bool termsandcond = false;
   String signaturePath = "";
   String selectedOrder = "Test Estimate Section";
+  String base64ImagePath = "";
 
   Future getPermission() async {
     var status = await Permission.storage.status;
@@ -42,31 +44,61 @@ class _AddOrderState extends State<AddOrder> {
     setState(() {});
   }
 
+  // void _handleSaveButtonPressed() async {
+  //   signaturePath = "";
+  //   final data =
+  //       await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+  //   var path = Platform.isAndroid
+  //       ? await ExternalPath.getExternalStoragePublicDirectory(
+  //           ExternalPath.DIRECTORY_DOWNLOADS)
+  //       : await getApplicationDocumentsDirectory();
+  //   await Directory('$path/Ets signature').create(recursive: true);
+  //   setState(() {
+  //     File('$path/Ets signature/signature.png')
+  //         .writeAsBytesSync(bytes!.buffer.asInt8List());
+  //     signaturePath = '$path/Ets signature/signature.png';
+  //   });
+  //   await Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (BuildContext context) {
+  //         return Scaffold(
+  //           appBar: AppBar(),
+  //           body: Center(
+  //             child: Container(
+  //               color: Colors.grey[300],
+  //               child: Image.memory(bytes!.buffer.asUint8List()),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
   void _handleSaveButtonPressed() async {
-    signaturePath = "";
-    final data = await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final data =
+        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    var path = Platform.isAndroid ? await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS) : await getApplicationDocumentsDirectory();
-    await Directory('$path/Ets signature').create(recursive: true);
-    setState(() {
-      File('$path/Ets signature/signature.png').writeAsBytesSync(bytes!.buffer.asInt8List());
-      signaturePath = '$path/Ets signature/signature.png';
-    });
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    Uint8List unit8 = bytes!.buffer.asUint8List();
+    base64ImagePath = base64.encode(unit8);
+
+    print(base64ImagePath);
+
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) {
+    //       return Scaffold(
+    //         appBar: AppBar(),
+    //         body: Center(
+    //           child: Container(
+    //             color: Colors.grey[300],
+    //             child: Image.memory(bytes!.buffer.asUint8List()),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 
   onChangeDropdownBoxSize(selectedTest) {
@@ -97,20 +129,22 @@ class _AddOrderState extends State<AddOrder> {
   void initState() {
     Future.delayed(const Duration(microseconds: 0), () async {
       addOrderController.orderStatus.text = "0";
-      await addOrderController.getEstimateOrderListForEmployee(context).then((value) => {
-            if (value != null)
-              {
-                setState(() {
-                  orderListItems = buildTaskSizeListItems(value);
-                }),
-              }
-            else
-              {
-                setState(() {
-                  orderListItems.clear();
-                }),
-              }
-          });
+      await addOrderController
+          .getEstimateOrderListForEmployee(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      orderListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      orderListItems.clear();
+                    }),
+                  }
+              });
       await getPermission();
     });
     super.initState();
@@ -123,9 +157,12 @@ class _AddOrderState extends State<AddOrder> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Order",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -170,23 +207,32 @@ class _AddOrderState extends State<AddOrder> {
                         ),
                         DropdownBelow(
                             itemWidth: MediaQuery.of(context).size.width - 30,
-                            itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
-                            boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                            itemTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             boxWidth: MediaQuery.of(context).size.width,
                             boxHeight: 40,
                             boxDecoration: BoxDecoration(
                               color: colorScreenBg,
                               border: Border.all(color: colorGray, width: 1.0),
-                              borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(7.0)),
                             ),
-                            boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                            boxPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6, right: 10),
                             icon: Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: appThemeGreen,
                             ),
                             hint: Text(
                               selectedOrder,
-                              style: TextStyle(fontSize: 18, color: selectedOrder == "Test Estimate Section" ? Colors.black.withOpacity(0.60) : Colors.black),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      selectedOrder == "Test Estimate Section"
+                                          ? Colors.black.withOpacity(0.60)
+                                          : Colors.black),
                             ),
                             onChanged: onChangeDropdownBoxSize,
                             items: orderListItems),
@@ -196,14 +242,17 @@ class _AddOrderState extends State<AddOrder> {
                             children: [
                               Checkbox(
                                   value: termsandcond,
-                                  fillColor: MaterialStateProperty.all(appThemeGreen),
+                                  fillColor:
+                                      MaterialStateProperty.all(appThemeGreen),
                                   onChanged: (v) {
                                     setState(() {
                                       termsandcond = v!;
                                       if (termsandcond == true) {
-                                        addOrderController.orderStatus.text = '1';
+                                        addOrderController.orderStatus.text =
+                                            '1';
                                       } else {
-                                        addOrderController.orderStatus.text = '0';
+                                        addOrderController.orderStatus.text =
+                                            '0';
                                       }
                                     });
                                   }),
@@ -224,7 +273,8 @@ class _AddOrderState extends State<AddOrder> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: addOrderController.orderName,
                             decoration: InputDecoration(
@@ -232,10 +282,15 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -250,11 +305,15 @@ class _AddOrderState extends State<AddOrder> {
                         ),
                         Container(
                           height: 100,
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               controller: addOrderController.orderDescription,
                               decoration: InputDecoration(
@@ -263,7 +322,8 @@ class _AddOrderState extends State<AddOrder> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
                               ),
                             ),
                           ),
@@ -277,11 +337,15 @@ class _AddOrderState extends State<AddOrder> {
                         ),
                         Container(
                           height: 100,
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               controller: addOrderController.changeDescription,
                               decoration: InputDecoration(
@@ -290,7 +354,8 @@ class _AddOrderState extends State<AddOrder> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
                               ),
                             ),
                           ),
@@ -305,7 +370,8 @@ class _AddOrderState extends State<AddOrder> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: addOrderController.amount,
                             decoration: InputDecoration(
@@ -313,10 +379,15 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -332,7 +403,8 @@ class _AddOrderState extends State<AddOrder> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             controller: addOrderController.startDate,
                             maxLines: 1,
                             decoration: InputDecoration(
@@ -340,19 +412,30 @@ class _AddOrderState extends State<AddOrder> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
                             onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
                               if (pickedDate != null) {
-                                String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
                                 setState(() {
-                                  addOrderController.startDate.text = formattedDate; //set output date to TextField value.
+                                  addOrderController.startDate.text =
+                                      formattedDate; //set output date to TextField value.
                                 });
                               } else {
                                 debugPrint("Date is not selected");
@@ -371,26 +454,38 @@ class _AddOrderState extends State<AddOrder> {
                           height: 40,
                           child: TextField(
                             controller: addOrderController.dueDate,
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: '12/31/1996',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
                             onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
                               if (pickedDate != null) {
-                                String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
                                 setState(() {
-                                  addOrderController.dueDate.text = formattedDate;
+                                  addOrderController.dueDate.text =
+                                      formattedDate;
                                 });
                               } else {
                                 debugPrint("Date is not selected");
@@ -414,24 +509,36 @@ class _AddOrderState extends State<AddOrder> {
                         ),
                         Container(
                           height: 150,
-                          decoration: BoxDecoration(color: Colors.white, border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: SfSignaturePad(key: signatureGlobalKey, backgroundColor: Colors.white, strokeColor: Colors.black, minimumStrokeWidth: 1.0, maximumStrokeWidth: 4.0),
+                            child: SfSignaturePad(
+                                key: signatureGlobalKey,
+                                backgroundColor: Colors.white,
+                                strokeColor: Colors.black,
+                                minimumStrokeWidth: 1.0,
+                                maximumStrokeWidth: 4.0),
                           ),
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, right: 8),
                                 child: GestureDetector(
                                   onTap: () {
                                     _handleClearButtonPressed();
                                   },
                                   child: Container(
                                     height: 40,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: colorred),
                                     child: const Center(
                                       child: Padding(
                                         padding: EdgeInsets.all(8),
@@ -447,18 +554,25 @@ class _AddOrderState extends State<AddOrder> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                padding:
+                                    const EdgeInsets.only(top: 16.0, right: 8),
                                 child: GestureDetector(
                                   onTap: () {
                                     _handleSaveButtonPressed();
+                                    print('submit signature');
                                   },
                                   child: Container(
                                     height: 40,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: appThemeGreen),
                                     child: const Center(
                                       child: Padding(
                                         padding: EdgeInsets.all(8),
-                                        child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                        child: Text("Submit Signature",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white)),
                                       ),
                                     ),
                                   ),
@@ -474,53 +588,65 @@ class _AddOrderState extends State<AddOrder> {
                               if (selectedOrder == "Test Estimate Section") {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Please select work order from list."),
+                                    content: Text(
+                                        "Oops!, Please select work order from list."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.orderName.text.isEmpty) {
+                              } else if (addOrderController
+                                  .orderName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Order name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.orderDescription.text.isEmpty) {
+                              } else if (addOrderController
+                                  .orderDescription.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Order description missing."),
+                                    content: Text(
+                                        "Oops!, Order description missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.changeDescription.text.isEmpty) {
+                              } else if (addOrderController
+                                  .changeDescription.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Order change description missing."),
+                                    content: Text(
+                                        "Oops!, Order change description missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.amount.text.isEmpty) {
+                              } else if (addOrderController
+                                  .amount.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Order amount missing."),
+                                    content:
+                                        Text("Oops!, Order amount missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.startDate.text.isEmpty) {
+                              } else if (addOrderController
+                                  .startDate.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Order start date missing."),
+                                    content: Text(
+                                        "Oops!, Order start date missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addOrderController.dueDate.text.isEmpty) {
+                              } else if (addOrderController
+                                  .dueDate.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Order due date missing."),
+                                    content:
+                                        Text("Oops!, Order due date missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (signaturePath.isEmpty) {
+                              } else if (base64ImagePath.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, signature missing."),
@@ -529,17 +655,22 @@ class _AddOrderState extends State<AddOrder> {
                                 );
                               } else {
                                 FocusScope.of(context).unfocus();
-                                await addOrderController.addOrder(context, signature: signaturePath, schedule: widget.schedule);
+                                await addOrderController.addOrder(context,
+                                    signature: base64ImagePath,
+                                    schedule: widget.schedule);
                               }
                             },
                             child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             ),

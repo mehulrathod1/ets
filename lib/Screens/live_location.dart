@@ -8,6 +8,7 @@ import 'dart:async';
 
 import '../Controller/CompanyController/compay_employee_live_location_controller.dart';
 import '../Models/CompanyModels/get_employee_live_location.dart';
+import '../Network/api_constant.dart';
 
 class LiveLocation extends StatefulWidget {
   LiveLocation({required this.employeeId, Key? key}) : super(key: key);
@@ -19,8 +20,7 @@ class LiveLocation extends StatefulWidget {
 
 class _LiveLocationState extends State<LiveLocation> {
   bool loading = false;
-  bool startLocation = false;
-  bool stopLocation = false;
+
   String? currentAddress;
   Position? currentPosition;
   List<Marker> markers = <Marker>[];
@@ -101,10 +101,10 @@ class _LiveLocationState extends State<LiveLocation> {
       setState(() {
         if (value != null) {
           employeeLiveLocation = value;
-          print("employeeLiveLocation.data.location");
+          print(employeeLiveLocation.data.location);
         } else {
           loading = false;
-          print("employeeLiveLocation.data.location");
+          print('employeeLiveLocation.data.location');
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -131,12 +131,18 @@ class _LiveLocationState extends State<LiveLocation> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

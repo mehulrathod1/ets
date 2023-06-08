@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/CompanyController/compay_add_order_controller.dart';
@@ -38,6 +39,7 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
   bool termsandcond = false;
   bool loading = false;
   String signaturePath = "";
+  String base64ImagePath = "";
   final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
   CompanyAddOrderController addOrderController = CompanyAddOrderController();
   List<DropdownMenuItem<Object?>> orderListItems = [];
@@ -59,37 +61,68 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
     setState(() {});
   }
 
+  // void _handleSaveButtonPressed() async {
+  //   signaturePath = "";
+  //   final data =
+  //       await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+  //   final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+  //   var path = Platform.isAndroid
+  //       ? await ExternalPath.getExternalStoragePublicDirectory(
+  //           ExternalPath.DIRECTORY_DOWNLOADS)
+  //       : await getApplicationDocumentsDirectory();
+  //   await Directory('$path/Ets signature').create(recursive: true);
+  //   setState(() {
+  //     File('$path/Ets signature/signature.png')
+  //         .writeAsBytesSync(bytes!.buffer.asInt8List());
+  //     signaturePath = '$path/Ets signature/signature.png';
+  //   });
+  //   await Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (BuildContext context) {
+  //         return Scaffold(
+  //           appBar: AppBar(),
+  //           body: Center(
+  //             child: Container(
+  //               color: Colors.grey[300],
+  //               child: Image.memory(bytes!.buffer.asUint8List()),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
   void _handleSaveButtonPressed() async {
-    signaturePath = "";
-    final data = await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final data =
+        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    var path = Platform.isAndroid ? await ExternalPath.getExternalStoragePublicDirectory(ExternalPath.DIRECTORY_DOWNLOADS) : await getApplicationDocumentsDirectory();
-    await Directory('$path/Ets signature').create(recursive: true);
-    setState(() {
-      File('$path/Ets signature/signature.png').writeAsBytesSync(bytes!.buffer.asInt8List());
-      signaturePath = '$path/Ets signature/signature.png';
-    });
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    Uint8List unit8 = bytes!.buffer.asUint8List();
+    base64ImagePath = base64.encode(unit8);
+
+    print(base64ImagePath);
+
+    // await Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) {
+    //       return Scaffold(
+    //         appBar: AppBar(),
+    //         body: Center(
+    //           child: Container(
+    //             color: Colors.grey[300],
+    //             child: Image.memory(bytes!.buffer.asUint8List()),
+    //           ),
+    //         ),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       addOrderController.estimateId.text = selectedTest['estimate_id'];
       selectedOrder = selectedTest['estimate_name'];
+      debugPrint(addOrderController.estimateId.text);
     });
   }
 
@@ -115,7 +148,9 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
       context: context,
       builder: (ctx) {
         return MultiSelectDialog(
-          items: employeeListItems.map((e) => MultiSelectItem(e, e.employeeName!)).toList(),
+          items: employeeListItems
+              .map((e) => MultiSelectItem(e, e.employeeName!))
+              .toList(),
           initialValue: selectedEmployeeList,
           onConfirm: (values) {
             setState(() {
@@ -123,10 +158,14 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
               addOrderController.employeeList.clear();
               selectedEmployeeList = values;
               for (int i = 0; i < selectedEmployeeList.length; i++) {
-                addOrderController.employeeList.text = addOrderController.employeeList.text + selectedEmployeeList[i].employeeName!;
-                selectedEmployeeListId = selectedEmployeeListId + selectedEmployeeList[i].id!;
+                addOrderController.employeeList.text =
+                    addOrderController.employeeList.text +
+                        selectedEmployeeList[i].employeeName!;
+                selectedEmployeeListId =
+                    selectedEmployeeListId + selectedEmployeeList[i].id!;
                 if (i != selectedEmployeeList.length - 1) {
-                  addOrderController.employeeList.text = "${addOrderController.employeeList.text}, ";
+                  addOrderController.employeeList.text =
+                      "${addOrderController.employeeList.text}, ";
                   selectedEmployeeListId = "$selectedEmployeeListId,";
                 }
               }
@@ -142,38 +181,45 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
     loading = true;
     Future.delayed(const Duration(microseconds: 0), () async {
       addOrderController.orderStatus.text = "0";
-      await addOrderController.getEstimateOrderListForCompany(context).then((value) => {
-            if (value != null)
-              {
-                setState(() {
-                  orderListItems = buildTaskSizeListItems(value);
-                }),
-              }
-            else
-              {
-                setState(() {
-                  orderListItems.clear();
-                }),
-              }
-          });
-      await addOrderController.getEmployeeListForCompany(context).then((value) => {
-            if (value != null)
-              {
-                setState(() {
-                  for (int i = 0; i < value.length; i++) {
-                    employeeListItems.add(EmployeeListData(id: value[i]["id"], employeeName: value[i]["employee_name"], email: value[i]["email"]));
+      await addOrderController
+          .getEstimateOrderListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      orderListItems = buildTaskSizeListItems(value);
+                    }),
                   }
-                  loading = false;
-                }),
-              }
-            else
-              {
-                setState(() {
-                  employeeListItems.clear();
-                  loading = false;
-                }),
-              }
-          });
+                else
+                  {
+                    setState(() {
+                      orderListItems.clear();
+                    }),
+                  }
+              });
+      await addOrderController
+          .getEmployeeListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      for (int i = 0; i < value.length; i++) {
+                        employeeListItems.add(EmployeeListData(
+                            id: value[i]["id"],
+                            employeeName: value[i]["employee_name"],
+                            email: value[i]["email"]));
+                      }
+                      loading = false;
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      employeeListItems.clear();
+                      loading = false;
+                    }),
+                  }
+              });
       await getPermission();
     });
     super.initState();
@@ -186,9 +232,12 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Order", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Order",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -240,24 +289,34 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                               ),
                             ),
                             DropdownBelow(
-                                itemWidth: MediaQuery.of(context).size.width - 30,
-                                itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
-                                boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                                itemWidth:
+                                    MediaQuery.of(context).size.width - 30,
+                                itemTextstyle: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
+                                boxTextstyle: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
                                 boxWidth: MediaQuery.of(context).size.width,
                                 boxHeight: 40,
                                 boxDecoration: BoxDecoration(
                                   color: colorScreenBg,
-                                  border: Border.all(color: colorGray, width: 1.0),
-                                  borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                                  border:
+                                      Border.all(color: colorGray, width: 1.0),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(7.0)),
                                 ),
-                                boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                                boxPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6, right: 10),
                                 icon: Icon(
                                   Icons.keyboard_arrow_down_outlined,
                                   color: appThemeGreen,
                                 ),
                                 hint: Text(
                                   selectedOrder,
-                                  style: TextStyle(fontSize: 18, color: selectedOrder == "Select Estimate" ? Colors.black.withOpacity(0.60) : Colors.black),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: selectedOrder == "Select Estimate"
+                                          ? Colors.black.withOpacity(0.60)
+                                          : Colors.black),
                                 ),
                                 onChanged: onChangeDropdownBoxSize,
                                 items: orderListItems),
@@ -267,14 +326,17 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                 children: [
                                   Checkbox(
                                       value: termsandcond,
-                                      fillColor: MaterialStateProperty.all(appThemeGreen),
+                                      fillColor: MaterialStateProperty.all(
+                                          appThemeGreen),
                                       onChanged: (v) {
                                         setState(() {
                                           termsandcond = v!;
                                           if (termsandcond == true) {
-                                            addOrderController.orderStatus.text = '1';
+                                            addOrderController
+                                                .orderStatus.text = '1';
                                           } else {
-                                            addOrderController.orderStatus.text = '0';
+                                            addOrderController
+                                                .orderStatus.text = '0';
                                           }
                                         });
                                       }),
@@ -296,17 +358,25 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                               height: 40,
                               child: TextField(
                                 controller: addOrderController.orderName,
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   hintText: 'Enter order name',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -321,12 +391,18 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                             ),
                             Container(
                               height: 100,
-                              decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: colorGray),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: TextField(
-                                  controller: addOrderController.orderDescription,
-                                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                                  controller:
+                                      addOrderController.orderDescription,
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -334,7 +410,8 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 12, top: 6, bottom: 6),
                                   ),
                                 ),
                               ),
@@ -348,12 +425,18 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                             ),
                             Container(
                               height: 100,
-                              decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: colorGray),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: TextField(
-                                  controller: addOrderController.changeDescription,
-                                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                                  controller:
+                                      addOrderController.changeDescription,
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -361,7 +444,8 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 12, top: 6, bottom: 6),
                                   ),
                                 ),
                               ),
@@ -376,7 +460,8 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 18, color: Colors.black),
                                 controller: addOrderController.employeeList,
                                 maxLines: 1,
                                 readOnly: true,
@@ -389,14 +474,20 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                       color: appThemeGreen,
                                     ),
                                   ),
-                                  hintText: 'Test Edit1, Test Edit2, Test Edit3',
+                                  hintText:
+                                      'Test Edit1, Test Edit2, Test Edit3',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -408,14 +499,17 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                             const Padding(
                               padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                               child: Text(
-                                "Additional Amount",
+                                "Amount",
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 controller: addOrderController.amount,
                                 decoration: InputDecoration(
@@ -423,10 +517,15 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -443,26 +542,41 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                               height: 40,
                               child: TextField(
                                 controller: addOrderController.startDate,
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   hintText: '01/19/2023',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
                                 onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2101));
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
                                     setState(() {
-                                      addOrderController.startDate.text = formattedDate; //set output date to TextField value.
+                                      addOrderController.startDate.text =
+                                          formattedDate; //set output date to TextField value.
                                     });
                                   } else {
                                     debugPrint("Date is not selected");
@@ -482,26 +596,41 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                               child: TextField(
                                 controller: addOrderController.dueDate,
                                 //editing controller of this TextField
-                                style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
                                   hintText: '12/31/1996',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
                                 onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2101));
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
                                     setState(() {
-                                      addOrderController.dueDate.text = formattedDate;
+                                      addOrderController.dueDate.text =
+                                          formattedDate;
                                     });
                                   } else {
                                     debugPrint("Date is not selected");
@@ -523,29 +652,72 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),
+                            SizedBox(
+                              height: 40,
+                              child: TextField(
+                                controller: addOrderController.signName,
+                                style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black),
+                                maxLines: 1,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your name',
+                                  fillColor: colorScreenBg,
+                                  filled: true,
+                                  isDense: true,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20),
                             Container(
                               height: 150,
-                              decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
-                              child: SfSignaturePad(key: signatureGlobalKey, backgroundColor: Colors.white, strokeColor: Colors.black, minimumStrokeWidth: 1.0, maximumStrokeWidth: 4.0),
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: colorGray),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
+                              child: SfSignaturePad(
+                                  key: signatureGlobalKey,
+                                  backgroundColor: Colors.white,
+                                  strokeColor: Colors.black,
+                                  minimumStrokeWidth: 1.0,
+                                  maximumStrokeWidth: 4.0),
                             ),
                             Row(
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                    padding: const EdgeInsets.only(
+                                        top: 16.0, right: 8),
                                     child: GestureDetector(
                                       onTap: () {
                                         _handleClearButtonPressed();
                                       },
                                       child: Container(
                                         height: 40,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorred),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: colorred),
                                         child: const Center(
                                           child: Padding(
                                             padding: EdgeInsets.all(8),
                                             child: Text(
                                               "Clear Signature",
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                         ),
@@ -555,18 +727,25 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.only(top: 16.0, right: 8),
+                                    padding: const EdgeInsets.only(
+                                        top: 16.0, right: 8),
                                     child: GestureDetector(
                                       onTap: () {
                                         _handleSaveButtonPressed();
                                       },
                                       child: Container(
                                         height: 40,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: appThemeGreen),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: appThemeGreen),
                                         child: const Center(
                                           child: Padding(
                                             padding: EdgeInsets.all(8),
-                                            child: Text("Submit Signature", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                            child: Text("Submit Signature",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.white)),
                                           ),
                                         ),
                                       ),
@@ -576,84 +755,115 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 20.0, bottom: 20),
+                              padding:
+                                  const EdgeInsets.only(top: 20.0, bottom: 20),
                               child: GestureDetector(
                                 onTap: () async {
                                   if (selectedOrder == "Select Estimate") {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Please select work order from list."),
+                                        content: Text(
+                                            "Oops!, Please select work order from list."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.orderName.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .orderName.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order name missing."),
+                                        content:
+                                            Text("Oops!, Order name missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.orderDescription.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .orderDescription.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order description missing."),
+                                        content: Text(
+                                            "Oops!, Order description missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.changeDescription.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .changeDescription.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order change description missing."),
+                                        content: Text(
+                                            "Oops!, Order change description missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.employeeList.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .employeeList.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order employee list missing."),
+                                        content: Text(
+                                            "Oops!, Order employee list missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.amount.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .amount.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order amount missing."),
+                                        content: Text(
+                                            "Oops!, Order amount missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.startDate.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .startDate.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order start date missing."),
+                                        content: Text(
+                                            "Oops!, Order start date missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController.dueDate.text.isEmpty) {
+                                  } else if (addOrderController
+                                      .dueDate.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, Order due date missing."),
+                                        content: Text(
+                                            "Oops!, Order due date missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (signaturePath.isEmpty) {
+                                  } else if (addOrderController
+                                      .signName.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Oops!, signature missing."),
+                                        content: Text(
+                                            "Oops!, signature name missing."),
+                                        duration: Duration(seconds: 1),
+                                      ),
+                                    );
+                                  } else if (base64ImagePath.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Oops!, signature missing."),
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
                                   } else {
-                                    await addOrderController.addOrder(context, signature: signaturePath, employeeId: selectedEmployeeListId);
+                                    await addOrderController.addOrder(context,
+                                        signature: base64ImagePath,
+                                        employeeId: selectedEmployeeListId);
                                   }
                                 },
                                 child: Container(
                                   width: double.infinity,
                                   height: 40,
-                                  decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                  decoration: BoxDecoration(
+                                      color: appThemeGreen,
+                                      borderRadius: BorderRadius.circular(8)),
                                   child: const Center(
                                     child: Text(
                                       'Save',
-                                      style: TextStyle(color: Colors.white, fontSize: 18),
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
                                     ),
                                   ),
                                 ),

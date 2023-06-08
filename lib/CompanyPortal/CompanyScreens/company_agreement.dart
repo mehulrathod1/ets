@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:external_path/external_path.dart';
@@ -22,6 +24,7 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
       CompanySubscriptionController();
   final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
   String signaturePath = "";
+  String base64ImagePath = "";
 
   Future getPermission() async {
     var status = await Permission.storage.status;
@@ -32,40 +35,19 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
 
   void _handleClearButtonPressed() async {
     signatureGlobalKey.currentState!.clear();
+    base64ImagePath = '';
     File(signaturePath).delete();
     setState(() {});
   }
 
   void _handleSaveButtonPressed() async {
-    signaturePath = "";
     final data =
         await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-    var path = Platform.isAndroid
-        ? await ExternalPath.getExternalStoragePublicDirectory(
-            ExternalPath.DIRECTORY_DOWNLOADS)
-        : await getApplicationDocumentsDirectory();
-    await Directory('$path/Ets signature').create(recursive: true);
-    setState(() {
-      File('$path/Ets signature/signature.png')
-          .writeAsBytesSync(bytes!.buffer.asInt8List());
-      signaturePath = '$path/Ets signature/signature.png';
-    });
-    await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Container(
-                color: Colors.grey[300],
-                child: Image.memory(bytes!.buffer.asUint8List()),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    Uint8List unit = bytes!.buffer.asUint8List();
+    base64ImagePath = base64.encode(unit);
+
+    print(base64ImagePath);
   }
 
   @override
@@ -342,7 +324,7 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () async {
-                            if (signaturePath.isEmpty) {
+                            if (base64ImagePath.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Oops!, signature missing."),
@@ -353,7 +335,7 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
                               FocusScope.of(context).unfocus();
                               await subscriptionController.addSubscription(
                                   context,
-                                  signature: signaturePath);
+                                  signature: base64ImagePath);
                             }
                           },
                           child: Container(

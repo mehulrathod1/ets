@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:async';
 import '../../Controller/CompanyController/company_message_controller.dart';
+import '../../Controller/CompanyController/company_send_message_controller.dart';
 import '../../Models/CompanyModels/company_message_model.dart';
 import '../../Network/api_constant.dart';
 import '../../utils/Colors.dart';
@@ -24,25 +25,45 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
   late CompanyMessageModel messageModel;
   List<Datum> messageList = [];
 
+  ScrollController _scrollController = ScrollController();
+  Timer? _timer;
+
+  CompanySendMessageController sendMessageController =
+      CompanySendMessageController();
+
   @override
   void initState() {
     // TODO: implement initState
     getMessageList(context);
+    _startTimer();
+
     super.initState();
   }
 
   @override
   void dispose() {
-    _messageController.dispose();
+    _stopTimer();
     super.dispose();
   }
 
+  void _startTimer() {
+    const oneSecond = Duration(seconds: 3);
+    _timer = Timer.periodic(oneSecond, (timer) {
+      getMessageListEverySec(context);
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
   void _sendMessage() {
-    String message = _messageController.text;
-    // Implement your logic to send the message
-    print('Sending message: $message');
-    // Clear the message input field
-    _messageController.clear();
+    sendMessageController.sendMessage(context, widget.employeeId).then(
+        (value) => {
+              sendMessageController.message.clear(),
+              getMessageListWithOutLoader(context)
+            });
   }
 
   Future getMessageList(BuildContext context) async {
@@ -55,12 +76,14 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
           messageModel = value;
           messageList = messageModel.data;
           loading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('found'),
-              duration: Duration(seconds: 2),
-            ),
-          );
+
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(
+          //     content: Text('found'),
+          //     duration: Duration(seconds: 2),
+          //   ),
+          // );
+
         } else {
           messageList.clear();
           loading = false;
@@ -71,8 +94,60 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
             ),
           );
         }
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          _scrollToBottom();
+        });
       });
     });
+  }
+
+  Future getMessageListEverySec(BuildContext context) async {
+    await messageController
+        .getMessage(context, widget.employeeId)
+        .then((value) {
+      setState(() {
+        if (value != null) {
+          messageModel = value;
+          messageList = messageModel.data;
+        } else {
+          messageList.clear();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No Message found'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future getMessageListWithOutLoader(BuildContext context) async {
+    await messageController
+        .getMessage(context, widget.employeeId)
+        .then((value) {
+      setState(() {
+        if (value != null) {
+          messageModel = value;
+          messageList = messageModel.data;
+        } else {
+          messageList.clear();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('No Message found'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        _scrollToBottom();
+      });
+    });
+  }
+
+  void _scrollToBottom() {
+    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
   }
 
   @override
@@ -120,122 +195,158 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
+                    controller: _scrollController,
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 1,
+                        itemCount: messageList.length,
                         itemBuilder: (context, index) {
+                          var data = messageList[index];
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                Container(
-                                  width: 500,
-                                  color: Colors.blueAccent,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Expanded(
-                                          flex: 1,
-                                          child: CircleAvatar(
-                                            radius: 28,
-                                            backgroundImage:
-                                                AssetImage('assets/man.jpeg'),
+                                data.messageType == 'send'
+                                    ?
+                                    // SizedBox(height: 8),
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 50.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: colorGreenLight,
+                                            border: Border.all(
+                                                color: colorGreen, width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: CircleAvatar(
+                                                    radius: 28,
+                                                    backgroundImage:
+                                                        NetworkImage(data
+                                                            .companyProfile),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          data.message,
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          left: 8.0,
+                                                        ),
+                                                        child: Text(
+                                                          data.timestamp
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Text(
-                                                  'employeeName',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                      )
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 50.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: colorBlueBoxLight,
+                                            border: Border.all(
+                                                color: colorBoxBlue, width: 1),
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: CircleAvatar(
+                                                    radius: 28,
+                                                    backgroundImage:
+                                                        NetworkImage(data
+                                                            .employeeProfile),
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 8.0,
+                                                Expanded(
+                                                  flex: 3,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          data.message,
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 8),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          left: 8.0,
+                                                        ),
+                                                        child: Text(
+                                                          data.timestamp
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 12),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                child: Text(
-                                                  'message',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 8),
-                                Container(
-                                  width: 500,
-                                  color: colorGreenLight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Expanded(
-                                          flex: 1,
-                                          child: CircleAvatar(
-                                            radius: 28,
-                                            backgroundImage:
-                                                AssetImage('assets/man.jpeg'),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 3,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 8.0),
-                                                child: Text(
-                                                  'employeeName',
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: 8.0,
-                                                ),
-                                                child: Text(
-                                                  'message',
-                                                  style:
-                                                      TextStyle(fontSize: 12),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                      )
                               ],
                             ),
                           );
@@ -249,6 +360,7 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
                     children: [
                       Expanded(
                         child: TextField(
+                          controller: sendMessageController.message,
                           decoration: InputDecoration(
                             hintText: 'Type your message...',
                             border: InputBorder.none,

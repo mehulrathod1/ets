@@ -7,6 +7,8 @@ import 'package:etsemployee/Screens/Contractors/ManageTask/manage_task.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../Screens/Contractors/ManageOrder/manage_order.dart';
+
 class EmployeeAddOrderController {
   EmployeeAddOrderModel? addOrderModel;
   TextEditingController estimateId = TextEditingController();
@@ -18,23 +20,27 @@ class EmployeeAddOrderController {
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
 
-  Future addOrder(BuildContext context, {required String? signature, required bool? schedule}) async {
+  Future addOrder(BuildContext context,
+      {required String? signature, required bool? schedule}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddOrder, params: {
-      'sig-dataUrl': signature!,
-      'estimate_id': estimateId.text,
-      'orderstatus': orderStatus.text,
-      'order_name': orderName.text,
-      'change_description': changeDescription.text,
-      'order_description': orderDescription.text,
-      'amount': amount.text,
-      'start_date': startDate.text,
-      'due_date': dueDate.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeAddOrder,
+        params: {
+          'sig-dataUrl': signature!,
+          'estimate_id': estimateId.text,
+          'orderstatus': orderStatus.text,
+          'order_name': orderName.text,
+          'change_description': changeDescription.text,
+          'order_description': orderDescription.text,
+          'amount': amount.text,
+          'start_date': startDate.text,
+          'due_date': dueDate.text,
+          'sign_name': '',
+        });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeAddOrderModel.fromJson(response);
@@ -44,7 +50,11 @@ class EmployeeAddOrderController {
         Navigator.pop(context);
       } else {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ManageTask(profilePic: prefs.get("profilePic").toString())));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ManageOrder(
+                    profilePic: prefs.get("profilePic").toString())));
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -64,7 +74,8 @@ class EmployeeAddOrderController {
   }
 
   Future getEstimateOrderListForEmployee(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetEstimateOrder);
+    var response =
+        await getData(paramUri: ApiConstant.employeeGetEstimateOrder);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
     } else {

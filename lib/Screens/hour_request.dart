@@ -28,13 +28,7 @@ class _HourRequestState extends State<HourRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: ()async{
-          //Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (context) =>  const HomeDashboard(),maintainState: true));
-          return true;
-        },
-    child:Scaffold(
+    return Scaffold(
       backgroundColor: colorScreenBg,
       body: SingleChildScrollView(
         child: Container(
@@ -417,6 +411,6 @@ class _HourRequestState extends State<HourRequest> {
           ),
         ),
       ),
-    ),);
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../CompanyPortal/CompanyContractors/ManageCompanyEstimetes/company_estimeates.dart';
 import '../../Models/CompanyModels/company_add_estimate_model.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
@@ -15,8 +16,10 @@ class CompanyAddEstimateController {
   TextEditingController amount = TextEditingController();
   TextEditingController markup = TextEditingController();
   TextEditingController tax = TextEditingController();
+  TextEditingController employeeList = TextEditingController();
 
-  Future addEstimate(BuildContext context) async {
+  Future addEstimate(BuildContext context,
+      {required String? employeeId}) async {
     showDialog(
         context: context,
         builder: (context) {
@@ -32,13 +35,16 @@ class CompanyAddEstimateController {
           'amount': amount.text,
           'markup': markup.text,
           'tax': tax.text,
-          'employeelist': '',
+          'employeelist': employeeId!,
         });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = CompanyAddEstimateModel.fromJson(response);
       addEstimateModel = res;
       Navigator.pop(context);
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const CompanyEstimate()));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -61,6 +67,15 @@ class CompanyAddEstimateController {
         await getData(paramUri: ApiConstant.companyGetContactForEstimate);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
+    } else {
+      return null;
+    }
+  }
+
+  Future getEmployeeListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.companyEmployeeList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"];
     } else {
       return null;
     }

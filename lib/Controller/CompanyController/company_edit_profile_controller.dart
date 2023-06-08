@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:flutter/material.dart';
 
+import '../../Network/post_api_client.dart';
+
 class CompanyUpdateProfileController {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -21,13 +23,25 @@ class CompanyUpdateProfileController {
   TextEditingController creditCardExp = TextEditingController();
   TextEditingController securityCode = TextEditingController();
 
+
+  bool isLoad = false;
+
   Future updateProfileDetails(BuildContext context,
       {required File companyProfilePic}) async {
-    showDialog(
+    isLoad = true;
+    if (isLoad = true) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(child: CircularProgressIndicator());
+          });
+    }
+    /*showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
-        });
+        });*/
+
     var request = http.MultipartRequest('POST',
         Uri.parse(ApiConstant.baseUrl + ApiConstant.companyUpdateProfile));
     request.headers.addAll({
@@ -59,7 +73,10 @@ class CompanyUpdateProfileController {
     var response = await request.send();
     debugPrint("editProfileDetails response :- ${response.statusCode}");
     if (response.statusCode == 200) {
-      Navigator.pop(context);
+
+      isLoad = false;
+      //Navigator.pop(context);
+
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const CompanyDashboard()));
       ScaffoldMessenger.of(context).showSnackBar(
@@ -74,6 +91,53 @@ class CompanyUpdateProfileController {
         const SnackBar(
           content: Text("Oops! Failed to update profile details."),
           duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future editProfileDetailsWithoutImage(BuildContext context) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.companyUpdateProfile,
+        params: {
+          'company_name': companyName.text,
+          'contact_person': contactPerson.text,
+          'email': email.text,
+          'username': name.text,
+          'phone': phone.text,
+          'address': address.text,
+          'city': city.text,
+          'state': state.text,
+          'zip': zipCode.text,
+          'creditcard_no': creditCardNo.text,
+          'creditcard_name': creditCardName.text,
+          'creditcard_exp_date': creditCardExp.text,
+          'security_code': securityCode.text,
+          'logo': '',
+        });
+    debugPrint("editProfileDetails response :- ${response.toString()}");
+    if (response["status"] == 'True') {
+      Navigator.pop(context);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const CompanyDashboard()));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
         ),
       );
     }

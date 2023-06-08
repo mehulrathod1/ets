@@ -27,26 +27,31 @@ class EmployeeAddContactController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddContact, params: {
-      'customer_type': customerType.text,
-      'first_name': firstName.text,
-      'last_name': lastName.text,
-      'company_name': companyName.text,
-      'address': address.text,
-      'city': city.text,
-      'state': state.text,
-      'zipcode': zipcode.text,
-      'email': email.text,
-      'home_number': homeNumber.text,
-      'mobile_number': mobileNumber.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeAddContact,
+        params: {
+          'customer_type': customerType.text,
+          'first_name': firstName.text,
+          'last_name': lastName.text,
+          'company_name': companyName.text,
+          'address': address.text,
+          'city': city.text,
+          'state': state.text,
+          'zipcode': zipcode.text,
+          'email': email.text,
+          'home_number': homeNumber.text,
+          'mobile_number': mobileNumber.text,
+        });
     debugPrint("addContact response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeAddContactModel.fromJson(response);
       employeeAddContactModel = res;
       Navigator.pop(context);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
+      Navigator.pop(context);
+
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -70,24 +75,33 @@ class EmployeeAddContactController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeEditContact + id!, params: {
-      'customer_type': customerType.text,
-      'first_name': firstName.text,
-      'last_name': lastName.text,
-      'company_name': companyName.text,
-      'address': address.text,
-      'city': city.text,
-      'state': state.text,
-      'zipcode': zipcode.text,
-      'email': email.text,
-      'home_number': homeNumber.text,
-      'mobile_number': mobileNumber.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeEditContact + id!,
+        params: {
+          'customer_type': customerType.text,
+          'first_name': firstName.text,
+          'last_name': lastName.text,
+          'company_name': companyName.text,
+          'address': address.text,
+          'city': city.text,
+          'state': state.text,
+          'zipcode': zipcode.text,
+          'email': email.text,
+          'home_number': homeNumber.text,
+          'mobile_number': mobileNumber.text,
+        });
     debugPrint("editContact response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
+      // Navigator.pop(context);
+      // Navigator.pop(context, 'Updated data');
+
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageContactScreen(
+                  profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

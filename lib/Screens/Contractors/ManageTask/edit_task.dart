@@ -8,7 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class EditTask extends StatefulWidget {
-  EditTask({required this.id, required this.taskStatus, required this.taskName, required this.dueDate, required this.taskDescription, Key? key}) : super(key: key);
+  EditTask(
+      {required this.id,
+      required this.taskStatus,
+      required this.taskName,
+      required this.dueDate,
+      required this.taskDescription,
+      Key? key})
+      : super(key: key);
   String id;
   String taskStatus;
   String taskName;
@@ -54,7 +61,8 @@ class _EditTaskState extends State<EditTask> {
     termsandcond = widget.taskStatus == "1" ? true : false;
     editTaskController.taskStatus.text = widget.taskStatus;
     editTaskController.taskName.text = widget.taskName;
-    editTaskController.dueDate.text = DateFormat('MM/dd/yyyy').format(widget.dueDate);
+    editTaskController.dueDate.text =
+        DateFormat('MM/dd/yyyy').format(widget.dueDate);
     editTaskController.taskDescription.text = widget.taskDescription;
     editTaskController.getOrderForEmployeeTask(context).then((value) => {
           if (value != null)
@@ -80,9 +88,12 @@ class _EditTaskState extends State<EditTask> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Tasks", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Tasks",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -129,23 +140,31 @@ class _EditTaskState extends State<EditTask> {
                         ),
                         DropdownBelow(
                           itemWidth: MediaQuery.of(context).size.width - 30,
-                          itemTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
-                          boxTextstyle: const TextStyle(fontSize: 18, color: Colors.black),
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           boxWidth: MediaQuery.of(context).size.width,
                           boxHeight: 40,
                           boxDecoration: BoxDecoration(
                             color: colorScreenBg,
                             border: Border.all(color: colorGray, width: 1.0),
-                            borderRadius: const BorderRadius.all(Radius.circular(7.0)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
                           ),
-                          boxPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6, right: 10),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
                           icon: Icon(
                             Icons.keyboard_arrow_down_outlined,
                             color: appThemeGreen,
                           ),
                           hint: Text(
                             selectedTask,
-                            style: TextStyle(fontSize: 18, color: selectedTask == "Test Estimate Section" ? Colors.black.withOpacity(0.60) : Colors.black),
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedTask == "Test Estimate Section"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
                           ),
                           onChanged: onChangeDropdownBoxSize,
                           items: taskListItems,
@@ -156,14 +175,17 @@ class _EditTaskState extends State<EditTask> {
                             children: [
                               Checkbox(
                                   value: termsandcond,
-                                  fillColor: MaterialStateProperty.all(appThemeGreen),
+                                  fillColor:
+                                      MaterialStateProperty.all(appThemeGreen),
                                   onChanged: (v) {
                                     setState(() {
                                       termsandcond = v!;
                                       if (termsandcond == true) {
-                                        editTaskController.taskStatus.text = '1';
+                                        editTaskController.taskStatus.text =
+                                            '1';
                                       } else {
-                                        editTaskController.taskStatus.text = '0';
+                                        editTaskController.taskStatus.text =
+                                            '0';
                                       }
                                     });
                                   }),
@@ -184,7 +206,8 @@ class _EditTaskState extends State<EditTask> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: editTaskController.taskName,
                             decoration: InputDecoration(
@@ -192,10 +215,15 @@ class _EditTaskState extends State<EditTask> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -211,7 +239,8 @@ class _EditTaskState extends State<EditTask> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: editTaskController.dueDate,
                             decoration: InputDecoration(
@@ -219,20 +248,31 @@ class _EditTaskState extends State<EditTask> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
                             onTap: () async {
-                              DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2101));
                               if (pickedDate != null) {
-                                String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                String formattedDate =
+                                    DateFormat('MM/dd/yyyy').format(pickedDate);
                                 debugPrint(formattedDate);
                                 setState(() {
-                                  editTaskController.dueDate.text = formattedDate;
+                                  editTaskController.dueDate.text =
+                                      formattedDate;
                                 });
                               } else {
                                 debugPrint("Date is not selected");
@@ -249,11 +289,15 @@ class _EditTaskState extends State<EditTask> {
                         ),
                         Container(
                           height: 100,
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
                               controller: editTaskController.taskDescription,
                               decoration: InputDecoration(
@@ -262,7 +306,8 @@ class _EditTaskState extends State<EditTask> {
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
                               ),
                             ),
                           ),
@@ -274,43 +319,53 @@ class _EditTaskState extends State<EditTask> {
                               if (selectedTask == "Test Estimate Section") {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Please select task from list."),
+                                    content: Text(
+                                        "Oops!, Please select task from list."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (editTaskController.taskName.text.isEmpty) {
+                              } else if (editTaskController
+                                  .taskName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Task name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (editTaskController.dueDate.text.isEmpty) {
+                              } else if (editTaskController
+                                  .dueDate.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Task due date missing."),
+                                    content:
+                                        Text("Oops!, Task due date missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (editTaskController.taskDescription.text.isEmpty) {
+                              } else if (editTaskController
+                                  .taskDescription.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Task description missing."),
+                                    content: Text(
+                                        "Oops!, Task description missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
                               } else {
-                                await editTaskController.editTask(context, id: widget.id);
+                                await editTaskController.editTask(context,
+                                    id: widget.id);
                               }
                             },
                             child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             ),
