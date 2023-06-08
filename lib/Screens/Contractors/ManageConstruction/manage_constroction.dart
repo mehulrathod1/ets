@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_estimate_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_estimate_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageConstruction/add_estimate.dart';
@@ -8,7 +9,9 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/detele_estimate_conteroller.dart';
+import '../../../Models/CompanyModels/download_invoice_model.dart';
 
 class ManageConstruction extends StatefulWidget {
   ManageConstruction({Key? key, this.profilePic}) : super(key: key);
@@ -25,10 +28,60 @@ class _ManageConstructionState extends State<ManageConstruction> {
   List<ListElement> estimateList = [];
   DeleteEstimateController deleteEstimateController =
       DeleteEstimateController();
+
+  CompanyDownloadInvoiceController downloadInvoiceController =
+      CompanyDownloadInvoiceController();
+  CompanyDownloadInvoiceModel? downloadInvoiceModel;
+  String _platformVersion = 'Unknown';
+
   @override
   void initState() {
+    initPlatformState();
     initialize(context);
     super.initState();
+  }
+
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // We also handle the message potentially returning null.
+    try {
+      platformVersion =
+          await EticonDownloader.platformVersion ?? 'Unknown platform version';
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+  }
+
+  Future downloadEstimate(BuildContext context, String id) async {
+    await downloadInvoiceController
+        .employeeDownloadEstimate(context, id)
+        .then((value) {
+      setState(() async {
+        if (value != null) {
+          downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          await EticonDownloader.downloadFile(
+              url: downloadInvoiceModel!.data.downloadUrl);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
   }
 
   Future initialize(BuildContext context) async {
@@ -295,32 +348,40 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                               ),
                                             ),
                                             Expanded(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: appThemeGreen,
-                                                ),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.download,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Download",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  downloadEstimate(context,
+                                                      detail.estimateId);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: appThemeGreen,
+                                                  ),
+                                                  height: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: const [
+                                                      Icon(
+                                                        Icons.download,
+                                                        color: Colors.white,
+                                                        size: 20,
                                                       ),
-                                                    )
-                                                  ],
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 8.0),
+                                                        child: Text(
+                                                          "Download",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),

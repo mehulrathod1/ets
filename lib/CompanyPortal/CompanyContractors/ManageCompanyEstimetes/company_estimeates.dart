@@ -1,3 +1,4 @@
+import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_estimate_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_estimate_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import '../../../Controller/CompanyController/company_delete_estimate_controller.dart';
+import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
+import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import '../ManageCompanyOrder/add_company_order.dart';
 import 'add_company_estimates.dart';
@@ -27,10 +30,37 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
   CompanyDeleteEstimateController deleteEstimateController =
       CompanyDeleteEstimateController();
 
+  CompanyDownloadInvoiceController downloadInvoiceController =
+      CompanyDownloadInvoiceController();
+  CompanyDownloadInvoiceModel? downloadInvoiceModel;
+  String _platformVersion = 'Unknown';
+
   @override
   void initState() {
+    initPlatformState();
     initialize(context);
     super.initState();
+  }
+
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    // We also handle the message potentially returning null.
+    try {
+      platformVersion =
+          await EticonDownloader.platformVersion ?? 'Unknown platform version';
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
   }
 
   Future initialize(BuildContext context) async {
@@ -50,6 +80,26 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('No data found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future downloadEstimate(BuildContext context, String id) async {
+    await downloadInvoiceController.downloadEstimate(context, id).then((value) {
+      setState(() async {
+        if (value != null) {
+          downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          await EticonDownloader.downloadFile(
+              url: downloadInvoiceModel!.data.downloadUrl);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
               duration: const Duration(seconds: 2),
             ),
           );
@@ -231,13 +281,6 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 16.0),
                                   child: GestureDetector(
-                                    // onTap: () {
-                                    //   deleteEstimateController
-                                    //       .deleteEstimate(context, data.id)
-                                    //       .then((value) {
-                                    //     initialize(context);
-                                    //   });
-                                    // },
                                     onTap: () {
                                       showDialog(
                                         context: context,
@@ -275,14 +318,41 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                         child: Row(
                                           children: [
                                             Expanded(
+                                              child: GestureDetector(
+                                                onTap: () async {
+                                                  await downloadEstimate(
+                                                      context, data.id);
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: const [
+                                                    Icon(
+                                                      Icons.download,
+                                                      color: Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 8.0),
+                                                      child: Text(
+                                                        "Download",
+                                                        style: TextStyle(
+                                                            fontSize: 14,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                     color: colorred,
                                                     borderRadius:
                                                         const BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    15),
                                                             bottomRight:
                                                                 Radius.circular(
                                                                     15))),

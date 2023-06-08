@@ -16,7 +16,14 @@ class EmployeeAddEventController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddEvent, params: {'evtStart': startDate.text, 'evtEnd': endDate.text, 'event_name': eventName.text, 'event_description': eventDescription.text});
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeAddEvent,
+        params: {
+          'evtStart': startDate.text,
+          'evtEnd': endDate.text,
+          'event_name': eventName.text,
+          'event_description': eventDescription.text
+        });
     debugPrint("addEvent response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);

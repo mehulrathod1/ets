@@ -101,7 +101,9 @@ class ApiConstant {
   static const companyDeleteAttendance = 'company/delete-attendence/?id=';
   static const companyAddInvoice = 'company/add-invoice/';
   static const companyEditInvoice = 'company/edit-invoice/';
-
+  static const companySendMessage = 'company/send-message/';
+  static const companyDownloadInvoice = 'company/download-invoice/';
+  static const companyDownloadEstimate = 'company/download-estimate/';
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
@@ -160,6 +162,11 @@ class ApiConstant {
   static const employeeUpdateProfilePicture =
       'employee/update-profile-picture/';
   static const employeeCheckAttendanceStatus = 'employee/check_attendance';
+
+  static const employeeMessage = 'employee/get-message-list/';
+  static const employeeSendMessage = 'employee/send-message/';
+  static const employeeEstimateDownload = 'employee/download-estimate/';
+  static const employeeInvoiceDownload = 'employee/download-invoice/';
 
   // --------------------------------- sales portal --------------------------------------------------------
 
