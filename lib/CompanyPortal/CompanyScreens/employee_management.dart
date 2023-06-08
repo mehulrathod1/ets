@@ -1,4 +1,5 @@
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_delete_employee_controller.dart';
@@ -16,6 +17,10 @@ import '../../Network/api_constant.dart';
 import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
+
+import 'package:excel/excel.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class EmployeeManagement extends StatefulWidget {
   EmployeeManagement({required this.appBar, Key? key}) : super(key: key);
@@ -56,6 +61,77 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       print(selectedTest['id']);
     });
   }
+
+  void generateExcel() async {
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    // Set headers
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0))
+        .value = 'Email';
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0))
+        .value = 'Name';
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0))
+        .value = 'Total Hours';
+
+    // Add data
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 1))
+        .value = 'johndoe@example.com';
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 1))
+        .value = 'johndoe';
+    sheetObject
+        .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 1))
+        .value = '30';
+
+    // Save the Excel file
+
+    Directory? appDocumentsDirectory = await getApplicationDocumentsDirectory();
+    String appDocumentsPath = appDocumentsDirectory!.path;
+    String filePath = '$appDocumentsPath/employee.xlsx';
+
+    print(filePath);
+
+    try {
+      var bytes = excel.encode();
+      if (bytes != null) {
+        File(filePath)
+          ..createSync(recursive: true)
+          ..writeAsBytesSync(bytes);
+
+        print('fileCreate');
+
+        // WidgetsFlutterBinding.ensureInitialized();
+        // createFolderInExternalStorage();
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void createFolderInExternalStorage() async {
+    Directory? externalDirectory = await getExternalStorageDirectory();
+
+    if (externalDirectory != null) {
+      String folderName = 'MyFolder';
+
+      String folderPath = '${externalDirectory.path}/$folderName';
+
+      Directory(folderPath).create(recursive: true).then((Directory directory) {
+        print('Folder created: ${directory.path}');
+      }).catchError((e) {
+        print('Error creating folder: $e');
+      });
+    } else {
+      print('External storage directory not found.');
+    }
+  }
+
+  // /data/user/0/com.employee.etsemployee/app_flutter/example.xlsx
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];
@@ -286,7 +362,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               }
           });
     });
-
     initialize(context, '', '', '', '');
     super.initState();
   }
@@ -699,7 +774,10 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            generateExcel();
+                            print('download excel');
+                          },
                           child: const Text(
                             'Export To Excel',
                             style: TextStyle(
