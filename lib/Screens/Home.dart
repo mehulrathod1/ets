@@ -60,9 +60,9 @@ class _Home extends State<Home> {
                       border: Border.all(color: colorBlue, width: 1),
                       borderRadius: BorderRadius.circular(18),
                     ),
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         ImageIcon(
                           AssetImage("assets/noun_history_.png"),
                           size: 60,
