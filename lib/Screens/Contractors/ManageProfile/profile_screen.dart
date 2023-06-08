@@ -13,10 +13,11 @@ import 'package:etsemployee/Screens/HomeDashboard.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profile extends StatefulWidget {
-   Profile({Key? key,this.changeScreen}) : super(key: key);
+  Profile({Key? key, this.changeScreen}) : super(key: key);
   Function(int)? changeScreen;
   @override
   State<Profile> createState() => _ProfileState();
@@ -55,7 +56,13 @@ class _ProfileState extends State<Profile> {
       if (image == null) return;
       File imageFile = File(image.path);
       Uint8List imageBytes = await imageFile.readAsBytes();
-      String base64string = base64.encode(imageBytes);
+      List<int> compressedBytes =
+          await FlutterImageCompress.compressWithList(imageBytes,
+              minHeight: 300, // Desired minimum height
+              minWidth: 300,
+              quality: 100 // Desired minimum width
+              );
+      String base64string = base64.encode(compressedBytes);
       await employeeProfileController.editProfilePicture(context, base64string);
       await employeeProfileController.getEmployeeProfile(context).then((value) {
         setState(() {
@@ -65,7 +72,9 @@ class _ProfileState extends State<Profile> {
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
+                      builder: (context) => const HomeDashboard(
+                            currentTableSelected: 0,
+                          )));
             });
           }
         });

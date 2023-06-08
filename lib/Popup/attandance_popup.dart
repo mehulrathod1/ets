@@ -5,12 +5,16 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Network/api_constant.dart';
+
 Future<void> setAttendanceValue(String? value) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString("attendanceStatus", value!);
 }
 
-Future AttendancePopUP(BuildContext context) async {
+Future AttendancePopUP(BuildContext context, String attendanceStatus) async {
+  print('${attendanceStatus}ooooo');
+
   return showDialog(
       context: context,
       barrierDismissible: false,
@@ -73,43 +77,45 @@ Future AttendancePopUP(BuildContext context) async {
                   style: TextStyle(color: Colors.black, fontSize: 13),
                 ),
                 const SizedBox(height: 15),
-                InkWell(
-                  onTap: () async {
-                    await setAttendanceValue("1");
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: appThemeGreen,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Center(
-                      child: Text(
-                        'IN',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                attendanceStatus == '' || attendanceStatus == '1'
+                    ? InkWell(
+                        onTap: () async {
+                          await setAttendanceValue("2");
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: appThemeBlack,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'OUT',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      )
+                    : InkWell(
+                        onTap: () async {
+                          await setAttendanceValue("1");
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: appThemeGreen,
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Center(
+                            child: Text(
+                              'IN',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                InkWell(
-                  onTap: () async {
-                    await setAttendanceValue("2");
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: appThemeBlack,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Center(
-                      child: Text(
-                        'CALL FOR ATTENDANCE',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 15),
                 InkWell(
                   onTap: () async {
@@ -123,7 +129,7 @@ Future AttendancePopUP(BuildContext context) async {
                         borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: Text(
-                        'STOP SHARING LOCATION',
+                        'CALL FOR ATTENDANCE',
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),
