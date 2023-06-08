@@ -186,7 +186,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 //     ),
                                 //   ),
                                 // ),
->>>>>>> 4ec90c2 (company portal)
+
                               ],
                             ),
                             const SizedBox(
