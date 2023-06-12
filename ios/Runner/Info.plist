@@ -28,10 +28,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access your phone's camera</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow access to your phone's location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to location when open.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow access to your phone's location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow the app to record using your phone's microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
