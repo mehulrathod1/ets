@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'Screens/Splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await FlutterDownloader.initialize(
+  //     debug: true // Set it to false in release mode
+  //     );
   runApp(const MyApp());
 }
 

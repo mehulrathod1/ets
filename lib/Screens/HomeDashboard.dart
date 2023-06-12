@@ -309,10 +309,12 @@ class _HomeDashboard extends State<HomeDashboard> {
       container = const HistoryScreen();
       appBarTitle = "History";
     } else if (currentPage == DrawerSelection.Message) {
-      container = const MessageScreen();
+      container = MessageScreen(
+        changeScreen: changeScreen1,
+      );
       appBarTitle = "Message";
     } else if (currentPage == DrawerSelection.Notification) {
-      container = NotificationScreen(changeScreen: changeScreen1);
+      container = NotificationScreen(changeScreen: changeScreen);
       appBarTitle = "Notification";
     } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
       container = ContractorsScreen(

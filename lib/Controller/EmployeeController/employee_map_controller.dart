@@ -4,8 +4,13 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeMapController {
-  Future<EmployeeViewMapModel> getAttendanceHistory(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetMap);
-    return EmployeeViewMapModel.fromJson(response);
+  Future getAttendanceHistory(BuildContext context, String date) async {
+    var response = await getData(paramUri: ApiConstant.employeeGetMap + date);
+
+    if (response["status"] == "True") {
+      return EmployeeViewMapModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }

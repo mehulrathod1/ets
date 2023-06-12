@@ -9,7 +9,8 @@ import '../Controller/EmployeeController/employee_send_message_controller.dart';
 import '../Models/EmployeeModel/employee_message_model.dart';
 
 class MessageScreen extends StatefulWidget {
-  const MessageScreen({Key? key}) : super(key: key);
+  MessageScreen({this.changeScreen, Key? key}) : super(key: key);
+  Function(int)? changeScreen;
 
   @override
   State<MessageScreen> createState() => _MessageScreenState();
@@ -125,10 +126,19 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   void _sendMessage() {
-    sendMessageController.sendMessage(context).then((value) => {
-          sendMessageController.message.clear(),
-          getMessageListWithOutLoader(context)
-        });
+    if (sendMessageController.message.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please type message."),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else {
+      sendMessageController.sendMessage(context).then((value) => {
+            sendMessageController.message.clear(),
+            getMessageListWithOutLoader(context)
+          });
+    }
   }
 
   void _scrollToBottom() {

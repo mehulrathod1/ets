@@ -59,11 +59,20 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
   }
 
   void _sendMessage() {
-    sendMessageController.sendMessage(context, widget.employeeId).then(
-        (value) => {
-              sendMessageController.message.clear(),
-              getMessageListWithOutLoader(context)
-            });
+    if (sendMessageController.message.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please type message."),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } else {
+      sendMessageController.sendMessage(context, widget.employeeId).then(
+          (value) => {
+                sendMessageController.message.clear(),
+                getMessageListWithOutLoader(context)
+              });
+    }
   }
 
   Future getMessageList(BuildContext context) async {

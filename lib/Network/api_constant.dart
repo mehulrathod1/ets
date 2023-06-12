@@ -127,9 +127,8 @@ class ApiConstant {
   static const employeeGetEstimateOrder = 'employee/get-orders-estiment';
   static const employeeAddOrder = 'employee/add-orders';
   static const employeeEditOrder = 'employee/edit_orders.php/?id=';
-  static const employeeGetImage =
-      'employee/view-image-employee?date=2023-02-03';
-  static const employeeGetMap = 'employee/view-map-employee?date=2023-02-03';
+  static const employeeGetImage = 'employee/view-image-employee?date=';
+  static const employeeGetMap = 'employee/view-map-employee?date=';
   static const employeeNotification = 'employee/get-notification/';
 
   static const employeeGetOrderForTaskList = 'employee/get-task-orders';

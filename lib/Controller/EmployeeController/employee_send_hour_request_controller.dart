@@ -5,6 +5,8 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 
+import '../../Screens/view_hour_request.dart';
+
 class EmployeeSendHourRequestController {
   EmployeeSendHourRequestModel? employeeSendHourRequestModel;
   TextEditingController attendanceIn = TextEditingController();
@@ -19,18 +21,21 @@ class EmployeeSendHourRequestController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeSendHourRequest, params: {
-      'attendance_in': attendanceIn.text,
-      'attendance_out': attendanceOut.text,
-      'in_time': inTime.text,
-      'out_time': outTime.text,
-      'message': message.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeSendHourRequest,
+        params: {
+          'attendance_in': attendanceIn.text,
+          'attendance_out': attendanceOut.text,
+          'in_time': inTime.text,
+          'out_time': outTime.text,
+          'message': message.text,
+        });
     debugPrint("addHourRequest response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeSendHourRequestModel.fromJson(response);
       employeeSendHourRequestModel = res;
       Navigator.pop(context);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

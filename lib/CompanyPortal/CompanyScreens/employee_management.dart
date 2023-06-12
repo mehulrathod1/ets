@@ -1,5 +1,4 @@
 import 'package:dropdown_below/dropdown_below.dart';
-import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_delete_employee_controller.dart';
@@ -16,12 +15,7 @@ import '../../Controller/CompanyController/company_hold_access_controller.dart';
 import '../../Network/api_constant.dart';
 import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
-import 'create_excel.dart';
 import 'edit_employee.dart';
-
-import 'package:excel/excel.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 
 class EmployeeManagement extends StatefulWidget {
   EmployeeManagement({required this.appBar, Key? key}) : super(key: key);
@@ -56,6 +50,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   List<DropdownMenuItem<Object?>> departmentListItems = [];
 
   TextEditingController searchText = TextEditingController();
+
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       // addTaskController.orderId.text = selectedTest['estimate_id'];
@@ -63,57 +58,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       addEmployeeController.department.text = selectedTest['id'];
       print(selectedTest['id']);
     });
-  }
-
-  void generateExcel() async {
-    var excel = Excel.createExcel();
-    Sheet sheetObject = excel['Sheet1'];
-
-    // Set headers
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0))
-        .value = 'Email';
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0))
-        .value = 'Name';
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0))
-        .value = 'Total Hours';
-
-    // Add data
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 1))
-        .value = 'johndoe@example.com';
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 1))
-        .value = 'johndoe';
-    sheetObject
-        .cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 1))
-        .value = '30';
-
-    // Save the Excel file
-
-    Directory? appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    String appDocumentsPath = appDocumentsDirectory!.path;
-    String filePath = '$appDocumentsPath/employee.xlsx';
-
-    print(filePath);
-
-    try {
-      var bytes = excel.encode();
-      if (bytes != null) {
-        File(filePath)
-          ..createSync(recursive: true)
-          ..writeAsBytesSync(bytes);
-
-        print('fileCreate');
-
-        // WidgetsFlutterBinding.ensureInitialized();
-        // createFolderInExternalStorage();
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
   }
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
@@ -757,9 +701,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () async {
-                            print('download excel');
-                          },
+                          onTap: () async {},
                           child: const Text(
                             'Export To Excel',
                             style: TextStyle(

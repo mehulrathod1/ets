@@ -4,8 +4,13 @@ import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dar
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
+import 'message_screen.dart';
+
 class NotificationScreen extends StatefulWidget {
-   NotificationScreen({this.changeScreen,Key? key,}) : super(key: key);
+  NotificationScreen({
+    this.changeScreen,
+    Key? key,
+  }) : super(key: key);
   Function(int)? changeScreen;
 
   @override
@@ -90,24 +95,33 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           left: 8.0, top: 8),
                                       child: InkWell(
                                         onTap: () {
-                                         // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
-                                          if(detail.button.button=="Change Profile"){
+                                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
+                                          if (detail.button.button ==
+                                              "Change Profile") {
                                             widget.changeScreen!(0);
-                                             //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
-                                          }else if(detail.button.button=="Share location"){
-                                            widget.changeScreen!(1);
-                                          }else if(detail.button.button=="Call For Attendance"){
-                                            widget.changeScreen!(2);
-                                          }else if(detail.button.button=="View Details"){
-                                            widget.changeScreen!(3);
-                                          }else if(detail.button.button=="View Task"){
-                                            widget.changeScreen!(4);
+                                            //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
+                                          } else if (detail.button.button ==
+                                              "Share location") {
+                                            widget.changeScreen!(0);
+                                          } else if (detail.button.button ==
+                                              "Call For Attendance") {
+                                            widget.changeScreen!(0);
+                                          } else if (detail.button.button ==
+                                              "View Details") {
+                                            widget.changeScreen!(0);
+                                          } else if (detail.button.button ==
+                                              "View Task") {
+                                            widget.changeScreen!(0);
+                                          } else if (detail.button.button ==
+                                              "View Message") {
+                                            widget.changeScreen!(0);
                                           }
                                         },
                                         child: Text(
                                           detail.button.button,
                                           style: TextStyle(
-                                              fontSize: 12, color: appThemeBlue),
+                                              fontSize: 12,
+                                              color: appThemeBlue),
                                         ),
                                       ),
                                     ),

@@ -16,7 +16,8 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   bool loading = false;
   ScrollController? controller;
-  EmployeeAttendanceHistoryController employeeAttendanceHistoryController = EmployeeAttendanceHistoryController();
+  EmployeeAttendanceHistoryController employeeAttendanceHistoryController =
+      EmployeeAttendanceHistoryController();
   late EmployeeAttendanceHistoryModel employeeAttendanceHistoryModel;
   TextEditingController startDate = TextEditingController(text: "");
   TextEditingController endDate = TextEditingController(text: "");
@@ -29,14 +30,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
       loading = true;
       page = 1;
       totalPage = 0;
-      startDate.text = DateFormat('MM/dd/yyyy').format(DateTime.now().subtract(const Duration(days: 7)));
+      startDate.text = DateFormat('MM/dd/yyyy')
+          .format(DateTime.now().subtract(const Duration(days: 7)));
       endDate.text = DateFormat('MM/dd/yyyy').format(DateTime.now());
-      employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
+      employeeAttendanceHistoryController
+          .getAttendanceHistory(
+              context: context,
+              startDate: startDate.text,
+              endDate: endDate.text,
+              page: page)
+          .then((value) {
         if (value != null) {
           setState(() {
             employeeAttendanceHistoryModel = value;
             historyList = employeeAttendanceHistoryModel.data.list;
-            totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
+            totalPage =
+                employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
             page = page + 1;
             loading = false;
           });
@@ -61,12 +70,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
           builder: (context) {
             return const Center(child: CircularProgressIndicator());
           });
-      await employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
+      await employeeAttendanceHistoryController
+          .getAttendanceHistory(
+              context: context,
+              startDate: startDate.text,
+              endDate: endDate.text,
+              page: page)
+          .then((value) {
         if (value != null) {
           setState(() {
             employeeAttendanceHistoryModel = value;
             historyList.addAll(employeeAttendanceHistoryModel.data.list);
-            totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
+            totalPage =
+                employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
             page = page + 1;
             Navigator.pop(context);
           });
@@ -118,7 +134,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(fontSize: 16, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black),
                                 textInputAction: TextInputAction.next,
                                 controller: startDate,
                                 maxLines: 1,
@@ -136,10 +153,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -151,9 +173,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     lastDate: DateTime(2101),
                                   );
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
                                     setState(() {
-                                      startDate.text = formattedDate; //set output date to TextField value.
+                                      startDate.text =
+                                          formattedDate; //set output date to TextField value.
                                     });
                                   } else {
                                     debugPrint("Date is not selected");
@@ -181,7 +206,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             SizedBox(
                               height: 40,
                               child: TextField(
-                                style: const TextStyle(fontSize: 16, color: Colors.black),
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.black),
                                 textInputAction: TextInputAction.next,
                                 controller: endDate,
                                 maxLines: 1,
@@ -199,10 +225,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
-                                  contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                                  enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 12, top: 6, bottom: 6),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.grey, width: 1.0),
+                                      borderRadius: BorderRadius.circular(7)),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: colorGray, width: 1.0),
+                                    borderSide: BorderSide(
+                                        color: colorGray, width: 1.0),
                                     borderRadius: BorderRadius.circular(7),
                                   ),
                                 ),
@@ -210,11 +241,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
+                                    firstDate: DateTime(
+                                        2000), //DateTime.now() - not to allow to choose before today.
                                     lastDate: DateTime(2101),
                                   );
                                   if (pickedDate != null) {
-                                    String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+                                    String formattedDate =
+                                        DateFormat('MM/dd/yyyy')
+                                            .format(pickedDate);
                                     setState(() {
                                       endDate.text = formattedDate;
                                     });
@@ -237,14 +271,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       if (startDate.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Oops!, Please select start date first."),
+                            content:
+                                Text("Oops!, Please select start date first."),
                             duration: Duration(seconds: 1),
                           ),
                         );
                       } else if (endDate.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Oops!, Please select end date first."),
+                            content:
+                                Text("Oops!, Please select end date first."),
                             duration: Duration(seconds: 1),
                           ),
                         );
@@ -254,12 +290,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           page = 1;
                           totalPage = 0;
                           historyList.clear();
-                          employeeAttendanceHistoryController.getAttendanceHistory(context: context, startDate: startDate.text, endDate: endDate.text, page: page).then((value) {
+                          employeeAttendanceHistoryController
+                              .getAttendanceHistory(
+                                  context: context,
+                                  startDate: startDate.text,
+                                  endDate: endDate.text,
+                                  page: page)
+                              .then((value) {
                             if (value != null) {
                               setState(() {
                                 employeeAttendanceHistoryModel = value;
-                                historyList = employeeAttendanceHistoryModel.data.list;
-                                totalPage = employeeAttendanceHistoryModel.data.paginationInfo.totalPages;
+                                historyList =
+                                    employeeAttendanceHistoryModel.data.list;
+                                totalPage = employeeAttendanceHistoryModel
+                                    .data.paginationInfo.totalPages;
                                 page = page + 1;
                                 loading = false;
                               });
@@ -276,7 +320,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeBlue,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Search',
@@ -295,7 +341,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: colorred, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: colorred,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Clear Filter',
@@ -321,7 +369,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                      borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
+                                          bottomRight: Radius.circular(15)),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.grey.withOpacity(0.5),
@@ -331,33 +383,46 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ],
                                     ),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 16),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 16),
                                               child: Text(
                                                 detail.name,
-                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
                                             ),
                                             const SizedBox(
                                               height: 8,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 8.0),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
                                               child: Row(
                                                 children: [
                                                   const Text(
                                                     "Date : ",
-                                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                   Expanded(
                                                     child: Text(
-                                                      DateFormat('yyyy-MM-dd').format(detail.date),
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      DateFormat('yyyy-MM-dd')
+                                                          .format(detail.date),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ),
                                                 ],
@@ -411,50 +476,85 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               height: 8,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, right: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, right: 8),
                                               child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   const Expanded(
                                                     child: Text(
                                                       "Location Address : ",
-                                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: Text(
                                                       detail.location,
-                                                      style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 16.0),
+                                              padding: const EdgeInsets.only(
+                                                  top: 16.0),
                                               child: Container(
                                                 width: double.infinity,
                                                 height: 35,
-                                                decoration: BoxDecoration(color: appThemeBlue, borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                                decoration: BoxDecoration(
+                                                    color: appThemeBlue,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
                                                 child: Row(
                                                   children: [
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHistoryImage()));
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => ViewHistoryImage(
+                                                                      date: DateFormat(
+                                                                              'yyyy-MM-dd')
+                                                                          .format(
+                                                                              detail.date))));
                                                         },
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: const [
                                                             Icon(
-                                                              Icons.remove_red_eye,
-                                                              color: Colors.white,
+                                                              Icons
+                                                                  .remove_red_eye,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                             Padding(
-                                                              padding: EdgeInsets.only(left: 8.0),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          8.0),
                                                               child: Text(
                                                                 "View Image",
-                                                                style: TextStyle(fontSize: 14, color: Colors.white),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
                                                               ),
                                                             )
                                                           ],
@@ -465,26 +565,48 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                       width: 1,
                                                       height: 35,
                                                       child: DecoratedBox(
-                                                        decoration: BoxDecoration(color: Colors.white),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color: Colors
+                                                                    .white),
                                                       ),
                                                     ),
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: () {
-                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ViewHistoryMap()));
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ViewHistoryMap(
+                                                                            date:
+                                                                                DateFormat('yyyy-MM-dd').format(detail.date),
+                                                                          )));
                                                         },
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: const [
                                                             Icon(
-                                                              Icons.remove_red_eye,
-                                                              color: Colors.white,
+                                                              Icons
+                                                                  .remove_red_eye,
+                                                              color:
+                                                                  Colors.white,
                                                             ),
                                                             Padding(
-                                                              padding: EdgeInsets.only(left: 8.0),
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          8.0),
                                                               child: Text(
                                                                 "View Map",
-                                                                style: TextStyle(fontSize: 14, color: Colors.white),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
                                                               ),
                                                             )
                                                           ],
@@ -507,7 +629,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: MediaQuery.of(context).size.height / 2,
                               child: const Text(
                                 "Oops!, No data found.",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ),
                 ),

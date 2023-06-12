@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ViewHistoryMap extends StatefulWidget {
-  const ViewHistoryMap({Key? key}) : super(key: key);
+  ViewHistoryMap({required this.date, Key? key}) : super(key: key);
+
+  String date;
 
   @override
   State<ViewHistoryMap> createState() => _ViewHistoryMapState();
@@ -25,14 +27,22 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
 
   Future initialize(BuildContext context) async {
     loading = true;
-    await mapController.getAttendanceHistory(context).then((value) {
-      setState(() {
-        mapModel = value;
-        mapList = mapModel.data.mapList;
-        loading = false;
-        debugPrint(value.message);
-        debugPrint(mapList.length as String?);
-      });
+    await mapController
+        .getAttendanceHistory(context, widget.date)
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          mapModel = value;
+          mapList = mapModel.data.mapList;
+          loading = false;
+          debugPrint(value.message);
+        });
+      } else {
+        setState(() {
+          loading = false;
+          mapList.clear();
+        });
+      }
     });
   }
 
@@ -43,9 +53,12 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("View Map", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("View Map",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -86,9 +99,14 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                             borderRadius: BorderRadius.circular(15),
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: appThemeGreen),
+                                border:
+                                    Border.all(width: 1, color: appThemeGreen),
                                 color: Colors.white,
-                                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(15), topLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15)),
+                                borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(15),
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15),
+                                    bottomRight: Radius.circular(15)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),
@@ -100,22 +118,27 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                      height: 180,
-                                      width: double.infinity,
-                                      decoration: const BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-                                      child: Image.asset(
-                                        'assets/map.jpeg',
-                                        fit: BoxFit.cover,
-                                      )),
                                   Padding(
                                     padding: const EdgeInsets.all(12.0),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          "Friday Nov 18,2022",
-                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Date: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              widget.date,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
+                                            ),
+                                          ],
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -124,11 +147,15 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                           children: [
                                             const Text(
                                               "Status: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              "IN",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              detail.statusIn,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -139,11 +166,15 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                           children: [
                                             const Text(
                                               "Time Zone: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
                                               "IST",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -154,11 +185,15 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                           children: [
                                             const Text(
                                               "Time: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              "10:00:00 am",
-                                              style: TextStyle(fontSize: 14, color: colorTextGray),
+                                              detail.inTime,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
                                             ),
                                           ],
                                         ),
@@ -166,19 +201,161 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                           height: 8,
                                         ),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             const Text(
                                               "Address: ",
-                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                             Expanded(
                                               child: Text(
                                                 detail.addressIn,
-                                                style: TextStyle(fontSize: 14, color: colorTextGray),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
                                               ),
                                             ),
                                           ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(15),
+                                          ),
+                                          child: SizedBox(
+                                            height: 180,
+                                            width: double.infinity,
+                                            child: Image.asset(
+                                              'assets/map.jpeg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Date: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              widget.date,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Status: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              detail.statusOut,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Time Zone: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "IST",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "Time: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              detail.outTime,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: colorTextGray),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Address: ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                detail.addressOut,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(15),
+                                          ),
+                                          child: SizedBox(
+                                            height: 180,
+                                            width: double.infinity,
+                                            child: Image.asset(
+                                              'assets/map.jpeg',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),

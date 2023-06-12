@@ -384,7 +384,24 @@ class _HourRequestState extends State<HourRequest> {
                               );
                             } else {
                               await employeeSendHourRequestController
-                                  .addHourRequest(context);
+                                  .addHourRequest(context)
+                                  .then((value) {
+                                employeeSendHourRequestController.attendanceIn
+                                    .clear();
+                                employeeSendHourRequestController.attendanceOut
+                                    .clear();
+                                employeeSendHourRequestController.inTime
+                                    .clear();
+                                employeeSendHourRequestController.outTime
+                                    .clear();
+                                employeeSendHourRequestController.message
+                                    .clear();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ViewHourRequest()));
+                              });
                             }
                           },
                           child: Container(

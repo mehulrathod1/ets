@@ -4,8 +4,13 @@ import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeImage {
-  Future<EmployeeViewImageModel> getEmployeeImage(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetImage);
-    return EmployeeViewImageModel.fromJson(response);
+  Future getEmployeeImage(BuildContext context, String date) async {
+    var response = await getData(paramUri: ApiConstant.employeeGetImage + date);
+
+    if (response["status"] == "True") {
+      return EmployeeViewImageModel.fromJson(response);
+    } else {
+      return null;
+    }
   }
 }
