@@ -101,15 +101,12 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     String timeZone = now.timeZoneName;
     print('Time zone: $timeZone');
 
-    // DateTime noww = DateTime.now().toUtc();
-    // tz.Location istLocation = tz.getLocation('America/New_York');
-    // tz.TZDateTime istTime = tz.TZDateTime.from(now, now);
     DateFormat format = DateFormat('HH:mm:ss');
     String istFormattedTime = format.format(now);
     print('IST Time: $istFormattedTime');
 
-    String timezone = await FlutterNativeTimezone.getLocalTimezone();
-    print('IST Time: $timezone');
+    // String timezone = await FlutterNativeTimezone.getLocalTimezone();
+    // print('IST Time: $timezone');
 
     await controller.addAttendanceHistory(
         context: context,

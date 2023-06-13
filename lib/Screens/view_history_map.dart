@@ -171,7 +171,7 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              "IST",
+                                              detail.timeZon,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: colorTextGray),
@@ -292,7 +292,7 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              "IST",
+                                              detail.timeZon,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: colorTextGray),

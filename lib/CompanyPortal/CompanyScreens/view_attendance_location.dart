@@ -163,7 +163,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.statusIn,
+                                                detail!.statusIn.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -183,7 +183,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "IST",
+                                                detail!.timezoneName.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -203,7 +203,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.inTime,
+                                                detail!.inTime.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -226,7 +226,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  detail.addressIn,
+                                                  detail!.addressIn.toString(),
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: colorTextGray),
@@ -290,7 +290,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.statusOut,
+                                                detail.statusOut.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -310,7 +310,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "IST",
+                                                detail.timezoneName.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -330,7 +330,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                detail.outTime,
+                                                detail!.outTime.toString(),
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -353,7 +353,7 @@ class _ViewAttendanceLocationState extends State<ViewAttendanceLocation> {
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  detail.addressOut,
+                                                  detail!.addressOut.toString(),
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: colorTextGray),

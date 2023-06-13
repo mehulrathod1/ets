@@ -12,8 +12,7 @@ class ViewHourRequest extends StatefulWidget {
 }
 
 class _ViewHourRequestState extends State<ViewHourRequest> {
-  EmployeeGetHourRequestController employeeGetHourRequestController =
-      EmployeeGetHourRequestController();
+  EmployeeGetHourRequestController employeeGetHourRequestController = EmployeeGetHourRequestController();
   bool loading = false;
   ScrollController? controller;
   int page = 1;

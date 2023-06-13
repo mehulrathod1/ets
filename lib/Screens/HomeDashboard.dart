@@ -87,11 +87,7 @@ class _HomeDashboard extends State<HomeDashboard> {
         setState(() {});
       } else if (index == 4) {
         currentPage = DrawerSelection.Profile;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 5) {
-        currentPage = DrawerSelection.ShareLocationScreen;
-        _selectedIndex == 4;
+        _selectedIndex == 3;
         setState(() {});
       } else if (index == 5) {
         currentPage = DrawerSelection.ShareLocationScreen;
@@ -107,6 +103,10 @@ class _HomeDashboard extends State<HomeDashboard> {
         setState(() {});
       } else if (index == 8) {
         currentPage = DrawerSelection.ContractorsBackOffice;
+        _selectedIndex == 4;
+        setState(() {});
+      } else if (index == 9) {
+        currentPage = DrawerSelection.Message;
         _selectedIndex == 4;
         setState(() {});
       }
@@ -310,7 +310,7 @@ class _HomeDashboard extends State<HomeDashboard> {
       appBarTitle = "History";
     } else if (currentPage == DrawerSelection.Message) {
       container = MessageScreen(
-        changeScreen: changeScreen1,
+        changeScreen: changeScreen,
       );
       appBarTitle = "Message";
     } else if (currentPage == DrawerSelection.Notification) {

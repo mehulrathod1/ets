@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class CompanyViewMapModel {
+  String status;
+  String message;
+  Data data;
+
   CompanyViewMapModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory CompanyViewMapModel.fromRawJson(String str) =>
       CompanyViewMapModel.fromJson(json.decode(str));
@@ -35,11 +35,11 @@ class CompanyViewMapModel {
 }
 
 class Data {
+  List<MapList> mapList;
+
   Data({
     required this.mapList,
   });
-
-  List<MapList> mapList;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -56,6 +56,18 @@ class Data {
 }
 
 class MapList {
+  String? statusIn;
+  String? inTime;
+  String? addressIn;
+  String? statusOut;
+  String? outTime;
+  String? addressOut;
+  String? timezoneName;
+  String? inLat;
+  String? inLong;
+  String? outLat;
+  String? outLong;
+
   MapList({
     required this.statusIn,
     required this.inTime,
@@ -63,14 +75,12 @@ class MapList {
     required this.statusOut,
     required this.outTime,
     required this.addressOut,
+    required this.timezoneName,
+    required this.inLat,
+    required this.inLong,
+    required this.outLat,
+    required this.outLong,
   });
-
-  String statusIn;
-  String inTime;
-  String addressIn;
-  String statusOut;
-  String outTime;
-  String addressOut;
 
   factory MapList.fromRawJson(String str) => MapList.fromJson(json.decode(str));
 
@@ -83,6 +93,11 @@ class MapList {
         statusOut: json["status_out"],
         outTime: json["out_time"],
         addressOut: json["address_out"],
+        timezoneName: json["timezone_name"],
+        inLat: json["in_lat"],
+        inLong: json["in_long"],
+        outLat: json["out_lat"],
+        outLong: json["out_long"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,5 +107,10 @@ class MapList {
         "status_out": statusOut,
         "out_time": outTime,
         "address_out": addressOut,
+        "timezone_name": timezoneName,
+        "in_lat": inLat,
+        "in_long": inLong,
+        "out_lat": outLat,
+        "out_long": outLong,
       };
 }

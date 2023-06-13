@@ -63,6 +63,7 @@ class MapList {
     required this.statusOut,
     required this.outTime,
     required this.addressOut,
+    required this.timeZon,
   });
 
   String statusIn;
@@ -71,6 +72,7 @@ class MapList {
   String statusOut;
   String outTime;
   String addressOut;
+  String timeZon;
 
   factory MapList.fromRawJson(String str) => MapList.fromJson(json.decode(str));
 
@@ -83,6 +85,7 @@ class MapList {
         statusOut: json["status_out"],
         outTime: json["out_time"],
         addressOut: json["address_out"],
+        timeZon: json["timezone_name"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -92,5 +95,6 @@ class MapList {
         "status_out": statusOut,
         "out_time": outTime,
         "address_out": addressOut,
+        "timezone_name": timeZon,
       };
 }

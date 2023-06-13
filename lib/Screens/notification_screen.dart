@@ -98,7 +98,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
                                           if (detail.button.button ==
                                               "Change Profile") {
-                                            widget.changeScreen!(0);
+                                            widget.changeScreen!(4);
                                             //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
                                           } else if (detail.button.button ==
                                               "Share location") {
@@ -114,7 +114,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                             widget.changeScreen!(0);
                                           } else if (detail.button.button ==
                                               "View Message") {
-                                            widget.changeScreen!(0);
+                                            widget.changeScreen!(9);
                                           }
                                         },
                                         child: Text(
