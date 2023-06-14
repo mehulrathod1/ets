@@ -297,20 +297,24 @@ class _HomeDashboard extends State<HomeDashboard> {
       container = Home(changeScreen: changeScreen);
       appBarTitle = "Dashboard";
     } else if (currentPage == DrawerSelection.Attendance) {
-      container = const AttendanceScreen();
+      container = AttendanceScreen(
+        appBar: false,
+      );
       appBarTitle = "Attendance";
     } else if (currentPage == DrawerSelection.FixHoursRequest) {
       container = const HourRequest();
       appBarTitle = "Hours Request";
     } else if (currentPage == DrawerSelection.ShareLocation) {
-      container = const ShareLocationScreen();
+      container = ShareLocationScreen(
+        appBar: false,
+      );
       appBarTitle = "Share Location";
     } else if (currentPage == DrawerSelection.History) {
       container = const HistoryScreen();
       appBarTitle = "History";
     } else if (currentPage == DrawerSelection.Message) {
       container = MessageScreen(
-        changeScreen: changeScreen,
+        appBar: false,
       );
       appBarTitle = "Message";
     } else if (currentPage == DrawerSelection.Notification) {
@@ -321,7 +325,10 @@ class _HomeDashboard extends State<HomeDashboard> {
           profilePic: employeeProfileDetailsModel!.data.profileImg);
       appBarTitle = "Contractors Back Office";
     } else if (currentPage == DrawerSelection.Profile) {
-      container = Profile(changeScreen: changeScreen);
+      container = Profile(
+        changeScreen: changeScreen,
+        appBar: false,
+      );
       appBarTitle = "Profile";
     } else if (currentPage == DrawerSelection.Logout) {
       navigate();

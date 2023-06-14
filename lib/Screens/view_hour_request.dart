@@ -3,16 +3,21 @@ import 'package:etsemployee/Controller/EmployeeController/employee_get_hour_requ
 import 'package:etsemployee/Models/EmployeeModel/employee_get_hour_request_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../Network/api_constant.dart';
 
 class ViewHourRequest extends StatefulWidget {
-  const ViewHourRequest({Key? key}) : super(key: key);
+  ViewHourRequest({required this.appBar, Key? key}) : super(key: key);
+  bool appBar;
 
   @override
   State<ViewHourRequest> createState() => _ViewHourRequestState();
 }
 
 class _ViewHourRequestState extends State<ViewHourRequest> {
-  EmployeeGetHourRequestController employeeGetHourRequestController = EmployeeGetHourRequestController();
+  EmployeeGetHourRequestController employeeGetHourRequestController =
+      EmployeeGetHourRequestController();
   bool loading = false;
   ScrollController? controller;
   int page = 1;
@@ -90,7 +95,45 @@ class _ViewHourRequestState extends State<ViewHourRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScreenBg,
-      appBar: const CommonAppbar(),
+      appBar: widget.appBar
+          ? AppBar(
+              elevation: 0,
+              backgroundColor: colorScreenBg,
+              systemOverlayStyle:
+                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              title: const Center(
+                child: Text("Hour Request",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black)),
+              ),
+              actions: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(right: 16.0),
+                  child: ApiConstant.profileImage.isEmpty
+                      ? const CircleAvatar(
+                          radius: 18,
+                          backgroundImage: AssetImage('assets/man.jpeg'),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              NetworkImage(ApiConstant.profileImage),
+                        ),
+                ),
+              ],
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  child: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              }),
+            )
+          : null,
       body: Column(
         children: [
           Padding(

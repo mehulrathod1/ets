@@ -44,6 +44,17 @@ class EmployeeAddAttendanceController {
     if (response["status"] == "true") {
       Navigator.of(context).pop();
 
+      print("img1 :$profileImage");
+      print(place.name);
+      print(place.name);
+      print(place.locality);
+      print(place.administrativeArea);
+      print(place.postalCode);
+      print(place.country);
+      print(address);
+      print(timeZon);
+      print(time);
+
       // ApiConstant.isAttendance = true;
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String status = prefs.get('attendanceStatus').toString();
@@ -97,7 +108,7 @@ class EmployeeAddAttendanceController {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Profile(),
+            builder: (context) => Profile(appBar: false),
           ),
         );
       }

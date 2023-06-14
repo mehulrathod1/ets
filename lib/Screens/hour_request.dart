@@ -44,7 +44,9 @@ class _HourRequestState extends State<HourRequest> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ViewHourRequest()));
+                              builder: (context) => ViewHourRequest(
+                                    appBar: true,
+                                  )));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -399,8 +401,9 @@ class _HourRequestState extends State<HourRequest> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const ViewHourRequest()));
+                                        builder: (context) => ViewHourRequest(
+                                              appBar: true,
+                                            )));
                               });
                             }
                           },

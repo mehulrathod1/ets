@@ -1,9 +1,16 @@
 import 'package:etsemployee/Controller/EmployeeController/employee_notification_controller.dart';
 import 'package:etsemployee/Models/EmployeeModel/employee_notification_model.dart';
+import 'package:etsemployee/Screens/Contractors/ManageNotes/manage_notes.dart';
 import 'package:etsemployee/Screens/Contractors/ManageProfile/profile_screen.dart';
+import 'package:etsemployee/Screens/share_location.dart';
+import 'package:etsemployee/Screens/view_hour_request.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
+import 'Contractors/ManageConstruction/manage_constroction.dart';
+import 'Contractors/ManageTask/manage_task.dart';
+import 'attendanceScreen.dart';
+import 'hour_request.dart';
 import 'message_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -98,23 +105,71 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
                                           if (detail.button.button ==
                                               "Change Profile") {
-                                            widget.changeScreen!(4);
-                                            //Navigator.push(context, MaterialPageRoute(builder: (context) =>  Profile()));
+                                            // widget.changeScreen!(4);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Profile(
+                                                          appBar: true,
+                                                        )));
                                           } else if (detail.button.button ==
                                               "Share location") {
-                                            widget.changeScreen!(0);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ShareLocationScreen(
+                                                          appBar: true,
+                                                        )));
                                           } else if (detail.button.button ==
                                               "Call For Attendance") {
-                                            widget.changeScreen!(0);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        AttendanceScreen(
+                                                          appBar: true,
+                                                        )));
                                           } else if (detail.button.button ==
                                               "View Details") {
-                                            widget.changeScreen!(0);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ViewHourRequest(
+                                                          appBar: true,
+                                                        )));
                                           } else if (detail.button.button ==
                                               "View Task") {
-                                            widget.changeScreen!(0);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ManageTask()));
+                                          } else if (detail.button.button ==
+                                              "View Estimate") {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ManageConstruction()));
+                                          } else if (detail.button.button ==
+                                              "View Notes") {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ManageNote()));
                                           } else if (detail.button.button ==
                                               "View Message") {
-                                            widget.changeScreen!(9);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MessageScreen(
+                                                          appBar: true,
+                                                        )));
                                           }
                                         },
                                         child: Text(
