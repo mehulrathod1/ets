@@ -3,6 +3,9 @@ import 'package:etsemployee/Models/EmployeeModel/employee_map_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../Network/api_constant.dart';
 
 class ViewHistoryMap extends StatefulWidget {
   ViewHistoryMap({required this.date, Key? key}) : super(key: key);
@@ -18,6 +21,8 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
   late EmployeeViewMapModel mapModel;
   EmployeeMapController mapController = EmployeeMapController();
   List<MapList> mapList = [];
+
+  late GoogleMapController mapController1;
 
   @override
   void initState() {
@@ -60,12 +65,18 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -171,7 +182,7 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              detail.timeZon,
+                                              detail.timezoneName,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: colorTextGray),
@@ -230,136 +241,192 @@ class _ViewHistoryMapState extends State<ViewHistoryMap> {
                                           child: SizedBox(
                                             height: 180,
                                             width: double.infinity,
-                                            child: Image.asset(
-                                              'assets/map.jpeg',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Date: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              widget.date,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Status: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              detail.statusOut,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Time Zone: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              detail.timeZon,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Time: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              detail.outTime,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "Address: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                detail.addressOut,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
+                                            child: GoogleMap(
+                                              initialCameraPosition:
+                                                  CameraPosition(
+                                                target: LatLng(
+                                                    double.tryParse(
+                                                        detail.inLat)!,
+                                                    double.tryParse(
+                                                        detail.inLong)!),
+                                                zoom: 15,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(15),
-                                          ),
-                                          child: SizedBox(
-                                            height: 180,
-                                            width: double.infinity,
-                                            child: Image.asset(
-                                              'assets/map.jpeg',
-                                              fit: BoxFit.cover,
+                                              onMapCreated: (controller) {
+                                                setState(() {
+                                                  mapController1 = controller;
+                                                });
+                                              },
+                                              markers: {
+                                                Marker(
+                                                  markerId:
+                                                      MarkerId('location'),
+                                                  position: LatLng(
+                                                      double.tryParse(
+                                                          detail.inLat)!,
+                                                      double.tryParse(
+                                                          detail.inLong)!),
+                                                ),
+                                              },
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
+                                  detail.statusOut.isEmpty
+                                      ? Container()
+                                      : Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Date: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    widget.date,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Status: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    detail.statusOut,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Time Zone: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    detail.timezoneName,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Time: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    detail.outTime,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "Address: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Expanded(
+                                                    child: Text(
+                                                      detail.addressOut,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(15),
+                                                ),
+                                                child: SizedBox(
+                                                  height: 180,
+                                                  width: double.infinity,
+                                                  child: GoogleMap(
+                                                    initialCameraPosition:
+                                                        CameraPosition(
+                                                      target: LatLng(
+                                                          double.tryParse(
+                                                              detail.outLat)!,
+                                                          double.tryParse(
+                                                              detail.outLong)!),
+                                                      zoom: 15,
+                                                    ),
+                                                    onMapCreated: (controller) {
+                                                      setState(() {
+                                                        mapController1 =
+                                                            controller;
+                                                      });
+                                                    },
+                                                    markers: {
+                                                      Marker(
+                                                        markerId: MarkerId(
+                                                            'location'),
+                                                        position: LatLng(
+                                                            double.tryParse(
+                                                                detail.outLat)!,
+                                                            double.tryParse(
+                                                                detail
+                                                                    .outLong)!),
+                                                      ),
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                 ],
                               ),
                             ),

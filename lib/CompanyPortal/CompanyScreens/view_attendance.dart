@@ -607,7 +607,10 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                       .getHour(
                                                           context,
                                                           widget.employeeId,
-                                                          date!)
+                                                          DateFormat(
+                                                                  'yyyy-MM-dd')
+                                                              .format(
+                                                                  detail.date))
                                                       .then((value) {
                                                     setState(() {
                                                       hourModel = value;
@@ -647,10 +650,12 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               ViewAttendanceImage(
-                                                                id: widget
-                                                                    .employeeId,
-                                                                date: date!,
-                                                              )));
+                                                                  id: widget
+                                                                      .employeeId,
+                                                                  date: DateFormat(
+                                                                          'yyyy-MM-dd')
+                                                                      .format(detail
+                                                                          .date))));
                                                 },
                                                 child: Text(
                                                   "View Image",
@@ -682,7 +687,10 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                                               ViewAttendanceLocation(
                                                                 id: widget
                                                                     .employeeId,
-                                                                date: date!,
+                                                                date: DateFormat(
+                                                                        'yyyy-MM-dd')
+                                                                    .format(detail
+                                                                        .date),
                                                               )));
                                                 },
                                                 child: Text(
@@ -694,26 +702,26 @@ class _ViewAttendanceState extends State<ViewAttendance> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Time Zone: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "IST",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: appThemeBlue),
-                                              ),
-                                            ],
-                                          ),
+                                          // const SizedBox(
+                                          //   height: 8,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     const Text(
+                                          //       "Time Zone: ",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           fontWeight:
+                                          //               FontWeight.bold),
+                                          //     ),
+                                          //     Text(
+                                          //       "IST",
+                                          //       style: TextStyle(
+                                          //           fontSize: 14,
+                                          //           color: appThemeBlue),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           const SizedBox(
                                             height: 8,
                                           ),

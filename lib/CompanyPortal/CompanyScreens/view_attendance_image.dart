@@ -23,7 +23,11 @@ class _ViewAttendanceImageState extends State<ViewAttendanceImage> {
 
   @override
   void initState() {
+    print(widget.id);
+    print(widget.date);
+
     initialize(context);
+
     super.initState();
   }
 
@@ -191,107 +195,114 @@ class _ViewAttendanceImageState extends State<ViewAttendanceImage> {
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
-                                        child: SizedBox(
-                                          height: 180,
-                                          width: double.infinity,
-                                          child: Image.network(
-                                            detail.inImage,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Date: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 18.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(15),
                                               ),
-                                              Text(
-                                                widget.date,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
+                                              child: SizedBox(
+                                                height: 180,
+                                                width: double.infinity,
+                                                child: Image.network(
+                                                  detail.inImage,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Status: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                detail.statusOut,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Time: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                detail.outTime,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
-                                        child: SizedBox(
-                                          height: 180,
-                                          width: double.infinity,
-                                          child: Image.network(
-                                            detail.outImage,
-                                            fit: BoxFit.cover,
+                                    detail.statusOut.isEmpty
+                                        ? Container()
+                                        : Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Date: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      widget.date,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Status: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      detail.statusOut,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Time: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      detail.outTime,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 18.0),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                      Radius.circular(15),
+                                                    ),
+                                                    child: SizedBox(
+                                                      height: 180,
+                                                      width: double.infinity,
+                                                      child: Image.network(
+                                                        detail.outImage,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),

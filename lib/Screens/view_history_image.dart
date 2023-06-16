@@ -4,6 +4,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../Network/api_constant.dart';
+
 class ViewHistoryImage extends StatefulWidget {
   ViewHistoryImage({required this.date, Key? key}) : super(key: key);
 
@@ -58,12 +60,18 @@ class _ViewHistoryImageState extends State<ViewHistoryImage> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            child: ApiConstant.profileImage.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -179,107 +187,111 @@ class _ViewHistoryImageState extends State<ViewHistoryImage> {
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
-                                        child: SizedBox(
-                                          height: 180,
-                                          width: double.infinity,
-                                          child: Image.network(
-                                            detail.inImage,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Date: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                widget.date,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
                                           const SizedBox(
-                                            height: 8,
+                                            height: 18,
                                           ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Status: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(15),
+                                            ),
+                                            child: SizedBox(
+                                              height: 180,
+                                              width: double.infinity,
+                                              child: Image.network(
+                                                detail.inImage,
+                                                fit: BoxFit.cover,
                                               ),
-                                              Text(
-                                                detail.statusOut,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "Time: ",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                detail.outTime,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(15),
-                                        ),
-                                        child: SizedBox(
-                                          height: 180,
-                                          width: double.infinity,
-                                          child: Image.network(
-                                            detail.outImage,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    detail.statusOut.isEmpty
+                                        ? Container()
+                                        : Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Date: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      widget.date,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Status: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      detail.statusOut,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Text(
+                                                      "Time: ",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      detail.outTime,
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 18,
+                                                ),
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                    Radius.circular(15),
+                                                  ),
+                                                  child: SizedBox(
+                                                    height: 180,
+                                                    width: double.infinity,
+                                                    child: Image.network(
+                                                      detail.outImage,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
                                   ],
                                 ),
                               ),

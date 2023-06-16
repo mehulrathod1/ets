@@ -5,15 +5,15 @@
 import 'dart:convert';
 
 class EmployeeViewMapModel {
+  String status;
+  String message;
+  Data data;
+
   EmployeeViewMapModel({
     required this.status,
     required this.message,
     required this.data,
   });
-
-  String status;
-  String message;
-  Data data;
 
   factory EmployeeViewMapModel.fromRawJson(String str) =>
       EmployeeViewMapModel.fromJson(json.decode(str));
@@ -35,11 +35,11 @@ class EmployeeViewMapModel {
 }
 
 class Data {
+  List<MapList> mapList;
+
   Data({
     required this.mapList,
   });
-
-  List<MapList> mapList;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -56,45 +56,65 @@ class Data {
 }
 
 class MapList {
-  MapList({
-    required this.statusIn,
-    required this.inTime,
-    required this.addressIn,
-    required this.statusOut,
-    required this.outTime,
-    required this.addressOut,
-    required this.timeZon,
-  });
-
+  String id;
   String statusIn;
   String inTime;
   String addressIn;
   String statusOut;
   String outTime;
   String addressOut;
-  String timeZon;
+  String timezoneName;
+  String inLat;
+  String inLong;
+  String outLat;
+  String outLong;
+
+  MapList({
+    required this.id,
+    required this.statusIn,
+    required this.inTime,
+    required this.addressIn,
+    required this.statusOut,
+    required this.outTime,
+    required this.addressOut,
+    required this.timezoneName,
+    required this.inLat,
+    required this.inLong,
+    required this.outLat,
+    required this.outLong,
+  });
 
   factory MapList.fromRawJson(String str) => MapList.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory MapList.fromJson(Map<String, dynamic> json) => MapList(
+        id: json["id"],
         statusIn: json["status_in"],
         inTime: json["in_time"],
         addressIn: json["address_in"],
         statusOut: json["status_out"],
         outTime: json["out_time"],
         addressOut: json["address_out"],
-        timeZon: json["timezone_name"],
+        timezoneName: json["timezone_name"],
+        inLat: json["in_lat"],
+        inLong: json["in_long"],
+        outLat: json["out_lat"],
+        outLong: json["out_long"],
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "status_in": statusIn,
         "in_time": inTime,
         "address_in": addressIn,
         "status_out": statusOut,
         "out_time": outTime,
         "address_out": addressOut,
-        "timezone_name": timeZon,
+        "timezone_name": timezoneName,
+        "in_lat": inLat,
+        "in_long": inLong,
+        "out_lat": outLat,
+        "out_long": outLong,
       };
 }

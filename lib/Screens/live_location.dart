@@ -20,7 +20,6 @@ class LiveLocation extends StatefulWidget {
 
 class _LiveLocationState extends State<LiveLocation> {
   bool loading = false;
-
   String? currentAddress;
   Position? currentPosition;
   List<Marker> markers = <Marker>[];

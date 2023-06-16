@@ -2,9 +2,13 @@
 
 import 'dart:convert';
 
-EmployeeAttendanceHistoryModel employeeAttendanceHistoryModelFromJson(String str) => EmployeeAttendanceHistoryModel.fromJson(json.decode(str));
+EmployeeAttendanceHistoryModel employeeAttendanceHistoryModelFromJson(
+        String str) =>
+    EmployeeAttendanceHistoryModel.fromJson(json.decode(str));
 
-String employeeAttendanceHistoryModelToJson(EmployeeAttendanceHistoryModel data) => json.encode(data.toJson());
+String employeeAttendanceHistoryModelToJson(
+        EmployeeAttendanceHistoryModel data) =>
+    json.encode(data.toJson());
 
 class EmployeeAttendanceHistoryModel {
   EmployeeAttendanceHistoryModel({
@@ -17,7 +21,8 @@ class EmployeeAttendanceHistoryModel {
   String message;
   Data data;
 
-  factory EmployeeAttendanceHistoryModel.fromJson(Map<String, dynamic> json) => EmployeeAttendanceHistoryModel(
+  factory EmployeeAttendanceHistoryModel.fromJson(Map<String, dynamic> json) =>
+      EmployeeAttendanceHistoryModel(
         status: json["status"],
         message: json["message"],
         data: Data.fromJson(json["data"]),
@@ -40,7 +45,8 @@ class Data {
   PaginationInfo paginationInfo;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement>.from(
+            json["List"].map((x) => ListElement.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -70,15 +76,18 @@ class ListElement {
         name: json["name"],
         date: DateTime.parse(json["date"]),
         location: json["location"] ?? "",
-        timeImageMap: List<TimeImageMap>.from(json["time_image_map"].map((x) => TimeImageMap.fromJson(x))),
+        timeImageMap: List<TimeImageMap>.from(
+            json["time_image_map"].map((x) => TimeImageMap.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "date": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        "date":
+            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         "location": location,
-        "time_image_map": List<dynamic>.from(timeImageMap.map((x) => x.toJson())),
+        "time_image_map":
+            List<dynamic>.from(timeImageMap.map((x) => x.toJson())),
       };
 }
 

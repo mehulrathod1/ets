@@ -59,14 +59,14 @@ class MapList {
   String? statusIn;
   String? inTime;
   String? addressIn;
-  String? statusOut;
+  String statusOut;
   String? outTime;
   String? addressOut;
   String? timezoneName;
-  String? inLat;
-  String? inLong;
-  String? outLat;
-  String? outLong;
+  String inLat;
+  String inLong;
+  String outLat;
+  String outLong;
 
   MapList({
     required this.statusIn,

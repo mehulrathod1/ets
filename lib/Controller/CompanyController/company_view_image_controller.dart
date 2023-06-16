@@ -9,6 +9,7 @@ class CompanyImageController {
     var response =
         await getData(paramUri: '${ApiConstant.companyViewImage}$id/$date');
     if (response["status"] == "True" && response["data"] != null) {
+      print(response);
       return CompanyViewImageModel.fromJson(response);
     } else {
       return null;
