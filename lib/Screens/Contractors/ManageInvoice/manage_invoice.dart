@@ -319,7 +319,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                '${detail.amount} €',
+                                                detail.amount,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: colorTextGray),
@@ -343,7 +343,32 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              const EditInvoice()));
+                                                              EditInvoice(
+                                                                id: detail.id,
+                                                                estimateId: detail
+                                                                    .estimateId,
+                                                                invoiceFor: detail
+                                                                    .invoiceFor,
+                                                                invoiceDescription:
+                                                                    detail
+                                                                        .invoiceDescription,
+                                                                amount: detail
+                                                                    .amount,
+                                                                invoiceDate: detail
+                                                                    .invoiceDate,
+                                                                tax: detail.tax,
+                                                                dueAmount: detail
+                                                                    .dueAmount,
+                                                                totalAmount: detail
+                                                                    .totalAmount,
+                                                                isPaid: detail
+                                                                    .isPaid,
+                                                                paidBy: detail
+                                                                    .paidBy,
+                                                                signatureName:
+                                                                    detail
+                                                                        .signatureName,
+                                                              )));
                                                 },
                                                 child: Container(
                                                   decoration: BoxDecoration(

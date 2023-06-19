@@ -354,7 +354,7 @@ class _AddEstimateState extends State<AddEstimate> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Add tex',
+                              hintText: 'Add tax',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,

@@ -28,9 +28,12 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Schedule", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Manage Schedule",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -61,7 +64,8 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
                 focusedDay: DateTime.now(),
-                headerStyle: const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+                headerStyle: const HeaderStyle(
+                    formatButtonVisible: false, titleCentered: true),
                 selectedDayPredicate: (day) => isSameDay(day, today),
                 availableGestures: AvailableGestures.all,
                 onDaySelected: _onDaySelected,
@@ -71,7 +75,9 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: colorScreenBg),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: colorScreenBg),
                 child: Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: Column(
@@ -79,7 +85,8 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                     children: [
                       const Text(
                         '23 Feb 2023',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
@@ -99,16 +106,23 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                         padding: const EdgeInsets.only(top: 30.0, bottom: 10),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEvent()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddCompanyEvent()));
                           },
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'ADD EVENT',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),
@@ -117,16 +131,23 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyOrder()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddCompanyOrder()));
                           },
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlue,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'ADD CHANGE ORDER',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),
@@ -135,16 +156,23 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCompanyEstimates()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const AddCompanyEstimates()));
                           },
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeBlack, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeBlack,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'ADD CONSTRUCTION ESTIMATE',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),

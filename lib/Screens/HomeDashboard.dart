@@ -78,69 +78,45 @@ class _HomeDashboard extends State<HomeDashboard> {
         _selectedIndex == 1;
         setState(() {});
       } else if (index == 2) {
-        currentPage = DrawerSelection.ShareLocation;
-        _selectedIndex == 2;
-        setState(() {});
-      } else if (index == 3) {
-        currentPage = DrawerSelection.Notification;
+        currentPage = DrawerSelection.Attendance;
         _selectedIndex == 3;
         setState(() {});
       } else if (index == 4) {
         currentPage = DrawerSelection.Profile;
         _selectedIndex == 3;
         setState(() {});
-      } else if (index == 5) {
-        currentPage = DrawerSelection.ShareLocationScreen;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 6) {
-        currentPage = DrawerSelection.AttendanceScreen;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 7) {
-        currentPage = DrawerSelection.ViewHourRequest;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 8) {
-        currentPage = DrawerSelection.ContractorsBackOffice;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 9) {
-        currentPage = DrawerSelection.Message;
-        _selectedIndex == 4;
-        setState(() {});
       }
-    });
-  }
 
-  void changeScreen1(int index) {
-    setState(() {
-      _selectedIndex = index;
-      if (index == 0) {
-        currentPage = DrawerSelection.Profile;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 1) {
-        currentPage = DrawerSelection.ShareLocationScreen;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 2) {
-        currentPage = DrawerSelection.ShareLocationScreen;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 3) {
-        currentPage = DrawerSelection.AttendanceScreen;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 4) {
-        currentPage = DrawerSelection.ViewHourRequest;
-        _selectedIndex == 4;
-        setState(() {});
-      } else if (index == 5) {
-        currentPage = DrawerSelection.ContractorsBackOffice;
-        _selectedIndex == 4;
-        setState(() {});
-      }
+      // else if (index == 2) {
+      //   currentPage = DrawerSelection.ShareLocation;
+      //   _selectedIndex == 2;
+      //   setState(() {});
+      // } else if (index == 3) {
+      //   currentPage = DrawerSelection.Notification;
+      //   _selectedIndex == 3;
+      //   setState(() {});
+      // }
+      // else if (index == 5) {
+      //   currentPage = DrawerSelection.ShareLocationScreen;
+      //   _selectedIndex == 4;
+      //   setState(() {});
+      // } else if (index == 6) {
+      //   currentPage = DrawerSelection.AttendanceScreen;
+      //   // _selectedIndex == 4;
+      //   setState(() {});
+      // } else if (index == 7) {
+      //   currentPage = DrawerSelection.ViewHourRequest;
+      //   _selectedIndex == 4;
+      //   setState(() {});
+      // } else if (index == 8) {
+      //   currentPage = DrawerSelection.ContractorsBackOffice;
+      //   _selectedIndex == 4;
+      //   setState(() {});
+      // } else if (index == 9) {
+      //   currentPage = DrawerSelection.Message;
+      //   _selectedIndex == 4;
+      //   setState(() {});
+      // }
     });
   }
 

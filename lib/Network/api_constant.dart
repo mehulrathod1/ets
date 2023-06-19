@@ -124,6 +124,7 @@ class ApiConstant {
   static const employeeEditNote = 'employee/edit-note/';
   static const employeeDeleteInvoice = 'employee/delete-invoice/';
   static const employeeAddInvoice = 'employee/add-invoice';
+  static const employeeEditInvoice = 'employee/edit-invoice/';
   static const employeeGetEstimateOrder = 'employee/get-orders-estiment';
   static const employeeAddOrder = 'employee/add-orders';
   static const employeeEditOrder = 'employee/edit_orders.php/?id=';

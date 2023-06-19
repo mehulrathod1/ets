@@ -84,7 +84,6 @@ class _Home extends State<Home> {
                 GestureDetector(
                   onTap: () {
                     widget.changeScreen!(4);
-
                   },
                   child: Container(
                     height: 130,
@@ -107,10 +106,31 @@ class _Home extends State<Home> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 130,
-                  width: 160,
-                )
+                GestureDetector(
+                  onTap: () {
+                    widget.changeScreen!(2);
+                  },
+                  child: Container(
+                    height: 130,
+                    width: 160,
+                    decoration: BoxDecoration(
+                      color: colorBlueBoxLight,
+                      border: Border.all(color: colorBoxBlue, width: 1),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.check_circle_outline,
+                          size: 60,
+                        ),
+                        SizedBox(height: 8),
+                        Text("Attendance")
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

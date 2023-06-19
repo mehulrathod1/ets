@@ -2,14 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Models/EmployeeModel/employee_add_estimate_model.dart';
-import '../../Models/EmployeeModel/employee_add_invoice_model.dart';
+import '../../Models/EmployeeModel/employee_edit_invoice_model.dart';
 import '../../Network/api_constant.dart';
 import '../../Network/post_api_client.dart';
 import '../../Screens/Contractors/ManageInvoice/manage_invoice.dart';
 
-class EmployeeAddInvoiceController {
-  EmployeeAddInvoiceModel? addInvoiceModel;
+class EmployeeEditInvoiceController {
+  EmployeeEditInvoiceModel? editInvoiceModel;
   TextEditingController invoiceForId = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController estimateAmount = TextEditingController();
@@ -23,32 +22,36 @@ class EmployeeAddInvoiceController {
   TextEditingController invoiceDate = TextEditingController();
   TextEditingController isPaid = TextEditingController();
   TextEditingController signName = TextEditingController();
+  TextEditingController amountNow = TextEditingController();
+  TextEditingController paidBy = TextEditingController();
 
-  Future addInvoice(BuildContext context, {required String? signature}) async {
+  Future editInvoice(BuildContext context,
+      {required String id, required String? signature}) async {
     showDialog(
         context: context,
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
     var response = await postDataWithHeader(
-        paramUri: ApiConstant.employeeAddInvoice,
+        paramUri: ApiConstant.employeeEditInvoice + id,
         params: {
           'sig-dataUrl': signature!,
           'estimate_id': invoiceForId.text,
           'invoice_description': description.text,
           'amount': estimateAmount.text,
-          'paid_by': 'test account',
+          'paid_by': paidBy.text,
           'tax': tax.text,
           'cost_plus': costPlus.text,
           'invoice_date': invoiceDate.text,
           'isPaid': isPaid.text,
           'sign_name': signName.text,
+          'amount_now': amountNow.text,
           'total': totalAmount.text,
         });
     debugPrint("invoice response :- ${response.toString()}");
     if (response["status"] == 'True') {
-      var res = EmployeeAddInvoiceModel.fromJson(response);
-      addInvoiceModel = res;
+      var res = EmployeeEditInvoiceModel.fromJson(response);
+      editInvoiceModel = res;
       Navigator.pop(context);
 
       SharedPreferences prefs = await SharedPreferences.getInstance();

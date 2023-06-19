@@ -19,6 +19,7 @@ class EmployeeAddOrderController {
   TextEditingController amount = TextEditingController();
   TextEditingController startDate = TextEditingController();
   TextEditingController dueDate = TextEditingController();
+  TextEditingController signatureName = TextEditingController();
 
   Future addOrder(BuildContext context,
       {required String? signature, required bool? schedule}) async {
@@ -39,7 +40,7 @@ class EmployeeAddOrderController {
           'amount': amount.text,
           'start_date': startDate.text,
           'due_date': dueDate.text,
-          'sign_name': '',
+          'sign_name': signatureName.text,
         });
     debugPrint("addOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {

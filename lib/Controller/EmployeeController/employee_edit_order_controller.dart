@@ -40,7 +40,7 @@ class EmployeeEditOrderController {
           'amount': amount.text,
           'start_date': startDate.text,
           'due_date': dueDate.text,
-          'sign_name': signName,
+          'sign_name': signName.text,
         });
     debugPrint("editOrder response :- ${response.toString()}");
     if (response["status"] == 'True') {

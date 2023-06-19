@@ -507,6 +507,32 @@ class _AddOrderState extends State<AddOrder> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
+                        SizedBox(
+                          height: 40,
+                          child: TextField(
+                            controller: addOrderController.signatureName,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              fillColor: colorScreenBg,
+                              filled: true,
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
                         Container(
                           height: 150,
                           decoration: BoxDecoration(
@@ -643,6 +669,15 @@ class _AddOrderState extends State<AddOrder> {
                                   const SnackBar(
                                     content:
                                         Text("Oops!, Order due date missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addOrderController
+                                  .signatureName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Signature name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );

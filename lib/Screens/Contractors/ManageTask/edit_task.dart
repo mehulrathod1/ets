@@ -14,6 +14,7 @@ class EditTask extends StatefulWidget {
       required this.taskName,
       required this.dueDate,
       required this.taskDescription,
+      required this.orderId,
       Key? key})
       : super(key: key);
   String id;
@@ -21,6 +22,7 @@ class EditTask extends StatefulWidget {
   String taskName;
   DateTime dueDate;
   String taskDescription;
+  String orderId;
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -69,6 +71,12 @@ class _EditTaskState extends State<EditTask> {
             {
               setState(() {
                 taskListItems = buildTaskSizeListItems(value);
+                for (int i = 0; i < value.length; i++) {
+                  if (value[i]["estimate_id"] == widget.orderId) {
+                    editTaskController.orderId.text = value[i]["estimate_id"];
+                    selectedTask = value[i]["order_name"];
+                  }
+                }
               }),
             }
           else

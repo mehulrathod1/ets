@@ -73,6 +73,7 @@ class ListElement {
     required this.employeeId,
     required this.changeDescription,
     required this.signature,
+    required this.signatureName,
   });
 
   String? id;
@@ -87,7 +88,7 @@ class ListElement {
   String? employeeId;
   String changeDescription;
   String signature;
-
+  String signatureName;
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
 
@@ -106,6 +107,7 @@ class ListElement {
         employeeId: json["employee_id"],
         changeDescription: json["change_description"],
         signature: json["signature"],
+        signatureName: json["signature_name"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,6 +125,7 @@ class ListElement {
         "employee_id": employeeId,
         "change_description": changeDescription,
         "signature": signature,
+        "signature_name": signatureName,
       };
 }
 

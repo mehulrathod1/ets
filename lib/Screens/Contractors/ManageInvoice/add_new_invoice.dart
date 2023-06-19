@@ -34,6 +34,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
   String? signatureBase64;
   EmployeeAddInvoiceController addInvoiceController =
       EmployeeAddInvoiceController();
+
   // late EmployeeEstimateModel estimateModel;
   // List<ListElement> estimateList = [];
 
@@ -42,17 +43,34 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
-      addInvoiceController.invoiceForId.text = selectedTest['estimate_id'];
       selectEstimate = selectedTest['estimate_name'];
-      addInvoiceController.description.text =
-          selectedTest['estimate_description'];
-      addInvoiceController.estimateAmount.text = selectedTest['amount'];
-      addInvoiceController.changeDescription.text =
-          selectedTest['estimate_description'];
-      addInvoiceController.orderAmount.text = selectedTest['amount'];
-      addInvoiceController.tax.text = selectedTest['tax'];
-      addInvoiceController.markup.text = selectedTest['markup'];
-      addInvoiceController.costPlus.text = selectedTest['markup'];
+
+      print(selectEstimate);
+      addInvoiceController.invoiceForId.text = selectedTest['estimate_id'];
+
+      if (selectedTest['estimate_description'] != null) {
+        addInvoiceController.description.text =
+            selectedTest['estimate_description'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.estimateAmount.text = selectedTest['amount'];
+      }
+      if (selectedTest['estimate_description'] != null) {
+        addInvoiceController.changeDescription.text =
+            selectedTest['estimate_description'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.orderAmount.text = selectedTest['amount'];
+      }
+      if (selectedTest['tax'] != null) {
+        addInvoiceController.tax.text = selectedTest['tax'];
+      }
+      if (selectedTest['markup'] != null) {
+        addInvoiceController.markup.text = selectedTest['markup'];
+      }
+      if (selectedTest['cost_plus'] != null) {
+        addInvoiceController.costPlus.text = selectedTest['cost_plus'];
+      }
     });
   }
 
@@ -213,10 +231,9 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                               selectEstimate,
                               style: TextStyle(
                                   fontSize: 18,
-                                  color:
-                                      selectEstimate == "Test Estimate Section"
-                                          ? Colors.black.withOpacity(0.60)
-                                          : Colors.black),
+                                  color: selectEstimate == "Select Estimate"
+                                      ? Colors.black.withOpacity(0.60)
+                                      : Colors.black),
                             ),
                             onChanged: onChangeDropdownBoxSize,
                             items: orderListItems),
@@ -647,6 +664,32 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
+                        SizedBox(
+                          height: 40,
+                          child: TextField(
+                            controller: addInvoiceController.signName,
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              fillColor: colorScreenBg,
+                              filled: true,
+                              isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
                         Container(
                           height: 150,
                           decoration: BoxDecoration(
@@ -797,6 +840,15 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Date missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addInvoiceController
+                                  .signName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Signature name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );

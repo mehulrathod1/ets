@@ -278,6 +278,8 @@ class _ManageOrderState extends State<ManageOrder> {
                                                               detail.dueDate,
                                                           signature:
                                                               detail.signature,
+                                                          signatureName: detail
+                                                              .signatureName,
                                                         ),
                                                       ),
                                                     );

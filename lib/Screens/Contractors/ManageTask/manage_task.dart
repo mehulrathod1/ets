@@ -247,18 +247,27 @@ class _ManageTaskState extends State<ManageTask> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => EditTask(
-                                                                id: detail.id,
-                                                                taskStatus:
-                                                                    detail.taskStatus ??
-                                                                        "0",
-                                                                taskName: detail
-                                                                    .taskName,
-                                                                dueDate: detail
-                                                                    .dueDate,
-                                                                taskDescription:
-                                                                    detail
-                                                                        .taskDescription)));
+                                                            builder:
+                                                                (context) =>
+                                                                    EditTask(
+                                                                      id: detail
+                                                                          .id,
+                                                                      taskStatus:
+                                                                          detail.taskStatus ??
+                                                                              "0",
+                                                                      taskName:
+                                                                          detail
+                                                                              .taskName,
+                                                                      dueDate:
+                                                                          detail
+                                                                              .dueDate,
+                                                                      taskDescription:
+                                                                          detail
+                                                                              .taskDescription,
+                                                                      orderId:
+                                                                          detail
+                                                                              .orderId,
+                                                                    )));
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:
