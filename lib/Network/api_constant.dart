@@ -113,6 +113,8 @@ class ApiConstant {
   static const employeeOrderList = 'employee/view-orders-lists?show=500&';
   static const employeeTaskList = 'employee/view-task-list?show=500&';
   static const employeeNoteList = 'employee/view-notes-list?show=500&';
+  static const employeeViewEvent =
+      'employee/view-event-list?show=500&searchName&page=';
 
   static const employeeAddContact = 'employee/add-contact';
   static const employeeEditContact = 'employee/edit-contact/';

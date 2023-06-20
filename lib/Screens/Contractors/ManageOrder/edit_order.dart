@@ -570,6 +570,21 @@ class _EditOrderState extends State<EditOrder> {
                               maximumStrokeWidth: 4.0),
                         ),
                       ),
+                      SizedBox(height: 8),
+                      Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Image(
+                            image: NetworkImage(widget.signature),
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -699,16 +714,18 @@ class _EditOrderState extends State<EditOrder> {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            } else if (base64ImagePath.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Oops!, signature missing."),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else {
+                            }
+                            // else if (base64ImagePath.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content: Text("Oops!, signature missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // }
+                            else {
                               await editOrderController.editOrder(context,
-                                  id: widget.id, signature: signaturePath);
+                                  id: widget.id, signature: base64ImagePath);
                             }
                           },
                           child: Container(

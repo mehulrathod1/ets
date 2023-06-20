@@ -29,6 +29,7 @@ class EditInvoice extends StatefulWidget {
       required this.isPaid,
       required this.paidBy,
       required this.signatureName,
+      required this.signature,
       Key? key})
       : super(key: key);
 
@@ -44,6 +45,7 @@ class EditInvoice extends StatefulWidget {
   String isPaid;
   String paidBy;
   String signatureName;
+  String signature;
 
   @override
   State<EditInvoice> createState() => _EditInvoiceState();
@@ -713,6 +715,21 @@ class _EditInvoiceState extends State<EditInvoice> {
                                 maximumStrokeWidth: 4.0),
                           ),
                         ),
+                        SizedBox(height: 8),
+                        Container(
+                          height: 150,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Image(
+                              image: NetworkImage(widget.signature),
+                            ),
+                          ),
+                        ),
                         Row(
                           children: [
                             Expanded(
@@ -858,14 +875,16 @@ class _EditInvoiceState extends State<EditInvoice> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (base64ImagePath.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Oops!, Signature missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else {
+                              }
+                              // else if (base64ImagePath.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text("Oops!, Signature missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // }
+                              else {
                                 await editInvoiceController.editInvoice(context,
                                     signature: base64ImagePath, id: widget.id);
                               }

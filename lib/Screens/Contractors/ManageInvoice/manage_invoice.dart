@@ -368,6 +368,8 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                                 signatureName:
                                                                     detail
                                                                         .signatureName,
+                                                                signature: detail
+                                                                    .signature,
                                                               )));
                                                 },
                                                 child: Container(

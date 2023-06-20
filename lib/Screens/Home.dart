@@ -121,8 +121,8 @@ class _Home extends State<Home> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Icon(
-                          Icons.check_circle_outline,
+                        ImageIcon(
+                          AssetImage("assets/attendance.png"),
                           size: 60,
                         ),
                         SizedBox(height: 8),

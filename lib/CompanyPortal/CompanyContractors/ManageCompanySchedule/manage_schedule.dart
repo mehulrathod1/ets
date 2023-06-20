@@ -4,6 +4,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../../Controller/EmployeeController/employee_event_controller.dart';
+import '../../../Models/EmployeeModel/employee_event_model.dart';
 import 'add_company_event.dart';
 
 class ManageCompanySchedule extends StatefulWidget {
@@ -15,11 +17,17 @@ class ManageCompanySchedule extends StatefulWidget {
 
 class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
   DateTime today = DateTime.now();
+  bool loading = false;
 
   void _onDaySelected(DateTime day, DateTime focusedDate) {
     setState(() {
       today = day;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -183,6 +191,28 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEventsMarker(DateTime date, List events) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.rectangle,
+        color: Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          '${events.length}',
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
