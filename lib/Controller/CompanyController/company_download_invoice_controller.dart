@@ -160,4 +160,35 @@ class CompanyDownloadInvoiceController {
       return null;
     }
   }
+
+  Future employeeViewInvoice(BuildContext context, id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response =
+        await getData(paramUri: ApiConstant.employeeInvoiceDownload + id);
+    if (response["status"] == "True" && response["data"] != null) {
+      var res = CompanyDownloadInvoiceModel.fromJson(response);
+      downloadInvoiceModel = res;
+      Navigator.pop(context);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(res.message),
+      //     duration: const Duration(seconds: 2),
+      //   ),
+      // );
+      return CompanyDownloadInvoiceModel.fromJson(response);
+    } else {
+      Navigator.pop(context);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //       //   SnackBar(
+      //       //     content: Text(response["message"]),
+      //       //     duration: const Duration(seconds: 2),
+      //       //   ),
+      //       // );
+      return null;
+    }
+  }
 }

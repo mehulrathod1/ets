@@ -621,16 +621,18 @@ class _EditContactState extends State<EditContact> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (employeeAddContactController
-                                  .companyName.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text("Oops!, Company name missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (employeeAddContactController
+                              }
+                              // else if (employeeAddContactController
+                              //     .companyName.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content:
+                              //           Text("Oops!, Company name missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // }
+                              else if (employeeAddContactController
                                   .address.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -670,16 +672,18 @@ class _EditContactState extends State<EditContact> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (employeeAddContactController
-                                  .homeNumber.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        "Oops!, Home/Office number missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (employeeAddContactController
+                              }
+                              // else if (employeeAddContactController
+                              //     .homeNumber.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text(
+                              //           "Oops!, Home/Office number missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // }
+                              else if (employeeAddContactController
                                   .mobileNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

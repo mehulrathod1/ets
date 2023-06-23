@@ -391,9 +391,53 @@ class _EditEstimateState extends State<EditEstimate> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
-                          onTap: () {
-                            editEstimateController.editEstimate(
-                                context, widget.id);
+                          onTap: () async {
+                            if (selectedContact.isEmpty ||
+                                editEstimateController.contactId.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!, Please select contact from list."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (editEstimateController
+                                .estimateName.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!,Estimate name missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (editEstimateController
+                                .estimateDescription.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!,Estimate Description missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (editEstimateController
+                                .dueDate.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!,Deu Date missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (editEstimateController
+                                .amount.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!,amount missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              editEstimateController.editEstimate(
+                                  context, widget.id);
+                            }
                           },
                           child: Container(
                               width: double.infinity,

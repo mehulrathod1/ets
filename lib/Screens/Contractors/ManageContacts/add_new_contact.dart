@@ -628,25 +628,27 @@ class _AddNewContactState extends State<AddNewContact> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (employeeAddContactController
-                                  .homeNumber.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        "Oops!, Home/Office number missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
                               }
-                              // else if (employeeAddContactController.mobileNumber.text.isEmpty) {
+                              // else if (employeeAddContactController
+                              //     .homeNumber.text.isEmpty) {
                               //   ScaffoldMessenger.of(context).showSnackBar(
                               //     const SnackBar(
-                              //       content: Text("Oops!, Mobile number missing."),
+                              //       content: Text(
+                              //           "Oops!, Home/Office number missing."),
                               //       duration: Duration(seconds: 1),
                               //     ),
                               //   );
                               // }
-                              else {
+                              else if (employeeAddContactController
+                                  .mobileNumber.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!, Mobile number missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
                                 await employeeAddContactController
                                     .addContact(context);
                               }

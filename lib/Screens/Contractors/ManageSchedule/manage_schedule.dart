@@ -5,6 +5,7 @@ import 'package:etsemployee/Screens/Contractors/ManageOrder/add_order.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../Controller/EmployeeController/employee_event_controller.dart';
 import '../../../Models/EmployeeModel/employee_event_model.dart';
@@ -24,6 +25,13 @@ class _ManageScheduleState extends State<ManageSchedule> {
   late EmployeeGetEventModel getEventModel;
   List<ListElement> eventList = [];
   bool loading = false;
+  List<DateTime> eventDateList = [];
+
+  Map<DateTime, List<dynamic>> events = {};
+
+  List<dynamic> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
 
   void _onDaySelected(DateTime day, DateTime focusedDate) {
     setState(() {
@@ -41,10 +49,26 @@ class _ManageScheduleState extends State<ManageSchedule> {
         if (value != null) {
           getEventModel = value;
           eventList = getEventModel.data.list;
+          eventDateList.clear();
+          events.clear();
+
+          for (int i = 0; i < eventList.length; i++) {
+            DateTime startDate =
+                DateFormat('yyyy-MM-dd').parse(eventList[i].startDate);
+            if (events.containsKey(startDate)) {
+              events[startDate]!.add(eventList[i]);
+            } else {
+              events[startDate] = [eventList[i]];
+            }
+            eventDateList.add(startDate);
+          }
           loading = false;
           print(getEventModel.message);
+          print(events);
         } else {
           eventList.clear();
+          eventDateList.clear();
+          events.clear();
           loading = false;
         }
       });
@@ -102,16 +126,33 @@ class _ManageScheduleState extends State<ManageSchedule> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TableCalendar(
-                firstDay: DateTime.utc(2010, 10, 16),
+                firstDay: DateTime.utc(2000, 3, 14),
                 lastDay: DateTime.utc(2030, 3, 14),
                 focusedDay: DateTime.now(),
+                startingDayOfWeek: StartingDayOfWeek.monday,
                 headerStyle: const HeaderStyle(
                     formatButtonVisible: false, titleCentered: true),
-                selectedDayPredicate: (day) => isSameDay(day, today),
+                // selectedDayPredicate: (day) => isSameDay(day, today) && events.containsKey(day),
+                selectedDayPredicate: (day) =>
+                    isSameDay(day, today) && (_getEventsForDay(day).isNotEmpty),
+
                 availableGestures: AvailableGestures.all,
                 onDaySelected: _onDaySelected,
+                eventLoader: (day) => _getEventsForDay(day),
               ),
             ),
+            Text(
+              DateFormat('dd MMM yyyy').format(today), // Display selected date
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            ..._getEventsForDay(today).map((event) => Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    event
+                        .eventTitle, // Replace with the appropriate event property
+                    style: TextStyle(fontSize: 14, color: appThemeGreen),
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

@@ -834,31 +834,33 @@ class _EditInvoiceState extends State<EditInvoice> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (editInvoiceController
-                                  .tax.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Oops!, Tax missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (editInvoiceController
-                                  .markup.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Oops!, Markup missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (editInvoiceController
-                                  .costPlus.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Oops!, Costplus missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (editInvoiceController
+                              }
+                              // else if (editInvoiceController
+                              //     .tax.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text("Oops!, Tax missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // } else if (editInvoiceController
+                              //     .markup.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text("Oops!, Markup missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // } else if (editInvoiceController
+                              //     .costPlus.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text("Oops!, Costplus missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // }
+                              else if (editInvoiceController
                                   .invoiceDate.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

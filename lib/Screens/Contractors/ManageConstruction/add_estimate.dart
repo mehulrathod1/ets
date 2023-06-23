@@ -376,7 +376,54 @@ class _AddEstimateState extends State<AddEstimate> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: GestureDetector(
                             onTap: () async {
-                              await addEstimateController.addEstimate(context);
+                              if (selectedContact.isEmpty ||
+                                  addEstimateController
+                                      .contactId.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Please select contact from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addEstimateController
+                                  .estimateName.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops!,Estimate name missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addEstimateController
+                                  .estimateDescription.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!,Estimate Description missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addEstimateController
+                                  .dueDate.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!,Deu Date missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (addEstimateController
+                                  .amount.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Oops!,amount missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else {
+                                await addEstimateController
+                                    .addEstimate(context);
+                              }
                             },
                             child: Container(
                               width: double.infinity,

@@ -105,6 +105,10 @@ class _AddOrderState extends State<AddOrder> {
     setState(() {
       addOrderController.estimateId.text = selectedTest['estimate_id'];
       selectedOrder = selectedTest['estimate_name'];
+
+      addOrderController.orderName.text = selectedTest['estimate_name'];
+      addOrderController.orderDescription.text =
+          selectedTest['estimate_description'];
     });
   }
 
@@ -515,6 +519,7 @@ class _AddOrderState extends State<AddOrder> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
+                              hintText: 'Enter signature Name',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,

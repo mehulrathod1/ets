@@ -109,6 +109,9 @@ class _EditOrderState extends State<EditOrder> {
     setState(() {
       editOrderController.estimateId.text = selectedTest['estimate_id'];
       selectedOrder = selectedTest['estimate_name'];
+      editOrderController.orderName.text = selectedTest['estimate_name'];
+      editOrderController.orderDescription.text =
+          selectedTest['estimate_description'];
     });
   }
 
