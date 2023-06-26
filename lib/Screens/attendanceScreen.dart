@@ -368,7 +368,7 @@ class _AttendanceScreen extends State<AttendanceScreen> {
                           color: appThemeBlue,
                           child: const Center(
                             child: Text(
-                              'Click Photo',
+                              'Take Photo',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),

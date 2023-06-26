@@ -80,7 +80,7 @@ class _Home extends State<Home> {
                             Text(
                               "Office",
                               style: TextStyle(fontSize: 18),
-                            )
+                            ),
                           ],
                         ),
                       ),

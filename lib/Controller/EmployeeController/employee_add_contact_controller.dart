@@ -47,10 +47,13 @@ class EmployeeAddContactController {
       var res = EmployeeAddContactModel.fromJson(response);
       employeeAddContactModel = res;
       Navigator.pop(context);
-      Navigator.pop(context);
 
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: prefs.get("profilePic").toString())));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageContactScreen(
+                  profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
