@@ -35,7 +35,11 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageContactScreen(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageContactScreen(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -64,24 +68,28 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageInvoice(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageSchedule(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
                           decoration: BoxDecoration(
-                            color: colorBlueBoxLight,
-                            border: Border.all(color: colorBoxBlue, width: 1),
+                            color: colorPinkLight,
+                            border: Border.all(color: colorPink, width: 1),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               ImageIcon(
-                                AssetImage("assets/invoice.png"),
+                                AssetImage("assets/clock.png"),
                                 size: 60,
                               ),
                               SizedBox(height: 8),
-                              Text("Invoices")
+                              Text("Schedules")
                             ],
                           ),
                         ),
@@ -100,42 +108,17 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageOrder(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageConstruction(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
                           decoration: BoxDecoration(
                             color: colorPinkLight,
                             border: Border.all(color: colorPink, width: 1),
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              ImageIcon(
-                                AssetImage("assets/order.png"),
-                                size: 60,
-                              ),
-                              SizedBox(height: 8),
-                              Text("Work/Change Orders")
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageConstruction(profilePic: widget.profilePic)));
-                        },
-                        child: Container(
-                          height: 130,
-                          decoration: BoxDecoration(
-                            color: colorBlueLight,
-                            border: Border.all(color: colorBlue, width: 1),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Column(
@@ -152,6 +135,39 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                         ),
                       ),
                     ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageOrder(
+                                      profilePic: widget.profilePic)));
+                        },
+                        child: Container(
+                          height: 130,
+                          decoration: BoxDecoration(
+                            color: colorBlueLight,
+                            border: Border.all(color: colorBlue, width: 1),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              ImageIcon(
+                                AssetImage("assets/order.png"),
+                                size: 60,
+                              ),
+                              SizedBox(height: 8),
+                              Text("Work/Change Orders")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -165,7 +181,11 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageTask(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageTask(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -194,7 +214,11 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageNote(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
@@ -230,24 +254,28 @@ class _ContractorsScreenState extends State<ContractorsScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ManageSchedule(profilePic: widget.profilePic)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageInvoice(
+                                      profilePic: widget.profilePic)));
                         },
                         child: Container(
                           height: 130,
                           decoration: BoxDecoration(
-                            color: colorPinkLight,
-                            border: Border.all(color: colorPink, width: 1),
+                            color: colorBlueBoxLight,
+                            border: Border.all(color: colorBoxBlue, width: 1),
                             borderRadius: BorderRadius.circular(18),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
                               ImageIcon(
-                                AssetImage("assets/clock.png"),
+                                AssetImage("assets/invoice.png"),
                                 size: 60,
                               ),
                               SizedBox(height: 8),
-                              Text("Schedules")
+                              Text("Invoices")
                             ],
                           ),
                         ),

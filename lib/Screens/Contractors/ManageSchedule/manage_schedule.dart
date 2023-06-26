@@ -20,22 +20,15 @@ class ManageSchedule extends StatefulWidget {
 }
 
 class _ManageScheduleState extends State<ManageSchedule> {
-  DateTime today = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   EmployeeEventController eventController = EmployeeEventController();
   late EmployeeGetEventModel getEventModel;
   List<ListElement> eventList = [];
   bool loading = false;
-  List<DateTime> eventDateList = [];
 
-  Map<DateTime, List<dynamic>> events = {};
-
-  List<dynamic> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
-  }
-
-  void _onDaySelected(DateTime day, DateTime focusedDate) {
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     setState(() {
-      today = day;
+      _selectedDate = selectedDay;
     });
   }
 
@@ -49,26 +42,15 @@ class _ManageScheduleState extends State<ManageSchedule> {
         if (value != null) {
           getEventModel = value;
           eventList = getEventModel.data.list;
-          eventDateList.clear();
-          events.clear();
 
           for (int i = 0; i < eventList.length; i++) {
             DateTime startDate =
                 DateFormat('yyyy-MM-dd').parse(eventList[i].startDate);
-            if (events.containsKey(startDate)) {
-              events[startDate]!.add(eventList[i]);
-            } else {
-              events[startDate] = [eventList[i]];
-            }
-            eventDateList.add(startDate);
+            loading = false;
+            print(getEventModel.message);
           }
-          loading = false;
-          print(getEventModel.message);
-          print(events);
         } else {
           eventList.clear();
-          eventDateList.clear();
-          events.clear();
           loading = false;
         }
       });
@@ -131,28 +113,16 @@ class _ManageScheduleState extends State<ManageSchedule> {
                 focusedDay: DateTime.now(),
                 startingDayOfWeek: StartingDayOfWeek.monday,
                 headerStyle: const HeaderStyle(
-                    formatButtonVisible: false, titleCentered: true),
-                // selectedDayPredicate: (day) => isSameDay(day, today) && events.containsKey(day),
-                selectedDayPredicate: (day) =>
-                    isSameDay(day, today) && (_getEventsForDay(day).isNotEmpty),
-
+                  formatButtonVisible: false,
+                  titleCentered: true,
+                ),
                 availableGestures: AvailableGestures.all,
+                selectedDayPredicate: (day) {
+                  return isSameDay(day, _selectedDate);
+                },
                 onDaySelected: _onDaySelected,
-                eventLoader: (day) => _getEventsForDay(day),
               ),
             ),
-            Text(
-              DateFormat('dd MMM yyyy').format(today), // Display selected date
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            ..._getEventsForDay(today).map((event) => Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Text(
-                    event
-                        .eventTitle, // Replace with the appropriate event property
-                    style: TextStyle(fontSize: 14, color: appThemeGreen),
-                  ),
-                )),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(

@@ -81,6 +81,10 @@ class _HomeDashboard extends State<HomeDashboard> {
         currentPage = DrawerSelection.Attendance;
         _selectedIndex == 3;
         setState(() {});
+      } else if (index == 3) {
+        currentPage = DrawerSelection.ContractorsBackOffice;
+        _selectedIndex == 3;
+        setState(() {});
       } else if (index == 4) {
         currentPage = DrawerSelection.Profile;
         _selectedIndex == 3;
