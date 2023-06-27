@@ -83,8 +83,8 @@ class ListElement {
   String orderName;
   String orderDescription;
   String amount;
-  DateTime startDate;
-  DateTime dueDate;
+  String startDate;
+  String dueDate;
   String? employeeId;
   String changeDescription;
   String signature;
@@ -102,8 +102,8 @@ class ListElement {
         orderName: json["order_name"],
         orderDescription: json["order_description"],
         amount: json["amount"],
-        startDate: DateTime.parse(json["start_date"]),
-        dueDate: DateTime.parse(json["due_date"]),
+        startDate: json["start_date"],
+        dueDate: json["due_date"],
         employeeId: json["employee_id"],
         changeDescription: json["change_description"],
         signature: json["signature"],
@@ -118,10 +118,8 @@ class ListElement {
         "order_name": orderName,
         "order_description": orderDescription,
         "amount": amount,
-        "start_date":
-            "${startDate.year.toString().padLeft(4, '0')}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')}",
-        "due_date":
-            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "start_date": startDate,
+        "due_date": dueDate,
         "employee_id": employeeId,
         "change_description": changeDescription,
         "signature": signature,

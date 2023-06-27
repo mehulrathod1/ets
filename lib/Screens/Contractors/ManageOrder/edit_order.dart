@@ -36,8 +36,8 @@ class EditOrder extends StatefulWidget {
   String changeDescription;
   String orderDescription;
   String amount;
-  DateTime startDate;
-  DateTime dueDate;
+  String startDate;
+  String dueDate;
   String signature;
   String signatureName;
 
@@ -139,10 +139,8 @@ class _EditOrderState extends State<EditOrder> {
     editOrderController.orderDescription.text = widget.orderDescription;
     editOrderController.changeDescription.text = widget.changeDescription;
     editOrderController.amount.text = widget.amount;
-    editOrderController.startDate.text =
-        DateFormat('MM/dd/yyyy').format(widget.startDate);
-    editOrderController.dueDate.text =
-        DateFormat('MM/dd/yyyy').format(widget.dueDate);
+    editOrderController.startDate.text = widget.startDate;
+    editOrderController.dueDate.text = widget.dueDate;
     signaturePath = widget.signature;
     editOrderController.signName.text = widget.signatureName;
     Future.delayed(const Duration(microseconds: 0), () async {

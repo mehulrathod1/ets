@@ -35,7 +35,7 @@ class EmployeeGetEventModel {
 }
 
 class Data {
-  List<ListElement> list;
+  List<ListElement1> list;
   PaginationInfo paginationInfo;
 
   Data({
@@ -48,8 +48,8 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        list: List<ListElement>.from(
-            json["List"].map((x) => ListElement.fromJson(x))),
+        list: List<ListElement1>.from(
+            json["List"].map((x) => ListElement1.fromJson(x))),
         paginationInfo: PaginationInfo.fromJson(json["pagination_info"]),
       );
 
@@ -59,7 +59,7 @@ class Data {
       };
 }
 
-class ListElement {
+class ListElement1 {
   String eventId;
   String companyId;
   String employeeId;
@@ -68,7 +68,7 @@ class ListElement {
   String dueDate;
   String startDate;
 
-  ListElement({
+  ListElement1({
     required this.eventId,
     required this.companyId,
     required this.employeeId,
@@ -78,12 +78,12 @@ class ListElement {
     required this.startDate,
   });
 
-  factory ListElement.fromRawJson(String str) =>
-      ListElement.fromJson(json.decode(str));
+  factory ListElement1.fromRawJson(String str) =>
+      ListElement1.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
+  factory ListElement1.fromJson(Map<String, dynamic> json) => ListElement1(
         eventId: json["event_id"],
         companyId: json["company_id"],
         employeeId: json["employee_id"],

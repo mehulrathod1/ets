@@ -254,7 +254,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                   const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: GestureDetector(
                                 onTap: () {
-                                  viewInvoice(context, detail.estimateId);
+                                  viewInvoice(context, detail.id);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -440,7 +440,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit",
+                                                            "View/Edit",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors
@@ -463,8 +463,8 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    downloadInvoice(context,
-                                                        detail.estimateId);
+                                                    downloadInvoice(
+                                                        context, detail.id);
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

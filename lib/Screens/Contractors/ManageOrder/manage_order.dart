@@ -228,7 +228,7 @@ class _ManageOrderState extends State<ManageOrder> {
                                               height: 8,
                                             ),
                                             Text(
-                                              detail.dueDate.toString(),
+                                              '${detail.startDate} To ${detail.dueDate}',
                                               style: const TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold),
@@ -299,7 +299,7 @@ class _ManageOrderState extends State<ManageOrder> {
                                                             EdgeInsets.only(
                                                                 left: 8.0),
                                                         child: Text(
-                                                          "Edit",
+                                                          "View/Edit",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color:
@@ -322,23 +322,10 @@ class _ManageOrderState extends State<ManageOrder> {
                                                 child: GestureDetector(
                                                   onTap: () async {
                                                     await deleteOrderController
-                                                        .deleteOrder(context,
-                                                            detail.id!);
-                                                    await employeeOrderController
-                                                        .getEmployeeContact(
-                                                            context)
+                                                        .deleteOrder(
+                                                            context, detail.id!)
                                                         .then((value) {
-                                                      setState(() {
-                                                        if (value != null) {
-                                                          employeeOrderModel =
-                                                              value;
-                                                          orderList =
-                                                              employeeOrderModel
-                                                                  .data.list;
-                                                        } else {
-                                                          orderList.clear();
-                                                        }
-                                                      });
+                                                      initialize(context, '');
                                                     });
                                                   },
                                                   child: Container(

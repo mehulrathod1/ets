@@ -396,7 +396,7 @@ class _ManageContactScreenState extends State<ManageContactScreen>
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit",
+                                                            "View/Edit",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors

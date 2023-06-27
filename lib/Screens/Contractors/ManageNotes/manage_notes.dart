@@ -273,7 +273,7 @@ class _ManageNoteState extends State<ManageNote> {
                                                             EdgeInsets.only(
                                                                 left: 8.0),
                                                         child: Text(
-                                                          "Edit",
+                                                          "View/Edit",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color:
@@ -297,20 +297,9 @@ class _ManageNoteState extends State<ManageNote> {
                                                   onTap: () async {
                                                     await deleteNoteController
                                                         .deleteNote(
-                                                            context, detail.id);
-                                                    await employeeNoteController
-                                                        .getEmployeeContact(
-                                                            context)
+                                                            context, detail.id)
                                                         .then((value) {
-                                                      setState(() {
-                                                        if (value != null) {
-                                                          noteModel = value;
-                                                          noteList = noteModel
-                                                              .data.list;
-                                                        } else {
-                                                          noteList.clear();
-                                                        }
-                                                      });
+                                                      initialize(context, '');
                                                     });
                                                   },
                                                   child: Container(

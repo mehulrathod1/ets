@@ -6,6 +6,7 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:etsemployee/Screens/Contractors/ManageNotes/manage_notes.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeNoteController {
   EmployeeAddNoteModel? employeeAddNoteModel;
@@ -46,6 +47,13 @@ class EmployeeNoteController {
       employeeAddNoteModel = res;
       Navigator.pop(context);
       // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ManageNote(profilePic: prefs.get("profilePic").toString())));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -80,8 +88,13 @@ class EmployeeNoteController {
     debugPrint("editNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => ManageNote()));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ManageNote(profilePic: prefs.get("profilePic").toString())));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

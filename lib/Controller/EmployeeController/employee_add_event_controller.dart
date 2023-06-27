@@ -3,6 +3,9 @@
 import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Screens/Contractors/ManageSchedule/manage_schedule.dart';
 
 class EmployeeAddEventController {
   TextEditingController startDate = TextEditingController();
@@ -31,6 +34,13 @@ class EmployeeAddEventController {
       endDate.clear();
       eventName.clear();
       eventDescription.clear();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ManageSchedule(
+                  profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

@@ -284,7 +284,7 @@ class _ManageTaskState extends State<ManageTask> {
                                                             EdgeInsets.only(
                                                                 left: 8.0),
                                                         child: Text(
-                                                          "Edit",
+                                                          "View/Edit",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               color:
@@ -308,20 +308,9 @@ class _ManageTaskState extends State<ManageTask> {
                                                   onTap: () async {
                                                     await deleteTaskController
                                                         .deleteTask(
-                                                            context, detail.id);
-                                                    await taskController
-                                                        .getEmployeeTask(
-                                                            context)
+                                                            context, detail.id)
                                                         .then((value) {
-                                                      setState(() {
-                                                        if (value != null) {
-                                                          taskModel = value;
-                                                          taskList = taskModel
-                                                              .data.list;
-                                                        } else {
-                                                          taskList.clear();
-                                                        }
-                                                      });
+                                                      initialize(context, '');
                                                     });
                                                   },
                                                   child: Container(
