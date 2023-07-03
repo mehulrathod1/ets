@@ -253,8 +253,8 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                               padding:
                                   const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: GestureDetector(
-                                onTap: () {
-                                  viewInvoice(context, detail.id);
+                                onTap: () async {
+                                  await viewInvoice(context, detail.id);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(

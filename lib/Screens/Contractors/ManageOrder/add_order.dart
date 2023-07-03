@@ -84,6 +84,13 @@ class _AddOrderState extends State<AddOrder> {
 
     print(base64ImagePath);
 
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Signature Submitted Successfully"),
+        duration: Duration(seconds: 1),
+      ),
+    );
+
     // await Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) {

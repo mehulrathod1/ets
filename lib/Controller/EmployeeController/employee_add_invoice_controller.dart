@@ -15,6 +15,7 @@ class EmployeeAddInvoiceController {
   TextEditingController estimateAmount = TextEditingController();
   TextEditingController changeDescription = TextEditingController();
   TextEditingController orderAmount = TextEditingController();
+  TextEditingController changeOrderAmount = TextEditingController();
   TextEditingController totalAmount = TextEditingController();
   TextEditingController paidAmount = TextEditingController();
   TextEditingController tax = TextEditingController();
@@ -43,7 +44,7 @@ class EmployeeAddInvoiceController {
           'invoice_date': invoiceDate.text,
           'isPaid': isPaid.text,
           'sign_name': signName.text,
-          'total': totalAmount.text,
+          'total': totalAmount.text
         });
     debugPrint("invoice response :- ${response.toString()}");
     if (response["status"] == 'True') {

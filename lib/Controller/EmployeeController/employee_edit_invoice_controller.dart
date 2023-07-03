@@ -24,6 +24,7 @@ class EmployeeEditInvoiceController {
   TextEditingController signName = TextEditingController();
   TextEditingController amountNow = TextEditingController();
   TextEditingController paidBy = TextEditingController();
+  TextEditingController dueAmount = TextEditingController();
 
   Future editInvoice(BuildContext context,
       {required String id, required String? signature}) async {
@@ -38,7 +39,7 @@ class EmployeeEditInvoiceController {
           'sig-dataUrl': signature!,
           'estimate_id': invoiceForId.text,
           'invoice_description': description.text,
-          'amount': estimateAmount.text,
+          'amount': paidAmount.text,
           'paid_by': paidBy.text,
           'tax': tax.text,
           'cost_plus': costPlus.text,

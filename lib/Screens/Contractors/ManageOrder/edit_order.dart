@@ -76,6 +76,13 @@ class _EditOrderState extends State<EditOrder> {
     base64ImagePath = base64.encode(unit8);
 
     print(base64ImagePath);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Signature Submitted Successfully"),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 
   // void _handleSaveButtonPressed() async {

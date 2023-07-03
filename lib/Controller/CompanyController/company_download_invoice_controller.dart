@@ -161,6 +161,37 @@ class CompanyDownloadInvoiceController {
     }
   }
 
+  Future employeeDownloadOrder(BuildContext context, id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response =
+        await getData(paramUri: ApiConstant.employeeInvoiceOrder + id);
+    if (response["status"] == "True" && response["data"] != null) {
+      var res = CompanyDownloadInvoiceModel.fromJson(response);
+      downloadInvoiceModel = res;
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(res.message),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return CompanyDownloadInvoiceModel.fromJson(response);
+    } else {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(response["message"]),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      return null;
+    }
+  }
+
   Future employeeViewInvoice(BuildContext context, id) async {
     showDialog(
         context: context,
@@ -169,6 +200,37 @@ class CompanyDownloadInvoiceController {
         });
     var response =
         await getData(paramUri: ApiConstant.employeeInvoiceDownload + id);
+    if (response["status"] == "True" && response["data"] != null) {
+      var res = CompanyDownloadInvoiceModel.fromJson(response);
+      downloadInvoiceModel = res;
+      Navigator.pop(context);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(res.message),
+      //     duration: const Duration(seconds: 2),
+      //   ),
+      // );
+      return CompanyDownloadInvoiceModel.fromJson(response);
+    } else {
+      Navigator.pop(context);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //       //   SnackBar(
+      //       //     content: Text(response["message"]),
+      //       //     duration: const Duration(seconds: 2),
+      //       //   ),
+      //       // );
+      return null;
+    }
+  }
+
+  Future employeeViewOrder(BuildContext context, id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response =
+        await getData(paramUri: ApiConstant.employeeInvoiceOrder + id);
     if (response["status"] == "True" && response["data"] != null) {
       var res = CompanyDownloadInvoiceModel.fromJson(response);
       downloadInvoiceModel = res;
