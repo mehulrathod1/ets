@@ -108,6 +108,8 @@ class ApiConstant {
       'employee/attendance-history-employee?show=10&';
   static const employeeAddAttendance = 'employee/add-attendance-employee/';
   static const employeeContactList = 'employee/view-contact-list?show=500&';
+  static const employeeContactListForInvoice = 'employee/view-contact-list';
+
   static const employeeViewInvoice = 'employee/view-invoice-lists?show=500&';
   static const employeeEstimateList = 'employee/view-estimate-lists?show=500&';
   static const employeeOrderList = 'employee/view-orders-lists?show=500&';
@@ -126,6 +128,12 @@ class ApiConstant {
   static const employeeEditNote = 'employee/edit-note/';
   static const employeeDeleteInvoice = 'employee/delete-invoice/';
   static const employeeAddInvoice = 'employee/add-invoice';
+  static const employeeAddInvoiceForContact = 'employee/add_contact_invoice';
+  static const employeeEditInvoiceForContact = 'employee/edit_contact_invoice';
+
+  static const employeeGetContactInvoice = 'employee/contact_invoice_list';
+  static const employeeContactInvoice = 'employee/delete_contact_invoice/';
+
   static const employeeEditInvoice = 'employee/edit-invoice/';
   static const employeeGetEstimateOrder = 'employee/get-orders-estiment';
   static const employeeAddOrder = 'employee/add-orders';

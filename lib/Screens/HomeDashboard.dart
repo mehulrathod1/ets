@@ -8,6 +8,7 @@ import 'package:etsemployee/Screens/UserSelectionScreen.dart';
 import 'package:etsemployee/Screens/Contractors/contractorts_screen.dart';
 import 'package:etsemployee/Screens/history_screen.dart';
 import 'package:etsemployee/Screens/hour_request.dart';
+import 'package:etsemployee/Screens/privacy_policy.dart';
 import 'package:etsemployee/Screens/share_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
@@ -156,9 +157,7 @@ class _HomeDashboard extends State<HomeDashboard> {
                   : false),
           menuItem(9, "Privacy Policy", Icons.help_outline,
               currentPage == DrawerSelection.Howitworks ? true : false),
-          menuItem(10, "Settings", Icons.settings_outlined,
-              currentPage == DrawerSelection.Settings ? true : false),
-          menuItem(11, "Logout", Icons.logout,
+          menuItem(10, "Logout", Icons.logout,
               currentPage == DrawerSelection.Logout ? true : false),
           const Padding(
             padding: EdgeInsets.only(top: 100.0, right: 16, bottom: 16),
@@ -211,7 +210,11 @@ class _HomeDashboard extends State<HomeDashboard> {
               currentPage = DrawerSelection.ContractorsBackOffice;
               _selectedIndex = 0;
               setState(() {});
-            } else if (id == 11) {
+            } else if (id == 9) {
+              currentPage = DrawerSelection.Howitworks;
+              _selectedIndex = 0;
+              setState(() {});
+            } else if (id == 10) {
               currentPage = DrawerSelection.Logout;
             }
           });
@@ -304,6 +307,9 @@ class _HomeDashboard extends State<HomeDashboard> {
       container = ContractorsScreen(
           profilePic: employeeProfileDetailsModel!.data.profileImg);
       appBarTitle = "Contractors Back Office";
+    } else if (currentPage == DrawerSelection.Howitworks) {
+      container = EmployeePrivacyPolicy();
+      appBarTitle = "Privacy Policy";
     } else if (currentPage == DrawerSelection.Profile) {
       container = Profile(
         changeScreen: changeScreen,
@@ -443,25 +449,6 @@ enum DrawerSelection {
   Notification,
   ContractorsBackOffice,
   Howitworks,
-  Settings,
-  Logout,
-  Profile,
-  ShareLocationScreen,
-  AttendanceScreen,
-  ViewHourRequest
-}
-
-enum DrawerSelection1 {
-  Dashboard,
-  Attendance,
-  FixHoursRequest,
-  ShareLocation,
-  History,
-  Message,
-  Notification,
-  ContractorsBackOffice,
-  Howitworks,
-  Settings,
   Logout,
   Profile,
   ShareLocationScreen,

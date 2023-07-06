@@ -236,11 +236,8 @@ class _HourRequestState extends State<HourRequest> {
                               context: context,
                             );
                             if (pickedTime != null) {
-                              debugPrint(pickedTime.format(context));
-                              DateTime parsedTime = DateFormat.jm()
-                                  .parse(pickedTime.format(context).toString());
                               String formattedTime =
-                                  DateFormat('HH:mm').format(parsedTime);
+                                  '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
                               debugPrint(formattedTime);
                               setState(() {
                                 employeeSendHourRequestController.inTime.text =
@@ -268,13 +265,9 @@ class _HourRequestState extends State<HourRequest> {
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            suffixIcon: Align(
-                              widthFactor: 1,
-                              heightFactor: 1,
-                              child: Icon(
-                                Icons.watch_later_outlined,
-                                color: appThemeGreen,
-                              ),
+                            suffixIcon: Icon(
+                              Icons.watch_later_outlined,
+                              color: appThemeGreen,
                             ),
                             hintText: 'select out time ',
                             fillColor: colorScreenBg,
@@ -298,15 +291,13 @@ class _HourRequestState extends State<HourRequest> {
                               context: context,
                             );
                             if (pickedTime != null) {
-                              debugPrint(pickedTime.format(context));
-                              DateTime parsedTime = DateFormat.jm()
-                                  .parse(pickedTime.format(context).toString());
                               String formattedTime =
-                                  DateFormat('HH:mm').format(parsedTime);
+                                  '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}';
                               debugPrint(formattedTime);
                               setState(() {
                                 employeeSendHourRequestController.outTime.text =
                                     formattedTime;
+                                debugPrint(formattedTime);
                               });
                             } else {
                               debugPrint("Time is not selected");

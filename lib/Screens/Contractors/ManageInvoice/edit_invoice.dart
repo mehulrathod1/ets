@@ -119,14 +119,21 @@ class _EditInvoiceState extends State<EditInvoice> {
       if (selectedTest['amount'] != null) {
         editInvoiceController.orderAmount.text = selectedTest['amount'];
       }
-      if (selectedTest['tax'] != null) {
+      if (selectedTest['tax'] != '') {
         editInvoiceController.tax.text = selectedTest['tax'];
+        print(selectedTest['tax']);
+      } else {
+        editInvoiceController.tax.text = '0';
       }
-      if (selectedTest['markup'] != null) {
+      if (selectedTest['markup'] != '') {
         editInvoiceController.markup.text = selectedTest['markup'];
+      } else {
+        editInvoiceController.markup.text = '0';
       }
       if (selectedTest['cost_plus'] != null) {
         editInvoiceController.costPlus.text = selectedTest['cost_plus'];
+      } else {
+        editInvoiceController.costPlus.text = '0';
       }
     });
   }
@@ -151,6 +158,10 @@ class _EditInvoiceState extends State<EditInvoice> {
   @override
   void initState() {
     print(widget.estimateId);
+
+    if (widget.tax.isEmpty) {
+      widget.tax = '0';
+    }
     DateTime now = DateTime.now();
     widget.invoiceDate = DateFormat('MM/dd/yyyy').format(now);
     editInvoiceController.description.text = widget.invoiceDescription;
@@ -182,8 +193,14 @@ class _EditInvoiceState extends State<EditInvoice> {
                           value[i]["estimate_id"];
                       editInvoiceController.estimateAmount.text =
                           value[i]["amount"];
-                      selectEstimate = value[i]["estimate_name"];
 
+                      if (value[i]["markup"] != '') {
+                        editInvoiceController.markup.text = value[i]["markup"];
+                      } else {
+                        editInvoiceController.markup.text = '0';
+                      }
+
+                      selectEstimate = value[i]["estimate_name"];
                       descriptionList = value[i]['order_array'];
                       for (int i = 0; i < descriptionList.length; i++) {
                         int amt = int.parse(descriptionList[i]['amount']);
@@ -212,6 +229,7 @@ class _EditInvoiceState extends State<EditInvoice> {
 
                       editInvoiceController.totalAmount.text =
                           totalAmount.toString();
+
                       totalAmount = 0;
                       totalChangeAmount = 0;
                       tax = 0;

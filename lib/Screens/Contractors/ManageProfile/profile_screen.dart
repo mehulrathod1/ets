@@ -401,30 +401,30 @@ class _ProfileState extends State<Profile> {
                         )),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ProfileChangeRequest()));
-                    },
-                    child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Center(
-                          child: Text(
-                            'Request Change Profile',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        )),
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.all(8),
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //           context,
+                //           MaterialPageRoute(
+                //               builder: (context) =>
+                //                   const ProfileChangeRequest()));
+                //     },
+                //     child: Container(
+                //         width: double.infinity,
+                //         height: 40,
+                //         decoration: BoxDecoration(
+                //             color: Colors.black,
+                //             borderRadius: BorderRadius.circular(8)),
+                //         child: const Center(
+                //           child: Text(
+                //             'Request Change Profile',
+                //             style: TextStyle(color: Colors.white, fontSize: 18),
+                //           ),
+                //         )),
+                //   ),
+                // )
               ],
             ),
     );

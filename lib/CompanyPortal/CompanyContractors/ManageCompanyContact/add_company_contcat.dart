@@ -240,45 +240,45 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                          child: Text(
-                            "Company Name *",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: TextField(
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              suffixIcon: Align(
-                                  widthFactor: 1,
-                                  heightFactor: 1,
-                                  child: ImageIcon(
-                                    const AssetImage('assets/company.png'),
-                                    color: appThemeGreen,
-                                  )),
-                              hintText: 'Enter company name',
-                              fillColor: colorScreenBg,
-                              filled: true,
-                              isDense: true,
-                              contentPadding: const EdgeInsets.only(
-                                  left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.grey, width: 1.0),
-                                  borderRadius: BorderRadius.circular(7)),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: colorGray, width: 1.0),
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const Padding(
+                        //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        //   child: Text(
+                        //     "Company Name *",
+                        //     style: TextStyle(fontSize: 14),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 40,
+                        //   child: TextField(
+                        //     style: const TextStyle(
+                        //         fontSize: 18, color: Colors.black),
+                        //     maxLines: 1,
+                        //     decoration: InputDecoration(
+                        //       suffixIcon: Align(
+                        //           widthFactor: 1,
+                        //           heightFactor: 1,
+                        //           child: ImageIcon(
+                        //             const AssetImage('assets/company.png'),
+                        //             color: appThemeGreen,
+                        //           )),
+                        //       hintText: 'Enter company name',
+                        //       fillColor: colorScreenBg,
+                        //       filled: true,
+                        //       isDense: true,
+                        //       contentPadding: const EdgeInsets.only(
+                        //           left: 12, top: 6, bottom: 6),
+                        //       enabledBorder: OutlineInputBorder(
+                        //           borderSide: const BorderSide(
+                        //               color: Colors.grey, width: 1.0),
+                        //           borderRadius: BorderRadius.circular(7)),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: colorGray, width: 1.0),
+                        //         borderRadius: BorderRadius.circular(7),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
@@ -633,16 +633,18 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (addCompanyContactController
-                                  .homeNumber.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        "Oops!, Home/Office number missing."),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              } else if (addCompanyContactController
+                              }
+                              // else if (addCompanyContactController
+                              //     .homeNumber.text.isEmpty) {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text(
+                              //           "Oops!, Home/Office number missing."),
+                              //       duration: Duration(seconds: 1),
+                              //     ),
+                              //   );
+                              // }
+                              else if (addCompanyContactController
                                   .mobileNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

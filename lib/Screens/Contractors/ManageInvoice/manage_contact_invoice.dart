@@ -1,136 +1,52 @@
-// ignore_for_file: must_be_immutable
-
-import 'package:eticon_downloader/eticon_downloader.dart';
-import 'package:etsemployee/Controller/EmployeeController/employee_invoice_controller.dart';
-import 'package:etsemployee/Models/EmployeeModel/employee_invoice_model.dart';
-import 'package:etsemployee/Screens/Contractors/ManageInvoice/add_new_invoice.dart';
-import 'package:etsemployee/Screens/Contractors/ManageInvoice/edit_invoice.dart';
-import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
-import '../../../Models/CompanyModels/download_invoice_model.dart';
-import '../../PDFViewer.dart';
+import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
+import '../../../Models/EmployeeModel/employee_get_contact_invoice_model.dart';
+import '../../../utils/Colors.dart';
 import 'add_invoice_for_contact.dart';
-import 'manage_contact_invoice.dart';
+import 'edit_contact_invoice.dart';
 
-class ManageInvoice extends StatefulWidget {
-  ManageInvoice({Key? key, this.profilePic}) : super(key: key);
+class EmployeeManageContactInvoice extends StatefulWidget {
+  EmployeeManageContactInvoice({Key? key, this.profilePic}) : super(key: key);
   String? profilePic;
 
   @override
-  State<ManageInvoice> createState() => _ManageInvoiceState();
+  State<EmployeeManageContactInvoice> createState() =>
+      _EmployeeManageContactInvoiceState();
 }
 
-class _ManageInvoiceState extends State<ManageInvoice> {
-  bool loading = false;
-  late EmployeeInvoiceModel invoiceModel;
+class _EmployeeManageContactInvoiceState
+    extends State<EmployeeManageContactInvoice> {
+  EmployeeAddInvoiceForContact addInvoiceForContact =
+      EmployeeAddInvoiceForContact();
+  EmployeeGetInvoiceContactModel? getInvoiceContactModel;
   List<ListElement> invoiceList = [];
-  EmployeeInvoiceController employeeInvoiceController =
-      EmployeeInvoiceController();
-
-  CompanyDownloadInvoiceController downloadInvoiceController =
-      CompanyDownloadInvoiceController();
-  CompanyDownloadInvoiceModel? downloadInvoiceModel;
-
-  String _platformVersion = 'Unknown';
+  bool loading = false;
 
   @override
   void initState() {
-    initPlatformState();
-    initialize(context, '');
+    getContactInvoice(context);
     super.initState();
   }
 
-  Future initialize(BuildContext context, String search) async {
+  Future getContactInvoice(BuildContext context) async {
     setState(() {
       loading = true;
     });
     //s
-    await employeeInvoiceController
-        .getEmployeeInvoice(context, search: search, page: 1)
-        .then((value) {
+    await addInvoiceForContact.getContactInvoice(context).then((value) {
       setState(() {
         if (value != null) {
-          invoiceModel = value;
-          invoiceList = invoiceModel.data.list;
+          getInvoiceContactModel = value;
+          invoiceList = getInvoiceContactModel!.data.list;
           loading = false;
           print(loading);
+          print(invoiceList.length);
         } else {
           invoiceList.clear();
           loading = false;
-        }
-      });
-    });
-  }
-
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await EticonDownloader.platformVersion ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
-
-  Future downloadInvoice(BuildContext context, String id) async {
-    await downloadInvoiceController
-        .employeeDownloadInvoice(context, id)
-        .then((value) {
-      setState(() async {
-        if (value != null) {
-          downloadInvoiceModel = value;
-          print(downloadInvoiceModel!.data.downloadUrl);
-          await EticonDownloader.downloadFile(
-              url: downloadInvoiceModel!.data.downloadUrl);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(downloadInvoiceModel!.message),
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        }
-      });
-    });
-  }
-
-  Future viewInvoice(BuildContext context, String id) async {
-    await downloadInvoiceController
-        .employeeViewInvoice(context, id)
-        .then((value) {
-      setState(() async {
-        if (value != null) {
-          downloadInvoiceModel = value;
-          print(downloadInvoiceModel!.data.downloadUrl);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  PdfViewerPage(pdfUrl: downloadInvoiceModel!.data.downloadUrl),
-            ),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(downloadInvoiceModel!.message),
-              duration: const Duration(seconds: 2),
-            ),
-          );
         }
       });
     });
@@ -145,7 +61,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Manage Invoice",
+          child: Text("Manage Contact Invoice",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
@@ -212,10 +128,10 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                   ),
                   onSubmitted: (value) {
                     print(loading);
-                    initialize(context, value);
+                    // initialize(context, value);
                   },
                   onChanged: (value) {
-                    initialize(context, value);
+                    // initialize(context, value);
                   },
                 ),
               ),
@@ -233,40 +149,11 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const AddNewInvoice()));
+                                builder: (context) =>
+                                    const AddInvoiceForContact()));
                       },
                       child: const Text(
                         'Add New Invoice',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                child: Container(
-                  width: double.infinity,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: appThemeBlue,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EmployeeManageContactInvoice(
-                                        profilePic: prefs
-                                            .get("profilePic")
-                                            .toString())));
-                      },
-                      child: const Text(
-                        'Add Invoice For Contact',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
@@ -287,7 +174,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                   const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: GestureDetector(
                                 onTap: () async {
-                                  await viewInvoice(context, detail.id);
+                                  // await viewInvoice(context, detail.id);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -327,7 +214,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              detail.invoiceDescription,
+                                              detail.description,
                                               style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),
@@ -338,34 +225,15 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                             Row(
                                               children: [
                                                 const Text(
-                                                  "Paid By: ",
+                                                  "For : ",
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
                                                 Text(
-                                                  detail.paidBy,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: colorTextGray),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Text(
-                                                  "For: ",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  detail.invoiceFor,
+                                                  detail.contactFirstName +
+                                                      detail.contactLastName,
                                                   style: TextStyle(
                                                       fontSize: 14,
                                                       color: colorTextGray),
@@ -409,44 +277,68 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    EditInvoice(
-                                                                      id: detail
-                                                                          .id,
-                                                                      estimateId:
-                                                                          detail
-                                                                              .estimateId,
-                                                                      invoiceFor:
-                                                                          detail
-                                                                              .invoiceFor,
-                                                                      invoiceDescription:
-                                                                          detail
-                                                                              .invoiceDescription,
-                                                                      amount: detail
-                                                                          .amount,
-                                                                      invoiceDate:
-                                                                          detail
-                                                                              .invoiceDate,
-                                                                      tax: detail
-                                                                          .tax,
-                                                                      dueAmount:
-                                                                          detail
-                                                                              .dueAmount,
-                                                                      totalAmount:
-                                                                          detail
-                                                                              .totalAmount,
-                                                                      isPaid: detail
-                                                                          .isPaid,
-                                                                      paidBy: detail
-                                                                          .paidBy,
-                                                                      signatureName:
-                                                                          detail
-                                                                              .signatureName,
-                                                                      signature:
-                                                                          detail
-                                                                              .signature,
-                                                                    )));
+                                                            builder: (context) =>
+                                                                EmployeeEditContactInvoice(
+                                                                  contactId: detail
+                                                                      .contactId,
+                                                                  description:
+                                                                      detail
+                                                                          .description,
+                                                                  amount: detail
+                                                                      .amount,
+                                                                  invoiceDate:
+                                                                      detail
+                                                                          .invoiceDate,
+                                                                  signatureName:
+                                                                      detail
+                                                                          .signatureName,
+                                                                  signatureUrl:
+                                                                      detail
+                                                                          .signature,
+                                                                  id: detail
+                                                                      .contactInvoiceId,
+                                                                )));
+                                                    // Navigator.push(
+                                                    //     context,
+                                                    //     MaterialPageRoute(
+                                                    //         builder:
+                                                    //             (context) =>
+                                                    //                 EditInvoice(
+                                                    //                   id: detail
+                                                    //                       .id,
+                                                    //                   estimateId:
+                                                    //                       detail
+                                                    //                           .estimateId,
+                                                    //                   invoiceFor:
+                                                    //                       detail
+                                                    //                           .invoiceFor,
+                                                    //                   invoiceDescription:
+                                                    //                       detail
+                                                    //                           .invoiceDescription,
+                                                    //                   amount: detail
+                                                    //                       .amount,
+                                                    //                   invoiceDate:
+                                                    //                       detail
+                                                    //                           .invoiceDate,
+                                                    //                   tax: detail
+                                                    //                       .tax,
+                                                    //                   dueAmount:
+                                                    //                       detail
+                                                    //                           .dueAmount,
+                                                    //                   totalAmount:
+                                                    //                       detail
+                                                    //                           .totalAmount,
+                                                    //                   isPaid: detail
+                                                    //                       .isPaid,
+                                                    //                   paidBy: detail
+                                                    //                       .paidBy,
+                                                    //                   signatureName:
+                                                    //                       detail
+                                                    //                           .signatureName,
+                                                    //                   signature:
+                                                    //                       detail
+                                                    //                           .signature,
+                                                    //                 )));
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
@@ -496,8 +388,7 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    downloadInvoice(
-                                                        context, detail.id);
+                                                    // downloadInvoice(context, detail.id);
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
@@ -542,16 +433,16 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               Expanded(
                                                 child: GestureDetector(
                                                   onTap: () async {
-                                                    await employeeInvoiceController
-                                                        .deleteEmployeeInvoice(
+                                                    await addInvoiceForContact
+                                                        .deleteContactInvoice(
                                                             context: context,
-                                                            id: detail.id)
+                                                            id: detail
+                                                                .contactInvoiceId)
                                                         .then((value) => {
                                                               if (value)
                                                                 {
-                                                                  initialize(
-                                                                      context,
-                                                                      ''),
+                                                                  getContactInvoice(
+                                                                      context),
                                                                 }
                                                             });
                                                   },

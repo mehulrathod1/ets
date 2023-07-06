@@ -62,6 +62,13 @@ class _EditEstimateState extends State<EditEstimate> {
 
   @override
   void initState() {
+    if (widget.markup.isEmpty) {
+      widget.markup = '0';
+    }
+    if (widget.tax.isEmpty) {
+      widget.tax = '0';
+    }
+
     editEstimateController.contactId.text = widget.contactId;
     editEstimateController.estimateName.text = widget.estimateName;
     editEstimateController.estimateDescription.text =

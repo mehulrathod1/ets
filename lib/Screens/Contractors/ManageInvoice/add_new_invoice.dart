@@ -34,7 +34,6 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
   int tax = 0;
 
   String signaturePath = "";
-  String? signatureBase64;
   EmployeeAddInvoiceController addInvoiceController =
       EmployeeAddInvoiceController();
 
@@ -51,7 +50,6 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
       addInvoiceController.invoiceForId.text = selectedTest['estimate_id'];
 
       descriptionList = selectedTest['order_array'];
-      print(selectEstimate);
 
       for (int i = 0; i < descriptionList.length; i++) {
         int amt = int.parse(descriptionList[i]['amount']);
@@ -97,14 +95,21 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
         totalChangeAmount = 0;
         tax = 0;
       }
-      if (selectedTest['tax'] != null) {
+      if (selectedTest['tax'] != '') {
         addInvoiceController.tax.text = selectedTest['tax'];
+        print(selectedTest['tax']);
+      } else {
+        addInvoiceController.tax.text = '0';
       }
-      if (selectedTest['markup'] != null) {
+      if (selectedTest['markup'] != '') {
         addInvoiceController.markup.text = selectedTest['markup'];
+      } else {
+        addInvoiceController.markup.text = '0';
       }
       if (selectedTest['cost_plus'] != null) {
         addInvoiceController.costPlus.text = selectedTest['cost_plus'];
+      } else {
+        addInvoiceController.costPlus.text = '0';
       }
     });
   }
