@@ -97,6 +97,14 @@ class ApiConstant {
   static const companyDownloadInvoice = 'company/download-invoice/';
   static const companyDownloadEstimate = 'company/download-estimate/';
 
+  //today
+
+  static const companyGetContactInvoice = 'company/contact_invoice_list';
+  static const companyContactsList = 'company/get-all-contact';
+  static const companyAddInvoiceForContact = 'company/add_contact_invoice';
+  static const companyContactInvoice = 'company/delete_contact_invoice/';
+  static const companyEditInvoiceForContact = 'company/edit_contact_invoice';
+
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';

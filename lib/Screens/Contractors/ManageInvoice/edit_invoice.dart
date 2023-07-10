@@ -191,6 +191,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                     if (value[i]["estimate_id"] == widget.estimateId) {
                       editInvoiceController.invoiceForId.text =
                           value[i]["estimate_id"];
+
                       editInvoiceController.estimateAmount.text =
                           value[i]["amount"];
 
@@ -198,6 +199,12 @@ class _EditInvoiceState extends State<EditInvoice> {
                         editInvoiceController.markup.text = value[i]["markup"];
                       } else {
                         editInvoiceController.markup.text = '0';
+                      }
+                      if (value[i]["cost_plus"] != null) {
+                        editInvoiceController.costPlus.text =
+                            value[i]["cost_plus"];
+                      } else {
+                        editInvoiceController.costPlus.text = '0';
                       }
 
                       selectEstimate = value[i]["estimate_name"];
@@ -1157,6 +1164,15 @@ class _EditInvoiceState extends State<EditInvoice> {
                                   const SnackBar(
                                     content:
                                         Text("Oops!, Paid amount missing."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (editInvoiceController
+                                  .amountNow.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Amount you want to pay missing missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );

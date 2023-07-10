@@ -1,16 +1,25 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_note_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditNote extends StatefulWidget {
-  EditNote({required this.id, required this.noteName, required this.noteDescription, required this.noteStatus, Key? key}) : super(key: key);
+  EditNote(
+      {required this.id,
+      required this.noteName,
+      required this.noteDescription,
+      required this.noteStatus,
+      required this.estimateId,
+      Key? key})
+      : super(key: key);
   String id;
   String noteName;
   String noteDescription;
   String noteStatus;
+  String estimateId;
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -20,11 +29,65 @@ class _EditNoteState extends State<EditNote> {
   EmployeeNoteController employeeNoteController = EmployeeNoteController();
   bool termsandcond = false;
 
+  List<DropdownMenuItem<Object?>> orderListItems = [];
+  String selectEstimate = "Select Estimate";
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      selectEstimate = selectedTest['estimate_name'];
+      employeeNoteController.estimateId.text = selectedTest['estimate_id'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   void initState() {
     termsandcond = widget.noteStatus == "1" ? true : false;
     employeeNoteController.noteName.text = widget.noteName;
     employeeNoteController.noteDescription.text = widget.noteDescription;
+
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await employeeNoteController
+          .getEmployeeEstimate(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      orderListItems = buildTaskSizeListItems(value);
+                      for (int i = 0; i < value.length; i++) {
+                        if (value[i]["estimate_id"] == widget.estimateId) {
+                          employeeNoteController.estimateId.text =
+                              value[i]["estimate_id"];
+                          selectEstimate = value[i]["estimate_name"];
+                        }
+                      }
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      orderListItems.clear();
+                    }),
+                  }
+              });
+    });
+
     super.initState();
   }
 
@@ -35,9 +98,12 @@ class _EditNoteState extends State<EditNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Edit Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Edit Notes",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -67,7 +133,45 @@ class _EditNoteState extends State<EditNote> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                  child: Text(
+                    "Note For",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ),
+                DropdownBelow(
+                    itemWidth: MediaQuery.of(context).size.width - 30,
+                    itemTextstyle:
+                        const TextStyle(fontSize: 18, color: Colors.black),
+                    boxTextstyle:
+                        const TextStyle(fontSize: 18, color: Colors.black),
+                    boxWidth: MediaQuery.of(context).size.width,
+                    boxHeight: 40,
+                    boxDecoration: BoxDecoration(
+                      color: colorScreenBg,
+                      border: Border.all(color: colorGray, width: 1.0),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(7.0)),
+                    ),
+                    boxPadding: const EdgeInsets.only(
+                        left: 12, top: 6, bottom: 6, right: 10),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      color: appThemeGreen,
+                    ),
+                    hint: Text(
+                      selectEstimate,
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: selectEstimate == "Select Estimate"
+                              ? Colors.black.withOpacity(0.60)
+                              : Colors.black),
+                    ),
+                    onChanged: onChangeDropdownBoxSize,
+                    items: orderListItems),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Column(
@@ -79,7 +183,8 @@ class _EditNoteState extends State<EditNote> {
                           children: [
                             Checkbox(
                                 value: termsandcond,
-                                fillColor: MaterialStateProperty.all(appThemeGreen),
+                                fillColor:
+                                    MaterialStateProperty.all(appThemeGreen),
                                 onChanged: (v) {
                                   setState(() {
                                     termsandcond = v!;
@@ -102,7 +207,8 @@ class _EditNoteState extends State<EditNote> {
                       SizedBox(
                         height: 40,
                         child: TextField(
-                          style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                          style: const TextStyle(
+                              height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           controller: employeeNoteController.noteName,
                           decoration: InputDecoration(
@@ -110,10 +216,15 @@ class _EditNoteState extends State<EditNote> {
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
-                            contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                            contentPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
+                                borderRadius: BorderRadius.circular(7)),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: colorGray, width: 1.0),
+                              borderSide:
+                                  BorderSide(color: colorGray, width: 1.0),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -128,11 +239,15 @@ class _EditNoteState extends State<EditNote> {
                       ),
                       Container(
                         height: 100,
-                        decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextField(
-                            style: const TextStyle(fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: employeeNoteController.noteDescription,
                             decoration: InputDecoration(
@@ -141,7 +256,8 @@ class _EditNoteState extends State<EditNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
                             ),
                           ),
                         ),
@@ -157,25 +273,31 @@ class _EditNoteState extends State<EditNote> {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            } else if (employeeNoteController.noteDescription.text.isEmpty) {
+                            } else if (employeeNoteController
+                                .noteDescription.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text("Oops!, Note description missing."),
+                                  content:
+                                      Text("Oops!, Note description missing."),
                                   duration: Duration(seconds: 1),
                                 ),
                               );
                             } else {
-                              await employeeNoteController.editNotes(context, markAsComplete: termsandcond, id: widget.id);
+                              await employeeNoteController.editNotes(context,
+                                  markAsComplete: termsandcond, id: widget.id);
                             }
                           },
                           child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               )),
                         ),

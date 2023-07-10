@@ -9,6 +9,7 @@ import '../../../Models/CompanyModels/company_invoice_model.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_invoice.dart';
+import 'company_manage_contact_invoice.dart';
 import 'edit_company_invoice.dart';
 import '../../../Network/api_constant.dart';
 import 'package:eticon_downloader/eticon_downloader.dart';
@@ -209,6 +210,31 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                       ),
                     ),
                   )),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+              child: Container(
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(
+                    color: appThemeBlue,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () async {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  CompanyManageContactInvoice()));
+                    },
+                    child: const Text(
+                      'Add Invoice For Contact',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
             ),
             loading
                 ? Center(child: CircularProgressIndicator())

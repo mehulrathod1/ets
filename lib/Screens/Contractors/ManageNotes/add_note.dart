@@ -1,3 +1,4 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/EmployeeController/employee_note_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,56 @@ class _AddNoteState extends State<AddNote> {
   bool termsandcond = false;
   EmployeeNoteController employeeNoteController = EmployeeNoteController();
 
+  List<DropdownMenuItem<Object?>> orderListItems = [];
+  String selectEstimate = "Select Estimate";
+
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      selectEstimate = selectedTest['estimate_name'];
+      employeeNoteController.estimateId.text = selectedTest['estimate_id'];
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(microseconds: 0), () async {
+      await employeeNoteController
+          .getEmployeeEstimate(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      orderListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      orderListItems.clear();
+                    }),
+                  }
+              });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,9 +72,12 @@ class _AddNoteState extends State<AddNote> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("Add Notes", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Add Notes",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: const <Widget>[
           Padding(
@@ -59,13 +113,51 @@ class _AddNoteState extends State<AddNote> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                          child: Text(
+                            "Note For",
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        DropdownBelow(
+                            itemWidth: MediaQuery.of(context).size.width - 30,
+                            itemTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxTextstyle: const TextStyle(
+                                fontSize: 18, color: Colors.black),
+                            boxWidth: MediaQuery.of(context).size.width,
+                            boxHeight: 40,
+                            boxDecoration: BoxDecoration(
+                              color: colorScreenBg,
+                              border: Border.all(color: colorGray, width: 1.0),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(7.0)),
+                            ),
+                            boxPadding: const EdgeInsets.only(
+                                left: 12, top: 6, bottom: 6, right: 10),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: appThemeGreen,
+                            ),
+                            hint: Text(
+                              selectEstimate,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: selectEstimate == "Select Estimate"
+                                      ? Colors.black.withOpacity(0.60)
+                                      : Colors.black),
+                            ),
+                            onChanged: onChangeDropdownBoxSize,
+                            items: orderListItems),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Row(
                             children: [
                               Checkbox(
                                   value: termsandcond,
-                                  fillColor: MaterialStateProperty.all(appThemeGreen),
+                                  fillColor:
+                                      MaterialStateProperty.all(appThemeGreen),
                                   onChanged: (v) {
                                     setState(() {
                                       termsandcond = v!;
@@ -88,7 +180,8 @@ class _AddNoteState extends State<AddNote> {
                         SizedBox(
                           height: 40,
                           child: TextField(
-                            style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                            style: const TextStyle(
+                                height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             controller: employeeNoteController.noteName,
                             decoration: InputDecoration(
@@ -96,10 +189,15 @@ class _AddNoteState extends State<AddNote> {
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
-                              contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                              enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                              contentPadding: const EdgeInsets.only(
+                                  left: 12, top: 6, bottom: 6),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1.0),
+                                  borderRadius: BorderRadius.circular(7)),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: colorGray, width: 1.0),
+                                borderSide:
+                                    BorderSide(color: colorGray, width: 1.0),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                             ),
@@ -114,20 +212,26 @@ class _AddNoteState extends State<AddNote> {
                         ),
                         Container(
                           height: 100,
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: colorGray), borderRadius: const BorderRadius.all(Radius.circular(8))),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1, color: colorGray),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(8))),
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: TextField(
-                              style: const TextStyle(fontSize: 18, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                               maxLines: 1,
-                              controller: employeeNoteController.noteDescription,
+                              controller:
+                                  employeeNoteController.noteDescription,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Enter description',
                                 fillColor: colorScreenBg,
                                 filled: true,
                                 isDense: true,
-                                contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 12, top: 6, bottom: 6),
                               ),
                             ),
                           ),
@@ -136,32 +240,47 @@ class _AddNoteState extends State<AddNote> {
                           padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                           child: InkWell(
                             onTap: () async {
-                              if (employeeNoteController.noteName.text.isEmpty) {
+                              if (selectEstimate == "Select Estimate") {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops!, Please select Estimate from list."),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (employeeNoteController
+                                  .noteName.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Note name missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
-                              } else if (employeeNoteController.noteDescription.text.isEmpty) {
+                              } else if (employeeNoteController
+                                  .noteDescription.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text("Oops!, Note description missing."),
+                                    content: Text(
+                                        "Oops!, Note description missing."),
                                     duration: Duration(seconds: 1),
                                   ),
                                 );
                               } else {
-                                await employeeNoteController.addNotes(context, markAsComplete: termsandcond);
+                                await employeeNoteController.addNotes(context,
+                                    markAsComplete: termsandcond);
                               }
                             },
                             child: Container(
                               width: double.infinity,
                               height: 40,
-                              decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                              decoration: BoxDecoration(
+                                  color: appThemeGreen,
+                                  borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
                                   'Save',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ),
                             ),

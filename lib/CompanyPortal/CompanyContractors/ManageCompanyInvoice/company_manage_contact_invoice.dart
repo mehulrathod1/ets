@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
-import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
-import '../../../Models/EmployeeModel/employee_get_contact_invoice_model.dart';
+import '../../../Controller/CompanyController/manage_company_contact_invoice_controller.dart';
+import '../../../Models/CompanyModels/company_contact_invoice_model.dart';
+import '../../../Network/api_constant.dart';
 import '../../../utils/Colors.dart';
-import 'add_invoice_for_contact.dart';
-import 'edit_contact_invoice.dart';
+import '../../PopUps/delete_conformation_popup.dart';
+import 'company_add_invoice_for_contact.dart';
+import 'company_edit_contact_invoice.dart';
 
-class EmployeeManageContactInvoice extends StatefulWidget {
-  EmployeeManageContactInvoice({Key? key, this.profilePic}) : super(key: key);
-  String? profilePic;
+class CompanyManageContactInvoice extends StatefulWidget {
+  const CompanyManageContactInvoice({Key? key}) : super(key: key);
 
   @override
-  State<EmployeeManageContactInvoice> createState() =>
-      _EmployeeManageContactInvoiceState();
+  State<CompanyManageContactInvoice> createState() =>
+      _CompanyManageContactInvoiceState();
 }
 
-class _EmployeeManageContactInvoiceState
-    extends State<EmployeeManageContactInvoice> {
-  EmployeeAddInvoiceForContact addInvoiceForContact =
-      EmployeeAddInvoiceForContact();
-  EmployeeGetInvoiceContactModel? getInvoiceContactModel;
+class _CompanyManageContactInvoiceState
+    extends State<CompanyManageContactInvoice> {
+  ManageCompanyContactInvoice manageCompanyContactInvoice =
+      ManageCompanyContactInvoice();
+  CompanyGetInvoiceContactModel? companyGetInvoiceContactModel;
   List<ListElement> invoiceList = [];
   bool loading = false;
 
@@ -36,17 +36,18 @@ class _EmployeeManageContactInvoiceState
       loading = true;
     });
     //s
-    await addInvoiceForContact.getContactInvoice(context).then((value) {
+    await manageCompanyContactInvoice.getContactInvoice(context).then((value) {
       setState(() {
         if (value != null) {
-          getInvoiceContactModel = value;
-          invoiceList = getInvoiceContactModel!.data.list;
+          companyGetInvoiceContactModel = value;
+          invoiceList = companyGetInvoiceContactModel!.data.list;
           loading = false;
           print(loading);
-          print(invoiceList.length);
+          print(companyGetInvoiceContactModel!.message);
         } else {
           invoiceList.clear();
           loading = false;
+          print(loading);
         }
       });
     });
@@ -68,14 +69,14 @@ class _EmployeeManageContactInvoiceState
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
-            child: widget.profilePic!.isEmpty
+            child: ApiConstant.profileImage.isEmpty
                 ? const CircleAvatar(
                     radius: 18,
                     backgroundImage: AssetImage('assets/man.jpeg'),
                   )
                 : CircleAvatar(
                     radius: 18,
-                    backgroundImage: NetworkImage(widget.profilePic!),
+                    backgroundImage: NetworkImage(ApiConstant.profileImage),
                   ),
           ),
         ],
@@ -150,7 +151,7 @@ class _EmployeeManageContactInvoiceState
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const AddInvoiceForContact()));
+                                    const AddCompanyInvoiceForContact()));
                       },
                       child: const Text(
                         'Add New Invoice',
@@ -278,7 +279,7 @@ class _EmployeeManageContactInvoiceState
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                EmployeeEditContactInvoice(
+                                                                CompanyEditCompanyInvoice(
                                                                   contactId: detail
                                                                       .contactId,
                                                                   description:
@@ -298,47 +299,6 @@ class _EmployeeManageContactInvoiceState
                                                                   id: detail
                                                                       .contactInvoiceId,
                                                                 )));
-                                                    // Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder:
-                                                    //             (context) =>
-                                                    //                 EditInvoice(
-                                                    //                   id: detail
-                                                    //                       .id,
-                                                    //                   estimateId:
-                                                    //                       detail
-                                                    //                           .estimateId,
-                                                    //                   invoiceFor:
-                                                    //                       detail
-                                                    //                           .invoiceFor,
-                                                    //                   invoiceDescription:
-                                                    //                       detail
-                                                    //                           .invoiceDescription,
-                                                    //                   amount: detail
-                                                    //                       .amount,
-                                                    //                   invoiceDate:
-                                                    //                       detail
-                                                    //                           .invoiceDate,
-                                                    //                   tax: detail
-                                                    //                       .tax,
-                                                    //                   dueAmount:
-                                                    //                       detail
-                                                    //                           .dueAmount,
-                                                    //                   totalAmount:
-                                                    //                       detail
-                                                    //                           .totalAmount,
-                                                    //                   isPaid: detail
-                                                    //                       .isPaid,
-                                                    //                   paidBy: detail
-                                                    //                       .paidBy,
-                                                    //                   signatureName:
-                                                    //                       detail
-                                                    //                           .signatureName,
-                                                    //                   signature:
-                                                    //                       detail
-                                                    //                           .signature,
-                                                    //                 )));
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
@@ -377,74 +337,90 @@ class _EmployeeManageContactInvoiceState
                                                   ),
                                                 ),
                                               ),
-                                              // const SizedBox(
-                                              //   width: 1,
-                                              //   height: 35,
-                                              //   child: DecoratedBox(
-                                              //     decoration: BoxDecoration(
-                                              //         color: Colors.white),
-                                              //   ),
-                                              // ),
-                                              // Expanded(
-                                              //   child: GestureDetector(
-                                              //     onTap: () {
-                                              //       // downloadInvoice(context, detail.id);
-                                              //     },
-                                              //     child: Container(
-                                              //       decoration: BoxDecoration(
-                                              //         color: appThemeGreen,
-                                              //       ),
-                                              //       height: double.infinity,
-                                              //       child: Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .center,
-                                              //         children: const [
-                                              //           Icon(
-                                              //             Icons.download,
-                                              //             color: Colors.white,
-                                              //             size: 20,
-                                              //           ),
-                                              //           Padding(
-                                              //             padding:
-                                              //                 EdgeInsets.only(
-                                              //                     left: 8.0),
-                                              //             child: Text(
-                                              //               "Download",
-                                              //               style: TextStyle(
-                                              //                   fontSize: 14,
-                                              //                   color: Colors
-                                              //                       .white),
-                                              //             ),
-                                              //           )
-                                              //         ],
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
-                                              // const SizedBox(
-                                              //   width: 1,
-                                              //   height: 35,
-                                              //   child: DecoratedBox(
-                                              //     decoration: BoxDecoration(
-                                              //         color: Colors.white),
-                                              //   ),
-                                              // ),
+                                              const SizedBox(
+                                                width: 1,
+                                                height: 35,
+                                                child: DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
                                               Expanded(
                                                 child: GestureDetector(
-                                                  onTap: () async {
-                                                    await addInvoiceForContact
-                                                        .deleteContactInvoice(
-                                                            context: context,
-                                                            id: detail
-                                                                .contactInvoiceId)
-                                                        .then((value) => {
-                                                              if (value)
-                                                                {
-                                                                  getContactInvoice(
-                                                                      context),
-                                                                }
-                                                            });
+                                                  onTap: () {
+                                                    // downloadInvoice(context, detail.id);
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: appThemeGreen,
+                                                    ),
+                                                    height: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: const [
+                                                        Icon(
+                                                          Icons.download,
+                                                          color: Colors.white,
+                                                          size: 20,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
+                                                          child: Text(
+                                                            "Download",
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 1,
+                                                height: 35,
+                                                child: DecoratedBox(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () async {
+                                                            await manageCompanyContactInvoice
+                                                                .deleteContactInvoice(
+                                                                    context:
+                                                                        context,
+                                                                    id: detail
+                                                                        .contactInvoiceId)
+                                                                .then(
+                                                                    (value) => {
+                                                                          if (value)
+                                                                            {
+                                                                              getContactInvoice(context),
+                                                                              Navigator.of(context).pop(),
+                                                                            }
+                                                                        });
+                                                            // Close the dialog
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

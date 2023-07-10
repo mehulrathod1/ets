@@ -12,6 +12,7 @@ class EmployeeNoteController {
   EmployeeAddNoteModel? employeeAddNoteModel;
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
+  TextEditingController estimateId = TextEditingController();
 
   Future getEmployeeContact(BuildContext context,
       {String? search, int? page}) async {
@@ -40,6 +41,7 @@ class EmployeeNoteController {
           'note_name': noteName.text,
           'note_description': noteDescription.text,
           'notestatus': markAsComplete ? "1" : "0",
+          'estimate_id': estimateId.text,
         });
     debugPrint("addNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
@@ -84,6 +86,7 @@ class EmployeeNoteController {
           'note_name': noteName.text,
           'note_description': noteDescription.text,
           'notestatus': markAsComplete ? "1" : "0",
+          'estimate_id': estimateId.text,
         });
     debugPrint("editNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
@@ -109,6 +112,15 @@ class EmployeeNoteController {
           duration: const Duration(seconds: 2),
         ),
       );
+    }
+  }
+
+  Future getEmployeeEstimate(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.employeeEstimateList);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
+    } else {
+      return null;
     }
   }
 }
