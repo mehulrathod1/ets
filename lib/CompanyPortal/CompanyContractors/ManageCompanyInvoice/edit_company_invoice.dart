@@ -26,6 +26,7 @@ class EditCompanyInvoice extends StatefulWidget {
       required this.isPaid,
       required this.paidBy,
       required this.signatureName,
+      required this.signature,
       Key? key})
       : super(key: key);
 
@@ -41,6 +42,7 @@ class EditCompanyInvoice extends StatefulWidget {
   String isPaid;
   String paidBy;
   String signatureName;
+  String signature;
 
   @override
   State<EditCompanyInvoice> createState() => _EditCompanyInvoiceState();
@@ -54,9 +56,15 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
 
   CompanyInvoiceController invoiceController = CompanyInvoiceController();
   List<DropdownMenuItem<Object?>> invoiceForListItems = [];
-  String selectedInvoice = "Select Estimate";
+  String selectEstimate = "Select Estimate";
   CompanyAddInvoiceController addInvoiceController =
       CompanyAddInvoiceController();
+
+  int totalChangeAmount = 0;
+  double totalAmount = 0;
+  int tax = 0;
+  List<dynamic> descriptionList = [];
+
   void getPermission() async {
     var status = await Permission.storage.status;
     if (status.isDenied) {
@@ -82,19 +90,86 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
   }
 
   onChangeDropdownBoxSize(selectedTest) {
+    // setState(() {
+    //   selectedInvoice = selectedTest['estimate_name'];
+    //   debugPrint(selectedTest['id']);
+    //   addInvoiceController.invoiceForId.text = selectedTest['id'];
+    //
+    //   addInvoiceController.estimateAmount.text = selectedTest['amount'];
+    //   addInvoiceController.description.text =
+    //       selectedTest['estimate_description'];
+    //   addInvoiceController.description.text =
+    //       selectedTest['estimate_description'];
+    //
+    //   addInvoiceController.tax.text = selectedTest['tax'];
+    //   addInvoiceController.markup.text = selectedTest['markup'];
+    // });
     setState(() {
-      selectedInvoice = selectedTest['estimate_name'];
-      debugPrint(selectedTest['id']);
+      selectEstimate = selectedTest['estimate_name'];
       addInvoiceController.invoiceForId.text = selectedTest['id'];
 
-      addInvoiceController.estimateAmount.text = selectedTest['amount'];
-      addInvoiceController.description.text =
-          selectedTest['estimate_description'];
-      addInvoiceController.description.text =
-          selectedTest['estimate_description'];
+      descriptionList = selectedTest['order_array'];
+      for (int i = 0; i < descriptionList.length; i++) {
+        int amt = int.parse(descriptionList[i]['amount']);
+        totalChangeAmount += amt;
+      }
 
-      addInvoiceController.tax.text = selectedTest['tax'];
-      addInvoiceController.markup.text = selectedTest['markup'];
+      totalAmount = double.parse(selectedTest['amount']);
+      totalAmount += totalChangeAmount;
+      double tax = 0;
+      double markup = 0;
+      if (selectedTest['tax'] != '') {
+        tax = double.parse(selectedTest['tax']);
+      }
+      if (selectedTest['markup'] != '') {
+        markup = double.parse(selectedTest['markup']);
+      }
+      double taxPercentage = tax + markup;
+      double taxAmount = (totalAmount * (taxPercentage / 100.0)).toDouble();
+      totalAmount += taxAmount;
+
+      print('Total Change Amount: $totalChangeAmount');
+      print('Total Amount: $totalAmount');
+      print('Tax Percentage: $taxPercentage');
+      print('Tax Amount: $taxAmount');
+
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.totalAmount.text = totalAmount.toString();
+        totalAmount = 0;
+        totalChangeAmount = 0;
+        tax = 0;
+      }
+
+      if (selectedTest['estimate_description'] != null) {
+        addInvoiceController.description.text =
+            selectedTest['estimate_description'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.estimateAmount.text = selectedTest['amount'];
+      }
+      if (selectedTest['estimate_description'] != null) {
+        addInvoiceController.changeDescription.text =
+            selectedTest['estimate_description'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.orderAmount.text = selectedTest['amount'];
+      }
+      if (selectedTest['tax'] != '') {
+        addInvoiceController.tax.text = selectedTest['tax'];
+        print(selectedTest['tax']);
+      } else {
+        addInvoiceController.tax.text = '0';
+      }
+      if (selectedTest['markup'] != '') {
+        addInvoiceController.markup.text = selectedTest['markup'];
+      } else {
+        addInvoiceController.markup.text = '0';
+      }
+      if (selectedTest['cost_plus'] != null) {
+        addInvoiceController.costPlus.text = selectedTest['cost_plus'];
+      } else {
+        addInvoiceController.costPlus.text = '0';
+      }
     });
   }
 
@@ -117,30 +192,30 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
 
   @override
   void initState() {
-    // print(widget.estimateId);
-    // String id;
-    // String estimateId;
-    // String invoiceFor;
-    // String invoiceDescription;
-    // String amount;
-    // String invoiceDate;
-    // String tax;
-    // String dueAmount;
-    // String totalAmount;
-    // String isPaid;
-    // String paidBy;
-    // String signatureName;
-    //
+    // DateTime now = DateTime.now();
+    // widget.invoiceDate = DateFormat('MM-dd-yyyy').format(now);
+    // addInvoiceController.description.text = widget.invoiceDescription;
+    // addInvoiceController.estimateAmount.text = widget.amount;
+    // addInvoiceController.invoiceDate.text = widget.invoiceDate;
+    // addInvoiceController.tax.text = widget.tax;
+    // addInvoiceController.totalAmount.text = widget.totalAmount;
+    // addInvoiceController.isPaid.text = widget.isPaid;
+    // addInvoiceController.paidBy.text = widget.paidBy;
+    // addInvoiceController.signatureName.text = widget.signatureName;
+    if (widget.tax.isEmpty) {
+      widget.tax = '0';
+    }
     DateTime now = DateTime.now();
-    widget.invoiceDate = DateFormat('MM-dd-yyyy').format(now);
+    widget.invoiceDate = DateFormat('MM/dd/yyyy').format(now);
     addInvoiceController.description.text = widget.invoiceDescription;
-    addInvoiceController.estimateAmount.text = widget.amount;
+    addInvoiceController.paidAmount.text = widget.amount;
     addInvoiceController.invoiceDate.text = widget.invoiceDate;
     addInvoiceController.tax.text = widget.tax;
     addInvoiceController.totalAmount.text = widget.totalAmount;
     addInvoiceController.isPaid.text = widget.isPaid;
     addInvoiceController.paidBy.text = widget.paidBy;
     addInvoiceController.signatureName.text = widget.signatureName;
+    addInvoiceController.dueAmount.text = widget.dueAmount;
 
     if (widget.isPaid == '1') {
       termsandcond = true;
@@ -158,7 +233,55 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                   for (int i = 0; i < value.length; i++) {
                     if (value[i]["id"] == widget.estimateId) {
                       addInvoiceController.invoiceForId.text = value[i]["id"];
-                      selectedInvoice = value[i]["estimate_name"];
+
+                      addInvoiceController.estimateAmount.text =
+                          value[i]["amount"];
+
+                      if (value[i]["markup"] != '') {
+                        addInvoiceController.markup.text = value[i]["markup"];
+                      } else {
+                        addInvoiceController.markup.text = '0';
+                      }
+                      if (value[i]["cost_plus"] != null) {
+                        addInvoiceController.costPlus.text =
+                            value[i]["cost_plus"];
+                      } else {
+                        addInvoiceController.costPlus.text = '0';
+                      }
+
+                      selectEstimate = value[i]["estimate_name"];
+                      descriptionList = value[i]['order_array'];
+                      for (int i = 0; i < descriptionList.length; i++) {
+                        int amt = int.parse(descriptionList[i]['amount']);
+                        totalChangeAmount += amt;
+                      }
+
+                      totalAmount = double.parse(value[i]['amount']);
+                      totalAmount += totalChangeAmount;
+                      double tax = 0;
+                      double markup = 0;
+                      if (value[i]['tax'] != '') {
+                        tax = double.parse(value[i]['tax']);
+                      }
+                      if (value[i]['markup'] != '') {
+                        markup = double.parse(value[i]['markup']);
+                      }
+                      double taxPercentage = tax + markup;
+                      double taxAmount =
+                          (totalAmount * (taxPercentage / 100.0)).toDouble();
+                      totalAmount += taxAmount;
+
+                      print('Total Change Amount: $totalChangeAmount');
+                      print('Total Amount: $totalAmount');
+                      print('Tax Percentage: $taxPercentage');
+                      print('Tax Amount: $taxAmount');
+
+                      addInvoiceController.totalAmount.text =
+                          totalAmount.toString();
+
+                      totalAmount = 0;
+                      totalChangeAmount = 0;
+                      tax = 0;
                     }
                   }
                 }),
@@ -258,13 +381,12 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                             color: appThemeGreen,
                           ),
                           hint: Text(
-                            selectedInvoice,
+                            selectEstimate,
                             style: TextStyle(
                                 fontSize: 18,
-                                color:
-                                    selectedInvoice == "Test Estimate Section"
-                                        ? Colors.black.withOpacity(0.60)
-                                        : Colors.black),
+                                color: selectEstimate == "Test Estimate Section"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
                           ),
                           onChanged: onChangeDropdownBoxSize,
                           items: invoiceForListItems),
@@ -311,59 +433,139 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                         height: 40,
                         child: TextField(
                           controller: addInvoiceController.estimateAmount,
-                          keyboardType: TextInputType.number,
                           style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                            height: 1.7,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
                           maxLines: 1,
+                          enabled: false,
                           decoration: InputDecoration(
-                            fillColor: colorLightGray,
                             filled: true,
                             isDense: true,
+                            fillColor: colorLightGray,
                             contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              left: 12,
+                              top: 6,
+                              bottom: 6,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "Change Order Amount",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            fillColor: colorLightGray,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: descriptionList.length,
+                        itemBuilder: (context, index) {
+                          var detail = descriptionList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding:
+                                    EdgeInsets.only(top: 16.0, bottom: 6.0),
+                                child: Text(
+                                  "Changes Order Description",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: TextField(
+                                  // controller: addInvoiceController.changeOrderAmount,
+                                  enabled:
+                                      false, // Set enabled to false to make it non-editable
+                                  style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: detail['change_description'],
+                                    hintStyle: TextStyle(
+                                      color: Colors
+                                          .black, // Set the desired hint text color
+                                    ),
+                                    fillColor: colorLightGray,
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 12,
+                                      top: 6,
+                                      bottom: 6,
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding:
+                                    EdgeInsets.only(top: 16.0, bottom: 6.0),
+                                child: Text(
+                                  "Change Order Amount",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: TextField(
+                                  // controller: addInvoiceController.changeOrderAmount,
+                                  enabled:
+                                      false, // Set enabled to false to make it non-editable
+                                  style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: detail['amount'],
+                                    hintStyle: TextStyle(
+                                      color: Colors
+                                          .black, // Set the desired hint text color
+                                    ),
+                                    fillColor: colorLightGray,
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 12,
+                                      top: 6,
+                                      bottom: 6,
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
@@ -401,6 +603,50 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
+                          "Due Amount",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                        child: TextField(
+                          controller: addInvoiceController.dueAmount,
+                          style: const TextStyle(
+                            height: 1.7,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            filled: true,
+                            isDense: true,
+                            fillColor: colorLightGray,
+                            contentPadding: const EdgeInsets.only(
+                              left: 12,
+                              top: 6,
+                              bottom: 6,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        child: Text(
                           "Paid Amount",
                           style: TextStyle(fontSize: 14),
                         ),
@@ -409,23 +655,34 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                         height: 40,
                         child: TextField(
                           controller: addInvoiceController.paidAmount,
-                          keyboardType: TextInputType.number,
                           style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
+                            height: 1.7,
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
                           maxLines: 1,
+                          enabled: false,
                           decoration: InputDecoration(
-                            fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
+                            fillColor: colorLightGray,
                             contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
+                              left: 12,
+                              top: 6,
+                              bottom: 6,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 1.0,
+                              ),
                               borderRadius: BorderRadius.circular(7),
                             ),
                           ),
@@ -697,6 +954,21 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                               maximumStrokeWidth: 4.0),
                         ),
                       ),
+                      SizedBox(height: 8),
+                      Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(width: 1, color: colorGray),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: Image(
+                            image: NetworkImage(widget.signature),
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -754,8 +1026,90 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () async {
-                            await addInvoiceController.editInvoice(
-                                context, widget.id, base64ImagePath);
+                            if (selectEstimate == "Select Estimate") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!, Please select Estimate from list."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .description.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!, Estimate description missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .estimateAmount.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Oops!, Estimate amount missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .totalAmount.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Total amount missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .paidAmount.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Paid amount missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .amountNow.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Oops!, Amount you want to pay missing missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .invoiceDate.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops!, Date missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (addInvoiceController
+                                .signatureName.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content:
+                                      Text("Oops!, Signature name missing."),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              print(addInvoiceController.invoiceForId.text);
+                              print(addInvoiceController.description.text);
+                              print(addInvoiceController.estimateAmount.text);
+                              print(addInvoiceController.paidBy.text);
+                              print(addInvoiceController.tax.text);
+                              print(addInvoiceController.costPlus.text);
+                              print(addInvoiceController.invoiceDate.text);
+                              print(addInvoiceController.isPaid.text);
+                              print(addInvoiceController.signatureName.text);
+                              print(addInvoiceController.amountNow.text);
+                              print(addInvoiceController.totalAmount.text);
+
+                              await addInvoiceController.editInvoice(
+                                  context, widget.id, base64ImagePath);
+                            }
                           },
                           child: Container(
                               width: double.infinity,

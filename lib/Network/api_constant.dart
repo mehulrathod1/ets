@@ -120,6 +120,9 @@ class ApiConstant {
 
   static const employeeViewInvoice = 'employee/view-invoice-lists?show=500&';
   static const employeeEstimateList = 'employee/view-estimate-lists?show=500&';
+  static const employeeEstimateListInvoiceDropdown =
+      'employee/view-estimate-lists-dropdown';
+
   static const employeeOrderList = 'employee/view-orders-lists?show=500&';
   static const employeeTaskList = 'employee/view-task-list?show=500&';
   static const employeeNoteList = 'employee/view-notes-list?show=500&';

@@ -96,7 +96,10 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       addEstimateController.contactId.text = selectedTest['id'];
-      selectedContact = selectedTest['first_name'];
+      String firstName = selectedTest['first_name'];
+      String lastName = selectedTest['last_name'];
+      selectedContact =
+          '$firstName $lastName'; // Combine first name and last name
     });
   }
 
@@ -104,11 +107,13 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
     List<DropdownMenuItem<Object?>> items = [];
     items.clear();
     for (var i in xyz) {
+      String fullName =
+          '${i['first_name']} ${i['last_name']}'; // Combine first name and last name
       items.add(
         DropdownMenuItem(
           value: i,
           child: Text(
-            i['first_name'],
+            fullName,
             style: const TextStyle(fontSize: 18, color: Colors.black),
           ),
         ),
@@ -256,7 +261,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Enter Estimate name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -289,7 +293,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Enter estimate description',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -330,7 +333,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: 'Testing, Testing1, Testing2',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -367,7 +369,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: '12/31/1996',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -418,7 +419,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Add Amount',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -452,7 +452,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Add Markup',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -486,7 +485,6 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Add tex',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,

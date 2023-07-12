@@ -115,22 +115,6 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
     base64ImagePath = base64.encode(unit8);
 
     print(base64ImagePath);
-
-    // await Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (BuildContext context) {
-    //       return Scaffold(
-    //         appBar: AppBar(),
-    //         body: Center(
-    //           child: Container(
-    //             color: Colors.grey[300],
-    //             child: Image.memory(bytes!.buffer.asUint8List()),
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // );
   }
 
   onChangeDropdownBoxSize(selectedTest) {

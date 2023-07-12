@@ -24,6 +24,8 @@ class CompanyAddInvoiceController {
   TextEditingController signatureName = TextEditingController();
   TextEditingController amountNow = TextEditingController();
   TextEditingController paidBy = TextEditingController();
+  TextEditingController orderAmount = TextEditingController();
+  TextEditingController dueAmount = TextEditingController();
 
   Future addInvoice(BuildContext context, {required String? signature}) async {
     showDialog(

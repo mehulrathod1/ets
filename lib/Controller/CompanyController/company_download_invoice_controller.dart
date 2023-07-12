@@ -68,6 +68,26 @@ class CompanyDownloadInvoiceController {
     }
   }
 
+  Future viewInvoice(BuildContext context, id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response =
+        await getData(paramUri: ApiConstant.companyDownloadInvoice + id);
+    if (response["status"] == "True" && response["data"] != null) {
+      var res = CompanyDownloadInvoiceModel.fromJson(response);
+      downloadInvoiceModel = res;
+      Navigator.pop(context);
+      return CompanyDownloadInvoiceModel.fromJson(response);
+    } else {
+      Navigator.pop(context);
+
+      return null;
+    }
+  }
+
   Future downloadEstimate(BuildContext context, id) async {
     showDialog(
         context: context,
@@ -95,6 +115,25 @@ class CompanyDownloadInvoiceController {
           duration: const Duration(seconds: 2),
         ),
       );
+      return null;
+    }
+  }
+
+  Future viewEstimate(BuildContext context, id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        });
+    var response =
+        await getData(paramUri: ApiConstant.companyDownloadEstimate + id);
+    if (response["status"] == "True" && response["data"] != null) {
+      var res = CompanyDownloadInvoiceModel.fromJson(response);
+      downloadInvoiceModel = res;
+      Navigator.pop(context);
+      return CompanyDownloadInvoiceModel.fromJson(response);
+    } else {
+      Navigator.pop(context);
       return null;
     }
   }

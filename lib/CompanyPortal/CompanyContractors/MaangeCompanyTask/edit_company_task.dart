@@ -166,11 +166,10 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
               });
     });
 
-// TODO: implement initState
-    DateTime now = DateTime.now();
-    widget.dueDate = DateFormat('yyyy-MM-dd').format(now);
+    widget.dueDate =
+        DateFormat('yyyy/MM/dd').format(DateTime.parse(widget.dueDate));
     editTaskController.orderId.text = widget.orderId;
-    editTaskController.taskName.text = widget.taskStatus;
+    editTaskController.taskStatus.text = widget.taskStatus;
     editTaskController.taskName.text = widget.taskName;
     editTaskController.dueDate.text = widget.dueDate;
     editTaskController.taskDescription.text = widget.taskDescription;
@@ -287,13 +286,13 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                                   setState(() {
                                     termsandcond = v!;
                                     if (termsandcond == true) {
-                                      editTaskController.testStatus.text = '1';
+                                      editTaskController.taskStatus.text = '1';
                                       debugPrint(
-                                          editTaskController.testStatus.text);
+                                          editTaskController.taskStatus.text);
                                     } else {
-                                      editTaskController.testStatus.text = '0';
+                                      editTaskController.taskStatus.text = '0';
                                       debugPrint(
-                                          editTaskController.testStatus.text);
+                                          editTaskController.taskStatus.text);
                                     }
                                   });
                                 }),
@@ -408,7 +407,7 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                                 lastDate: DateTime(2101));
                             if (pickedDate != null) {
                               String formattedDate =
-                                  DateFormat('MM/dd/yyyy').format(pickedDate);
+                                  DateFormat('yyyy/MM/dd').format(pickedDate);
                               setState(() {
                                 editTaskController.dueDate.text = formattedDate;
                               });

@@ -26,11 +26,17 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
 
   CompanyInvoiceController invoiceController = CompanyInvoiceController();
   List<DropdownMenuItem<Object?>> invoiceForListItems = [];
-  String selectedInvoice = "Select Estimate";
+  String selectEstimate = "Select Estimate";
   String base64ImagePath = "";
   String signaturePath = "";
   CompanyAddInvoiceController addInvoiceController =
       CompanyAddInvoiceController();
+
+  int totalChangeAmount = 0;
+  double totalAmount = 0;
+  int tax = 0;
+  List<dynamic> descriptionList = [];
+
   void getPermission() async {
     var status = await Permission.storage.status;
     if (status.isDenied) {
@@ -40,9 +46,10 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
 
   void _handleClearButtonPressed() async {
     signatureGlobalKey.currentState!.clear();
-    base64ImagePath = '';
     File(signaturePath).delete();
-    setState(() {});
+    setState(() {
+      base64ImagePath = '';
+    });
   }
 
   void _handleSaveButtonPressed() async {
@@ -53,7 +60,12 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
     base64ImagePath = base64.encode(unit);
 
     print(base64ImagePath);
-
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Signature Submitted Successfully"),
+        duration: Duration(seconds: 1),
+      ),
+    );
     // await Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) {
@@ -72,19 +84,87 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
   }
 
   onChangeDropdownBoxSize(selectedTest) {
+    // setState(() {
+    //   selectEstimate = selectedTest['estimate_name'];
+    //   debugPrint(selectedTest['id']);
+    //   addInvoiceController.invoiceForId.text = selectedTest['id'];
+    //
+    //   addInvoiceController.estimateAmount.text = selectedTest['amount'];
+    //   addInvoiceController.description.text =
+    //       selectedTest['estimate_description'];
+    //   addInvoiceController.description.text =
+    //       selectedTest['estimate_description'];
+    //
+    //   addInvoiceController.tax.text = selectedTest['tax'];
+    //   addInvoiceController.markup.text = selectedTest['markup'];
+    // });
+
     setState(() {
-      selectedInvoice = selectedTest['estimate_name'];
-      debugPrint(selectedTest['id']);
+      selectEstimate = selectedTest['estimate_name'];
       addInvoiceController.invoiceForId.text = selectedTest['id'];
 
-      addInvoiceController.estimateAmount.text = selectedTest['amount'];
-      addInvoiceController.description.text =
-          selectedTest['estimate_description'];
-      addInvoiceController.description.text =
-          selectedTest['estimate_description'];
+      descriptionList = selectedTest['order_array'];
 
-      addInvoiceController.tax.text = selectedTest['tax'];
-      addInvoiceController.markup.text = selectedTest['markup'];
+      for (int i = 0; i < descriptionList.length; i++) {
+        int amt = int.parse(descriptionList[i]['amount']);
+        totalChangeAmount += amt;
+      }
+
+      totalAmount = double.parse(selectedTest['amount']);
+      totalAmount += totalChangeAmount;
+      double tax = 0;
+      double markup = 0;
+      if (selectedTest['tax'] != '') {
+        tax = double.parse(selectedTest['tax']);
+      }
+      if (selectedTest['markup'] != '') {
+        markup = double.parse(selectedTest['markup']);
+      }
+      double taxPercentage = tax + markup;
+      double taxAmount = (totalAmount * (taxPercentage / 100.0)).toDouble();
+      totalAmount += taxAmount;
+
+      print('Total Change Amount: $totalChangeAmount');
+      print('Total Amount: $totalAmount');
+      print('Tax Percentage: $taxPercentage');
+      print('Tax Amount: $taxAmount');
+
+      if (selectedTest['estimate_description'] != null) {
+        addInvoiceController.description.text =
+            selectedTest['estimate_description'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.estimateAmount.text = selectedTest['amount'];
+      }
+      // if (selectedTest['estimate_description'] != null) {
+      //   addInvoiceController.changeDescription.text =
+      //       selectedTest['estimate_description'];
+      // }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.orderAmount.text = selectedTest['amount'];
+      }
+      if (selectedTest['amount'] != null) {
+        addInvoiceController.totalAmount.text = totalAmount.toString();
+        totalAmount = 0;
+        totalChangeAmount = 0;
+        tax = 0;
+      }
+      if (selectedTest['tax'] != '') {
+        addInvoiceController.tax.text = selectedTest['tax'];
+        print(selectedTest['tax']);
+      } else {
+        addInvoiceController.tax.text = '0';
+      }
+      if (selectedTest['markup'] != '') {
+        addInvoiceController.markup.text = selectedTest['markup'];
+      } else {
+        addInvoiceController.markup.text = '0';
+      }
+      if (selectedTest['cost_plus'] != null) {
+        addInvoiceController.costPlus.text = selectedTest['cost_plus'];
+      } else {
+        addInvoiceController.costPlus.text = '0';
+      }
     });
   }
 
@@ -210,13 +290,12 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                             color: appThemeGreen,
                           ),
                           hint: Text(
-                            selectedInvoice,
+                            selectEstimate,
                             style: TextStyle(
                                 fontSize: 18,
-                                color:
-                                    selectedInvoice == "Test Estimate Section"
-                                        ? Colors.black.withOpacity(0.60)
-                                        : Colors.black),
+                                color: selectEstimate == "Test Estimate Section"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
                           ),
                           onChanged: onChangeDropdownBoxSize,
                           items: invoiceForListItems),
@@ -286,6 +365,107 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                             ),
                           ),
                         ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: descriptionList.length,
+                        itemBuilder: (context, index) {
+                          var detail = descriptionList[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding:
+                                    EdgeInsets.only(top: 16.0, bottom: 6.0),
+                                child: Text(
+                                  "Changes Order Description",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: TextField(
+                                  // controller: addInvoiceController.changeOrderAmount,
+                                  enabled:
+                                      false, // Set enabled to false to make it non-editable
+                                  style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: detail['change_description'],
+                                    hintStyle: TextStyle(
+                                      color: Colors
+                                          .black, // Set the desired hint text color
+                                    ),
+                                    fillColor: colorLightGray,
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 12,
+                                      top: 6,
+                                      bottom: 6,
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding:
+                                    EdgeInsets.only(top: 16.0, bottom: 6.0),
+                                child: Text(
+                                  "Change Order Amount",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: TextField(
+                                  // controller: addInvoiceController.changeOrderAmount,
+                                  enabled:
+                                      false, // Set enabled to false to make it non-editable
+                                  style: const TextStyle(
+                                    height: 1.7,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    hintText: detail['amount'],
+                                    hintStyle: TextStyle(
+                                      color: Colors
+                                          .black, // Set the desired hint text color
+                                    ),
+                                    fillColor: colorLightGray,
+                                    filled: true,
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.only(
+                                      left: 12,
+                                      top: 6,
+                                      bottom: 6,
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.grey,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
@@ -554,7 +734,6 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Enter yourName',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -647,7 +826,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () async {
-                            if (selectedInvoice == "Select Estimate") {
+                            if (selectEstimate == "Select Estimate") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(

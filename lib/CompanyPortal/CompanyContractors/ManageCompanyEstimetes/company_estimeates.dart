@@ -9,6 +9,7 @@ import 'package:multi_select_flutter/util/multi_select_item.dart';
 import '../../../Controller/CompanyController/company_delete_estimate_controller.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
+import '../../../Screens/PDFViewer.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import '../ManageCompanyOrder/add_company_order.dart';
 import 'add_company_estimates.dart';
@@ -92,6 +93,31 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
           print(downloadInvoiceModel!.data.downloadUrl);
           await EticonDownloader.downloadFile(
               url: downloadInvoiceModel!.data.downloadUrl);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future viewEstimate(BuildContext context, String id) async {
+    await downloadInvoiceController.viewEstimate(context, id).then((value) {
+      setState(() async {
+        if (value != null) {
+          downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  PdfViewerPage(pdfUrl: downloadInvoiceModel!.data.downloadUrl),
+            ),
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -222,187 +248,201 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                               return Padding(
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 8),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.only(
-                                        bottomLeft: Radius.circular(15),
-                                        topLeft: Radius.circular(15),
-                                        topRight: Radius.circular(15),
-                                        bottomRight: Radius.circular(15)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        blurRadius: 10,
-                                        offset: const Offset(2, 5),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          height: 150,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(80)),
-                                          child: Image.asset(
-                                            'assets/man.jpeg',
-                                            fit: BoxFit.cover,
-                                          )),
-                                      Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              data.estimateName,
-                                              style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              data.estimateDescription,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                            const SizedBox(
-                                              height: 8,
-                                            ),
-                                            Text(
-                                              data.dueDate.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    await viewEstimate(context, data.id);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(15),
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15),
+                                          bottomRight: Radius.circular(15)),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          blurRadius: 10,
+                                          offset: const Offset(2, 5),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 16.0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return ConfirmationPopup(
-                                                  title: 'Confirmation',
-                                                  message:
-                                                      'Are you sure you want to delete?',
-                                                  onConfirm: () {
-                                                    deleteEstimateController
-                                                        .deleteEstimate(
-                                                            context, data.id)
-                                                        .then((value) {
-                                                      initialize(context, '');
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      //   });
-                                                    });
-                                                    // Close the dialog
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
-                                          child: Container(
-                                              width: double.infinity,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                  color: appThemeBlue,
-                                                  borderRadius:
-                                                      const BorderRadius.only(
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  15),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  15))),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        await downloadEstimate(
-                                                            context, data.id);
-                                                      },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: const [
-                                                          Icon(
-                                                            Icons.download,
-                                                            color: Colors.white,
-                                                            size: 20,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 8.0),
-                                                            child: Text(
-                                                              "Download",
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .white),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                            height: 150,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(80)),
+                                            child: Image.asset(
+                                              'assets/man.jpeg',
+                                              fit: BoxFit.cover,
+                                            )),
+                                        Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data.estimateName,
+                                                style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                data.estimateDescription,
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: colorTextGray),
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                data.dueDate,
+                                                style: const TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16.0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return ConfirmationPopup(
+                                                    title: 'Confirmation',
+                                                    message:
+                                                        'Are you sure you want to delete?',
+                                                    onConfirm: () {
+                                                      deleteEstimateController
+                                                          .deleteEstimate(
+                                                              context, data.id)
+                                                          .then((value) {
+                                                        initialize(context, '');
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        //   });
+                                                      });
+                                                      // Close the dialog
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Container(
+                                                width: double.infinity,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                    color: appThemeBlue,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    15))),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () async {
+                                                          await downloadEstimate(
+                                                              context, data.id);
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: const [
+                                                            Icon(
+                                                              Icons.download,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 20,
                                                             ),
-                                                          )
-                                                        ],
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          8.0),
+                                                              child: Text(
+                                                                "Download",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: colorred,
-                                                          borderRadius:
-                                                              const BorderRadius
-                                                                      .only(
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          15))),
-                                                      height: double.infinity,
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: const [
-                                                          Icon(
-                                                            Icons
-                                                                .delete_outline,
-                                                            color: Colors.white,
-                                                            size: 20,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 8.0),
-                                                            child: Text(
-                                                              "Delete",
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: Colors
-                                                                      .white),
+                                                    Expanded(
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                            color: colorred,
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                        .only(
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            15))),
+                                                        height: double.infinity,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: const [
+                                                            Icon(
+                                                              Icons
+                                                                  .delete_outline,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 20,
                                                             ),
-                                                          )
-                                                        ],
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left:
+                                                                          8.0),
+                                                              child: Text(
+                                                                "Delete",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
-                                              )),
+                                                  ],
+                                                )),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

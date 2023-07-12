@@ -297,12 +297,18 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                               const SizedBox(
                                                 height: 8,
                                               ),
-                                              Text(
-                                                'Contractor',
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
+                                              detail.customerType == '1'
+                                                  ? Text(
+                                                      'Contractor',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    )
+                                                  : Text('Customer',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color:
+                                                              colorTextGray)),
                                             ],
                                           ),
                                         ),
@@ -374,7 +380,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit",
+                                                            "Edit/View",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors

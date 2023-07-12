@@ -79,7 +79,7 @@ class ListElement {
   String employeeList;
   String estimateName;
   String estimateDescription;
-  DateTime dueDate;
+  String dueDate;
   String amount;
   String markup;
   String tax;
@@ -96,7 +96,7 @@ class ListElement {
         employeeList: json["employee_list"],
         estimateName: json["estimate_name"],
         estimateDescription: json["estimate_description"],
-        dueDate: DateTime.parse(json["due_date"]),
+        dueDate: json["due_date"],
         amount: json["amount"],
         markup: json["markup"],
         tax: json["tax"],
@@ -109,8 +109,7 @@ class ListElement {
         "employee_list": employeeList,
         "estimate_name": estimateName,
         "estimate_description": estimateDescription,
-        "due_date":
-            "${dueDate.year.toString().padLeft(4, '0')}-${dueDate.month.toString().padLeft(2, '0')}-${dueDate.day.toString().padLeft(2, '0')}",
+        "due_date": dueDate,
         "amount": amount,
         "markup": markup,
         "tax": tax,

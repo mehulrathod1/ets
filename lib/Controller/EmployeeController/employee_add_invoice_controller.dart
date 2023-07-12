@@ -77,7 +77,8 @@ class EmployeeAddInvoiceController {
   }
 
   Future getEmployeeEstimate(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeEstimateList);
+    var response = await getData(
+        paramUri: ApiConstant.employeeEstimateListInvoiceDropdown);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
     } else {

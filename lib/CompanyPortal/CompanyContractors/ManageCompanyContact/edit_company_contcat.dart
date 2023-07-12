@@ -101,6 +101,13 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                   {
                     setState(() {
                       customerListItems = buildTaskSizeListItems(value);
+                      for (int i = 0; i < value.length; i++) {
+                        if (value[i]["key"].toString() == widget.customerType) {
+                          editContactController.customerType.text =
+                              value[i]["key"].toString();
+                          selectedCustomerType = value[i]["Type"];
+                        }
+                      }
                     }),
                   }
                 else
@@ -111,7 +118,7 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                   }
               });
     });
-
+    debugPrint(widget.customerType);
     super.initState();
   }
 

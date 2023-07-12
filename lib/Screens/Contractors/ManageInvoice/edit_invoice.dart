@@ -374,36 +374,36 @@ class _EditInvoiceState extends State<EditInvoice> {
                           ),
                         ),
                         DropdownBelow(
-                            itemWidth: MediaQuery.of(context).size.width - 30,
-                            itemTextstyle: const TextStyle(
-                                fontSize: 18, color: Colors.black),
-                            boxTextstyle: const TextStyle(
-                                fontSize: 18, color: Colors.black),
-                            boxWidth: MediaQuery.of(context).size.width,
-                            boxHeight: 40,
-                            boxDecoration: BoxDecoration(
-                              color: colorScreenBg,
-                              border: Border.all(color: colorGray, width: 1.0),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(7.0)),
-                            ),
-                            boxPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6, right: 10),
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: appThemeGreen,
-                            ),
-                            hint: Text(
-                              selectEstimate,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color:
-                                      selectEstimate == "Test Estimate Section"
-                                          ? Colors.black.withOpacity(0.60)
-                                          : Colors.black),
-                            ),
-                            onChanged: onChangeDropdownBoxSize,
-                            items: orderListItems),
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorLightGray,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
+                          ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectEstimate,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectEstimate == "Test Estimate Section"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: [],
+                        ),
 
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),

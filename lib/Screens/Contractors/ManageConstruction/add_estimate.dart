@@ -23,7 +23,9 @@ class _AddEstimateState extends State<AddEstimate> {
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       addEstimateController.contactId.text = selectedTest['id'];
-      selectedContact = selectedTest['first_name'];
+      String firstName = selectedTest['first_name'];
+      String lastName = selectedTest['last_name'];
+      selectedContact = '$firstName $lastName';
     });
   }
 
@@ -31,11 +33,12 @@ class _AddEstimateState extends State<AddEstimate> {
     List<DropdownMenuItem<Object?>> items = [];
     items.clear();
     for (var i in xyz) {
+      String fullName = '${i['first_name']} ${i['last_name']}'; // Combine f
       items.add(
         DropdownMenuItem(
           value: i,
           child: Text(
-            i['first_name'],
+            fullName,
             style: const TextStyle(fontSize: 18, color: Colors.black),
           ),
         ),
