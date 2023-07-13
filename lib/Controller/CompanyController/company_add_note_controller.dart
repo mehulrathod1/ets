@@ -12,6 +12,7 @@ class CompanyAddNoteController {
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
   TextEditingController employeeList = TextEditingController();
+  TextEditingController estimateId = TextEditingController();
 
   Future addCompanyNote(BuildContext context,
       {required String? employeeId}) async {
@@ -26,12 +27,13 @@ class CompanyAddNoteController {
       'note_name': noteName.text,
       'note_description': noteDescription.text,
       'employeelist': employeeId!,
+      'estimate_id': estimateId.text
     });
     if (response["status"] == 'True') {
       var res = CompanyAddNoteModel.fromJson(response);
       addNoteModel = res;
       Navigator.pop(context);
-      Navigator.pop(context,
+      Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -54,6 +56,15 @@ class CompanyAddNoteController {
     var response = await getData(paramUri: ApiConstant.companyEmployeeList);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"];
+    } else {
+      return null;
+    }
+  }
+
+  Future getEstimateNoteListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.getCompanyEstimate);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
     } else {
       return null;
     }

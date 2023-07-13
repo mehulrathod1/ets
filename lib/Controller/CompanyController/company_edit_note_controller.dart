@@ -10,6 +10,7 @@ class CompanyEditNoteController {
   TextEditingController noteName = TextEditingController();
   TextEditingController noteDescription = TextEditingController();
   TextEditingController employeeList = TextEditingController();
+  TextEditingController estimateId = TextEditingController();
 
   Future editNote(BuildContext context, String id,
       {required String? employeeId}) async {
@@ -25,11 +26,12 @@ class CompanyEditNoteController {
           'note_name': noteName.text,
           'note_description': noteDescription.text,
           'employeelist': employeeId!,
+          'estimate_id': estimateId.text
         });
     debugPrint("editNote response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.pop(context,
+      Navigator.push(context,
           MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -52,6 +54,15 @@ class CompanyEditNoteController {
     var response = await getData(paramUri: ApiConstant.companyEmployeeList);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"];
+    } else {
+      return null;
+    }
+  }
+
+  Future getEstimateNoteListForCompany(BuildContext context) async {
+    var response = await getData(paramUri: ApiConstant.getCompanyEstimate);
+    if (response["status"] == "True" && response["data"] != null) {
+      return response["data"]["List"];
     } else {
       return null;
     }

@@ -1,3 +1,4 @@
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,6 +38,8 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
   List<EmployeeListData> selectedEmployeeList = [];
   bool loading = false;
 
+  List<DropdownMenuItem<Object?>> noteListItems = [];
+  String selectedEstimate = "Select Estimate";
   void showMultiSelect(BuildContext context) async {
     await showDialog(
       context: context,
@@ -70,9 +73,52 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
     );
   }
 
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      addNoteController.estimateId.text = selectedTest['estimate_id'];
+      selectedEstimate = selectedTest['estimate_name'];
+      debugPrint(addNoteController.estimateId.text);
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   void initState() {
     Future.delayed(const Duration(microseconds: 0), () async {
+      addNoteController.noteStatus.text = "0";
+      await addNoteController
+          .getEstimateNoteListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      noteListItems = buildTaskSizeListItems(value);
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      noteListItems.clear();
+                    }),
+                  }
+              });
+
       await addNoteController
           .getEmployeeListForCompany(context)
           .then((value) => {
@@ -155,6 +201,43 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        child: Text(
+                          "Task For",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
+                          ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedEstimate,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedEstimate == "Select Estimate"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: noteListItems),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Row(

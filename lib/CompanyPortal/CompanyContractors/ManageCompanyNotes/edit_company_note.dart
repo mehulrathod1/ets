@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/Controller/CompanyController/company_edit_note_controller.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class EditCompanyNote extends StatefulWidget {
       required this.noteName,
       required this.noteDescription,
       required this.employeeList,
+      required this.estimateId,
       Key? key})
       : super(key: key);
 
@@ -37,6 +39,7 @@ class EditCompanyNote extends StatefulWidget {
   String noteName;
   String noteDescription;
   String employeeList;
+  String estimateId;
 
   @override
   State<EditCompanyNote> createState() => _EditCompanyNoteState();
@@ -50,7 +53,8 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
   String selectedEmployeeListId = "";
   List<EmployeeListData> selectedEmployeeList = [];
   bool loading = false;
-
+  List<DropdownMenuItem<Object?>> noteListItems = [];
+  String selectedEstimate = "Select Estimate";
   void showMultiSelect(BuildContext context) async {
     await showDialog(
       context: context,
@@ -84,6 +88,31 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
     );
   }
 
+  onChangeDropdownBoxSize(selectedTest) {
+    setState(() {
+      editNoteController.estimateId.text = selectedTest['estimate_id'];
+      selectedEstimate = selectedTest['estimate_name'];
+      debugPrint(editNoteController.estimateId.text);
+    });
+  }
+
+  List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
+    List<DropdownMenuItem<Object?>> items = [];
+    items.clear();
+    for (var i in xyz) {
+      items.add(
+        DropdownMenuItem(
+          value: i,
+          child: Text(
+            i['estimate_name'],
+            style: const TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   void initState() {
     editNoteController.noteStatus.text = widget.noteStatus;
@@ -91,6 +120,30 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
     editNoteController.noteName.text = widget.noteName;
 
     Future.delayed(const Duration(microseconds: 0), () async {
+      await editNoteController
+          .getEstimateNoteListForCompany(context)
+          .then((value) => {
+                if (value != null)
+                  {
+                    setState(() {
+                      noteListItems = buildTaskSizeListItems(value);
+                      for (int i = 0; i < value.length; i++) {
+                        if (value[i]["estimate_id"] == widget.estimateId) {
+                          editNoteController.estimateId.text =
+                              value[i]["estimate_id"];
+                          selectedEstimate = value[i]["estimate_name"];
+                        }
+                      }
+                    }),
+                  }
+                else
+                  {
+                    setState(() {
+                      noteListItems.clear();
+                    }),
+                  }
+              });
+
       await editNoteController
           .getEmployeeListForCompany(context)
           .then((value) => {
@@ -178,6 +231,43 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                        child: Text(
+                          "Task For",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                      DropdownBelow(
+                          itemWidth: MediaQuery.of(context).size.width - 30,
+                          itemTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxTextstyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
+                          boxWidth: MediaQuery.of(context).size.width,
+                          boxHeight: 40,
+                          boxDecoration: BoxDecoration(
+                            color: colorScreenBg,
+                            border: Border.all(color: colorGray, width: 1.0),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(7.0)),
+                          ),
+                          boxPadding: const EdgeInsets.only(
+                              left: 12, top: 6, bottom: 6, right: 10),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: appThemeGreen,
+                          ),
+                          hint: Text(
+                            selectedEstimate,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: selectedEstimate == "Select Estimate"
+                                    ? Colors.black.withOpacity(0.60)
+                                    : Colors.black),
+                          ),
+                          onChanged: onChangeDropdownBoxSize,
+                          items: noteListItems),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
@@ -189,7 +279,11 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                                 onChanged: (v) {
                                   setState(() {
                                     termsAndCond = v!;
-                                    if (termsAndCond == true) {}
+                                    if (termsAndCond == true) {
+                                      editNoteController.noteStatus.text = '1';
+                                    } else {
+                                      editNoteController.noteStatus.text = '0';
+                                    }
                                   });
                                 }),
                             const Text(

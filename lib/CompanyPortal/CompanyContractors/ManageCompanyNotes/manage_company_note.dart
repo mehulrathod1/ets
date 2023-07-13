@@ -261,6 +261,9 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                                                             .employeeId,
                                                                     id: detail
                                                                         .id,
+                                                                    estimateId:
+                                                                        detail
+                                                                            .estimateId,
                                                                   )));
                                                     },
                                                     child: Row(

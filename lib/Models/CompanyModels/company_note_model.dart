@@ -66,15 +66,16 @@ class ListElement {
   String noteStatus;
   String createAt;
   String employeeId;
+  String estimateId;
 
-  ListElement({
-    required this.id,
-    required this.noteName,
-    required this.noteDescription,
-    required this.noteStatus,
-    required this.createAt,
-    required this.employeeId,
-  });
+  ListElement(
+      {required this.id,
+      required this.noteName,
+      required this.noteDescription,
+      required this.noteStatus,
+      required this.createAt,
+      required this.employeeId,
+      required this.estimateId});
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -88,6 +89,7 @@ class ListElement {
         noteStatus: json["note_status"],
         createAt: json["create_at"],
         employeeId: json["employee_id"],
+        estimateId: json["estimate_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -97,6 +99,7 @@ class ListElement {
         "note_status": noteStatus,
         "create_at": createAt,
         "employee_id": employeeId,
+        "estimate_id": estimateId,
       };
 }
 
