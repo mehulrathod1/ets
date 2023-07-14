@@ -40,6 +40,8 @@ class EditCompanyOrder extends StatefulWidget {
     required this.startDate,
     required this.dueDate,
     required this.signName,
+    required this.estimateId,
+    required this.signature,
   }) : super(key: key);
   String? id;
   String? orderStatus;
@@ -50,6 +52,9 @@ class EditCompanyOrder extends StatefulWidget {
   DateTime? startDate;
   DateTime? dueDate;
   String? signName;
+  String? estimateId;
+  String signature;
+
   @override
   State<EditCompanyOrder> createState() => _EditCompanyOrderState();
 }
@@ -200,6 +205,13 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                   {
                     setState(() {
                       orderListItems = buildTaskSizeListItems(value);
+                      for (int i = 0; i < value.length; i++) {
+                        if (value[i]["estimate_id"] == widget.estimateId) {
+                          editOrderController.estimateId.text =
+                              value[i]["estimate_id"];
+                          selectedOrder = value[i]["estimate_name"];
+                        }
+                      }
                     }),
                   }
                 else
@@ -696,16 +708,36 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                             Container(
                               height: 150,
                               decoration: BoxDecoration(
+                                  color: Colors.white,
                                   border:
                                       Border.all(width: 1, color: colorGray),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(8))),
-                              child: SfSignaturePad(
-                                  key: signatureGlobalKey,
-                                  backgroundColor: Colors.white,
-                                  strokeColor: Colors.black,
-                                  minimumStrokeWidth: 1.0,
-                                  maximumStrokeWidth: 4.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: SfSignaturePad(
+                                    key: signatureGlobalKey,
+                                    backgroundColor: Colors.white,
+                                    strokeColor: Colors.black,
+                                    minimumStrokeWidth: 1.0,
+                                    maximumStrokeWidth: 4.0),
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Container(
+                              height: 150,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(width: 1, color: colorGray),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image(
+                                  image: NetworkImage(widget.signature),
+                                ),
+                              ),
                             ),
                             Row(
                               children: [
@@ -788,25 +820,28 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (editOrderController
-                                      .orderDescription.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Oops!, Order description missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (editOrderController
-                                      .changeDescription.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Oops!, Order change description missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (editOrderController
+                                  }
+                                  // else if (editOrderController
+                                  //     .orderDescription.text.isEmpty) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content: Text(
+                                  //           "Oops!, Order description missing."),
+                                  //       duration: Duration(seconds: 1),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  // else if (editOrderController
+                                  //     .changeDescription.text.isEmpty) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content: Text(
+                                  //           "Oops!, Order change description missing."),
+                                  //       duration: Duration(seconds: 1),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  else if (editOrderController
                                       .employeeList.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
@@ -851,15 +886,17 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (base64ImagePath.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text("Oops!, signature missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else {
+                                  }
+                                  // else if (base64ImagePath.isEmpty) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content:
+                                  //           Text("Oops!, signature missing."),
+                                  //       duration: Duration(seconds: 1),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  else {
                                     await editOrderController.editOrder(context,
                                         signature: base64ImagePath,
                                         employeeId: selectedEmployeeListId,

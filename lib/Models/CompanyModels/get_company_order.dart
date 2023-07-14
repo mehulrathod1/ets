@@ -73,6 +73,7 @@ class ListElement {
     required this.estimateAmount,
     required this.totalAmount,
     this.signatureName,
+    required this.estimateId,
   });
 
   String id;
@@ -87,6 +88,7 @@ class ListElement {
   dynamic estimateAmount;
   int totalAmount;
   String? signatureName;
+  String estimateId;
 
   factory ListElement.fromRawJson(String str) =>
       ListElement.fromJson(json.decode(str));
@@ -106,6 +108,7 @@ class ListElement {
         estimateAmount: json["estimate_amount"],
         totalAmount: json["total_amount"],
         signatureName: json["signature_name"],
+        estimateId: json["estimate_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -123,6 +126,7 @@ class ListElement {
         "estimate_amount": estimateAmount,
         "total_amount": totalAmount,
         "signature_name": signatureName,
+        "estimate_id": estimateId,
       };
 }
 

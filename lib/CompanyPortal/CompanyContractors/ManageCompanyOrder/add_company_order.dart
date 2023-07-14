@@ -776,25 +776,28 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
-                                  } else if (addOrderController
-                                      .orderDescription.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Oops!, Order description missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (addOrderController
-                                      .changeDescription.text.isEmpty) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            "Oops!, Order change description missing."),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                  } else if (addOrderController
+                                  }
+                                  // else if (addOrderController
+                                  //     .orderDescription.text.isEmpty) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content: Text(
+                                  //           "Oops!, Order description missing."),
+                                  //       duration: Duration(seconds: 1),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  // else if (addOrderController
+                                  //     .changeDescription.text.isEmpty) {
+                                  //   ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //       content: Text(
+                                  //           "Oops!, Order change description missing."),
+                                  //       duration: Duration(seconds: 1),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  else if (addOrderController
                                       .employeeList.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(

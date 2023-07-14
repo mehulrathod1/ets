@@ -669,26 +669,28 @@ class _EditOrderState extends State<EditOrder> {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            } else if (editOrderController
-                                .orderDescription.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text("Oops!, Order description missing."),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else if (editOrderController
-                                .changeDescription.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "Oops!, Order change description missing."),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else if (editOrderController
-                                .amount.text.isEmpty) {
+                            }
+                            // else if (editOrderController
+                            //     .orderDescription.text.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content:
+                            //           Text("Oops!, Order description missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // }
+                            // else if (editOrderController
+                            //     .changeDescription.text.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content: Text(
+                            //           "Oops!, Order change description missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // }
+                            else if (editOrderController.amount.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text("Oops!, Order amount missing."),
