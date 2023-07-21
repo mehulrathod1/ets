@@ -71,10 +71,10 @@ class ManageCompanyContactInvoice {
       addInvoiceForContactModel = res;
       Navigator.pop(context);
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CompanyManageContactInvoice()));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => CompanyManageContactInvoice()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -126,10 +126,10 @@ class ManageCompanyContactInvoice {
       editContactInvoiceModel = res;
       Navigator.pop(context);
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CompanyManageContactInvoice()));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => CompanyManageContactInvoice()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

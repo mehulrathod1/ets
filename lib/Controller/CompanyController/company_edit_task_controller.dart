@@ -33,8 +33,8 @@ class CompanyEditTaskController {
     debugPrint(" response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyTask()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const ManageCompanyTask()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

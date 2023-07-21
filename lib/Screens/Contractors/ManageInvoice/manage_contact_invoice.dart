@@ -1,10 +1,14 @@
+import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
+import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
+import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../../Models/EmployeeModel/employee_get_contact_invoice_model.dart';
 import '../../../utils/Colors.dart';
+import '../../PDFViewer.dart';
 import 'add_invoice_for_contact.dart';
 import 'edit_contact_invoice.dart';
 
@@ -25,10 +29,63 @@ class _EmployeeManageContactInvoiceState
   List<ListElement> invoiceList = [];
   bool loading = false;
 
+  CompanyDownloadInvoiceController downloadInvoiceController =
+      CompanyDownloadInvoiceController();
+  CompanyDownloadInvoiceModel? downloadInvoiceModel;
+
   @override
   void initState() {
     getContactInvoice(context);
     super.initState();
+  }
+
+  Future downloadInvoice(BuildContext context, String id) async {
+    await downloadInvoiceController
+        .employeeDownloadContactInvoice(context, id)
+        .then((value) {
+      setState(() async {
+        if (value != null) {
+          downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          await EticonDownloader.downloadFile(
+              url: downloadInvoiceModel!.data.downloadUrl);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future viewInvoice(BuildContext context, String id) async {
+    await downloadInvoiceController
+        .employeeViewContactInvoice(context, id)
+        .then((value) {
+      setState(() async {
+        if (value != null) {
+          downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  PdfViewerPage(pdfUrl: downloadInvoiceModel!.data.downloadUrl),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
   }
 
   Future getContactInvoice(BuildContext context) async {
@@ -174,7 +231,10 @@ class _EmployeeManageContactInvoiceState
                                   const EdgeInsets.only(top: 8.0, bottom: 8),
                               child: GestureDetector(
                                 onTap: () async {
-                                  // await viewInvoice(context, detail.id);
+                                  print(detail.contactInvoiceId);
+
+                                  await viewInvoice(
+                                      context, detail.contactInvoiceId);
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -385,43 +445,46 @@ class _EmployeeManageContactInvoiceState
                                               //         color: Colors.white),
                                               //   ),
                                               // ),
-                                              // Expanded(
-                                              //   child: GestureDetector(
-                                              //     onTap: () {
-                                              //       // downloadInvoice(context, detail.id);
-                                              //     },
-                                              //     child: Container(
-                                              //       decoration: BoxDecoration(
-                                              //         color: appThemeGreen,
-                                              //       ),
-                                              //       height: double.infinity,
-                                              //       child: Row(
-                                              //         mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .center,
-                                              //         children: const [
-                                              //           Icon(
-                                              //             Icons.download,
-                                              //             color: Colors.white,
-                                              //             size: 20,
-                                              //           ),
-                                              //           Padding(
-                                              //             padding:
-                                              //                 EdgeInsets.only(
-                                              //                     left: 8.0),
-                                              //             child: Text(
-                                              //               "Download",
-                                              //               style: TextStyle(
-                                              //                   fontSize: 14,
-                                              //                   color: Colors
-                                              //                       .white),
-                                              //             ),
-                                              //           )
-                                              //         ],
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // ),
+                                              Expanded(
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    downloadInvoice(
+                                                        context,
+                                                        detail
+                                                            .contactInvoiceId);
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: appThemeGreen,
+                                                    ),
+                                                    height: double.infinity,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: const [
+                                                        Icon(
+                                                          Icons.download,
+                                                          color: Colors.white,
+                                                          size: 20,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
+                                                          child: Text(
+                                                            "Download",
+                                                            style: TextStyle(
+                                                                fontSize: 14,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                               // const SizedBox(
                                               //   width: 1,
                                               //   height: 35,

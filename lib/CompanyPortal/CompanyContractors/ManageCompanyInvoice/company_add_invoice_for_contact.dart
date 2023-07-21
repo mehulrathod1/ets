@@ -15,7 +15,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 class AddCompanyInvoiceForContact extends StatefulWidget {
-  const AddCompanyInvoiceForContact({Key? key}) : super(key: key);
+  AddCompanyInvoiceForContact({required this.callback, Key? key})
+      : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyInvoiceForContact> createState() =>
@@ -485,7 +487,13 @@ class _AddCompanyInvoiceForContactState
                               } else {
                                 await manageCompanyContactInvoice
                                     .addContactInvoice(context,
-                                        signature: base64ImagePath);
+                                        signature: base64ImagePath)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

@@ -36,6 +36,12 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -152,7 +158,11 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddCompanyOrder()));
+                              builder: (context) => AddCompanyOrder(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Order',
@@ -321,6 +331,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                                 .estimateId,
                                                             signature: detail
                                                                 .signature,
+                                                            callback:
+                                                                refreshData,
                                                           ),
                                                         ),
                                                       );

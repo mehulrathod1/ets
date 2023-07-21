@@ -14,7 +14,8 @@ import 'dart:io';
 
 class EditCompanyInvoice extends StatefulWidget {
   EditCompanyInvoice(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.estimateId,
       required this.invoiceFor,
       required this.invoiceDescription,
@@ -43,6 +44,7 @@ class EditCompanyInvoice extends StatefulWidget {
   String paidBy;
   String signatureName;
   String signature;
+  final VoidCallback callback;
 
   @override
   State<EditCompanyInvoice> createState() => _EditCompanyInvoiceState();
@@ -1107,8 +1109,15 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                               print(addInvoiceController.amountNow.text);
                               print(addInvoiceController.totalAmount.text);
 
-                              await addInvoiceController.editInvoice(
-                                  context, widget.id, base64ImagePath);
+                              await addInvoiceController
+                                  .editInvoice(
+                                      context, widget.id, base64ImagePath)
+                                  .then((value) {
+                                setState(() {
+                                  widget.callback();
+                                  Navigator.pop(context);
+                                });
+                              });
                             }
                           },
                           child: Container(

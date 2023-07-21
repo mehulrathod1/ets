@@ -29,7 +29,8 @@ class EmployeeListData {
 }
 
 class AddCompanyOrder extends StatefulWidget {
-  const AddCompanyOrder({Key? key}) : super(key: key);
+  const AddCompanyOrder({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyOrder> createState() => _AddCompanyOrderState();
@@ -851,9 +852,14 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                       ),
                                     );
                                   } else {
-                                    await addOrderController.addOrder(context,
-                                        signature: base64ImagePath,
-                                        employeeId: selectedEmployeeListId);
+                                    await addOrderController
+                                        .addOrder(context,
+                                            signature: base64ImagePath,
+                                            employeeId: selectedEmployeeListId)
+                                        .then((value) {
+                                      widget.callback();
+                                      Navigator.pop(context);
+                                    });
                                   }
                                 },
                                 child: Container(

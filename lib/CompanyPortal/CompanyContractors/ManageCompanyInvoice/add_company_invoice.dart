@@ -14,7 +14,9 @@ import '../../../Controller/CompanyController/company_invoive_controller.dart';
 import 'dart:ui' as ui;
 
 class AddCompanyInvoice extends StatefulWidget {
-  const AddCompanyInvoice({Key? key}) : super(key: key);
+  const AddCompanyInvoice({required this.callback, Key? key}) : super(key: key);
+
+  final VoidCallback callback;
 
   @override
   State<AddCompanyInvoice> createState() => _AddCompanyInvoiceState();
@@ -387,8 +389,8 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                                 height: 40,
                                 child: TextField(
                                   // controller: addInvoiceController.changeOrderAmount,
-                                  enabled:
-                                      false, // Set enabled to false to make it non-editable
+                                  enabled: false,
+                                  // Set enabled to false to make it non-editable
                                   style: const TextStyle(
                                     height: 1.7,
                                     fontSize: 18,
@@ -431,8 +433,8 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                                 height: 40,
                                 child: TextField(
                                   // controller: addInvoiceController.changeOrderAmount,
-                                  enabled:
-                                      false, // Set enabled to false to make it non-editable
+                                  enabled: false,
+                                  // Set enabled to false to make it non-editable
                                   style: const TextStyle(
                                     height: 1.7,
                                     fontSize: 18,
@@ -915,8 +917,13 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                                 ),
                               );
                             } else {
-                              await addInvoiceController.addInvoice(context,
-                                  signature: base64ImagePath);
+                              await addInvoiceController
+                                  .addInvoice(context,
+                                      signature: base64ImagePath)
+                                  .then((value) {
+                                widget.callback();
+                                Navigator.pop(context);
+                              });
                             }
                           },
                           child: Container(

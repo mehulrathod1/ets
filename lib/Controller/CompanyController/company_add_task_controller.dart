@@ -35,8 +35,8 @@ class CompanyAddTaskController {
       var res = CompanyAddTaskModel.fromJson(response);
       addTaskModel = res;
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyTask()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const ManageCompanyTask()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

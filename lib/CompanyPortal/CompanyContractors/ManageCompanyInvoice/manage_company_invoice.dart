@@ -43,6 +43,12 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -228,7 +234,7 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const AddCompanyInvoice()));
+                                    AddCompanyInvoice(callback: refreshData)));
                       },
                       child: const Text(
                         'Add New Invoice',
@@ -440,6 +446,8 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                                                                 data.signatureName,
                                                                             signature:
                                                                                 data.signature,
+                                                                            callback:
+                                                                                refreshData,
                                                                           )));
                                                         },
                                                         child: Row(

@@ -27,8 +27,14 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
 
   @override
   void initState() {
-    initialize(context, '');
+    initialize(context, ' ');
     super.initState();
+  }
+
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
   }
 
   Future initialize(BuildContext context, String search) async {
@@ -148,7 +154,8 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddCompanyContact()));
+                              builder: (context) =>
+                                  AddCompanyContact(callback: refreshData)));
                     },
                     child: const Text(
                       'Add New Contact',
@@ -363,6 +370,8 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                                         .mobileNo,
                                                                     id: detail
                                                                         .id,
+                                                                    callback:
+                                                                        refreshData,
                                                                   )));
                                                     },
                                                     child: Row(

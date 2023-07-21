@@ -33,8 +33,8 @@ class CompanyAddNoteController {
       var res = CompanyAddNoteModel.fromJson(response);
       addNoteModel = res;
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

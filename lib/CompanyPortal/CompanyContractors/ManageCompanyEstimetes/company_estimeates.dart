@@ -43,6 +43,13 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initPlatformState();
+      initialize(context, '');
+    });
+  }
+
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -225,8 +232,11 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddCompanyEstimates()));
+                                builder: (context) => AddCompanyEstimates(
+                                      callback: () {
+                                        refreshData();
+                                      },
+                                    )));
                       },
                       child: const Text(
                         'Add New Estimate',

@@ -24,7 +24,8 @@ class EmployeeListData {
 }
 
 class AddCompanyEstimates extends StatefulWidget {
-  const AddCompanyEstimates({Key? key}) : super(key: key);
+  AddCompanyEstimates({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyEstimates> createState() => _AddCompanyEstimatesState();
@@ -506,8 +507,15 @@ class _AddCompanyEstimatesState extends State<AddCompanyEstimates> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            addEstimateController.addEstimate(context,
-                                employeeId: selectedEmployeeListId);
+                            addEstimateController
+                                .addEstimate(context,
+                                    employeeId: selectedEmployeeListId)
+                                .then((value) {
+                              setState(() {
+                                widget.callback();
+                                Navigator.pop(context);
+                              });
+                            });
                           },
                           child: Container(
                               width: double.infinity,

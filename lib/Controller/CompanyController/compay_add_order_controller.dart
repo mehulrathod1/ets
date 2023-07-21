@@ -46,8 +46,8 @@ class CompanyAddOrderController {
       var res = CompanyAddOrderModel.fromJson(response);
       addOrderModel = res;
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const ManageCompanyOrder()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

@@ -145,37 +145,30 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              const Text(
-                                "In Time : ",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                inTime,
-                                style: TextStyle(
-                                    fontSize: 14, color: colorTextGray),
-                              ),
-                            ],
-                          ),
+                        const Text(
+                          "In Time : ",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              const Text(
-                                "Out Time : ",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                outTime,
-                                style: TextStyle(
-                                    fontSize: 14, color: colorTextGray),
-                              ),
-                            ],
-                          ),
+                        Text(
+                          inTime,
+                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "Out Time : ",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          outTime,
+                          style: TextStyle(fontSize: 14, color: colorTextGray),
                         ),
                       ],
                     ),

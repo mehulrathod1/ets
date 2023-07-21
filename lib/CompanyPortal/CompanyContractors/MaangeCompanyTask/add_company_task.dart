@@ -25,7 +25,8 @@ class EmployeeListData {
 }
 
 class AddCompanyTask extends StatefulWidget {
-  const AddCompanyTask({Key? key}) : super(key: key);
+  const AddCompanyTask({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyTask> createState() => _AddCompanyTaskState();
@@ -429,8 +430,15 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            addTaskController.addtask(context,
-                                employeeId: selectedEmployeeListId);
+                            addTaskController
+                                .addtask(context,
+                                    employeeId: selectedEmployeeListId)
+                                .then((value) {
+                              setState(() {
+                                widget.callback();
+                                Navigator.pop(context);
+                              });
+                            });
                           },
                           child: Container(
                               width: double.infinity,

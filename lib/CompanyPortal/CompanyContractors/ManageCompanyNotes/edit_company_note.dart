@@ -25,7 +25,8 @@ class EmployeeListData {
 
 class EditCompanyNote extends StatefulWidget {
   EditCompanyNote(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.noteStatus,
       required this.noteName,
       required this.noteDescription,
@@ -40,6 +41,7 @@ class EditCompanyNote extends StatefulWidget {
   String noteDescription;
   String employeeList;
   String estimateId;
+  final VoidCallback callback;
 
   @override
   State<EditCompanyNote> createState() => _EditCompanyNoteState();
@@ -406,8 +408,15 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            editNoteController.editNote(context, widget.id,
-                                employeeId: selectedEmployeeListId);
+                            editNoteController
+                                .editNote(context, widget.id,
+                                    employeeId: selectedEmployeeListId)
+                                .then((value) {
+                              setState(() {
+                                Navigator.pop(context);
+                                widget.callback();
+                              });
+                            });
                           },
                           child: Container(
                               width: double.infinity,

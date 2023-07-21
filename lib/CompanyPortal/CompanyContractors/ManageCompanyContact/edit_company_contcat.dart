@@ -13,7 +13,8 @@ import '../../../Network/api_constant.dart';
 
 class EditCompanyContact extends StatefulWidget {
   EditCompanyContact(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.customerType,
       required this.fistName,
       required this.laseName,
@@ -40,6 +41,7 @@ class EditCompanyContact extends StatefulWidget {
   String email;
   String homeNo;
   String mobileNo;
+  final VoidCallback callback;
 
   @override
   State<EditCompanyContact> createState() => _EditCompanyContactState();
@@ -157,6 +159,7 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
               color: Colors.black,
             ),
             onTap: () {
+              widget.callback();
               Navigator.pop(context);
             },
           );
@@ -700,8 +703,14 @@ class _EditCompanyContactState extends State<EditCompanyContact> {
                                 ),
                               );
                             } else {
-                              await editContactController.editContact(
-                                  context, widget.id);
+                              await editContactController
+                                  .editContact(context, widget.id)
+                                  .then((value) {
+                                setState(() {
+                                  widget.callback();
+                                  Navigator.pop(context);
+                                });
+                              });
                             }
                           },
                           child: Container(

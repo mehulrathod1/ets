@@ -33,6 +33,12 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -149,7 +155,11 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddCompanyTask()));
+                              builder: (context) => AddCompanyTask(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Task',
@@ -261,6 +271,9 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                                 taskDescription:
                                                                     detail
                                                                         .taskDescription,
+                                                                callback: () {
+                                                                  refreshData();
+                                                                },
                                                               )));
                                                 },
                                                 child: Row(

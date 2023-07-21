@@ -30,6 +30,12 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -146,7 +152,11 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddCompanyNote()));
+                              builder: (context) => AddCompanyNote(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Notes',
@@ -264,6 +274,10 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                                                     estimateId:
                                                                         detail
                                                                             .estimateId,
+                                                                    callback:
+                                                                        () {
+                                                                      refreshData();
+                                                                    },
                                                                   )));
                                                     },
                                                     child: Row(

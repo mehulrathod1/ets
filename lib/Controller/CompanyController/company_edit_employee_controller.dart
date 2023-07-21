@@ -22,7 +22,7 @@ class CompanyEditEmployeeController {
           return const Center(child: CircularProgressIndicator());
         });
     var response = await postDataWithHeader(
-        paramUri: ApiConstant.companyAddEmployee,
+        paramUri: ApiConstant.companyEditEmployee,
         params: {
           'email': email.text,
           'employee_name': employeeName.text,
@@ -36,12 +36,12 @@ class CompanyEditEmployeeController {
       var res = CompanyEditEmployeeModel.fromJson(response);
       addEmployeeModel = res;
       Navigator.pop(context);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => EmployeeManagement(
-                    appBar: true,
-                  )));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => EmployeeManagement(
+      //               appBar: true,
+      //             )));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

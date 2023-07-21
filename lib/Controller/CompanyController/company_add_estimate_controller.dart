@@ -42,8 +42,8 @@ class CompanyAddEstimateController {
       var res = CompanyAddEstimateModel.fromJson(response);
       addEstimateModel = res;
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const CompanyEstimate()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const CompanyEstimate()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

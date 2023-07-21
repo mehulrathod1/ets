@@ -12,11 +12,15 @@ import '../../../Network/api_constant.dart';
 
 class EditEmployee extends StatefulWidget {
   EditEmployee(
-      {required this.employeeId, required this.departmentName, Key? key})
+      {required this.callback,
+      required this.employeeId,
+      required this.departmentName,
+      Key? key})
       : super(key: key);
 
   String employeeId;
   String departmentName;
+  final VoidCallback callback;
 
   @override
   State<EditEmployee> createState() => _EditEmployeeState();
@@ -71,6 +75,7 @@ class _EditEmployeeState extends State<EditEmployee> {
         editEmployeeController.email.text = employeeDetailModel.data.email;
         editEmployeeController.employeeName.text =
             employeeDetailModel.data.employeeName;
+        editEmployeeController.employeeId.text = employeeDetailModel.data.id;
 
         loading = false;
       });
@@ -327,7 +332,13 @@ class _EditEmployeeState extends State<EditEmployee> {
                                     );
                                   } else {
                                     await editEmployeeController
-                                        .editEmployee(context);
+                                        .editEmployee(context)
+                                        .then((value) {
+                                      setState(() {
+                                        widget.callback();
+                                        Navigator.pop(context);
+                                      });
+                                    });
                                   }
                                 },
                                 child: Container(

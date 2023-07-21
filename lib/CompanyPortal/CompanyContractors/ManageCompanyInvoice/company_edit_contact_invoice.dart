@@ -16,7 +16,8 @@ import '../../../utils/Colors.dart';
 
 class CompanyEditCompanyInvoice extends StatefulWidget {
   CompanyEditCompanyInvoice(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.contactId,
       required this.description,
       required this.amount,
@@ -33,6 +34,8 @@ class CompanyEditCompanyInvoice extends StatefulWidget {
   String invoiceDate;
   String signatureName;
   String signatureUrl;
+  final VoidCallback callback;
+
   @override
   State<CompanyEditCompanyInvoice> createState() =>
       _CompanyEditCompanyInvoiceState();
@@ -533,7 +536,13 @@ class _CompanyEditCompanyInvoiceState extends State<CompanyEditCompanyInvoice> {
                               } else {
                                 await manageCompanyContactInvoice
                                     .editContactInvoice(context,
-                                        signature: base64ImagePath);
+                                        signature: base64ImagePath)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

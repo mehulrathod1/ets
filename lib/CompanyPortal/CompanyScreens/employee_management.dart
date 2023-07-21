@@ -271,6 +271,12 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
         });
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '', '', '', '');
+    });
+  }
+
   @override
   void initState() {
     Future.delayed(const Duration(microseconds: 0), () {
@@ -625,7 +631,11 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddEmployee()));
+                              builder: (context) => AddEmployee(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: Container(
                         width: double.infinity,
@@ -899,6 +909,10 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                                             detail.employeeId,
                                                                         departmentName:
                                                                             detail.department!,
+                                                                        callback:
+                                                                            () {
+                                                                          refreshData();
+                                                                        },
                                                                       )));
                                                     },
                                                     child: const Icon(

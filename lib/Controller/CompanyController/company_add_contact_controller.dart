@@ -45,10 +45,12 @@ class CompanyAddContactController {
       var res = CompanyAddContactModel.fromJson(response);
       addContactModel = res;
       Navigator.pop(context);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const ManageCompanyContact()));
+
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => const ManageCompanyContact()));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

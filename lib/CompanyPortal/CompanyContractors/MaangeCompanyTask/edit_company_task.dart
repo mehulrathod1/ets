@@ -24,7 +24,8 @@ class EmployeeListData {
 
 class EditCompanyTask extends StatefulWidget {
   EditCompanyTask(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.orderId,
       required this.taskStatus,
       required this.taskName,
@@ -39,6 +40,7 @@ class EditCompanyTask extends StatefulWidget {
   String taskName;
   String dueDate;
   String taskDescription;
+  final VoidCallback callback;
 
   @override
   State<EditCompanyTask> createState() => _EditCompanyTaskState();
@@ -497,8 +499,15 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            editTaskController.editTask(context, widget.id,
-                                employeeId: selectedEmployeeListId);
+                            editTaskController
+                                .editTask(context, widget.id,
+                                    employeeId: selectedEmployeeListId)
+                                .then((value) {
+                              setState(() {
+                                widget.callback();
+                                Navigator.pop(context);
+                              });
+                            });
                           },
                           child: Container(
                               width: double.infinity,

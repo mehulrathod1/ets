@@ -31,8 +31,8 @@ class CompanyEditNoteController {
     debugPrint("editNote response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => const ManageCompanyNote()));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

@@ -31,6 +31,7 @@ class EmployeeListData {
 class EditCompanyOrder extends StatefulWidget {
   EditCompanyOrder({
     Key? key,
+    required this.callback,
     required this.id,
     required this.orderStatus,
     required this.orderName,
@@ -54,6 +55,7 @@ class EditCompanyOrder extends StatefulWidget {
   String? signName;
   String? estimateId;
   String signature;
+  final VoidCallback callback;
 
   @override
   State<EditCompanyOrder> createState() => _EditCompanyOrderState();
@@ -897,10 +899,15 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
                                   //   );
                                   // }
                                   else {
-                                    await editOrderController.editOrder(context,
-                                        signature: base64ImagePath,
-                                        employeeId: selectedEmployeeListId,
-                                        id: widget.id);
+                                    await editOrderController
+                                        .editOrder(context,
+                                            signature: base64ImagePath,
+                                            employeeId: selectedEmployeeListId,
+                                            id: widget.id)
+                                        .then((value) {
+                                      widget.callback();
+                                      Navigator.pop(context);
+                                    });
                                   }
                                 },
                                 child: Container(

@@ -54,10 +54,10 @@ class CompanyAddInvoiceController {
       addInvoiceModel = res;
       Navigator.pop(context);
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const ManageCompanyInvoice()));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => const ManageCompanyInvoice()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -104,10 +104,10 @@ class CompanyAddInvoiceController {
       addInvoiceModel = res;
       Navigator.pop(context);
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => const ManageCompanyInvoice()));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => const ManageCompanyInvoice()));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

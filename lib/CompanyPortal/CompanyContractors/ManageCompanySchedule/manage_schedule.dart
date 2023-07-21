@@ -82,6 +82,13 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
         isSameDay(DateFormat('yyyy-MM-dd').parse(event.startDate), date));
   }
 
+  void refreshData() {
+    setState(() {
+      getOrderList(context, '');
+      initialize(context);
+    });
+  }
+
   @override
   void initState() {
     getOrderList(context, '');
@@ -230,8 +237,11 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AddCompanyOrder()));
+                                    builder: (context) => AddCompanyOrder(
+                                          callback: () {
+                                            refreshData();
+                                          },
+                                        )));
                           },
                           child: Container(
                               width: double.infinity,
@@ -255,8 +265,11 @@ class _ManageCompanyScheduleState extends State<ManageCompanySchedule> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const AddCompanyEstimates()));
+                                    builder: (context) => AddCompanyEstimates(
+                                          callback: () {
+                                            refreshData();
+                                          },
+                                        )));
                           },
                           child: Container(
                               width: double.infinity,

@@ -96,6 +96,8 @@ class ApiConstant {
   static const companySendMessage = 'company/send-message/';
   static const companyDownloadInvoice = 'company/download-invoice/';
   static const companyDownloadEstimate = 'company/download-estimate/';
+  static const companyDownloadContactInvoice =
+      'company/download_invoice_contact.php?invoice_id=';
 
   //today
 
@@ -177,6 +179,8 @@ class ApiConstant {
   static const employeeEstimateDownload = 'employee/download-estimate/';
   static const employeeInvoiceDownload = 'employee/download-invoice/';
   static const employeeInvoiceOrder = 'employee/download-emp-change-order/';
+  static const employeeDownloadContactInvoice =
+      'employee/download_invoice_contact.php?invoice_id=';
 
   // --------------------------------- sales portal --------------------------------------------------------
 

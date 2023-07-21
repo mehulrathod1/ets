@@ -22,7 +22,8 @@ class EmployeeListData {
 }
 
 class AddCompanyNote extends StatefulWidget {
-  const AddCompanyNote({Key? key}) : super(key: key);
+  AddCompanyNote({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyNote> createState() => _AddCompanyNoteState();
@@ -378,8 +379,15 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                         padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                         child: GestureDetector(
                           onTap: () {
-                            addNoteController.addCompanyNote(context,
-                                employeeId: selectedEmployeeListId);
+                            addNoteController
+                                .addCompanyNote(context,
+                                    employeeId: selectedEmployeeListId)
+                                .then((value) {
+                              setState(() {
+                                Navigator.pop(context);
+                                widget.callback();
+                              });
+                            });
                           },
                           child: Container(
                               width: double.infinity,

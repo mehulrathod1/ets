@@ -149,7 +149,7 @@ class _ProfileState extends State<Profile> {
                           context: context,
                           builder: (BuildContext context) {
                             return Container(
-                              height: 150,
+                              height: 100,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 20),
                               child: Column(
@@ -157,28 +157,28 @@ class _ProfileState extends State<Profile> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    GestureDetector(
-                                      onTap: () async {
-                                        Navigator.pop(context);
-                                        await pickImage(gallery: true);
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                            color: appThemeGreen,
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        child: const Center(
-                                          child: Text(
-                                            'Pick Image from Gallery',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // GestureDetector(
+                                    //   onTap: () async {
+                                    //     Navigator.pop(context);
+                                    //     await pickImage(gallery: true);
+                                    //   },
+                                    //   child: Container(
+                                    //     width: double.infinity,
+                                    //     height: 40,
+                                    //     decoration: BoxDecoration(
+                                    //         color: appThemeGreen,
+                                    //         borderRadius:
+                                    //             BorderRadius.circular(8)),
+                                    //     child: const Center(
+                                    //       child: Text(
+                                    //         'Pick Image from Gallery',
+                                    //         style: TextStyle(
+                                    //             color: Colors.white,
+                                    //             fontSize: 18),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     GestureDetector(
                                       onTap: () async {
                                         Navigator.pop(context);

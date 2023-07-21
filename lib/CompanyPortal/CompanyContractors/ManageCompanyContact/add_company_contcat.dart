@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import '../../../Network/api_constant.dart';
 
 class AddCompanyContact extends StatefulWidget {
-  const AddCompanyContact({Key? key}) : super(key: key);
+  AddCompanyContact({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddCompanyContact> createState() => _AddCompanyContactState();
@@ -103,6 +104,7 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
               color: Colors.black,
             ),
             onTap: () {
+              widget.callback();
               Navigator.pop(context);
             },
           );
@@ -655,7 +657,13 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                                 );
                               } else {
                                 await addCompanyContactController
-                                    .addCompanyContact(context);
+                                    .addCompanyContact(context)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(
