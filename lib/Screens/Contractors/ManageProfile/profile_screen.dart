@@ -52,6 +52,16 @@ class _ProfileState extends State<Profile> {
         }
       });
     });
+
+    if (employeeProfileDetailsModel!.data.profileImg == '') {
+      print('employeeProfileDetailsModel!.data.profileImg');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please set profile picture'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   Future pickImage({bool gallery = true}) async {

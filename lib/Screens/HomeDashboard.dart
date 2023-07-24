@@ -260,9 +260,22 @@ class _HomeDashboard extends State<HomeDashboard> {
         }
       });
     });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        "profilePic", employeeProfileDetailsModel!.data.profileImg);
+
+    // employeeProfileDetailsModel!.data.profileImg = '';
+    if (employeeProfileDetailsModel!.data.profileImg == '') {
+      print('employeeProfileDetailsModel!.data.profileImg');
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(
+                    appBar: true,
+                  )));
+    } else {
+      print(employeeProfileDetailsModel!.data.profileImg);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          "profilePic", employeeProfileDetailsModel!.data.profileImg);
+    }
   }
 
   @override
