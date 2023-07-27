@@ -38,7 +38,9 @@ class _CompanyNotificationState extends State<CompanyNotification> {
         if (value != null) {
           notificationModel = value;
           notificationList = notificationModel.data.list;
-          debugPrint(notificationModel.message);
+          print(
+              "editOrder response :- ${notificationModel.data.unreadNotification}");
+
           loading = false;
         } else {
           notificationList.clear();

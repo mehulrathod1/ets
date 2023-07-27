@@ -12,6 +12,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Controller/CompanyController/company_notification_controller.dart';
+import '../../Models/CompanyModels/company_notification_model.dart';
 import 'agency_management.dart';
 import 'company_agreement.dart';
 import 'company_drawer_header.dart';
@@ -36,9 +38,17 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   String appBarTitle = "";
   int _selectedIndex = 0;
   var container;
+  int unread_notification = 1;
+  Map<int, int> notificationCounts =
+      {}; // Initialize the notificationCounts map here
+
   CompanyProfileController companyProfileController =
       CompanyProfileController();
   CompanyProfileModel? companyProfileModel;
+
+  CompanyNotificationController notificationController =
+      CompanyNotificationController();
+  late CompanyNotificationModel notificationModel;
 
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -59,6 +69,28 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
           loading = false;
         } else {
           loading = false;
+        }
+      });
+    });
+    await notificationController.getNotification(context).then((value) {
+      setState(() {
+        if (value != null) {
+          notificationModel = value;
+
+          unread_notification = notificationModel.data.unreadNotification;
+          print(
+              "editOrder response :- ${notificationModel.data.unreadNotification}");
+          notificationCounts = {
+            5: unread_notification, // For menu item 5 (Notification), there is 1 notification
+            // Add notification counts for other menu items if needed
+          };
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Notification not found'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
         }
       });
     });
@@ -145,6 +177,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   }
 
   Widget menuItem(int id, String title, IconData icon, bool selected) {
+    int notificationCount = notificationCounts[id] ??
+        0; // Get the notification count for this menu item
+
     return Material(
       child: InkWell(
         onTap: () {
@@ -194,17 +229,71 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               ),
               Expanded(
                 flex: 6,
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: selected ? appThemeGreen : Colors.black,
-                      fontSize: 16),
+                child: Stack(
+                  // Use a Stack to overlay the notification text
+                  alignment: Alignment.topLeft,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: selected ? appThemeGreen : Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    if (notificationCount >
+                        0) // Show the notification count if it's greater than 0
+                      Positioned(
+                        top: 0,
+                        right: 6,
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .red, // Customize the notification badge color
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            notificationCount.toString(),
+                            style: TextStyle(
+                              color: Colors
+                                  .white, // Customize the notification text color
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               )
             ],
           ),
         ),
       ),
+      // child: Padding(
+      //   padding: const EdgeInsets.all(8),
+      //   child: Row(
+      //     children: [
+      //       Expanded(
+      //         child: Icon(
+      //           icon,
+      //           size: 24,
+      //           color: selected ? appThemeGreen : Colors.black,
+      //         ),
+      //       ),
+      //       Expanded(
+      //         flex: 6,
+      //         child: Text(
+      //           title,
+      //           style: TextStyle(
+      //               color: selected ? appThemeGreen : Colors.black,
+      //               fontSize: 16),
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ),
     );
   }
 

@@ -38,10 +38,12 @@ class Data {
   Data({
     required this.list,
     required this.hasMoreData,
+    required this.unreadNotification,
   });
 
   List<ListElement> list;
   String hasMoreData;
+  dynamic unreadNotification;
 
   factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
 
@@ -51,11 +53,13 @@ class Data {
         list: List<ListElement>.from(
             json["List"].map((x) => ListElement.fromJson(x))),
         hasMoreData: json["has_more_data"],
+        unreadNotification: json["unread_notification"],
       );
 
   Map<String, dynamic> toJson() => {
         "List": List<dynamic>.from(list.map((x) => x.toJson())),
         "has_more_data": hasMoreData,
+        "unread_notification": unreadNotification,
       };
 }
 
