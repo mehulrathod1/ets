@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddNewContact extends StatefulWidget {
-  const AddNewContact({Key? key}) : super(key: key);
+  AddNewContact({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddNewContact> createState() => _AddNewContactState();
@@ -650,7 +651,13 @@ class _AddNewContactState extends State<AddNewContact> {
                                 );
                               } else {
                                 await employeeAddContactController
-                                    .addContact(context);
+                                    .addContact(context)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

@@ -92,6 +92,13 @@ class _ManageScheduleState extends State<ManageSchedule> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      getOrderList(context, '');
+      initialize(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -242,7 +249,12 @@ class _ManageScheduleState extends State<ManageSchedule> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AddOrder(schedule: true),
+                              builder: (context) => AddOrder(
+                                schedule: true,
+                                callback: () {
+                                  refreshData();
+                                },
+                              ),
                             ),
                           );
                         },
@@ -270,7 +282,11 @@ class _ManageScheduleState extends State<ManageSchedule> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AddEstimate(),
+                              builder: (context) => AddEstimate(
+                                callback: () {
+                                  refreshData();
+                                },
+                              ),
                             ),
                           );
                         },

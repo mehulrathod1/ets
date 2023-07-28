@@ -48,12 +48,12 @@ class EmployeeAddContactController {
       employeeAddContactModel = res;
       Navigator.pop(context);
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ManageContactScreen(
-                  profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ManageContactScreen(
+      //             profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -99,12 +99,12 @@ class EmployeeAddContactController {
       // Navigator.pop(context);
       // Navigator.pop(context, 'Updated data');
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ManageContactScreen(
-                  profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ManageContactScreen(
+      //             profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

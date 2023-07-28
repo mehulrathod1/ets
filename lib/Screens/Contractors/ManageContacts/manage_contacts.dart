@@ -33,6 +33,12 @@ class _ManageContactScreenState extends State<ManageContactScreen>
     initialize(context, '');
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this); // Add this line
@@ -171,7 +177,11 @@ class _ManageContactScreenState extends State<ManageContactScreen>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddNewContact()));
+                              builder: (context) => AddNewContact(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Contact',
@@ -377,6 +387,9 @@ class _ManageContactScreenState extends State<ManageContactScreen>
                                                                 .homeOrOfficeNo,
                                                             mobileNumber:
                                                                 detail.mobileNo,
+                                                            callback: () {
+                                                              refreshData();
+                                                            },
                                                           ),
                                                         ),
                                                       );

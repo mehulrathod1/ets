@@ -16,6 +16,7 @@ import '../../../utils/Colors.dart';
 class EmployeeEditContactInvoice extends StatefulWidget {
   EmployeeEditContactInvoice(
       {Key? key,
+      required this.callback,
       required this.id,
       required this.contactId,
       required this.description,
@@ -32,6 +33,7 @@ class EmployeeEditContactInvoice extends StatefulWidget {
   String invoiceDate;
   String signatureName;
   String signatureUrl;
+  final VoidCallback callback;
 
   @override
   State<EmployeeEditContactInvoice> createState() =>
@@ -531,7 +533,13 @@ class _EmployeeEditContactInvoiceState
                               } else {
                                 await editContactInvoiceController
                                     .editContactInvoice(context,
-                                        signature: base64ImagePath);
+                                        signature: base64ImagePath)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

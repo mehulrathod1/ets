@@ -8,7 +8,8 @@ import 'package:flutter/services.dart';
 
 class EditContact extends StatefulWidget {
   EditContact(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.customerType,
       required this.firstName,
       required this.lastName,
@@ -34,6 +35,7 @@ class EditContact extends StatefulWidget {
   String email;
   String homeNumber;
   String mobileNumber;
+  final VoidCallback callback;
 
   @override
   State<EditContact> createState() => _EditContactState();
@@ -694,7 +696,13 @@ class _EditContactState extends State<EditContact> {
                                 );
                               } else {
                                 await employeeAddContactController
-                                    .editContact(context, id: widget.id);
+                                    .editContact(context, id: widget.id)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

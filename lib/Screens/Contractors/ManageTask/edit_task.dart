@@ -9,7 +9,8 @@ import 'package:intl/intl.dart';
 
 class EditTask extends StatefulWidget {
   EditTask(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.taskStatus,
       required this.taskName,
       required this.dueDate,
@@ -23,6 +24,7 @@ class EditTask extends StatefulWidget {
   DateTime dueDate;
   String taskDescription;
   String orderId;
+  final VoidCallback callback;
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -359,8 +361,14 @@ class _EditTaskState extends State<EditTask> {
                                   ),
                                 );
                               } else {
-                                await editTaskController.editTask(context,
-                                    id: widget.id);
+                                await editTaskController
+                                    .editTask(context, id: widget.id)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

@@ -14,6 +14,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Controller/EmployeeController/employee_notification_controller.dart';
+import '../Models/EmployeeModel/employee_notification_model.dart';
 import '../Network/api_constant.dart';
 import 'attendanceScreen.dart';
 import 'Home.dart';
@@ -41,6 +43,13 @@ class _HomeDashboard extends State<HomeDashboard> {
   //int _selectedIndex = 0;
   String appBarTitle = "";
 
+  int unread_notification = 1;
+  Map<int, int> notificationCounts =
+      {}; // Initialize the notificationCounts map here
+  EmployeeNotificationController notificationController =
+      EmployeeNotificationController();
+  late EmployeeNotificationModel notificationModel;
+
   Future<void> navigate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
@@ -48,6 +57,23 @@ class _HomeDashboard extends State<HomeDashboard> {
         context,
         MaterialPageRoute(builder: (context) => const UserSelectionScreen()),
         (route) => false);
+  }
+
+  Future getNotification(BuildContext context) async {
+    await notificationController.getNotification(context).then((value) {
+      setState(() {
+        notificationModel = value;
+        unread_notification = notificationModel.data.unreadNotification;
+        print(
+            "editOrder response :- ${notificationModel.data.unreadNotification}");
+
+        notificationCounts = {
+          7: unread_notification, // For menu item 5 (Notification), there is 1 notification
+          // Add notification counts for other menu items if needed
+        };
+        debugPrint(value.message);
+      });
+    });
   }
 
   void _onItemTapped(int index) {
@@ -61,6 +87,12 @@ class _HomeDashboard extends State<HomeDashboard> {
         currentPage = DrawerSelection.ShareLocation;
       } else if (_selectedIndex == 3) {
         currentPage = DrawerSelection.Notification;
+        setState(() {
+          notificationCounts = {
+            7: 0,
+          }; // For menu item 5 (Notification), there is 1 notification
+          // Add notification counts for other menu items if needed
+        });
       } else if (_selectedIndex == 4) {
         currentPage = DrawerSelection.Profile;
       }
@@ -175,10 +207,12 @@ class _HomeDashboard extends State<HomeDashboard> {
   }
 
   Widget menuItem(int id, String title, IconData icon, bool selected) {
+    int notificationCount = notificationCounts[id] ?? 0;
     return Material(
       child: InkWell(
         onTap: () {
           Navigator.pop(context);
+
           setState(() {
             if (id == 1) {
               currentPage = DrawerSelection.Dashboard;
@@ -203,9 +237,14 @@ class _HomeDashboard extends State<HomeDashboard> {
               _selectedIndex = 1;
               setState(() {});
             } else if (id == 7) {
+              setState(() {
+                notificationCounts = {
+                  7: 0, // For menu item 5 (Notification), there is 1 notification
+                  // Add notification counts for other menu items if needed
+                };
+              });
               currentPage = DrawerSelection.Notification;
               _selectedIndex = 3;
-              setState(() {});
             } else if (id == 8) {
               currentPage = DrawerSelection.ContractorsBackOffice;
               _selectedIndex = 0;
@@ -232,16 +271,70 @@ class _HomeDashboard extends State<HomeDashboard> {
               ),
               Expanded(
                 flex: 6,
-                child: Text(
-                  title,
-                  style: TextStyle(
-                      color: selected ? appThemeGreen : Colors.black,
-                      fontSize: 16),
+                child: Stack(
+                  // Use a Stack to overlay the notification text
+                  alignment: Alignment.topLeft,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        color: selected ? appThemeGreen : Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                    if (notificationCount >
+                        0) // Show the notification count if it's greater than 0
+                      Positioned(
+                        top: 0,
+                        right: 6,
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .red, // Customize the notification badge color
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            notificationCount.toString(),
+                            style: TextStyle(
+                              color: Colors
+                                  .white, // Customize the notification text color
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               )
             ],
           ),
         ),
+        // child: Padding(
+        //   padding: const EdgeInsets.all(8),
+        //   child: Row(
+        //     children: [
+        //       Expanded(
+        //         child: Icon(
+        //           icon,
+        //           size: 24,
+        //           color: selected ? appThemeGreen : Colors.black,
+        //         ),
+        //       ),
+        //       Expanded(
+        //         flex: 6,
+        //         child: Text(
+        //           title,
+        //           style: TextStyle(
+        //               color: selected ? appThemeGreen : Colors.black,
+        //               fontSize: 16),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
@@ -281,6 +374,7 @@ class _HomeDashboard extends State<HomeDashboard> {
   @override
   void initState() {
     initialize(context);
+    getNotification(context);
     setState(() {
       _selectedIndex = widget.currentTableSelected!;
     });
@@ -368,6 +462,8 @@ class _HomeDashboard extends State<HomeDashboard> {
                   ),
                   onTap: () {
                     Scaffold.of(context).openDrawer();
+
+                    setState(() {});
                   },
                 );
               }),

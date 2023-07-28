@@ -49,12 +49,12 @@ class EmployeeNoteController {
       employeeAddNoteModel = res;
       Navigator.pop(context);
       // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageNote()));
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ManageNote(profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             ManageNote(profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -91,12 +91,12 @@ class EmployeeNoteController {
     debugPrint("editNotes response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ManageNote(profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             ManageNote(profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

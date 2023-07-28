@@ -52,12 +52,12 @@ class EmployeeAddInvoiceController {
       addInvoiceModel = res;
       Navigator.pop(context);
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ManageInvoice(
-                  profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ManageInvoice(
+      //             profilePic: prefs.get("profilePic").toString())));
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

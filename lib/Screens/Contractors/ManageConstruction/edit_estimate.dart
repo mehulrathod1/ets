@@ -7,7 +7,8 @@ import '../../../Controller/EmployeeController/employee_edit_estimate_controller
 
 class EditEstimate extends StatefulWidget {
   EditEstimate(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.contactId,
       required this.estimateName,
       required this.estimateDescription,
@@ -25,6 +26,7 @@ class EditEstimate extends StatefulWidget {
   String amount;
   String markup;
   String tax;
+  final VoidCallback callback;
 
   @override
   State<EditEstimate> createState() => _EditEstimateState();
@@ -442,8 +444,14 @@ class _EditEstimateState extends State<EditEstimate> {
                                 ),
                               );
                             } else {
-                              editEstimateController.editEstimate(
-                                  context, widget.id);
+                              editEstimateController
+                                  .editEstimate(context, widget.id)
+                                  .then((value) {
+                                setState(() {
+                                  widget.callback();
+                                  Navigator.pop(context);
+                                });
+                              });
                             }
                           },
                           child: Container(

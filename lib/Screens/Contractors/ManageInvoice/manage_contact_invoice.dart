@@ -39,6 +39,12 @@ class _EmployeeManageContactInvoiceState
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      getContactInvoice(context);
+    });
+  }
+
   Future downloadInvoice(BuildContext context, String id) async {
     await downloadInvoiceController
         .employeeDownloadContactInvoice(context, id)
@@ -206,8 +212,11 @@ class _EmployeeManageContactInvoiceState
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddInvoiceForContact()));
+                                builder: (context) => AddInvoiceForContact(
+                                      callback: () {
+                                        refreshData();
+                                      },
+                                    )));
                       },
                       child: const Text(
                         'Add New Invoice',
@@ -357,7 +366,11 @@ class _EmployeeManageContactInvoiceState
                                                                           .signature,
                                                                   id: detail
                                                                       .contactInvoiceId,
+                                                                  callback: () {
+                                                                    refreshData();
+                                                                  },
                                                                 )));
+
                                                     // Navigator.push(
                                                     //     context,
                                                     //     MaterialPageRoute(

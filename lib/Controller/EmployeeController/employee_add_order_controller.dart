@@ -50,12 +50,12 @@ class EmployeeAddOrderController {
       if (schedule!) {
         Navigator.pop(context);
       } else {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ManageOrder(
-                    profilePic: prefs.get("profilePic").toString())));
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => ManageOrder(
+        //             profilePic: prefs.get("profilePic").toString())));
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

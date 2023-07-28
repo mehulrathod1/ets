@@ -15,8 +15,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class AddOrder extends StatefulWidget {
-  AddOrder({required this.schedule, Key? key}) : super(key: key);
+  AddOrder({required this.callback, required this.schedule, Key? key})
+      : super(key: key);
   bool schedule = false;
+  final VoidCallback callback;
 
   @override
   State<AddOrder> createState() => _AddOrderState();
@@ -705,9 +707,16 @@ class _AddOrderState extends State<AddOrder> {
                                 );
                               } else {
                                 FocusScope.of(context).unfocus();
-                                await addOrderController.addOrder(context,
-                                    signature: base64ImagePath,
-                                    schedule: widget.schedule);
+                                await addOrderController
+                                    .addOrder(context,
+                                        signature: base64ImagePath,
+                                        schedule: widget.schedule)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

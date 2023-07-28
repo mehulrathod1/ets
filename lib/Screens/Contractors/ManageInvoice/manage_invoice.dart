@@ -44,6 +44,12 @@ class _ManageInvoiceState extends State<ManageInvoice> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -233,7 +239,11 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const AddNewInvoice()));
+                                builder: (context) => AddNewInvoice(
+                                      callback: () {
+                                        refreshData();
+                                      },
+                                    )));
                       },
                       child: const Text(
                         'Add New Invoice',
@@ -446,6 +456,10 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                                                       signature:
                                                                           detail
                                                                               .signature,
+                                                                      callback:
+                                                                          () {
+                                                                        refreshData();
+                                                                      },
                                                                     )));
                                                   },
                                                   child: Container(

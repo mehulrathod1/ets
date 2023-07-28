@@ -16,7 +16,8 @@ import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class EditOrder extends StatefulWidget {
   EditOrder(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.estimateId,
       required this.orderStatus,
       required this.orderName,
@@ -40,7 +41,7 @@ class EditOrder extends StatefulWidget {
   String dueDate;
   String signature;
   String signatureName;
-
+  final VoidCallback callback;
   @override
   State<EditOrder> createState() => _EditOrderState();
 }
@@ -734,8 +735,15 @@ class _EditOrderState extends State<EditOrder> {
                             //   );
                             // }
                             else {
-                              await editOrderController.editOrder(context,
-                                  id: widget.id, signature: base64ImagePath);
+                              await editOrderController
+                                  .editOrder(context,
+                                      id: widget.id, signature: base64ImagePath)
+                                  .then((value) {
+                                setState(() {
+                                  widget.callback();
+                                  Navigator.pop(context);
+                                });
+                              });
                             }
                           },
                           child: Container(

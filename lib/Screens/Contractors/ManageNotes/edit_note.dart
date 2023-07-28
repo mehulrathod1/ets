@@ -8,7 +8,8 @@ import 'package:flutter/services.dart';
 
 class EditNote extends StatefulWidget {
   EditNote(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.noteName,
       required this.noteDescription,
       required this.noteStatus,
@@ -20,6 +21,7 @@ class EditNote extends StatefulWidget {
   String noteDescription;
   String noteStatus;
   String estimateId;
+  final VoidCallback callback;
 
   @override
   State<EditNote> createState() => _EditNoteState();
@@ -283,8 +285,16 @@ class _EditNoteState extends State<EditNote> {
                                 ),
                               );
                             } else {
-                              await employeeNoteController.editNotes(context,
-                                  markAsComplete: termsandcond, id: widget.id);
+                              await employeeNoteController
+                                  .editNotes(context,
+                                      markAsComplete: termsandcond,
+                                      id: widget.id)
+                                  .then((value) {
+                                setState(() {
+                                  widget.callback();
+                                  Navigator.pop(context);
+                                });
+                              });
                             }
                           },
                           child: Container(

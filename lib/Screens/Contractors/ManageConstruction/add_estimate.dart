@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 import '../../../Controller/EmployeeController/employeee_add_estimate_controller.dart';
 
 class AddEstimate extends StatefulWidget {
-  const AddEstimate({Key? key}) : super(key: key);
+  const AddEstimate({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddEstimate> createState() => _AddEstimateState();
@@ -425,7 +426,13 @@ class _AddEstimateState extends State<AddEstimate> {
                                 );
                               } else {
                                 await addEstimateController
-                                    .addEstimate(context);
+                                    .addEstimate(context)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

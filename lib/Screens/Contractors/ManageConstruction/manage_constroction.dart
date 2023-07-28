@@ -41,6 +41,12 @@ class _ManageConstructionState extends State<ManageConstruction> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -200,7 +206,11 @@ class _ManageConstructionState extends State<ManageConstruction> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddEstimate()));
+                              builder: (context) => AddEstimate(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Estimate',
@@ -331,6 +341,9 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                                                       .tax,
                                                                   id: detail
                                                                       .estimateId,
+                                                                  callback: () {
+                                                                    refreshData();
+                                                                  },
                                                                 )));
                                                   },
                                                   child: Row(

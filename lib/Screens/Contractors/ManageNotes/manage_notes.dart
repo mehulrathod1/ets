@@ -31,6 +31,12 @@ class _ManageNoteState extends State<ManageNote> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -147,7 +153,11 @@ class _ManageNoteState extends State<ManageNote> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const AddNote()));
+                                builder: (context) => AddNote(
+                                      callback: () {
+                                        refreshData();
+                                      },
+                                    )));
                       },
                       child: const Text(
                         'Add New Notes',
@@ -265,6 +275,10 @@ class _ManageNoteState extends State<ManageNote> {
                                                                       estimateId:
                                                                           detail
                                                                               .estimateId,
+                                                                      callback:
+                                                                          () {
+                                                                        refreshData();
+                                                                      },
                                                                     )));
                                                   },
                                                   child: Row(

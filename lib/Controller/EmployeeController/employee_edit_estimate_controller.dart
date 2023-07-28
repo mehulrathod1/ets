@@ -46,12 +46,12 @@ class EmployeeEditEstimateController {
           duration: const Duration(seconds: 2),
         ),
       );
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ManageConstruction(
-                  profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ManageConstruction(
+      //             profilePic: prefs.get("profilePic").toString())));
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

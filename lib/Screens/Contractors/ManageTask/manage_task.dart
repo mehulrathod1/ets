@@ -31,6 +31,12 @@ class _ManageTaskState extends State<ManageTask> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future initialize(BuildContext context, String search) async {
     setState(() {
       loading = true;
@@ -147,7 +153,11 @@ class _ManageTaskState extends State<ManageTask> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddTask()));
+                              builder: (context) => AddTask(
+                                    callback: () {
+                                      refreshData();
+                                    },
+                                  )));
                     },
                     child: const Text(
                       'Add New Task',
@@ -267,6 +277,10 @@ class _ManageTaskState extends State<ManageTask> {
                                                                       orderId:
                                                                           detail
                                                                               .orderId,
+                                                                      callback:
+                                                                          () {
+                                                                        refreshData();
+                                                                      },
                                                                     )));
                                                   },
                                                   child: Row(

@@ -21,20 +21,22 @@ class EmployeeAddTaskController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeAddTask, params: {
-      'order_id': orderId.text,
-      'taskstatus': taskStatus.text,
-      'task_name': taskName.text,
-      'due_date': dueDate.text,
-      'task_description': taskDescription.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeAddTask,
+        params: {
+          'order_id': orderId.text,
+          'taskstatus': taskStatus.text,
+          'task_name': taskName.text,
+          'due_date': dueDate.text,
+          'task_description': taskDescription.text,
+        });
     debugPrint("addTask response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeAddTaskModel.fromJson(response);
       addTaskModel = res;
       Navigator.pop(context);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>  ManageTask(profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(context, MaterialPageRoute(builder: (context) =>  ManageTask(profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -53,7 +55,8 @@ class EmployeeAddTaskController {
   }
 
   Future getOrderForEmployeeTask(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
+    var response =
+        await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
     } else {

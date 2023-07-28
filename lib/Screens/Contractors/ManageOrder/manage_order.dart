@@ -41,6 +41,12 @@ class _ManageOrderState extends State<ManageOrder> {
     super.initState();
   }
 
+  void refreshData() {
+    setState(() {
+      initialize(context, '');
+    });
+  }
+
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -220,7 +226,12 @@ class _ManageOrderState extends State<ManageOrder> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AddOrder(schedule: false)));
+                          builder: (context) => AddOrder(
+                                schedule: false,
+                                callback: () {
+                                  refreshData();
+                                },
+                              )));
                 },
                 child: Container(
                   width: double.infinity,
@@ -369,6 +380,9 @@ class _ManageOrderState extends State<ManageOrder> {
                                                                 .signature,
                                                             signatureName: detail
                                                                 .signatureName,
+                                                            callback: () {
+                                                              refreshData();
+                                                            },
                                                           ),
                                                         ),
                                                       );

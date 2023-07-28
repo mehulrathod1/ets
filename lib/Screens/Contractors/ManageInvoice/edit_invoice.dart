@@ -17,7 +17,8 @@ import '../../../Controller/EmployeeController/employee_edit_invoice_controller.
 
 class EditInvoice extends StatefulWidget {
   EditInvoice(
-      {required this.id,
+      {required this.callback,
+      required this.id,
       required this.estimateId,
       required this.invoiceFor,
       required this.invoiceDescription,
@@ -46,6 +47,7 @@ class EditInvoice extends StatefulWidget {
   String paidBy;
   String signatureName;
   String signature;
+  final VoidCallback callback;
 
   @override
   State<EditInvoice> createState() => _EditInvoiceState();
@@ -1229,8 +1231,16 @@ class _EditInvoiceState extends State<EditInvoice> {
                               //   );
                               // }
                               else {
-                                await editInvoiceController.editInvoice(context,
-                                    signature: base64ImagePath, id: widget.id);
+                                await editInvoiceController
+                                    .editInvoice(context,
+                                        signature: base64ImagePath,
+                                        id: widget.id)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

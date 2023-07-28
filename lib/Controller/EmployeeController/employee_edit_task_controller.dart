@@ -16,7 +16,8 @@ class EmployeeEditTaskController {
   TextEditingController taskDescription = TextEditingController();
 
   Future getOrderForEmployeeTask(BuildContext context) async {
-    var response = await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
+    var response =
+        await getData(paramUri: ApiConstant.employeeGetOrderForTaskList);
     if (response["status"] == "True" && response["data"] != null) {
       return response["data"]["List"];
     } else {
@@ -30,20 +31,22 @@ class EmployeeEditTaskController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeEditTask + id, params: {
-      'order_id': orderId.text,
-      'taskstatus': taskStatus.text,
-      'task_name': taskName.text,
-      'due_date': dueDate.text,
-      'task_description': taskDescription.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeEditTask + id,
+        params: {
+          'order_id': orderId.text,
+          'taskstatus': taskStatus.text,
+          'task_name': taskName.text,
+          'due_date': dueDate.text,
+          'task_description': taskDescription.text,
+        });
     debugPrint("editTask response :- ${response.toString()}");
     if (response["status"] == 'True') {
       var res = EmployeeEditTaskModel.fromJson(response);
       employeeEditTaskModel = res;
       Navigator.pop(context);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ManageTask(profilePic: prefs.get("profilePic").toString())));
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => ManageTask(profilePic: prefs.get("profilePic").toString())));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),

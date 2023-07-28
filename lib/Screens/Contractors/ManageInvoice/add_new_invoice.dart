@@ -18,7 +18,8 @@ import '../../../Controller/EmployeeController/employee_estimate_controller.dart
 import '../../../Models/EmployeeModel/employee_estimate_model.dart';
 
 class AddNewInvoice extends StatefulWidget {
-  const AddNewInvoice({Key? key}) : super(key: key);
+  AddNewInvoice({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddNewInvoice> createState() => _AddNewInvoiceState();
@@ -1024,8 +1025,15 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                                   ),
                                 );
                               } else {
-                                await addInvoiceController.addInvoice(context,
-                                    signature: base64ImagePath);
+                                await addInvoiceController
+                                    .addInvoice(context,
+                                        signature: base64ImagePath)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

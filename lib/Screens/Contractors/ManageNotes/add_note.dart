@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AddNote extends StatefulWidget {
-  const AddNote({Key? key}) : super(key: key);
+  AddNote({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddNote> createState() => _AddNoteState();
@@ -266,8 +267,15 @@ class _AddNoteState extends State<AddNote> {
                                   ),
                                 );
                               } else {
-                                await employeeNoteController.addNotes(context,
-                                    markAsComplete: termsandcond);
+                                await employeeNoteController
+                                    .addNotes(context,
+                                        markAsComplete: termsandcond)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

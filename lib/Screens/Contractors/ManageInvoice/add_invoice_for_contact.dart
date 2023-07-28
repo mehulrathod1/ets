@@ -14,7 +14,8 @@ import '../../../utils/Colors.dart';
 import 'dart:ui' as ui;
 
 class AddInvoiceForContact extends StatefulWidget {
-  const AddInvoiceForContact({Key? key}) : super(key: key);
+  AddInvoiceForContact({required this.callback, Key? key}) : super(key: key);
+  final VoidCallback callback;
 
   @override
   State<AddInvoiceForContact> createState() => _AddInvoiceForContactState();
@@ -475,9 +476,15 @@ class _AddInvoiceForContactState extends State<AddInvoiceForContact> {
                                   ),
                                 );
                               } else {
-                                await addInvoiceForContact.addContactInvoice(
-                                    context,
-                                    signature: base64ImagePath);
+                                await addInvoiceForContact
+                                    .addContactInvoice(context,
+                                        signature: base64ImagePath)
+                                    .then((value) {
+                                  setState(() {
+                                    widget.callback();
+                                    Navigator.pop(context);
+                                  });
+                                });
                               }
                             },
                             child: Container(

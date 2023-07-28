@@ -72,16 +72,19 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
         }
       });
     });
+  }
+
+  Future getNotification(BuildContext context) async {
     await notificationController.getNotification(context).then((value) {
       setState(() {
         if (value != null) {
           notificationModel = value;
-
           unread_notification = notificationModel.data.unreadNotification;
           print(
               "editOrder response :- ${notificationModel.data.unreadNotification}");
           notificationCounts = {
-            5: unread_notification, // For menu item 5 (Notification), there is 1 notification
+            5: unread_notification,
+            // For menu item 5 (Notification), there is 1 notification
             // Add notification counts for other menu items if needed
           };
         } else {
@@ -107,6 +110,12 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
         currentPage = DrawerSelection.FixHoursRequest;
       } else if (_selectedIndex == 3) {
         currentPage = DrawerSelection.Notification;
+        setState(() {
+          notificationCounts = {
+            5: 0,
+          }; // For menu item 5 (Notification), there is 1 notification
+          // Add no tification counts for other menu items if needed
+        });
       } else if (_selectedIndex == 4) {
         currentPage = DrawerSelection.Profile;
       }
@@ -195,6 +204,12 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               currentPage = DrawerSelection.Inbox;
             } else if (id == 5) {
               currentPage = DrawerSelection.Notification;
+              setState(() {
+                notificationCounts = {
+                  5: 0, // For menu item 5 (Notification), there is 1 notification
+                  // Add notification counts for other menu items if needed
+                };
+              });
             } else if (id == 6) {
               currentPage = DrawerSelection.FixHoursRequest;
             } else if (id == 7) {
@@ -300,6 +315,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   @override
   void initState() {
     initialize(context);
+    getNotification(context);
     super.initState();
   }
 
