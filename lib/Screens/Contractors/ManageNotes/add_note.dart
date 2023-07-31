@@ -186,7 +186,7 @@ class _AddNoteState extends State<AddNote> {
                             maxLines: 1,
                             controller: employeeNoteController.noteName,
                             decoration: InputDecoration(
-                              hintText: 'Enter task name',
+                              hintText: 'Enter note name',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,

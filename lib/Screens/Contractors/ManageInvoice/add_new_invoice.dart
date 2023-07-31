@@ -631,7 +631,7 @@ class _AddNewInvoiceState extends State<AddNewInvoice> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Tax",
+                            "Tax(If there is no tax then add 0)",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),

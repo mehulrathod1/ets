@@ -310,7 +310,7 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Enter task name',
+                            hintText: 'Enter note name',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,

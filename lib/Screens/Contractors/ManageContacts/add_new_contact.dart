@@ -224,7 +224,7 @@ class _AddNewContactState extends State<AddNewContact> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Company Name *",
+                            "Company Name ",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -468,7 +468,7 @@ class _AddNewContactState extends State<AddNewContact> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Home/Office No *",
+                            "Home/Office No ",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -630,6 +630,7 @@ class _AddNewContactState extends State<AddNewContact> {
                                   ),
                                 );
                               }
+
                               // else if (employeeAddContactController
                               //     .homeNumber.text.isEmpty) {
                               //   ScaffoldMessenger.of(context).showSnackBar(
@@ -640,6 +641,7 @@ class _AddNewContactState extends State<AddNewContact> {
                               //     ),
                               //   );
                               // }
+
                               else if (employeeAddContactController
                                   .mobileNumber.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(

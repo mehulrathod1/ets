@@ -366,7 +366,7 @@ class _EditEstimateState extends State<EditEstimate> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Tax(%)",
+                          "Tax(%, If there is no tax then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
@@ -379,7 +379,7 @@ class _EditEstimateState extends State<EditEstimate> {
                               height: 1.7, fontSize: 18, color: Colors.black),
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'Add tex',
+                            hintText: 'Add tax',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
