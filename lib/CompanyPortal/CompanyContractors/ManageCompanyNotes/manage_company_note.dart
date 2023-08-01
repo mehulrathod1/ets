@@ -295,7 +295,7 @@ class _ManageCompanyNoteState extends State<ManageCompanyNote> {
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit",
+                                                            "View/Edit",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors

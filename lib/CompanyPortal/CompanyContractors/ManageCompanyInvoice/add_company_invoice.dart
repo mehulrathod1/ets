@@ -104,6 +104,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
     setState(() {
       selectEstimate = selectedTest['estimate_name'];
       addInvoiceController.invoiceForId.text = selectedTest['id'];
+      addInvoiceController.paidBy.text = selectedTest['estimate_name'];
 
       descriptionList = selectedTest['order_array'];
 
@@ -538,7 +539,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Tax (If there is no tax then add 0)",
+                          "Tax (%, If there is no tax then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
@@ -572,7 +573,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Markup",
+                          "Markup (%, If there is no markup then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
@@ -606,7 +607,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Cost Plus",
+                          "Cost Plus (%, If there is no Cost Plus then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),

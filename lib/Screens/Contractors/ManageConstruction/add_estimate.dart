@@ -238,8 +238,7 @@ class _AddEstimateState extends State<AddEstimate> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText:
-                                  'Testing the estimate section description',
+                              hintText: 'Enter due date',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -290,7 +289,7 @@ class _AddEstimateState extends State<AddEstimate> {
                                 fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Add Amount',
+                              hintText: 'Enter Amount',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -324,7 +323,7 @@ class _AddEstimateState extends State<AddEstimate> {
                                 fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Add Markup',
+                              hintText: 'Enter Markup',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -358,7 +357,7 @@ class _AddEstimateState extends State<AddEstimate> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: 'Add tax',
+                              hintText: 'Enter tax',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,

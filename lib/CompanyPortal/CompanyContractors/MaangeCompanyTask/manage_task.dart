@@ -289,7 +289,7 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                       padding: EdgeInsets.only(
                                                           left: 8.0),
                                                       child: Text(
-                                                        "Edit",
+                                                        "View/Edit",
                                                         style: TextStyle(
                                                             fontSize: 14,
                                                             color:

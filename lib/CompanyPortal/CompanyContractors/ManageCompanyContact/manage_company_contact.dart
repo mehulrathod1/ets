@@ -389,7 +389,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit/View",
+                                                            "View/Edit",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors

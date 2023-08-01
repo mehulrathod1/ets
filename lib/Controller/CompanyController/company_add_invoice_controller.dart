@@ -40,7 +40,7 @@ class CompanyAddInvoiceController {
           'estimate_id': invoiceForId.text,
           'invoice_description': description.text,
           'amount': estimateAmount.text,
-          'paid_by': 'test account',
+          'paid_by': paidBy.text,
           'tax': tax.text,
           'cost_plus': costPlus.text,
           'invoice_date': invoiceDate.text,

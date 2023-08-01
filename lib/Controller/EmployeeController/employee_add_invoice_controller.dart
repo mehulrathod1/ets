@@ -24,6 +24,7 @@ class EmployeeAddInvoiceController {
   TextEditingController invoiceDate = TextEditingController();
   TextEditingController isPaid = TextEditingController();
   TextEditingController signName = TextEditingController();
+  TextEditingController paidBy = TextEditingController();
 
   Future addInvoice(BuildContext context, {required String? signature}) async {
     showDialog(
@@ -38,7 +39,7 @@ class EmployeeAddInvoiceController {
           'estimate_id': invoiceForId.text,
           'invoice_description': description.text,
           'amount': estimateAmount.text,
-          'paid_by': 'test account',
+          'paid_by': paidBy.text,
           'tax': tax.text,
           'cost_plus': costPlus.text,
           'invoice_date': invoiceDate.text,

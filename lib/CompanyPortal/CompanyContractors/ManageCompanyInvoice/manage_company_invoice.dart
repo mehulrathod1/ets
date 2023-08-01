@@ -467,7 +467,7 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                                                                       left:
                                                                           8.0),
                                                               child: Text(
-                                                                "Edit/View",
+                                                                "View/Edit",
                                                                 style: TextStyle(
                                                                     fontSize:
                                                                         14,

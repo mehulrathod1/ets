@@ -109,6 +109,7 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
     setState(() {
       selectEstimate = selectedTest['estimate_name'];
       addInvoiceController.invoiceForId.text = selectedTest['id'];
+      addInvoiceController.paidBy.text = selectedTest['estimate_name'];
 
       descriptionList = selectedTest['order_array'];
       for (int i = 0; i < descriptionList.length; i++) {
@@ -252,6 +253,9 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       }
 
                       selectEstimate = value[i]["estimate_name"];
+                      addInvoiceController.paidBy.text =
+                          value[i]["estimate_name"];
+
                       descriptionList = value[i]['order_array'];
                       for (int i = 0; i < descriptionList.length; i++) {
                         int amt = int.parse(descriptionList[i]['amount']);
@@ -726,7 +730,7 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Tax",
+                          "Tax(%, If there is no tax then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
@@ -759,7 +763,7 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Markup",
+                          "Markup (%, If there is no markup then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),
@@ -792,7 +796,7 @@ class _EditCompanyInvoiceState extends State<EditCompanyInvoice> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Cost Plus",
+                          "Cost Plus (%, If there is no Cost Plus then add 0)",
                           style: TextStyle(fontSize: 14),
                         ),
                       ),

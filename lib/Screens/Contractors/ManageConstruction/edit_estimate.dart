@@ -332,7 +332,7 @@ class _EditEstimateState extends State<EditEstimate> {
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
-                          "Markup(%)",
+                          "Markup(%, If there is no markup then add 0)",
                           style: TextStyle(height: 1.7, fontSize: 14),
                         ),
                       ),

@@ -352,7 +352,7 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                               EdgeInsets.only(
                                                                   left: 8.0),
                                                           child: Text(
-                                                            "Edit",
+                                                            "View/Edit",
                                                             style: TextStyle(
                                                                 fontSize: 14,
                                                                 color: Colors

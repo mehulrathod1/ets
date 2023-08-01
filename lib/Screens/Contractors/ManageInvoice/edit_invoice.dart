@@ -74,7 +74,7 @@ class _EditInvoiceState extends State<EditInvoice> {
     setState(() {
       selectEstimate = selectedTest['estimate_name'];
       editInvoiceController.invoiceForId.text = selectedTest['estimate_id'];
-
+      editInvoiceController.paidBy.text = selectedTest['estimate_name'];
       descriptionList = selectedTest['order_array'];
       for (int i = 0; i < descriptionList.length; i++) {
         int amt = int.parse(descriptionList[i]['amount']);
@@ -208,7 +208,8 @@ class _EditInvoiceState extends State<EditInvoice> {
                       } else {
                         editInvoiceController.costPlus.text = '0';
                       }
-
+                      editInvoiceController.paidBy.text =
+                          value[i]["estimate_name"];
                       selectEstimate = value[i]["estimate_name"];
                       descriptionList = value[i]['order_array'];
                       for (int i = 0; i < descriptionList.length; i++) {
@@ -798,7 +799,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Tax",
+                            "Tax (%, If there is no tax then add 0)",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -842,7 +843,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Markup",
+                            "Markup (%, If there is no markup then add 0)",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -886,7 +887,7 @@ class _EditInvoiceState extends State<EditInvoice> {
                         const Padding(
                           padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                           child: Text(
-                            "Cost Plus",
+                            "Cost Plus (%, If there is no Cost Plus then add 0)",
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
