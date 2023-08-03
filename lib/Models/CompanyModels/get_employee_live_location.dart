@@ -36,11 +36,15 @@ class GetEmployeeLiveLocation {
 
 class Data {
   String location;
+  String lat;
+  String long;
   Status status;
   DateTime date;
 
   Data({
     required this.location,
+    required this.lat,
+    required this.long,
     required this.status,
     required this.date,
   });
@@ -51,12 +55,16 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         location: json["location"],
+        lat: json["lat"],
+        long: json["long"],
         status: Status.fromJson(json["status"]),
         date: DateTime.parse(json["date"]),
       );
 
   Map<String, dynamic> toJson() => {
         "location": location,
+        "lat": lat,
+        "long": long,
         "status": status.toJson(),
         "date": date.toIso8601String(),
       };

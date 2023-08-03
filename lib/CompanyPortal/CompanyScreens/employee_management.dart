@@ -16,6 +16,7 @@ import '../../Network/api_constant.dart';
 import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
+import 'employee_live_location.dart';
 
 class EmployeeManagement extends StatefulWidget {
   EmployeeManagement({required this.appBar, Key? key}) : super(key: key);
@@ -948,7 +949,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                                                         context,
                                                         MaterialPageRoute(
                                                           builder: (context) =>
-                                                              LiveLocation(
+                                                              EmployeeLiveLocation(
                                                                   employeeId: detail
                                                                       .employeeId),
                                                         ),

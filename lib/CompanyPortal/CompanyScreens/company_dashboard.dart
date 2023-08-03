@@ -411,12 +411,14 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               ),
               actions: <Widget>[
                 GestureDetector(
+
                   // onTap: () {
                   //   Navigator.push(
                   //       context,
                   //       MaterialPageRoute(
                   //           builder: (context) => const CompanyProfile()));
                   // },
+
                   child: Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: companyProfileModel!.data.companyLogo.isEmpty
