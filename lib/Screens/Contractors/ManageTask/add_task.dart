@@ -223,7 +223,7 @@ class _AddTaskState extends State<AddTask> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '12/31/1996',
+                              hintText: 'Enter due date',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,

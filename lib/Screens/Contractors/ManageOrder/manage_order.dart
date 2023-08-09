@@ -9,6 +9,7 @@ import 'package:etsemployee/Screens/Contractors/ManageOrder/edit_order.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../PDFViewer.dart';
@@ -469,13 +470,47 @@ class _ManageOrderState extends State<ManageOrder> {
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
-                                                    onTap: () async {
-                                                      await deleteOrderController
-                                                          .deleteOrder(context,
-                                                              detail.id!)
-                                                          .then((value) {
-                                                        initialize(context, '');
-                                                      });
+                                                    // onTap: () async {
+                                                    //   await deleteOrderController
+                                                    //       .deleteOrder(context,
+                                                    //           detail.id!)
+                                                    //       .then((value) {
+                                                    //     initialize(context, '');
+                                                    //   });
+                                                    // },
+
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return ConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to delete?',
+                                                            onConfirm:
+                                                                () async {
+                                                              {
+                                                                await deleteOrderController
+                                                                    .deleteOrder(
+                                                                        context,
+                                                                        detail
+                                                                            .id!)
+                                                                    .then(
+                                                                        (value) {
+                                                                  initialize(
+                                                                      context,
+                                                                      '');
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                });
+                                                              }
+                                                            },
+                                                          );
+                                                        },
+                                                      );
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(

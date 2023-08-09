@@ -9,6 +9,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
+
 class ManageTask extends StatefulWidget {
   ManageTask({Key? key, this.profilePic}) : super(key: key);
   String? profilePic;
@@ -319,13 +321,40 @@ class _ManageTaskState extends State<ManageTask> {
                                               ),
                                               Expanded(
                                                 child: GestureDetector(
-                                                  onTap: () async {
-                                                    await deleteTaskController
-                                                        .deleteTask(
-                                                            context, detail.id)
-                                                        .then((value) {
-                                                      initialize(context, '');
-                                                    });
+                                                  // onTap: () async {
+                                                  //   await deleteTaskController
+                                                  //       .deleteTask(
+                                                  //           context, detail.id)
+                                                  //       .then((value) {
+                                                  //     initialize(context, '');
+                                                  //   });
+                                                  // },
+
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () async {
+                                                            await deleteTaskController
+                                                                .deleteTask(
+                                                                    context,
+                                                                    detail.id)
+                                                                .then((value) {
+                                                              initialize(
+                                                                  context, '');
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            });
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

@@ -24,6 +24,7 @@ import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AttendanceScreen extends StatefulWidget {
   AttendanceScreen({required this.appBar, Key? key}) : super(key: key);
@@ -160,6 +161,49 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     });
   }
 
+  Future<void> getCurrentPsition() async {
+    setState(() {
+      loading = true;
+      currentAddress = "";
+      addressController.clear();
+      markers.clear();
+    });
+
+    // Request location permission
+    var status = await Permission.location.request();
+    if (status.isGranted) {
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+
+        setState(() {
+          currentPosition = position;
+          markers.add(Marker(
+            markerId: const MarkerId('Id'),
+            position: LatLng(position.latitude, position.longitude),
+            infoWindow: const InfoWindow(title: 'My Current Location'),
+          ));
+          loading = false;
+        });
+
+        await getAddressFromLatLng(currentPosition!);
+
+        CameraPosition cameraPosition = CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 14,
+        );
+        final GoogleMapController controller = await googleMapController.future;
+        controller
+            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    } else {
+      // Handle denied permission
+      // You can show a dialog or a message to the user here
+    }
+  }
+
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -208,7 +252,8 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     Future.delayed(const Duration(seconds: 0), () async {
       // print('${status}ooooo');
       getStatus(context);
-      getCurrentPosition();
+      getCurrentPsition();
+      // getCurrentPosition();
       tz.initializeTimeZones();
     });
     super.initState();

@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+  ResetPassword({required this.employeeProfilePic, Key? key}) : super(key: key);
+  String employeeProfilePic;
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
-  EmployeeResetPasswordController resetPasswordController = EmployeeResetPasswordController();
-
+  EmployeeResetPasswordController resetPasswordController =
+      EmployeeResetPasswordController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,16 +21,23 @@ class _ResetPasswordState extends State<ResetPassword> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("reset Password", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("Reset Password",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: widget.employeeProfilePic.isEmpty
+                ? const CircleAvatar(
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    backgroundImage: NetworkImage(widget.employeeProfilePic),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -61,7 +69,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                 SizedBox(
                   height: 40,
                   child: TextField(
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     controller: resetPasswordController.oldPassword,
                     decoration: InputDecoration(
@@ -69,8 +78,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -88,7 +101,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                 SizedBox(
                   height: 40,
                   child: TextField(
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     controller: resetPasswordController.newPassword,
                     decoration: InputDecoration(
@@ -96,8 +110,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -115,7 +133,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                 SizedBox(
                   height: 40,
                   child: TextField(
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     controller: resetPasswordController.confirmPassword,
                     decoration: InputDecoration(
@@ -123,8 +142,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -143,24 +166,28 @@ class _ResetPasswordState extends State<ResetPassword> {
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (resetPasswordController.newPassword.text.isEmpty) {
+                      } else if (resetPasswordController
+                          .newPassword.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops!, New password missing!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (resetPasswordController.confirmPassword.text.isEmpty) {
+                      } else if (resetPasswordController
+                          .confirmPassword.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops!, Confirm password missing!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (resetPasswordController.newPassword.text != resetPasswordController.confirmPassword.text) {
+                      } else if (resetPasswordController.newPassword.text !=
+                          resetPasswordController.confirmPassword.text) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Oops!, New password and confirm password not match!"),
+                            content: Text(
+                                "Oops!, New password and confirm password not match!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
@@ -171,7 +198,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeGreen,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Save',

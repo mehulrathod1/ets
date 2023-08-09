@@ -395,7 +395,11 @@ class _ProfileState extends State<Profile> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ResetPassword()));
+                              builder: (context) => ResetPassword(
+                                    employeeProfilePic:
+                                        employeeProfileDetailsModel!
+                                            .data.profileImg,
+                                  )));
                     },
                     child: Container(
                         width: double.infinity,

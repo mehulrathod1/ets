@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
@@ -508,19 +509,48 @@ class _EmployeeManageContactInvoiceState
                                               // ),
                                               Expanded(
                                                 child: GestureDetector(
-                                                  onTap: () async {
-                                                    await addInvoiceForContact
-                                                        .deleteContactInvoice(
-                                                            context: context,
-                                                            id: detail
-                                                                .contactInvoiceId)
-                                                        .then((value) => {
-                                                              if (value)
-                                                                {
-                                                                  getContactInvoice(
-                                                                      context),
-                                                                }
-                                                            });
+                                                  // onTap: () async {
+                                                  //   await addInvoiceForContact
+                                                  //       .deleteContactInvoice(
+                                                  //           context: context,
+                                                  //           id: detail
+                                                  //               .contactInvoiceId)
+                                                  //       .then((value) => {
+                                                  //             if (value)
+                                                  //               {
+                                                  //                 getContactInvoice(context),
+                                                  //               }
+                                                  //           });
+                                                  // },
+
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () async {
+                                                            await addInvoiceForContact
+                                                                .deleteContactInvoice(
+                                                                    context:
+                                                                        context,
+                                                                    id: detail
+                                                                        .contactInvoiceId)
+                                                                .then(
+                                                                    (value) => {
+                                                                          if (value)
+                                                                            {
+                                                                              getContactInvoice(context),
+                                                                              Navigator.of(context).pop()
+                                                                            }
+                                                                        });
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../PDFViewer.dart';
@@ -555,19 +556,49 @@ class _ManageInvoiceState extends State<ManageInvoice> {
                                               ),
                                               Expanded(
                                                 child: GestureDetector(
-                                                  onTap: () async {
-                                                    await employeeInvoiceController
-                                                        .deleteEmployeeInvoice(
-                                                            context: context,
-                                                            id: detail.id)
-                                                        .then((value) => {
-                                                              if (value)
-                                                                {
-                                                                  initialize(
-                                                                      context,
-                                                                      ''),
-                                                                }
-                                                            });
+                                                  // onTap: () async {
+                                                  //   await employeeInvoiceController
+                                                  //       .deleteEmployeeInvoice(
+                                                  //           context: context,
+                                                  //           id: detail.id)
+                                                  //       .then((value) => {
+                                                  //             if (value)
+                                                  //               {
+                                                  //                 initialize(
+                                                  //                     context,
+                                                  //                     ''),
+                                                  //
+                                                  //               }
+                                                  //           });
+                                                  // },
+                                                  onTap: () {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return ConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to delete?',
+                                                          onConfirm: () async {
+                                                            await employeeInvoiceController
+                                                                .deleteEmployeeInvoice(
+                                                                    context:
+                                                                        context,
+                                                                    id: detail
+                                                                        .id)
+                                                                .then(
+                                                                    (value) => {
+                                                                          if (value)
+                                                                            {
+                                                                              initialize(context, ''),
+                                                                              Navigator.of(context).pop(),
+                                                                            }
+                                                                        });
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(

@@ -10,6 +10,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
+
 class ManageContactScreen extends StatefulWidget {
   ManageContactScreen({Key? key, this.profilePic}) : super(key: key);
   String? profilePic;
@@ -430,17 +432,53 @@ class _ManageContactScreenState extends State<ManageContactScreen>
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
-                                                    onTap: () async {
-                                                      await employeeContactController
-                                                          .employeeDeleteContact(
-                                                              context: context,
-                                                              id: detail.id)
-                                                          .then((value) {
-                                                        if (value) {
-                                                          initialize(
-                                                              context, '');
-                                                        }
-                                                      });
+                                                    // onTap: () async {
+                                                    //   await employeeContactController
+                                                    //       .employeeDeleteContact(
+                                                    //           context: context,
+                                                    //           id: detail.id)
+                                                    //       .then((value) {
+                                                    //     if (value) {
+                                                    //       initialize(
+                                                    //           context, '');
+                                                    //     }
+                                                    //   });
+                                                    // },
+
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return ConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to delete?',
+                                                            onConfirm:
+                                                                () async {
+                                                              await employeeContactController
+                                                                  .employeeDeleteContact(
+                                                                      context:
+                                                                          context,
+                                                                      id: detail
+                                                                          .id)
+                                                                  .then(
+                                                                      (value) {
+                                                                if (value) {
+                                                                  initialize(
+                                                                      context,
+                                                                      '');
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                }
+                                                              });
+                                                              // Close the dialog
+                                                            },
+                                                          );
+                                                        },
+                                                      );
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(

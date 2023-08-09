@@ -9,6 +9,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/detele_estimate_conteroller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
@@ -463,14 +464,45 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
+                                                    // onTap: () {
+                                                    //   deleteEstimateController
+                                                    //       .employeeDeleteEstimate(
+                                                    //           context,
+                                                    //           detail.estimateId)
+                                                    //       .then((value) {
+                                                    //     initialize(context, '');
+                                                    //   });
+                                                    // },
+
                                                     onTap: () {
-                                                      deleteEstimateController
-                                                          .employeeDeleteEstimate(
-                                                              context,
-                                                              detail.estimateId)
-                                                          .then((value) {
-                                                        initialize(context, '');
-                                                      });
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return ConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to delete?',
+                                                            onConfirm: () {
+                                                              deleteEstimateController
+                                                                  .employeeDeleteEstimate(
+                                                                      context,
+                                                                      detail
+                                                                          .estimateId)
+                                                                  .then(
+                                                                      (value) {
+                                                                initialize(
+                                                                    context,
+                                                                    '');
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              });
+                                                            },
+                                                          );
+                                                        },
+                                                      );
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
