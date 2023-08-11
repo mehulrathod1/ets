@@ -104,23 +104,23 @@ class _HomeDashboard extends State<HomeDashboard> {
       _selectedIndex = index;
       if (index == 0) {
         currentPage = DrawerSelection.ShareLocation;
-        _selectedIndex == 0;
+        // _selectedIndex == 0;
         setState(() {});
       } else if (index == 1) {
         currentPage = DrawerSelection.History;
-        _selectedIndex == 1;
+        // _selectedIndex == 1;
         setState(() {});
       } else if (index == 2) {
         currentPage = DrawerSelection.Attendance;
-        _selectedIndex == 3;
+        // _selectedIndex == 3;
         setState(() {});
       } else if (index == 3) {
         currentPage = DrawerSelection.ContractorsBackOffice;
-        _selectedIndex == 3;
+        // _selectedIndex == 0;
         setState(() {});
       } else if (index == 4) {
         currentPage = DrawerSelection.Profile;
-        _selectedIndex == 3;
+        // _selectedIndex == 3;
         setState(() {});
       }
 
@@ -408,7 +408,7 @@ class _HomeDashboard extends State<HomeDashboard> {
       );
       appBarTitle = "Message";
     } else if (currentPage == DrawerSelection.Notification) {
-      container = NotificationScreen(changeScreen: changeScreen);
+      container = NotificationScreen();
       appBarTitle = "Notification";
     } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
       container = ContractorsScreen(

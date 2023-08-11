@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../../../Controller/EmployeeController/employee_edit_invoice_controller.dart';
@@ -64,6 +65,7 @@ class _EditInvoiceState extends State<EditInvoice> {
 
   List<DropdownMenuItem<Object?>> orderListItems = [];
   String selectEstimate = "Select Estimate";
+  String? profilePic;
 
   int totalChangeAmount = 0;
   double totalAmount = 0;
@@ -157,8 +159,19 @@ class _EditInvoiceState extends State<EditInvoice> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
     print(widget.estimateId);
 
     if (widget.tax.isEmpty) {
@@ -335,12 +348,18 @@ class _EditInvoiceState extends State<EditInvoice> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

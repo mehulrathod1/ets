@@ -3,6 +3,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Controller/EmployeeController/employeee_add_estimate_controller.dart';
 
@@ -20,6 +21,7 @@ class _AddEstimateState extends State<AddEstimate> {
 
   List<DropdownMenuItem<Object?>> contactListItems = [];
   String selectedContact = "Select contact";
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -50,6 +52,7 @@ class _AddEstimateState extends State<AddEstimate> {
 
   @override
   void initState() {
+    getProfilePic();
     Future.delayed(const Duration(microseconds: 0), () async {
       await addEstimateController
           .getContactListForEstimate(context)
@@ -71,6 +74,16 @@ class _AddEstimateState extends State<AddEstimate> {
     super.initState();
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +98,18 @@ class _AddEstimateState extends State<AddEstimate> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

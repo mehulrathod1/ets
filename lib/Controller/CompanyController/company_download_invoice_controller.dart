@@ -201,6 +201,8 @@ class CompanyDownloadInvoiceController {
       var res = CompanyDownloadInvoiceModel.fromJson(response);
       downloadInvoiceModel = res;
       Navigator.pop(context);
+      Navigator.of(context).pop();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -210,6 +212,8 @@ class CompanyDownloadInvoiceController {
       return CompanyDownloadInvoiceModel.fromJson(response);
     } else {
       Navigator.pop(context);
+      Navigator.of(context).pop();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -252,6 +256,8 @@ class CompanyDownloadInvoiceController {
       var res = CompanyDownloadInvoiceModel.fromJson(response);
       downloadInvoiceModel = res;
       Navigator.pop(context);
+      Navigator.of(context).pop();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -261,6 +267,7 @@ class CompanyDownloadInvoiceController {
       return CompanyDownloadInvoiceModel.fromJson(response);
     } else {
       Navigator.pop(context);
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -314,6 +321,7 @@ class CompanyDownloadInvoiceController {
       var res = CompanyDownloadInvoiceModel.fromJson(response);
       downloadInvoiceModel = res;
       Navigator.pop(context);
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -323,6 +331,7 @@ class CompanyDownloadInvoiceController {
       return CompanyDownloadInvoiceModel.fromJson(response);
     } else {
       Navigator.pop(context);
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),
@@ -345,6 +354,8 @@ class CompanyDownloadInvoiceController {
       var res = CompanyDownloadInvoiceModel.fromJson(response);
       downloadInvoiceModel = res;
       Navigator.pop(context);
+      Navigator.of(context).pop();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(res.message),
@@ -354,6 +365,8 @@ class CompanyDownloadInvoiceController {
       return CompanyDownloadInvoiceModel.fromJson(response);
     } else {
       Navigator.pop(context);
+      Navigator.of(context).pop();
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(response["message"]),

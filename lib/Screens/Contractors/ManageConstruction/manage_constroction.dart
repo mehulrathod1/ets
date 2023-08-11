@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
+import '../../../CompanyPortal/PopUps/download_confirmation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/detele_estimate_conteroller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
@@ -72,7 +73,7 @@ class _ManageConstructionState extends State<ManageConstruction> {
 
   Future downloadEstimate(BuildContext context, String id) async {
     await downloadInvoiceController
-        .employeeViewEstimate(context, id)
+        .employeeDownloadEstimate(context, id)
         .then((value) {
       setState(() async {
         if (value != null) {
@@ -80,6 +81,7 @@ class _ManageConstructionState extends State<ManageConstruction> {
           print(downloadInvoiceModel!.data.downloadUrl);
           await EticonDownloader.downloadFile(
               url: downloadInvoiceModel!.data.downloadUrl);
+          // Navigator.of(context).pop();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -418,9 +420,30 @@ class _ManageConstructionState extends State<ManageConstruction> {
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
+                                                    // onTap: () {
+                                                    //   downloadEstimate(context,
+                                                    //       detail.estimateId);
+                                                    // },
                                                     onTap: () {
-                                                      downloadEstimate(context,
-                                                          detail.estimateId);
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return DownloadConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to download?',
+                                                            onConfirm:
+                                                                () async {
+                                                              await downloadEstimate(
+                                                                  context,
+                                                                  detail
+                                                                      .estimateId);
+                                                            },
+                                                          );
+                                                        },
+                                                      );
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(

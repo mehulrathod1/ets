@@ -7,6 +7,7 @@ import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
@@ -25,6 +26,7 @@ class _AddInvoiceForContactState extends State<AddInvoiceForContact> {
   final GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
   String signaturePath = "";
   String base64ImagePath = "";
+  String? profilePic;
 
   List<DropdownMenuItem<Object?>> contactListItems = [];
   String selectContact = "Select Contact";
@@ -60,8 +62,19 @@ class _AddInvoiceForContactState extends State<AddInvoiceForContact> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
     Future.delayed(const Duration(microseconds: 0), () async {
       await addInvoiceForContact.getContact(context).then((value) => {
             if (value != null)
@@ -128,12 +141,18 @@ class _AddInvoiceForContactState extends State<AddInvoiceForContact> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

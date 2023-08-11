@@ -10,6 +10,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
+import '../../../CompanyPortal/PopUps/download_confirmation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../PDFViewer.dart';
@@ -424,10 +425,32 @@ class _ManageOrderState extends State<ManageOrder> {
                                                 ),
                                                 Expanded(
                                                   child: GestureDetector(
+                                                    // onTap: () {
+                                                    //   downloadOrder(
+                                                    //       context, detail.id!);
+                                                    // },
+
                                                     onTap: () {
-                                                      downloadOrder(
-                                                          context, detail.id!);
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return DownloadConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to download?',
+                                                            onConfirm:
+                                                                () async {
+                                                              await downloadOrder(
+                                                                  context,
+                                                                  detail.id!);
+                                                            },
+                                                          );
+                                                        },
+                                                      );
                                                     },
+
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                         color: appThemeGreen,

@@ -3,6 +3,7 @@ import 'package:etsemployee/Controller/EmployeeController/employee_note_controll
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNote extends StatefulWidget {
   AddNote({required this.callback, Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _AddNoteState extends State<AddNote> {
 
   List<DropdownMenuItem<Object?>> orderListItems = [];
   String selectEstimate = "Select Estimate";
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -43,8 +45,19 @@ class _AddNoteState extends State<AddNote> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
     Future.delayed(const Duration(microseconds: 0), () async {
       await employeeNoteController
           .getEmployeeEstimate(context)
@@ -80,12 +93,18 @@ class _AddNoteState extends State<AddNote> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

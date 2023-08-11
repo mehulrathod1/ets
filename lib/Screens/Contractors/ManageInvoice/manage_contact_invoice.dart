@@ -4,6 +4,7 @@ import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:flutter/services.dart';
 
 import '../../../CompanyPortal/PopUps/delete_conformation_popup.dart';
+import '../../../CompanyPortal/PopUps/download_confirmation_popup.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/EmployeeController/employee_add_invoice_for_contact.dart';
 import '../../../Models/CompanyModels/download_invoice_model.dart';
@@ -461,12 +462,32 @@ class _EmployeeManageContactInvoiceState
                                               // ),
                                               Expanded(
                                                 child: GestureDetector(
+                                                  // onTap: () {
+                                                  //   downloadInvoice(
+                                                  //       context,
+                                                  //       detail
+                                                  //           .contactInvoiceId);
+                                                  // },
                                                   onTap: () {
-                                                    downloadInvoice(
-                                                        context,
-                                                        detail
-                                                            .contactInvoiceId);
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return DownloadConfirmationPopup(
+                                                          title: 'Confirmation',
+                                                          message:
+                                                              'Are you sure you want to download?',
+                                                          onConfirm: () async {
+                                                            await downloadInvoice(
+                                                                context,
+                                                                detail
+                                                                    .contactInvoiceId);
+                                                          },
+                                                        );
+                                                      },
+                                                    );
                                                   },
+
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                       color: appThemeGreen,

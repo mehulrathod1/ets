@@ -4,6 +4,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({required this.callback, Key? key}) : super(key: key);
@@ -18,12 +19,23 @@ class _AddTaskState extends State<AddTask> {
   bool termsandcond = false;
   String selectedTask = "Select Order";
   List<DropdownMenuItem<Object?>> taskListItems = [];
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       addTaskController.orderId.text = selectedTest['estimate_id'];
       selectedTask = selectedTest['order_name'];
     });
+  }
+
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
   }
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
@@ -45,6 +57,7 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   void initState() {
+    getProfilePic();
     Future.delayed(const Duration(microseconds: 0), () {
       addTaskController.taskStatus.text = "0";
       addTaskController.getOrderForEmployeeTask(context).then((value) => {
@@ -79,12 +92,18 @@ class _AddTaskState extends State<AddTask> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

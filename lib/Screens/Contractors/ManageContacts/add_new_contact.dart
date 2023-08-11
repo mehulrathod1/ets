@@ -3,6 +3,7 @@ import 'package:etsemployee/Controller/EmployeeController/employee_add_contact_c
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewContact extends StatefulWidget {
   AddNewContact({required this.callback, Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class _AddNewContactState extends State<AddNewContact> {
       EmployeeAddContactController();
   String selectedContact = "";
   List<DropdownMenuItem<Object?>> contectListItems = [];
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -50,7 +52,18 @@ class _AddNewContactState extends State<AddNewContact> {
         {"id": "2", "name": "Customer"}
       ]);
     });
+    getProfilePic();
     super.initState();
+  }
+
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
   }
 
   @override
@@ -67,12 +80,18 @@ class _AddNewContactState extends State<AddNewContact> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

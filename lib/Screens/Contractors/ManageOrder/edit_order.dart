@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class EditOrder extends StatefulWidget {
@@ -55,6 +56,7 @@ class _EditOrderState extends State<EditOrder> {
   String signaturePath = "";
   String selectedOrder = "Test Estimate Section";
   String base64ImagePath = "";
+  String? profilePic;
 
   Future getPermission() async {
     var status = await Permission.storage.status;
@@ -140,8 +142,19 @@ class _EditOrderState extends State<EditOrder> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
     editOrderController.orderStatus.text = widget.orderStatus;
     editOrderController.orderName.text = widget.orderName;
     editOrderController.orderDescription.text = widget.orderDescription;
@@ -194,12 +207,18 @@ class _EditOrderState extends State<EditOrder> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

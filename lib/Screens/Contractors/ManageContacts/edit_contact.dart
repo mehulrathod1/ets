@@ -5,6 +5,7 @@ import 'package:etsemployee/Controller/EmployeeController/employee_add_contact_c
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditContact extends StatefulWidget {
   EditContact(
@@ -46,6 +47,7 @@ class _EditContactState extends State<EditContact> {
       EmployeeAddContactController();
   String selectedContact = "";
   List<DropdownMenuItem<Object?>> contectListItems = [];
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -71,8 +73,20 @@ class _EditContactState extends State<EditContact> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
+
     setState(() {
       selectedContact = widget.customerType == "1"
           ? "Contractor"
@@ -112,12 +126,18 @@ class _EditContactState extends State<EditContact> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {

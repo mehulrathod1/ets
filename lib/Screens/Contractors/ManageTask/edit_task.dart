@@ -6,6 +6,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditTask extends StatefulWidget {
   EditTask(
@@ -35,6 +36,7 @@ class _EditTaskState extends State<EditTask> {
   bool termsandcond = false;
   String selectedTask = "Test Estimate Section";
   List<DropdownMenuItem<Object?>> taskListItems = [];
+  String? profilePic;
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -60,8 +62,19 @@ class _EditTaskState extends State<EditTask> {
     return items;
   }
 
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
+  }
+
   @override
   void initState() {
+    getProfilePic();
     termsandcond = widget.taskStatus == "1" ? true : false;
     editTaskController.taskStatus.text = widget.taskStatus;
     editTaskController.taskName.text = widget.taskName;
@@ -105,12 +118,18 @@ class _EditTaskState extends State<EditTask> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(

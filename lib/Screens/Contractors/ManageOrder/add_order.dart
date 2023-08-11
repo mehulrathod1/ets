@@ -12,6 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:external_path/external_path.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class AddOrder extends StatefulWidget {
@@ -32,6 +33,7 @@ class _AddOrderState extends State<AddOrder> {
   String signaturePath = "";
   String selectedOrder = "Test Estimate Section";
   String base64ImagePath = "";
+  String? profilePic;
 
   Future getPermission() async {
     var status = await Permission.storage.status;
@@ -44,6 +46,16 @@ class _AddOrderState extends State<AddOrder> {
     signatureGlobalKey.currentState!.clear();
     File(signaturePath).delete();
     setState(() {});
+  }
+
+  Future<void> getProfilePic() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? pic = prefs.getString('profilePic');
+    if (pic != null) {
+      setState(() {
+        profilePic = pic;
+      });
+    }
   }
 
   // void _handleSaveButtonPressed() async {
@@ -77,6 +89,7 @@ class _AddOrderState extends State<AddOrder> {
   //     ),
   //   );
   // }
+
   void _handleSaveButtonPressed() async {
     final data =
         await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
@@ -140,6 +153,7 @@ class _AddOrderState extends State<AddOrder> {
 
   @override
   void initState() {
+    getProfilePic();
     Future.delayed(const Duration(microseconds: 0), () async {
       addOrderController.orderStatus.text = "0";
       await addOrderController
@@ -160,6 +174,7 @@ class _AddOrderState extends State<AddOrder> {
               });
       await getPermission();
     });
+
     super.initState();
   }
 
@@ -177,12 +192,18 @@ class _AddOrderState extends State<AddOrder> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),
-        actions: const <Widget>[
+        actions: <Widget>[
           Padding(
-            padding: EdgeInsets.only(right: 16.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage('assets/man.jpeg'),
-            ),
+            padding: const EdgeInsets.only(right: 16.0),
+            child: profilePic!.isEmpty
+                ? const CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage('assets/man.jpeg'),
+                  )
+                : CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(profilePic!),
+                  ),
           ),
         ],
         leading: Builder(builder: (context) {
@@ -421,7 +442,7 @@ class _AddOrderState extends State<AddOrder> {
                             controller: addOrderController.startDate,
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '01/19/2023',
+                              hintText: 'Enter start date',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -441,7 +462,7 @@ class _AddOrderState extends State<AddOrder> {
                               DateTime? pickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
+                                  firstDate: DateTime.now(),
                                   lastDate: DateTime(2101));
                               if (pickedDate != null) {
                                 String formattedDate =
@@ -471,7 +492,7 @@ class _AddOrderState extends State<AddOrder> {
                                 height: 1.7, fontSize: 18, color: Colors.black),
                             maxLines: 1,
                             decoration: InputDecoration(
-                              hintText: '12/31/1996',
+                              hintText: 'Enter due date',
                               fillColor: colorScreenBg,
                               filled: true,
                               isDense: true,
@@ -491,7 +512,7 @@ class _AddOrderState extends State<AddOrder> {
                               DateTime? pickedDate = await showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
+                                  firstDate: DateTime.now(),
                                   lastDate: DateTime(2101));
                               if (pickedDate != null) {
                                 String formattedDate =
