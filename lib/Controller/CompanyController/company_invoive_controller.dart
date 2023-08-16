@@ -17,6 +17,30 @@ class CompanyInvoiceController {
     }
   }
 
+  Future getCompanyPaidInvoice(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.companyAllPaidInvoice}searchName=$search&page=$page");
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyAllInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
+  }
+
+  Future getCompanyUnpaidInvoice(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.companyAllUnpaidInvoice}searchName=$search&page=$page");
+    if (response["status"] == "True" && response["data"] != null) {
+      return CompanyAllInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
+  }
+
   Future getEstimateForInvoiceList(BuildContext context) async {
     var response = await getData(paramUri: ApiConstant.companyInvoiceFor);
     if (response["status"] == "True" && response["data"]["List"] != null) {

@@ -19,6 +19,32 @@ class EmployeeInvoiceController {
     }
   }
 
+  Future getEmployeePaidInvoice(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.employeePaidViewInvoice}searchName=$search&page=$page");
+
+    if (response["status"] == "True" && response["data"] != null) {
+      return EmployeeInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
+  }
+
+  Future getEmployeeUnPaidInvoice(BuildContext context,
+      {String? search, int? page}) async {
+    var response = await getData(
+        paramUri:
+            "${ApiConstant.employeeUnpaidViewInvoice}searchName=$search&page=$page");
+
+    if (response["status"] == "True" && response["data"] != null) {
+      return EmployeeInvoiceModel.fromJson(response);
+    } else {
+      return null;
+    }
+  }
+
   Future<bool> deleteEmployeeInvoice(
       {BuildContext? context, String? id}) async {
     showDialog(

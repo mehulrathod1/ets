@@ -11,7 +11,8 @@ class EmployeeProfileController {
   TextEditingController employeeEmail = TextEditingController();
 
   Future getEmployeeProfile(BuildContext context) async {
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeViewProfileDetails, params: {});
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeViewProfileDetails, params: {});
     if (response["status"] == "True" && response["data"] != null) {
       return EmployeeProfileDetailsModel.fromJson(response);
     } else {
@@ -25,9 +26,11 @@ class EmployeeProfileController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeUpdateProfilePicture, params: {
-      'update_profile': "data:image/jpeg;base64,$imageBytesData",
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeUpdateProfilePicture,
+        params: {
+          'update_profile': "data:image/jpeg;base64,$imageBytesData",
+        });
     debugPrint("editProfilePicture response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);
@@ -54,11 +57,13 @@ class EmployeeProfileController {
         builder: (context) {
           return const Center(child: CircularProgressIndicator());
         });
-    var response = await postDataWithHeader(paramUri: ApiConstant.employeeUpdateProfileDetails, params: {
-      'employee_name': employeeName.text,
-      'username': userName.text,
-      'email': employeeEmail.text,
-    });
+    var response = await postDataWithHeader(
+        paramUri: ApiConstant.employeeUpdateProfileDetails,
+        params: {
+          'employee_name': employeeName.text,
+          'username': userName.text,
+          'email': employeeEmail.text,
+        });
     debugPrint("editProfileDetails response :- ${response.toString()}");
     if (response["status"] == 'True') {
       Navigator.pop(context);

@@ -81,12 +81,17 @@ class _HomeDashboard extends State<HomeDashboard> {
       _selectedIndex = index;
       if (_selectedIndex == 0) {
         currentPage = DrawerSelection.Dashboard;
+        showSnackBar();
       } else if (_selectedIndex == 1) {
         currentPage = DrawerSelection.Message;
+        showSnackBar();
       } else if (_selectedIndex == 2) {
         currentPage = DrawerSelection.ShareLocation;
+        showSnackBar();
       } else if (_selectedIndex == 3) {
         currentPage = DrawerSelection.Notification;
+        showSnackBar();
+
         setState(() {
           notificationCounts = {
             7: 0,
@@ -105,22 +110,30 @@ class _HomeDashboard extends State<HomeDashboard> {
       if (index == 0) {
         currentPage = DrawerSelection.ShareLocation;
         // _selectedIndex == 0;
+        showSnackBar();
         setState(() {});
       } else if (index == 1) {
         currentPage = DrawerSelection.History;
         // _selectedIndex == 1;
+        showSnackBar();
+
         setState(() {});
       } else if (index == 2) {
         currentPage = DrawerSelection.Attendance;
         // _selectedIndex == 3;
+        showSnackBar();
+
         setState(() {});
       } else if (index == 3) {
         currentPage = DrawerSelection.ContractorsBackOffice;
         // _selectedIndex == 0;
+        showSnackBar();
+
         setState(() {});
       } else if (index == 4) {
         currentPage = DrawerSelection.Profile;
         // _selectedIndex == 3;
+
         setState(() {});
       }
 
@@ -217,26 +230,37 @@ class _HomeDashboard extends State<HomeDashboard> {
             if (id == 1) {
               currentPage = DrawerSelection.Dashboard;
               _selectedIndex = 0;
+              showSnackBar();
               setState(() {});
             } else if (id == 2) {
               currentPage = DrawerSelection.Attendance;
               _selectedIndex = 0;
+              showSnackBar();
+
               setState(() {});
             } else if (id == 3) {
               currentPage = DrawerSelection.FixHoursRequest;
               _selectedIndex = 0;
+              showSnackBar();
+
               setState(() {});
             } else if (id == 4) {
               currentPage = DrawerSelection.ShareLocation;
               _selectedIndex = 2;
+              showSnackBar();
+
               setState(() {});
             } else if (id == 5) {
               currentPage = DrawerSelection.History;
+              showSnackBar();
             } else if (id == 6) {
               currentPage = DrawerSelection.Message;
+              showSnackBar();
               _selectedIndex = 1;
               setState(() {});
             } else if (id == 7) {
+              showSnackBar();
+
               setState(() {
                 notificationCounts = {
                   7: 0, // For menu item 5 (Notification), there is 1 notification
@@ -248,13 +272,18 @@ class _HomeDashboard extends State<HomeDashboard> {
             } else if (id == 8) {
               currentPage = DrawerSelection.ContractorsBackOffice;
               _selectedIndex = 0;
+              showSnackBar();
+
               setState(() {});
             } else if (id == 9) {
               currentPage = DrawerSelection.Howitworks;
               _selectedIndex = 0;
+              showSnackBar();
+
               setState(() {});
             } else if (id == 10) {
               currentPage = DrawerSelection.Logout;
+              // showSnackBar();
             }
           });
         },
@@ -357,12 +386,12 @@ class _HomeDashboard extends State<HomeDashboard> {
     // employeeProfileDetailsModel!.data.profileImg = '';
     if (employeeProfileDetailsModel!.data.profileImg == '') {
       print('employeeProfileDetailsModel!.data.profileImg');
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Profile(
-                    appBar: true,
-                  )));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => Profile(
+      //               appBar: true,
+      //             )));
     } else {
       print(employeeProfileDetailsModel!.data.profileImg);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -378,53 +407,81 @@ class _HomeDashboard extends State<HomeDashboard> {
     setState(() {
       _selectedIndex = widget.currentTableSelected!;
     });
+
     super.initState();
+  }
+
+  void showSnackBar() {
+    if (ApiConstant.profileImage == '') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please set Profile Image'),
+        ),
+      );
+    } else {}
   }
 
   @override
   Widget build(BuildContext context) {
-    if (currentPage == DrawerSelection.Dashboard) {
-      container = Home(changeScreen: changeScreen);
-      appBarTitle = "Dashboard";
-    } else if (currentPage == DrawerSelection.Attendance) {
-      container = AttendanceScreen(
-        appBar: false,
-      );
-      appBarTitle = "Attendance";
-    } else if (currentPage == DrawerSelection.FixHoursRequest) {
-      container = const HourRequest();
-      appBarTitle = "Hours Request";
-    } else if (currentPage == DrawerSelection.ShareLocation) {
-      container = ShareLocationScreen(
-        appBar: false,
-      );
-      appBarTitle = "Share Location";
-    } else if (currentPage == DrawerSelection.History) {
-      container = const HistoryScreen();
-      appBarTitle = "History";
-    } else if (currentPage == DrawerSelection.Message) {
-      container = MessageScreen(
-        appBar: false,
-      );
-      appBarTitle = "Message";
-    } else if (currentPage == DrawerSelection.Notification) {
-      container = NotificationScreen();
-      appBarTitle = "Notification";
-    } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
-      container = ContractorsScreen(
-          profilePic: employeeProfileDetailsModel!.data.profileImg);
-      appBarTitle = "Contractors Back Office";
-    } else if (currentPage == DrawerSelection.Howitworks) {
-      container = EmployeePrivacyPolicy();
-      appBarTitle = "Privacy Policy";
-    } else if (currentPage == DrawerSelection.Profile) {
-      container = Profile(
-        changeScreen: changeScreen,
-        appBar: false,
-      );
-      appBarTitle = "Profile";
-    } else if (currentPage == DrawerSelection.Logout) {
-      navigate();
+    // ApiConstant.profileImage = '';
+    if (ApiConstant.profileImage == '') {
+      if (currentPage == DrawerSelection.Dashboard) {
+        container = Home(changeScreen: changeScreen);
+        appBarTitle = "Dashboard";
+      } else if (currentPage == DrawerSelection.Profile) {
+        container = Profile(
+          changeScreen: changeScreen,
+          appBar: false,
+        );
+        appBarTitle = "Profile";
+      } else {
+        print('Please set image');
+        // showSnackBar();
+      }
+    } else {
+      if (currentPage == DrawerSelection.Dashboard) {
+        container = Home(changeScreen: changeScreen);
+        appBarTitle = "Dashboard";
+      } else if (currentPage == DrawerSelection.Attendance) {
+        container = AttendanceScreen(
+          appBar: false,
+        );
+        appBarTitle = "Attendance";
+      } else if (currentPage == DrawerSelection.FixHoursRequest) {
+        container = const HourRequest();
+        appBarTitle = "Hours Request";
+      } else if (currentPage == DrawerSelection.ShareLocation) {
+        container = ShareLocationScreen(
+          appBar: false,
+        );
+        appBarTitle = "Share Location";
+      } else if (currentPage == DrawerSelection.History) {
+        container = const HistoryScreen();
+        appBarTitle = "History";
+      } else if (currentPage == DrawerSelection.Message) {
+        container = MessageScreen(
+          appBar: false,
+        );
+        appBarTitle = "Message";
+      } else if (currentPage == DrawerSelection.Notification) {
+        container = NotificationScreen();
+        appBarTitle = "Notification";
+      } else if (currentPage == DrawerSelection.ContractorsBackOffice) {
+        container = ContractorsScreen(
+            profilePic: employeeProfileDetailsModel!.data.profileImg);
+        appBarTitle = "Contractors Back Office";
+      } else if (currentPage == DrawerSelection.Howitworks) {
+        container = EmployeePrivacyPolicy();
+        appBarTitle = "Privacy Policy";
+      } else if (currentPage == DrawerSelection.Profile) {
+        container = Profile(
+          changeScreen: changeScreen,
+          appBar: false,
+        );
+        appBarTitle = "Profile";
+      } else if (currentPage == DrawerSelection.Logout) {
+        navigate();
+      }
     }
     return loading
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))

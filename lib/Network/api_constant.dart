@@ -53,6 +53,11 @@ class ApiConstant {
   static const companyUpdateProfile = 'company/update-company-details/';
   static const companyChangePassword = 'company/reset-password/';
   static const companyAllInvoice = 'company/get-all-invoice?show=500&';
+  static const companyAllPaidInvoice =
+      'company/view-paid-invoice-lists?show=500&';
+  static const companyAllUnpaidInvoice =
+      'company/view-unpaid-invoice-lists?show=500&';
+
   static const companyDeleteInvoice = 'employee/delete-invoice/';
   static const companyInvoiceFor = 'company/get-invoice-estiment/';
   static const companyTaskOrder = 'company/get-task-orders/';
@@ -121,6 +126,11 @@ class ApiConstant {
   static const employeeContactListForInvoice = 'employee/view-contact-list';
 
   static const employeeViewInvoice = 'employee/view-invoice-lists?show=500&';
+  static const employeePaidViewInvoice =
+      'employee/view-paid-invoice-lists?show=500&';
+  static const employeeUnpaidViewInvoice =
+      'employee/view-unpaid-invoice-lists?show=500&';
+
   static const employeeEstimateList = 'employee/view-estimate-lists?show=500&';
   static const employeeEstimateListInvoiceDropdown =
       'employee/view-estimate-lists-dropdown';

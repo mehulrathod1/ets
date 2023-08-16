@@ -10,7 +10,10 @@ import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../../Screens/PDFViewer.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import 'add_company_invoice.dart';
+import 'company_all_invoice.dart';
 import 'company_manage_contact_invoice.dart';
+import 'company_paid_invoice.dart';
+import 'company_un_paid_invoice.dart';
 import 'edit_company_invoice.dart';
 import '../../../Network/api_constant.dart';
 import 'package:eticon_downloader/eticon_downloader.dart';
@@ -31,6 +34,7 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
       CompanyDeleteInvoiceController();
 
   String _platformVersion = 'Unknown';
+  late TabController _controller;
 
   CompanyDownloadInvoiceController downloadInvoiceController =
       CompanyDownloadInvoiceController();
@@ -268,350 +272,396 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
                 ),
               ),
             ),
-            loading
-                ? Center(child: CircularProgressIndicator())
-                : invoiceList.isNotEmpty
-                    ? Expanded(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            itemCount: invoiceList.length,
-                            itemBuilder: (context, index) {
-                              var data = invoiceList[index];
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8.0, bottom: 8),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      await viewInvoice(context, data.id);
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: const BorderRadius.only(
-                                            bottomLeft: Radius.circular(15),
-                                            topLeft: Radius.circular(15),
-                                            topRight: Radius.circular(15),
-                                            bottomRight: Radius.circular(15)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            blurRadius: 10,
-                                            offset: const Offset(2, 5),
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                              height: 180,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          80)),
-                                              child: Image.asset(
-                                                'assets/man.jpeg',
-                                                fit: BoxFit.cover,
-                                              )),
-                                          Padding(
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  data.invoiceDescription,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Paid By: ",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      data.paidBy,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: colorTextGray),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "For: ",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      data.invoiceFor,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: colorTextGray),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const Text(
-                                                      "Amount: ",
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      data.amount,
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: colorTextGray),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16.0),
-                                            child: Container(
-                                                width: double.infinity,
-                                                height: 35,
-                                                decoration: BoxDecoration(
-                                                    color: appThemeBlue,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    15),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15))),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          EditCompanyInvoice(
-                                                                            id: data.id,
-                                                                            estimateId:
-                                                                                data.estimateId,
-                                                                            invoiceFor:
-                                                                                data.invoiceFor,
-                                                                            invoiceDescription:
-                                                                                data.invoiceDescription,
-                                                                            amount:
-                                                                                data.amount,
-                                                                            invoiceDate:
-                                                                                data.invoiceDate.toString(),
-                                                                            tax:
-                                                                                data.tax,
-                                                                            dueAmount:
-                                                                                data.dueAmount,
-                                                                            totalAmount:
-                                                                                data.totalAmount,
-                                                                            isPaid:
-                                                                                data.isPaid,
-                                                                            paidBy:
-                                                                                data.paidBy,
-                                                                            signatureName:
-                                                                                data.signatureName,
-                                                                            signature:
-                                                                                data.signature,
-                                                                            callback:
-                                                                                refreshData,
-                                                                          )));
-                                                        },
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: const [
-                                                            Icon(
-                                                              Icons.edit,
-                                                              color:
-                                                                  Colors.white,
-                                                              size: 20,
-                                                            ),
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left:
-                                                                          8.0),
-                                                              child: Text(
-                                                                "View/Edit",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: GestureDetector(
-                                                        onTap: () async {
-                                                          downloadInvoice(
-                                                              context, data.id);
-                                                        },
-                                                        child: Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                appThemeGreen,
-                                                          ),
-                                                          height:
-                                                              double.infinity,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: const [
-                                                              Icon(
-                                                                Icons.download,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 20,
-                                                              ),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child: Text(
-                                                                  "Download",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return ConfirmationPopup(
-                                                                title:
-                                                                    'Confirmation',
-                                                                message:
-                                                                    'Are you sure you want to delete?',
-                                                                onConfirm: () {
-                                                                  deleteInvoiceController
-                                                                      .deleteInvoice(
-                                                                          context,
-                                                                          data
-                                                                              .id)
-                                                                      .then(
-                                                                          (value) {
-                                                                    initialize(
-                                                                        context,
-                                                                        '');
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  });
-                                                                  // Close the dialog
-                                                                },
-                                                              );
-                                                            },
-                                                          );
-                                                        },
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              color: colorred,
-                                                              borderRadius: const BorderRadius
-                                                                      .only(
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                          15))),
-                                                          height:
-                                                              double.infinity,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: const [
-                                                              Icon(
-                                                                Icons
-                                                                    .delete_outline,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 20,
-                                                              ),
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child: Text(
-                                                                  "Delete",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: Colors
-                                                                          .white),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }))
-                    : const Text(
-                        'Oops No Invoice Found!',
-                        style: TextStyle(color: Colors.black, fontSize: 18),
+            SizedBox(
+              child: TabBar(
+                tabs: const [
+                  Tab(
+                      child: Text(
+                    'All Invoice',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+                  Tab(
+                    child: Text(
+                      'Paid Invoice',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'Unpaid Invoice',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+                controller: _controller,
+                labelColor: appThemeGreen,
+                indicatorColor: appThemeGreen,
+                unselectedLabelColor: Colors.grey,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _controller,
+                children: [
+                  CompanyAllInvoice(),
+                  CompanyPaidInvoice(),
+                  CompanyUnPaidInvoice(),
+                ],
+              ),
+            )
+            // loading
+            //     ? Center(child: CircularProgressIndicator())
+            //     : invoiceList.isNotEmpty
+            //         ? Expanded(
+            //             child: ListView.builder(
+            //                 shrinkWrap: true,
+            //                 physics: const ClampingScrollPhysics(),
+            //                 itemCount: invoiceList.length,
+            //                 itemBuilder: (context, index) {
+            //                   var data = invoiceList[index];
+            //                   return Padding(
+            //                     padding:
+            //                         const EdgeInsets.only(top: 8.0, bottom: 8),
+            //                     child: ClipRRect(
+            //                       borderRadius: BorderRadius.circular(8),
+            //                       child: GestureDetector(
+            //                         onTap: () async {
+            //                           await viewInvoice(context, data.id);
+            //                         },
+            //                         child: Container(
+            //                           decoration: BoxDecoration(
+            //                             color: Colors.white,
+            //                             borderRadius: const BorderRadius.only(
+            //                                 bottomLeft: Radius.circular(15),
+            //                                 topLeft: Radius.circular(15),
+            //                                 topRight: Radius.circular(15),
+            //                                 bottomRight: Radius.circular(15)),
+            //                             boxShadow: [
+            //                               BoxShadow(
+            //                                 color: Colors.grey.withOpacity(0.5),
+            //                                 blurRadius: 10,
+            //                                 offset: const Offset(2, 5),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                           child: Column(
+            //                             crossAxisAlignment:
+            //                                 CrossAxisAlignment.start,
+            //                             children: [
+            //                               Container(
+            //                                   height: 180,
+            //                                   width: double.infinity,
+            //                                   decoration: BoxDecoration(
+            //                                       borderRadius:
+            //                                           BorderRadius.circular(
+            //                                               80)),
+            //                                   child: Image.asset(
+            //                                     'assets/man.jpeg',
+            //                                     fit: BoxFit.cover,
+            //                                   )),
+            //                               Padding(
+            //                                 padding: const EdgeInsets.all(12.0),
+            //                                 child: Column(
+            //                                   crossAxisAlignment:
+            //                                       CrossAxisAlignment.start,
+            //                                   children: [
+            //                                     Text(
+            //                                       data.invoiceDescription,
+            //                                       style: TextStyle(
+            //                                           fontSize: 16,
+            //                                           fontWeight:
+            //                                               FontWeight.bold),
+            //                                     ),
+            //                                     const SizedBox(
+            //                                       height: 8,
+            //                                     ),
+            //                                     Row(
+            //                                       children: [
+            //                                         const Text(
+            //                                           "Paid By: ",
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               fontWeight:
+            //                                                   FontWeight.bold),
+            //                                         ),
+            //                                         Text(
+            //                                           data.paidBy,
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               color: colorTextGray),
+            //                                         ),
+            //                                       ],
+            //                                     ),
+            //                                     const SizedBox(
+            //                                       height: 8,
+            //                                     ),
+            //                                     Row(
+            //                                       children: [
+            //                                         const Text(
+            //                                           "For: ",
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               fontWeight:
+            //                                                   FontWeight.bold),
+            //                                         ),
+            //                                         Text(
+            //                                           data.invoiceFor,
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               color: colorTextGray),
+            //                                         ),
+            //                                       ],
+            //                                     ),
+            //                                     const SizedBox(
+            //                                       height: 8,
+            //                                     ),
+            //                                     Row(
+            //                                       children: [
+            //                                         const Text(
+            //                                           "Amount: ",
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               fontWeight:
+            //                                                   FontWeight.bold),
+            //                                         ),
+            //                                         Text(
+            //                                           data.amount,
+            //                                           style: TextStyle(
+            //                                               fontSize: 14,
+            //                                               color: colorTextGray),
+            //                                         ),
+            //                                       ],
+            //                                     ),
+            //                                   ],
+            //                                 ),
+            //                               ),
+            //                               Padding(
+            //                                 padding: const EdgeInsets.only(
+            //                                     top: 16.0),
+            //                                 child: Container(
+            //                                     width: double.infinity,
+            //                                     height: 35,
+            //                                     decoration: BoxDecoration(
+            //                                         color: appThemeBlue,
+            //                                         borderRadius:
+            //                                             const BorderRadius.only(
+            //                                                 bottomLeft:
+            //                                                     Radius.circular(
+            //                                                         15),
+            //                                                 bottomRight:
+            //                                                     Radius.circular(
+            //                                                         15))),
+            //                                     child: Row(
+            //                                       children: [
+            //                                         Expanded(
+            //                                           child: GestureDetector(
+            //                                             onTap: () {
+            //                                               Navigator.push(
+            //                                                   context,
+            //                                                   MaterialPageRoute(
+            //                                                       builder:
+            //                                                           (context) =>
+            //                                                               EditCompanyInvoice(
+            //                                                                 id: data.id,
+            //                                                                 estimateId:
+            //                                                                     data.estimateId,
+            //                                                                 invoiceFor:
+            //                                                                     data.invoiceFor,
+            //                                                                 invoiceDescription:
+            //                                                                     data.invoiceDescription,
+            //                                                                 amount:
+            //                                                                     data.amount,
+            //                                                                 invoiceDate:
+            //                                                                     data.invoiceDate.toString(),
+            //                                                                 tax:
+            //                                                                     data.tax,
+            //                                                                 dueAmount:
+            //                                                                     data.dueAmount,
+            //                                                                 totalAmount:
+            //                                                                     data.totalAmount,
+            //                                                                 isPaid:
+            //                                                                     data.isPaid,
+            //                                                                 paidBy:
+            //                                                                     data.paidBy,
+            //                                                                 signatureName:
+            //                                                                     data.signatureName,
+            //                                                                 signature:
+            //                                                                     data.signature,
+            //                                                                 callback:
+            //                                                                     refreshData,
+            //                                                               )));
+            //                                             },
+            //                                             child: Row(
+            //                                               mainAxisAlignment:
+            //                                                   MainAxisAlignment
+            //                                                       .center,
+            //                                               children: const [
+            //                                                 Icon(
+            //                                                   Icons.edit,
+            //                                                   color:
+            //                                                       Colors.white,
+            //                                                   size: 20,
+            //                                                 ),
+            //                                                 Padding(
+            //                                                   padding: EdgeInsets
+            //                                                       .only(
+            //                                                           left:
+            //                                                               8.0),
+            //                                                   child: Text(
+            //                                                     "View/Edit",
+            //                                                     style: TextStyle(
+            //                                                         fontSize:
+            //                                                             14,
+            //                                                         color: Colors
+            //                                                             .white),
+            //                                                   ),
+            //                                                 )
+            //                                               ],
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                         Expanded(
+            //                                           child: GestureDetector(
+            //                                             onTap: () async {
+            //                                               downloadInvoice(
+            //                                                   context, data.id);
+            //                                             },
+            //                                             child: Container(
+            //                                               decoration:
+            //                                                   BoxDecoration(
+            //                                                 color:
+            //                                                     appThemeGreen,
+            //                                               ),
+            //                                               height:
+            //                                                   double.infinity,
+            //                                               child: Row(
+            //                                                 mainAxisAlignment:
+            //                                                     MainAxisAlignment
+            //                                                         .center,
+            //                                                 children: const [
+            //                                                   Icon(
+            //                                                     Icons.download,
+            //                                                     color: Colors
+            //                                                         .white,
+            //                                                     size: 20,
+            //                                                   ),
+            //                                                   Padding(
+            //                                                     padding: EdgeInsets
+            //                                                         .only(
+            //                                                             left:
+            //                                                                 8.0),
+            //                                                     child: Text(
+            //                                                       "Download",
+            //                                                       style: TextStyle(
+            //                                                           fontSize:
+            //                                                               14,
+            //                                                           color: Colors
+            //                                                               .white),
+            //                                                     ),
+            //                                                   )
+            //                                                 ],
+            //                                               ),
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                         Expanded(
+            //                                           child: GestureDetector(
+            //                                             onTap: () {
+            //                                               showDialog(
+            //                                                 context: context,
+            //                                                 builder:
+            //                                                     (BuildContext
+            //                                                         context) {
+            //                                                   return ConfirmationPopup(
+            //                                                     title:
+            //                                                         'Confirmation',
+            //                                                     message:
+            //                                                         'Are you sure you want to delete?',
+            //                                                     onConfirm: () {
+            //                                                       deleteInvoiceController
+            //                                                           .deleteInvoice(
+            //                                                               context,
+            //                                                               data
+            //                                                                   .id)
+            //                                                           .then(
+            //                                                               (value) {
+            //                                                         initialize(
+            //                                                             context,
+            //                                                             '');
+            //                                                         Navigator.of(
+            //                                                                 context)
+            //                                                             .pop();
+            //                                                       });
+            //                                                       // Close the dialog
+            //                                                     },
+            //                                                   );
+            //                                                 },
+            //                                               );
+            //                                             },
+            //                                             child: Container(
+            //                                               decoration: BoxDecoration(
+            //                                                   color: colorred,
+            //                                                   borderRadius: const BorderRadius
+            //                                                           .only(
+            //                                                       bottomRight: Radius
+            //                                                           .circular(
+            //                                                               15))),
+            //                                               height:
+            //                                                   double.infinity,
+            //                                               child: Row(
+            //                                                 mainAxisAlignment:
+            //                                                     MainAxisAlignment
+            //                                                         .center,
+            //                                                 children: const [
+            //                                                   Icon(
+            //                                                     Icons
+            //                                                         .delete_outline,
+            //                                                     color: Colors
+            //                                                         .white,
+            //                                                     size: 20,
+            //                                                   ),
+            //                                                   Padding(
+            //                                                     padding: EdgeInsets
+            //                                                         .only(
+            //                                                             left:
+            //                                                                 8.0),
+            //                                                     child: Text(
+            //                                                       "Delete",
+            //                                                       style: TextStyle(
+            //                                                           fontSize:
+            //                                                               14,
+            //                                                           color: Colors
+            //                                                               .white),
+            //                                                     ),
+            //                                                   )
+            //                                                 ],
+            //                                               ),
+            //                                             ),
+            //                                           ),
+            //                                         ),
+            //                                       ],
+            //                                     )),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ),
+            //                   );
+            //                 }))
+            //         : const Text(
+            //             'Oops No Invoice Found!',
+            //             style: TextStyle(color: Colors.black, fontSize: 18),
+            //           ),
           ],
         ),
       ),
