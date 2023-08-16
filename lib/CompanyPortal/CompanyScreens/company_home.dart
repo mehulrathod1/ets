@@ -43,7 +43,7 @@ class _CompanyHomeState extends State<CompanyHome>
       setState(() {
         if (value != null) {
           totalEmployeeModel = value;
-          debugPrint(totalEmployeeModel?.data.toString());
+          debugPrint(totalEmployeeModel.data.toString());
           loading = false;
         } else {
           loading = false;
@@ -64,7 +64,6 @@ class _CompanyHomeState extends State<CompanyHome>
             setState(() {
               if (value != null) {
                 totalEmployeeModel = value;
-                debugPrint(totalEmployeeModel?.data.toString());
               } else {
                 loading = false;
               }

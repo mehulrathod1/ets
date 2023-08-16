@@ -25,7 +25,8 @@ class ManageCompanyInvoice extends StatefulWidget {
   State<ManageCompanyInvoice> createState() => _ManageCompanyInvoiceState();
 }
 
-class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
+class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice>
+    with SingleTickerProviderStateMixin {
   CompanyInvoiceController invoiceController = CompanyInvoiceController();
   late CompanyAllInvoiceModel allInvoiceModel;
   bool loading = false;
@@ -44,6 +45,7 @@ class _ManageCompanyInvoiceState extends State<ManageCompanyInvoice> {
   void initState() {
     initPlatformState();
     initialize(context, '');
+    _controller = TabController(length: 3, vsync: this);
     super.initState();
   }
 
