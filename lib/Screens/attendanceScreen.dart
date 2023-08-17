@@ -161,7 +161,7 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     });
   }
 
-  Future<void> getCurrentPsition() async {
+  Future<void> getCurrentPositionn() async {
     setState(() {
       loading = true;
       currentAddress = "";
@@ -252,8 +252,8 @@ class _AttendanceScreen extends State<AttendanceScreen> {
     Future.delayed(const Duration(seconds: 0), () async {
       // print('${status}ooooo');
       getStatus(context);
-      getCurrentPsition();
-      // getCurrentPosition();
+      // getCurrentPositionn();
+      getCurrentPosition();
       tz.initializeTimeZones();
     });
     super.initState();

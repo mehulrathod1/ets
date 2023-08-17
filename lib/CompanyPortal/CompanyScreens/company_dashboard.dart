@@ -66,6 +66,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
         if (value != null) {
           companyProfileModel = value;
           ApiConstant.profileImage = companyProfileModel!.data.companyLogo;
+          print(ApiConstant.profileImage);
           loading = false;
         } else {
           loading = false;
@@ -316,6 +317,7 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
   void initState() {
     initialize(context);
     getNotification(context);
+
     super.initState();
   }
 
@@ -411,7 +413,6 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               ),
               actions: <Widget>[
                 GestureDetector(
-
                   // onTap: () {
                   //   Navigator.push(
                   //       context,

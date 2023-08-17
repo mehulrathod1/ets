@@ -22,17 +22,20 @@ class _CompanyHomeState extends State<CompanyHome>
   CompanyTotalEmployeeController totalEmployeeController =
       CompanyTotalEmployeeController();
   late TotalEmployeeModel totalEmployeeModel;
-  CompanyTotalDepartmentModel? departmentModel;
+  late CompanyTotalDepartmentModel departmentModel;
   CompanyTotalDepartmentController companyTotalDepartmentController =
       CompanyTotalDepartmentController();
   bool loading = false;
   // String totalEmployee = 'aaa';
+  String totalEmployee = '0';
+  String totalDepartment = '0';
 
   @override
   void initState() {
     super.initState();
-    // initialize(context);
-    initializ(context);
+    initialize(context);
+    getDepartment(context);
+    // initializ(context);
     _controller = TabController(length: 2, vsync: this);
   }
 
@@ -44,6 +47,7 @@ class _CompanyHomeState extends State<CompanyHome>
         if (value != null) {
           totalEmployeeModel = value;
           debugPrint(totalEmployeeModel.data.toString());
+          totalEmployee = totalEmployeeModel.data.toString();
           loading = false;
         } else {
           loading = false;
@@ -52,23 +56,17 @@ class _CompanyHomeState extends State<CompanyHome>
     });
   }
 
-  Future initializ(BuildContext context) async {
+  Future getDepartment(BuildContext context) async {
     loading = true;
+
     await companyTotalDepartmentController
         .getTotalDepartment(context)
         .then((value) {
-      setState(() async {
+      setState(() {
         if (value != null) {
           departmentModel = value;
-          await totalEmployeeController.getTotalEmployee(context).then((value) {
-            setState(() {
-              if (value != null) {
-                totalEmployeeModel = value;
-              } else {
-                loading = false;
-              }
-            });
-          });
+          totalDepartment = departmentModel.data.toString();
+          debugPrint(departmentModel.data.toString());
           loading = false;
         } else {
           loading = false;
@@ -76,6 +74,60 @@ class _CompanyHomeState extends State<CompanyHome>
       });
     });
   }
+
+  // Future initializ(BuildContext context) async {
+  //   loading = true;
+  //   await companyTotalDepartmentController
+  //       .getTotalDepartment(context)
+  //       .then((value) {
+  //     setState(() async {
+  //       if (value != null) {
+  //         departmentModel = value;
+  //         await totalEmployeeController.getTotalEmployee(context).then((value) {
+  //           setState(() {
+  //             if (value != null) {
+  //               totalEmployeeModel = value;
+  //             } else {
+  //               loading = false;
+  //             }
+  //           });
+  //         });
+  //         loading = false;
+  //       } else {
+  //         loading = false;
+  //       }
+  //     });
+  //   });
+  // }
+  // Future initializ(BuildContext context) async {
+  //   loading = true;
+  //
+  //   final departmentValue =
+  //       await companyTotalDepartmentController.getTotalDepartment(context);
+  //   if (departmentValue != null) {
+  //     departmentModel = departmentValue;
+  //     totalDepartment = departmentModel.data.toString();
+  //     print(totalDepartment);
+  //     final employeeValue =
+  //         await totalEmployeeController.getTotalEmployee(context);
+  //     if (employeeValue != null) {
+  //       setState(() {
+  //         totalEmployeeModel = employeeValue;
+  //         totalEmployee = totalEmployeeModel.data.toString();
+  //         print(totalEmployee);
+  //         loading = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //         loading = false;
+  //       });
+  //     }
+  //   } else {
+  //     setState(() {
+  //       loading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +163,7 @@ class _CompanyHomeState extends State<CompanyHome>
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        totalEmployeeModel.data.toString(),
+                                        totalEmployee,
                                         style: const TextStyle(
                                             fontSize: 34,
                                             fontWeight: FontWeight.bold),
@@ -152,7 +204,7 @@ class _CompanyHomeState extends State<CompanyHome>
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        departmentModel!.data.toString(),
+                                        totalDepartment,
                                         style: const TextStyle(
                                             fontSize: 34,
                                             fontWeight: FontWeight.bold),
