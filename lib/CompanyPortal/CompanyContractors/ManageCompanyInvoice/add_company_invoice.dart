@@ -923,6 +923,7 @@ class _AddCompanyInvoiceState extends State<AddCompanyInvoice> {
                                       signature: base64ImagePath)
                                   .then((value) {
                                 widget.callback();
+                                print(addInvoiceController.paidAmount.text);
                                 Navigator.pop(context);
                               });
                             }

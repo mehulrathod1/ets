@@ -36,6 +36,7 @@ class _EmployeeAllInvoiceState extends State<EmployeeAllInvoice> {
   void refreshData() {
     setState(() {
       initialize(context, '');
+      print('data has been refresh');
     });
   }
 

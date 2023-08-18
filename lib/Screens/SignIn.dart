@@ -5,6 +5,8 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'forgot_password.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
 
@@ -50,7 +52,8 @@ class _SignIn extends State<SignIn> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: const Center(
                       child: CircleAvatar(
                         radius: 80,
@@ -63,7 +66,10 @@ class _SignIn extends State<SignIn> {
                 const Text(
                   "Welcome back to Employee Login!",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -77,10 +83,15 @@ class _SignIn extends State<SignIn> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -101,7 +112,8 @@ class _SignIn extends State<SignIn> {
                               //if passenable == true, make it false
                               passenable = false;
                             } else {
-                              passenable = true; //if passenable == false, make it true
+                              passenable =
+                                  true; //if passenable == false, make it true
                             }
                           });
                         },
@@ -109,7 +121,9 @@ class _SignIn extends State<SignIn> {
                           widthFactor: 1.0,
                           heightFactor: 1.0,
                           child: Icon(
-                            passenable == true ? Icons.remove_red_eye : Icons.visibility_off,
+                            passenable == true
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off,
                             color: Colors.black,
                           ),
                         ),
@@ -118,10 +132,15 @@ class _SignIn extends State<SignIn> {
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
                     ),
@@ -144,9 +163,18 @@ class _SignIn extends State<SignIn> {
                       'Remember Me',
                       style: TextStyle(fontSize: 16),
                     )),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Text('Forgot Password ?', style: TextStyle(fontSize: 16, color: colorred)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForgotPassword()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Text('Forgot Password ?',
+                            style: TextStyle(fontSize: 16, color: colorred)),
+                      ),
                     )
                   ],
                 ),
@@ -162,7 +190,8 @@ class _SignIn extends State<SignIn> {
                             duration: Duration(seconds: 2),
                           ),
                         );
-                      } else if (employeeLoginController.password.text.isEmpty) {
+                      } else if (employeeLoginController
+                          .password.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops, Password required!"),
@@ -176,7 +205,9 @@ class _SignIn extends State<SignIn> {
                     child: Container(
                       width: double.infinity,
                       height: 40,
-                      decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                      decoration: BoxDecoration(
+                          color: appThemeGreen,
+                          borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
                           'Sign In ',
@@ -198,9 +229,19 @@ class _SignIn extends State<SignIn> {
                           fontSize: 16,
                         ),
                         children: [
-                          TextSpan(recognizer: TapGestureRecognizer()..onTap = () => debugPrint("object"), text: 'Terms & Conditions', style: TextStyle(color: appThemeGreen)),
-                          const TextSpan(text: ' and ', style: TextStyle(color: Colors.black)),
-                          TextSpan(recognizer: TapGestureRecognizer()..onTap = () => debugPrint("object"), text: 'Privacy Policy. ', style: TextStyle(color: appThemeGreen)),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => debugPrint("object"),
+                              text: 'Terms & Conditions',
+                              style: TextStyle(color: appThemeGreen)),
+                          const TextSpan(
+                              text: ' and ',
+                              style: TextStyle(color: Colors.black)),
+                          TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => debugPrint("object"),
+                              text: 'Privacy Policy. ',
+                              style: TextStyle(color: appThemeGreen)),
                         ]),
                   ),
                 ),

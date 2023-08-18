@@ -3,6 +3,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'company_forgot_password.dart';
 import 'company_register.dart';
 
 class CompanyLoginScreen extends StatefulWidget {
@@ -159,10 +160,19 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
                       'Remember Me',
                       style: TextStyle(fontSize: 16),
                     )),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Text('Forgot Password ?',
-                          style: TextStyle(fontSize: 16, color: colorred)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CompanyForgotPassword()));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: Text('Forgot Password ?',
+                            style: TextStyle(fontSize: 16, color: colorred)),
+                      ),
                     )
                   ],
                 ),

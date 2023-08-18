@@ -38,8 +38,12 @@ class EmployeeLoginController {
         ),
       );
       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard()));
-     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeDashboard(currentTableSelected: 0,)));
-
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const HomeDashboard(
+                    currentTableSelected: 0,
+                  )));
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

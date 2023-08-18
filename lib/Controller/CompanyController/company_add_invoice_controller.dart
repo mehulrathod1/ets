@@ -39,7 +39,7 @@ class CompanyAddInvoiceController {
           'sig-dataUrl': signature!,
           'estimate_id': invoiceForId.text,
           'invoice_description': description.text,
-          'amount': estimateAmount.text,
+          'amount': paidAmount.text,
           'paid_by': paidBy.text,
           'tax': tax.text,
           'cost_plus': costPlus.text,

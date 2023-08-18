@@ -44,7 +44,6 @@ class _ManageInvoiceState extends State<ManageInvoice>
   CompanyDownloadInvoiceModel? downloadInvoiceModel;
 
   String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     initPlatformState();
@@ -57,6 +56,8 @@ class _ManageInvoiceState extends State<ManageInvoice>
   void refreshData() {
     setState(() {
       initialize(context, '');
+
+      print('data has been refresh');
     });
   }
 
