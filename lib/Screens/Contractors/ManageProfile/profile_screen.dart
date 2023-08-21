@@ -298,6 +298,23 @@ class _ProfileState extends State<Profile> {
                           Row(
                             children: [
                               const Text(
+                                "User Name: ",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                employeeProfileDetailsModel!.data.username,
+                                style: TextStyle(
+                                    fontSize: 18, color: colorTextGray),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 14,
+                          ),
+                          Row(
+                            children: [
+                              const Text(
                                 "Email: ",
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),

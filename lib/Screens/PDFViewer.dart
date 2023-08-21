@@ -49,7 +49,7 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Flutter PDF Viewer",
+          "",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),

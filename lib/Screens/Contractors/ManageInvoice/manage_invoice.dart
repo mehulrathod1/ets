@@ -31,7 +31,7 @@ class ManageInvoice extends StatefulWidget {
 }
 
 class _ManageInvoiceState extends State<ManageInvoice>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   bool loading = false;
   late TabController _controller;
   late EmployeeInvoiceModel invoiceModel;
@@ -44,6 +44,8 @@ class _ManageInvoiceState extends State<ManageInvoice>
   CompanyDownloadInvoiceModel? downloadInvoiceModel;
 
   String _platformVersion = 'Unknown';
+  int _currentTabIndex = 0;
+
   @override
   void initState() {
     initPlatformState();
@@ -56,8 +58,23 @@ class _ManageInvoiceState extends State<ManageInvoice>
   void refreshData() {
     setState(() {
       initialize(context, '');
-
+      refreshTabContent();
       print('data has been refresh');
+    });
+  }
+
+  void refreshTabContent() {
+    setState(() {
+      // Refresh the content of each tab by rebuilding the widgets
+      EmployeeAllInvoice();
+      EmployeePaidInvoice();
+      EmployeeUnpaidInvoice();
+      _controller = TabController(length: 3, vsync: this);
+      _currentTabIndex = _controller.index;
+
+      print(_currentTabIndex);
+
+      if (_currentTabIndex == 0) {}
     });
   }
 
