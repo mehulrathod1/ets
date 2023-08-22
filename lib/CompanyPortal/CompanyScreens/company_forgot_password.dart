@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Controller/CompanyController/company_forgot_password_controller.dart';
 import '../../utils/Colors.dart';
 import 'company_forgot_username.dart';
 
@@ -10,6 +11,18 @@ class CompanyForgotPassword extends StatefulWidget {
 }
 
 class _CompanyForgotPasswordState extends State<CompanyForgotPassword> {
+  CompanyForgotPasswordController companyForgotPasswordController =
+      CompanyForgotPasswordController();
+
+  // bool _isValidEmail(String email) {
+  //   final emailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+  //   return emailRegExp.hasMatch(email);
+  // }
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +81,7 @@ class _CompanyForgotPasswordState extends State<CompanyForgotPassword> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: companyForgotPasswordController.userName,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       maxLines: 1,
@@ -104,6 +118,7 @@ class _CompanyForgotPasswordState extends State<CompanyForgotPassword> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: companyForgotPasswordController.email,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       maxLines: 1,
@@ -139,24 +154,34 @@ class _CompanyForgotPasswordState extends State<CompanyForgotPassword> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      // if (employeeLoginController.userName.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Username required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else if (employeeLoginController.password.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Password required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   employeeLoginController.employeeLogin(context);
-                      // }
-                      Navigator.of(context).pop();
+                      if (companyForgotPasswordController
+                          .userName.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Username required!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else if (companyForgotPasswordController
+                          .email.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Email required!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else if (!_isValidEmail(
+                          companyForgotPasswordController.email.text)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Invalid Email format!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else {
+                        companyForgotPasswordController
+                            .companyForgotPassword(context);
+                      }
                     },
                     child: Container(
                       width: double.infinity,

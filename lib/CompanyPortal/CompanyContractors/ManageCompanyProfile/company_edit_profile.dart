@@ -26,6 +26,10 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
   TextEditingController expDate = TextEditingController();
   bool loading = false;
   String companyProfileUrl = "";
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
 
   Future pickImage({bool gallery = true}) async {
     try {
@@ -757,6 +761,16 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                         const SnackBar(
                                           content:
                                               Text("Oops, Email required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (!_isValidEmail(
+                                        updateProfileController.email.text)) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, Invalid Email format!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );

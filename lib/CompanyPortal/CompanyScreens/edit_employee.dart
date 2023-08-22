@@ -64,6 +64,11 @@ class _EditEmployeeState extends State<EditEmployee> {
     super.initState();
   }
 
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   Future initialize(BuildContext context, String id) async {
     loading = true;
     await employeeDetailController.employeeDetail(context, id).then((value) {
@@ -319,6 +324,15 @@ class _EditEmployeeState extends State<EditEmployee> {
                                       const SnackBar(
                                         content: Text("Oops!, Email missing."),
                                         duration: Duration(seconds: 1),
+                                      ),
+                                    );
+                                  } else if (!_isValidEmail(
+                                      editEmployeeController.email.text)) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Oops, Invalid Email format!"),
+                                        duration: Duration(seconds: 2),
                                       ),
                                     );
                                   } else if (selectedDepartment ==

@@ -82,7 +82,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                         fontWeight: FontWeight.bold),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding:
+                        const EdgeInsets.only(top: 8.0, left: 18, right: 18),
                     child: Text(
                       companyProfileModel!.data.email,
                       style: const TextStyle(

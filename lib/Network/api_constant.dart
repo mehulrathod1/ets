@@ -8,6 +8,7 @@ class ApiConstant {
   static String attendanceStatus = '';
   static bool isAttendance = false;
   static const companyLogin = 'company-login/';
+  static const companyForgotPassword = 'company/forgot-password/';
   static const companyProfile = 'company/get-profile';
   static const companyAllEmployee = 'company/get-employee-list?show=500&';
 
@@ -115,6 +116,8 @@ class ApiConstant {
   // --------------------------------- employee portal  --------------------------------------------------------
 
   static const employeeLogin = 'employee-login/';
+  static const employeeForgotPassword = 'employee/forgot-password/';
+
   static const employeeSendHourRequest =
       'employee/send-fix-hours-request-employee/';
   static const employeeGetHourRequest =

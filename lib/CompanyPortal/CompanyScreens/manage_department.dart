@@ -41,8 +41,16 @@ class _ManageDepartmentState extends State<ManageDepartment> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // You can now safely access _ancestor here
+    super.dispose();
+  }
+
   Future initialize(BuildContext context) async {
-    loading = true;
+    setState(() {
+      loading = true;
+    });
     await companyDepartmentController.getDepartment(context).then((value) {
       setState(() {
         if (value != null) {
@@ -52,12 +60,6 @@ class _ManageDepartmentState extends State<ManageDepartment> {
         } else {
           departmentList.clear();
           loading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('No data found'),
-              duration: const Duration(seconds: 2),
-            ),
-          );
         }
       });
     });
@@ -328,7 +330,7 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                           borderRadius: BorderRadius.circular(8)),
                       child: const Center(
                         child: Text(
-                          'Sent',
+                          'Add',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       ),
@@ -345,294 +347,320 @@ class _ManageDepartmentState extends State<ManageDepartment> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? const Center(child: CircularProgressIndicator())
-        : Scaffold(
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 40,
-                      child: TextField(
-                        style:
-                            const TextStyle(fontSize: 18, color: Colors.black),
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          suffixIcon: Align(
-                            widthFactor: 1,
-                            heightFactor: 1,
-                            child: Icon(
-                              Icons.search,
-                              color: appThemeGreen,
-                            ),
-                          ),
-                          hintText: 'Search',
-                          fillColor: colorScreenBg,
-                          filled: true,
-                          isDense: true,
-                          contentPadding: const EdgeInsets.only(
-                              left: 12, top: 6, bottom: 6),
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.grey, width: 1.0),
-                              borderRadius: BorderRadius.circular(7)),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: colorGray, width: 1.0),
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 40,
+                child: TextField(
+                  style: const TextStyle(fontSize: 18, color: Colors.black),
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    suffixIcon: Align(
+                      widthFactor: 1,
+                      heightFactor: 1,
+                      child: Icon(
+                        Icons.search,
+                        color: appThemeGreen,
                       ),
                     ),
+                    hintText: 'Search',
+                    fillColor: colorScreenBg,
+                    filled: true,
+                    isDense: true,
+                    contentPadding:
+                        const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
+                        borderRadius: BorderRadius.circular(7)),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: colorGray, width: 1.0),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8, right: 8, top: 10.0, bottom: 10),
-                    child: Container(
-                        width: double.infinity,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: appThemeGreen,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              addDepartment(context);
-                            },
-                            child: const Text(
-                              'Add New Department',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ),
-                        )),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: departmentList.length,
-                      itemBuilder: (context, index) {
-                        var detail = departmentList[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(16)),
-                                border:
-                                    Border.all(width: 1, color: appThemeBlue),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 8, right: 8, top: 10.0, bottom: 10),
+              child: Container(
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: appThemeGreen,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        addDepartment(context);
+                      },
+                      child: const Text(
+                        'Add New Department',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                    ),
+                  )),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : departmentList.isNotEmpty
+                      ? Expanded(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            itemCount: departmentList.length,
+                            itemBuilder: (context, index) {
+                              var detail = departmentList[index];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8.0, bottom: 8),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16)),
+                                      border: Border.all(
+                                          width: 1, color: appThemeBlue),
+                                    ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Department Name: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              detail.departmentName.toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Department Name: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    detail.departmentName
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Text(
+                                                    "Company Name: ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    detail.companyName,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: colorTextGray),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "Company Name: ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 16.0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                                color: appThemeBlue,
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(15),
+                                                        bottomRight:
+                                                            Radius.circular(
+                                                                15))),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      editDepartmentController
+                                                              .departmentName
+                                                              .text =
+                                                          detail.departmentName;
+
+                                                      editDepartment(
+                                                          context, detail.id);
+
+                                                      await departmentDetailController
+                                                          .getDepartmentDetail(
+                                                              context,
+                                                              detail.id)
+                                                          .then((value) {
+                                                        setState(() {
+                                                          departmentDetailModel =
+                                                              value;
+                                                          debugPrint(
+                                                              departmentDetailModel
+                                                                  .data
+                                                                  .first
+                                                                  .departmentName);
+                                                        });
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: appThemeBlue,
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .only(
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          15))),
+                                                      height: double.infinity,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: const [
+                                                          Icon(
+                                                            Icons.edit,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              "Edit",
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: GestureDetector(
+                                                    // onTap: () {
+                                                    //   departmentController
+                                                    //       .deleteDepartment(
+                                                    //           context, detail.id)
+                                                    //       .then((value) {
+                                                    //     initialize(context);
+                                                    //   });
+                                                    // },
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return ConfirmationPopup(
+                                                            title:
+                                                                'Confirmation',
+                                                            message:
+                                                                'Are you sure you want to delete?',
+                                                            onConfirm: () {
+                                                              departmentController
+                                                                  .deleteDepartment(
+                                                                      context,
+                                                                      detail.id)
+                                                                  .then(
+                                                                      (value) {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                                initialize(
+                                                                    context);
+                                                              });
+                                                              // Close the dialog
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: colorred,
+                                                          borderRadius:
+                                                              const BorderRadius
+                                                                      .only(
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          15))),
+                                                      height: double.infinity,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: const [
+                                                          Icon(
+                                                            Icons
+                                                                .delete_outline,
+                                                            color: Colors.white,
+                                                            size: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 8.0),
+                                                            child: Text(
+                                                              "Delete",
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  color: Colors
+                                                                      .white),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              detail.companyName,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: colorTextGray),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 16.0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 35,
-                                      decoration: BoxDecoration(
-                                          color: appThemeBlue,
-                                          borderRadius: const BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              bottomRight:
-                                                  Radius.circular(15))),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              onTap: () async {
-                                                editDepartmentController
-                                                        .departmentName.text =
-                                                    detail.departmentName;
-
-                                                editDepartment(
-                                                    context, detail.id);
-
-                                                await departmentDetailController
-                                                    .getDepartmentDetail(
-                                                        context, detail.id)
-                                                    .then((value) {
-                                                  setState(() {
-                                                    departmentDetailModel =
-                                                        value;
-                                                    debugPrint(
-                                                        departmentDetailModel
-                                                            .data
-                                                            .first
-                                                            .departmentName);
-                                                  });
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: appThemeBlue,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.edit,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Edit",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: GestureDetector(
-                                              // onTap: () {
-                                              //   departmentController
-                                              //       .deleteDepartment(
-                                              //           context, detail.id)
-                                              //       .then((value) {
-                                              //     initialize(context);
-                                              //   });
-                                              // },
-                                              onTap: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return ConfirmationPopup(
-                                                      title: 'Confirmation',
-                                                      message:
-                                                          'Are you sure you want to delete?',
-                                                      onConfirm: () {
-                                                        departmentController
-                                                            .deleteDepartment(
-                                                                context,
-                                                                detail.id)
-                                                            .then((value) {
-                                                          initialize(context);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        });
-                                                        // Close the dialog
-                                                      },
-                                                    );
-                                                  },
-                                                );
-                                              },
-
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: colorred,
-                                                    borderRadius:
-                                                        const BorderRadius.only(
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    15))),
-                                                height: double.infinity,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: const [
-                                                    Icon(
-                                                      Icons.delete_outline,
-                                                      color: Colors.white,
-                                                      size: 20,
-                                                    ),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 8.0),
-                                                      child: Text(
-                                                        "Delete",
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                        )
+                      : const Text(
+                          'Oops No Department Found!',
+                          style: TextStyle(color: Colors.black, fontSize: 18),
+                        ),
             ),
-          );
+          ],
+        ),
+      ),
+    );
   }
 }

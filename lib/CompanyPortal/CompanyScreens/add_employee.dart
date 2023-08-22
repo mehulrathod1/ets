@@ -31,6 +31,11 @@ class _AddEmployeeState extends State<AddEmployee> {
     });
   }
 
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];
     items.clear();
@@ -458,6 +463,14 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 const SnackBar(
                                   content: Text("Oops!, Email missing."),
                                   duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (!_isValidEmail(
+                                addEmployeeController.email.text)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops, Invalid Email format!"),
+                                  duration: Duration(seconds: 2),
                                 ),
                               );
                             } else if (addEmployeeController

@@ -496,7 +496,7 @@ class _ManageCompanyContactState extends State<ManageCompanyContact> {
                             }),
                       )
                     : const Text(
-                        'Oops No Report Found!',
+                        'Oops No Contact Found!',
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
+import '../Controller/EmployeeController/employee_forgot_password_controller.dart';
 import '../utils/Colors.dart';
 import 'forgot_username.dart';
 
@@ -12,6 +13,14 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  EmployeeForgotPasswordController employeeForgotPasswordController =
+      EmployeeForgotPasswordController();
+
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +79,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: employeeForgotPasswordController.userName,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       maxLines: 1,
@@ -106,6 +116,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: employeeForgotPasswordController.email,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       maxLines: 1,
@@ -141,24 +152,34 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      // if (employeeLoginController.userName.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Username required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else if (employeeLoginController.password.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Password required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   employeeLoginController.employeeLogin(context);
-                      // }
-                      Navigator.of(context).pop();
+                      if (employeeForgotPasswordController
+                          .userName.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Username required!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else if (employeeForgotPasswordController
+                          .email.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Email required!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else if (!_isValidEmail(
+                          employeeForgotPasswordController.email.text)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Oops, Invalid Email format!"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else {
+                        employeeForgotPasswordController
+                            .employeeForgotPassword(context);
+                      }
                     },
                     child: Container(
                       width: double.infinity,
