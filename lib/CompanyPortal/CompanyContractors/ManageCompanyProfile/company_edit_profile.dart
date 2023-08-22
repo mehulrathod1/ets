@@ -255,7 +255,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -291,7 +290,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'crazycoder09@gmail.com',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -328,7 +326,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'test11',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -365,7 +362,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'IT',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -396,13 +392,16 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 child: TextField(
                                   controller: updateProfileController.phone,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(10)
+                                  ],
                                   style: const TextStyle(
                                       height: 1.7,
                                       fontSize: 18,
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -438,7 +437,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -474,7 +472,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -510,7 +507,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -541,13 +537,16 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 child: TextField(
                                   controller: updateProfileController.zipCode,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(6)
+                                  ],
                                   style: const TextStyle(
                                       height: 1.7,
                                       fontSize: 18,
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -584,7 +583,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -616,13 +614,16 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                   controller:
                                       updateProfileController.creditCardNo,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(16)
+                                  ],
                                   style: const TextStyle(
                                       height: 1.7,
                                       fontSize: 18,
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -644,7 +645,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 padding: EdgeInsets.only(
                                     top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
-                                  "Creditcard Exp date",
+                                  "CreditCard Exp date",
                                   style: TextStyle(fontSize: 14),
                                 ),
                               ),
@@ -659,7 +660,6 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -709,13 +709,16 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                   controller:
                                       updateProfileController.securityCode,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(4)
+                                  ],
                                   style: const TextStyle(
                                       height: 1.7,
                                       fontSize: 18,
                                       color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
-                                    hintText: 'Test Edit 1',
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
@@ -737,29 +740,205 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 padding: const EdgeInsets.only(top: 18.0),
                                 child: GestureDetector(
                                   onTap: () async {
-                                    if (companyProfileUrl == '') {
-                                      print('prifile pik null');
-
-                                      await updateProfileController
-                                          .editProfileDetailsWithoutImage(
-                                              context)
-                                          .then((value) {
-                                        ApiConstant.profileImage = '';
-                                        ApiConstant.profileImage =
-                                            companyProfileModel
-                                                .data.companyLogo;
-                                      });
+                                    if (updateProfileController
+                                        .name.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Oops, userName required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .email.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Oops, Email required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .companyName.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, companyName required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .contactPerson.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, contactPerson required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .phone.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, Phone Number required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                            .phone.text.length !=
+                                        10) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, Phone Number should be 10 digits long!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .address.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Oops, Address required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .city.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Oops, City Name required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .state.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, State Name required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .zipCode.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Oops, Zip Code required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                            .zipCode.text.length !=
+                                        6) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, Zip Code should be 6 digits long!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .creditCardName.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, CreditCard Name required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .creditCardNo.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, CreditCard Number required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                            .creditCardNo.text.length !=
+                                        16) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops,creditCard Number should be 16 digits long!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .creditCardExp.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, CreditCard Exp Date required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                        .securityCode.text.isEmpty) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops, SecurityCode required!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
+                                    } else if (updateProfileController
+                                            .securityCode.text.length !=
+                                        4) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                              "Oops,SecurityCode should be 4 digits long!"),
+                                          duration: Duration(seconds: 2),
+                                        ),
+                                      );
                                     } else {
-                                      await updateProfileController
-                                          .updateProfileDetails(context,
-                                              companyProfilePic:
-                                                  File(companyProfileUrl))
-                                          .then((value) {
-                                        ApiConstant.profileImage = '';
-                                        ApiConstant.profileImage =
-                                            companyProfileModel
-                                                .data.companyLogo;
-                                      });
+                                      if (companyProfileUrl == '') {
+                                        print('prifile pik null');
+
+                                        await updateProfileController
+                                            .editProfileDetailsWithoutImage(
+                                                context)
+                                            .then((value) {
+                                          ApiConstant.profileImage = '';
+                                          ApiConstant.profileImage =
+                                              companyProfileModel
+                                                  .data.companyLogo;
+                                        });
+                                      } else {
+                                        await updateProfileController
+                                            .updateProfileDetails(context,
+                                                companyProfilePic:
+                                                    File(companyProfileUrl))
+                                            .then((value) {
+                                          ApiConstant.profileImage = '';
+                                          ApiConstant.profileImage =
+                                              companyProfileModel
+                                                  .data.companyLogo;
+                                        });
+                                      }
                                     }
                                   },
                                   child: Container(

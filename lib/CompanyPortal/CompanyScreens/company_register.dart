@@ -663,14 +663,13 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                       } else if (companyProfileUrl.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content:
-                                Text("Oops,Please select logo From Gallery !"),
+                            content: Text("Oops,Please select logo !"),
                             duration: Duration(seconds: 2),
                           ),
                         );
                       } else {
-                        // companyRegistrationController.companyRegister(
-                        //     context, companyProfileUrl);
+                        companyRegistrationController.companyRegister(
+                            context, companyProfileUrl);
                       }
                     },
                     child: Container(
