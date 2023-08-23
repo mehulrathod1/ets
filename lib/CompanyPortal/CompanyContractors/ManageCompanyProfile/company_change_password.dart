@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CompanyChangePassword extends StatefulWidget {
-  CompanyChangePassword({required this.profilePicture, Key? key}) : super(key: key);
+  CompanyChangePassword({required this.profilePicture, Key? key})
+      : super(key: key);
 
   String? profilePicture;
 
@@ -19,7 +20,8 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
   bool newPassword = true;
   bool confirmPassword = true;
 
-  CompanyChangePasswordController changePasswordController = CompanyChangePasswordController();
+  CompanyChangePasswordController changePasswordController =
+      CompanyChangePasswordController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +30,12 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: colorScreenBg,
-        systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("reset Password", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
+          child: Text("reset Password",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black)),
         ),
         actions: <Widget>[
           Padding(
@@ -68,7 +73,7 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                 const Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                   child: Text(
-                    "Previous Password",
+                    "Current Password",
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
@@ -77,7 +82,8 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                   child: TextField(
                     obscureText: oldPassword,
                     controller: changePasswordController.oldPassword,
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
                       suffixIcon: GestureDetector(
@@ -94,7 +100,9 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                           widthFactor: 1.0,
                           heightFactor: 1.0,
                           child: Icon(
-                            oldPassword == true ? Icons.remove_red_eye : Icons.visibility_off,
+                            oldPassword == true
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off,
                             color: Colors.black,
                           ),
                         ),
@@ -103,8 +111,12 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -124,7 +136,8 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                   child: TextField(
                     obscureText: newPassword,
                     controller: changePasswordController.newPassword,
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
                       suffixIcon: GestureDetector(
@@ -141,7 +154,9 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                           widthFactor: 1.0,
                           heightFactor: 1.0,
                           child: Icon(
-                            newPassword == true ? Icons.remove_red_eye : Icons.visibility_off,
+                            newPassword == true
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off,
                             color: Colors.black,
                           ),
                         ),
@@ -150,8 +165,12 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -171,7 +190,8 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                   child: TextField(
                     controller: changePasswordController.confirmPassword,
                     obscureText: confirmPassword,
-                    style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
+                    style: const TextStyle(
+                        height: 1.7, fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
                       suffixIcon: GestureDetector(
@@ -188,7 +208,9 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                           widthFactor: 1.0,
                           heightFactor: 1.0,
                           child: Icon(
-                            confirmPassword == true ? Icons.remove_red_eye : Icons.visibility_off,
+                            confirmPassword == true
+                                ? Icons.remove_red_eye
+                                : Icons.visibility_off,
                             color: Colors.black,
                           ),
                         ),
@@ -197,8 +219,12 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
-                      contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                      enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
+                      contentPadding:
+                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(7)),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
@@ -217,35 +243,42 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (changePasswordController.newPassword.text.isEmpty) {
+                      } else if (changePasswordController
+                          .newPassword.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops!, New password missing!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (changePasswordController.confirmPassword.text.isEmpty) {
+                      } else if (changePasswordController
+                          .confirmPassword.text.isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("Oops!, Confirm password missing!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
-                      } else if (changePasswordController.newPassword.text != changePasswordController.confirmPassword.text) {
+                      } else if (changePasswordController.newPassword.text !=
+                          changePasswordController.confirmPassword.text) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Oops!, New password and confirm password not match!"),
+                            content: Text(
+                                "Oops!, New password and confirm password not match!"),
                             duration: Duration(seconds: 1),
                           ),
                         );
                       } else {
-                        await changePasswordController.companyChangePassword(context);
+                        await changePasswordController
+                            .companyChangePassword(context);
                       }
                     },
                     child: Container(
                         width: double.infinity,
                         height: 40,
-                        decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
                         child: const Center(
                           child: Text(
                             'Save',

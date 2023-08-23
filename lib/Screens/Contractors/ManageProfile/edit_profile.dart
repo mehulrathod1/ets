@@ -38,6 +38,11 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
   }
 
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -264,6 +269,14 @@ class _EditProfileState extends State<EditProfile> {
                                   content:
                                       Text("Oops!, Employee email missing."),
                                   duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else if (!_isValidEmail(
+                                employeeProfileController.employeeEmail.text)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Oops, Invalid Email format!"),
+                                  duration: Duration(seconds: 2),
                                 ),
                               );
                             } else {

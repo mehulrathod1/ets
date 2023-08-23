@@ -305,38 +305,40 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "Customer",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Test',
-                            fillColor: colorLightGray,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                      ),
+
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      //   child: Text(
+                      //     "Customer",
+                      //     style: TextStyle(fontSize: 14),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      //   child: TextField(
+                      //     style: const TextStyle(
+                      //         height: 1.7, fontSize: 18, color: Colors.black),
+                      //     maxLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Test',
+                      //       fillColor: colorLightGray,
+                      //       filled: true,
+                      //       isDense: true,
+                      //       contentPadding: const EdgeInsets.only(
+                      //           left: 12, top: 6, bottom: 6),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderSide: const BorderSide(
+                      //               color: Colors.grey, width: 1.0),
+                      //           borderRadius: BorderRadius.circular(7)),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide:
+                      //             BorderSide(color: colorGray, width: 1.0),
+                      //         borderRadius: BorderRadius.circular(7),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(

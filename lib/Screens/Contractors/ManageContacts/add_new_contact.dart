@@ -27,6 +27,11 @@ class _AddNewContactState extends State<AddNewContact> {
     });
   }
 
+  bool _isValidEmail(String email) {
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    return gmailRegExp.hasMatch(email);
+  }
+
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];
     items.clear();
@@ -641,11 +646,30 @@ class _AddNewContactState extends State<AddNewContact> {
                                   ),
                                 );
                               } else if (employeeAddContactController
+                                      .zipcode.text.length !=
+                                  6) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops,  Oops, Zip code should be 6 digits long!"),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              } else if (employeeAddContactController
                                   .email.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text("Oops!, Email missing."),
                                     duration: Duration(seconds: 1),
+                                  ),
+                                );
+                              } else if (!_isValidEmail(
+                                  employeeAddContactController.email.text)) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text("Oops, Invalid Email format!"),
+                                    duration: Duration(seconds: 2),
                                   ),
                                 );
                               }

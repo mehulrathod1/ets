@@ -194,165 +194,165 @@ class _AddEmployeeState extends State<AddEmployee> {
                           ),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "creditCard Number",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: addEmployeeController.creditCardNo,
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Enter creditCard Number',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "CreditCard Name",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: addEmployeeController.creditCardName,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Enter creditCard Name',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "CreditCard Expiry Date",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: addEmployeeController.creditCardExpDate,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Expiry date',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(
-                                    2000), //DateTime.now() - not to allow to choose before today.
-                                lastDate: DateTime(2101));
-
-                            if (pickedDate != null) {
-                              print(
-                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-                              String formattedDate =
-                                  DateFormat('MM/yy').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
-
-                              setState(() {
-                                addEmployeeController.creditCardExpDate.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
-                            } else {
-                              print("Date is not selected");
-                            }
-                          },
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
-                        child: Text(
-                          "Security Code",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: TextField(
-                          controller: addEmployeeController.securityCode,
-                          keyboardType: TextInputType.number,
-                          style: const TextStyle(
-                              height: 1.7, fontSize: 18, color: Colors.black),
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Security Code',
-                            fillColor: colorScreenBg,
-                            filled: true,
-                            isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                                left: 12, top: 6, bottom: 6),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.grey, width: 1.0),
-                                borderRadius: BorderRadius.circular(7)),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorGray, width: 1.0),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      //   child: Text(
+                      //     "creditCard Number",
+                      //     style: TextStyle(fontSize: 14),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      //   child: TextField(
+                      //     controller: addEmployeeController.creditCardNo,
+                      //     keyboardType: TextInputType.number,
+                      //     style: const TextStyle(
+                      //         height: 1.7, fontSize: 18, color: Colors.black),
+                      //     maxLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Enter creditCard Number',
+                      //       fillColor: colorScreenBg,
+                      //       filled: true,
+                      //       isDense: true,
+                      //       contentPadding: const EdgeInsets.only(
+                      //           left: 12, top: 6, bottom: 6),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderSide: const BorderSide(
+                      //               color: Colors.grey, width: 1.0),
+                      //           borderRadius: BorderRadius.circular(7)),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide:
+                      //             BorderSide(color: colorGray, width: 1.0),
+                      //         borderRadius: BorderRadius.circular(7),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      //   child: Text(
+                      //     "CreditCard Name",
+                      //     style: TextStyle(fontSize: 14),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      //   child: TextField(
+                      //     controller: addEmployeeController.creditCardName,
+                      //     style: const TextStyle(
+                      //         height: 1.7, fontSize: 18, color: Colors.black),
+                      //     maxLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Enter creditCard Name',
+                      //       fillColor: colorScreenBg,
+                      //       filled: true,
+                      //       isDense: true,
+                      //       contentPadding: const EdgeInsets.only(
+                      //           left: 12, top: 6, bottom: 6),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderSide: const BorderSide(
+                      //               color: Colors.grey, width: 1.0),
+                      //           borderRadius: BorderRadius.circular(7)),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide:
+                      //             BorderSide(color: colorGray, width: 1.0),
+                      //         borderRadius: BorderRadius.circular(7),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      //   child: Text(
+                      //     "CreditCard Expiry Date",
+                      //     style: TextStyle(fontSize: 14),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      //   child: TextField(
+                      //     controller: addEmployeeController.creditCardExpDate,
+                      //     style: const TextStyle(
+                      //         height: 1.7, fontSize: 18, color: Colors.black),
+                      //     maxLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Enter Expiry date',
+                      //       fillColor: colorScreenBg,
+                      //       filled: true,
+                      //       isDense: true,
+                      //       contentPadding: const EdgeInsets.only(
+                      //           left: 12, top: 6, bottom: 6),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderSide: const BorderSide(
+                      //               color: Colors.grey, width: 1.0),
+                      //           borderRadius: BorderRadius.circular(7)),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide:
+                      //             BorderSide(color: colorGray, width: 1.0),
+                      //         borderRadius: BorderRadius.circular(7),
+                      //       ),
+                      //     ),
+                      //     onTap: () async {
+                      //       DateTime? pickedDate = await showDatePicker(
+                      //           context: context,
+                      //           initialDate: DateTime.now(),
+                      //           firstDate: DateTime(
+                      //               2000), //DateTime.now() - not to allow to choose before today.
+                      //           lastDate: DateTime(2101));
+                      //
+                      //       if (pickedDate != null) {
+                      //         print(
+                      //             pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                      //         String formattedDate =
+                      //             DateFormat('MM/yy').format(pickedDate);
+                      //         print(
+                      //             formattedDate); //formatted date output using intl package =>  2021-03-16
+                      //         //you can implement different kind of Date Format here according to your requirement
+                      //
+                      //         setState(() {
+                      //           addEmployeeController.creditCardExpDate.text =
+                      //               formattedDate; //set output date to TextField value.
+                      //         });
+                      //       } else {
+                      //         print("Date is not selected");
+                      //       }
+                      //     },
+                      //   ),
+                      // ),
+                      // const Padding(
+                      //   padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
+                      //   child: Text(
+                      //     "Security Code",
+                      //     style: TextStyle(fontSize: 14),
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 40,
+                      //   child: TextField(
+                      //     controller: addEmployeeController.securityCode,
+                      //     keyboardType: TextInputType.number,
+                      //     style: const TextStyle(
+                      //         height: 1.7, fontSize: 18, color: Colors.black),
+                      //     maxLines: 1,
+                      //     decoration: InputDecoration(
+                      //       hintText: 'Enter Security Code',
+                      //       fillColor: colorScreenBg,
+                      //       filled: true,
+                      //       isDense: true,
+                      //       contentPadding: const EdgeInsets.only(
+                      //           left: 12, top: 6, bottom: 6),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderSide: const BorderSide(
+                      //               color: Colors.grey, width: 1.0),
+                      //           borderRadius: BorderRadius.circular(7)),
+                      //       focusedBorder: OutlineInputBorder(
+                      //         borderSide:
+                      //             BorderSide(color: colorGray, width: 1.0),
+                      //         borderRadius: BorderRadius.circular(7),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const Padding(
                         padding: EdgeInsets.only(top: 16.0, bottom: 6.0),
                         child: Text(
@@ -438,16 +438,6 @@ class _AddEmployeeState extends State<AddEmployee> {
                                 addEmployeeController.securityCode.text +
                                 addEmployeeController.department.text);
 
-                            //  if (selectedDepartment == "Select Department") {
-                            //                             //   ScaffoldMessenger.of(context).showSnackBar(
-                            //                             //     const SnackBar(
-                            //                             //       content: Text(
-                            //                             //           "Oops!, Please select Department from list."),
-                            //                             //       duration: Duration(seconds: 1),
-                            //                             //     ),
-                            //                             //   );
-                            //                             // }
-
                             if (addEmployeeController
                                 .employeeName.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -473,33 +463,44 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   duration: Duration(seconds: 2),
                                 ),
                               );
-                            } else if (addEmployeeController
-                                .creditCardNo.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text("Oops!, CreditCard number missing."),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else if (addEmployeeController
-                                .creditCardExpDate.text.isEmpty) {
+                            } else if (selectedDepartment ==
+                                "Select Department") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                      "Oops!, CreditCard expiryDate missing."),
+                                      "Oops!, Please select Department from list."),
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            } else if (addEmployeeController
-                                .securityCode.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Oops!, SecuryCode missing."),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                            } else {
+                            }
+                            // else if (addEmployeeController
+                            //     .creditCardNo.text.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content:
+                            //           Text("Oops!, CreditCard number missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // } else if (addEmployeeController
+                            //     .creditCardExpDate.text.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content: Text(
+                            //           "Oops!, CreditCard expiryDate missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // } else if (addEmployeeController
+                            //     .securityCode.text.isEmpty) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //       content: Text("Oops!, SecuryCode missing."),
+                            //       duration: Duration(seconds: 1),
+                            //     ),
+                            //   );
+                            // }
+                            else {
                               await addEmployeeController
                                   .addEmployee(context)
                                   .then((value) {

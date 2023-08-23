@@ -335,12 +335,18 @@ class _ManageContactScreenState extends State<ManageContactScreen>
                                               const SizedBox(
                                                 height: 8,
                                               ),
-                                              Text(
-                                                detail.customerType,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: colorTextGray),
-                                              ),
+                                              detail.customerType == '1'
+                                                  ? Text(
+                                                      'Contractor',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: colorTextGray),
+                                                    )
+                                                  : Text('Customer',
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color:
+                                                              colorTextGray)),
                                             ],
                                           ),
                                         ),

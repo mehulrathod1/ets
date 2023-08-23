@@ -101,7 +101,12 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
     base64ImagePath = base64.encode(unit8);
 
     print(base64ImagePath);
-
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Signature Submitted Successfully"),
+        duration: Duration(seconds: 1),
+      ),
+    );
     // await Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) {
@@ -475,8 +480,6 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                       color: appThemeGreen,
                                     ),
                                   ),
-                                  hintText:
-                                      'Test Edit1, Test Edit2, Test Edit3',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
@@ -549,7 +552,7 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                     color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                  hintText: '01/19/2023',
+                                  hintText: 'Enter StartDate',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,
@@ -603,7 +606,7 @@ class _AddCompanyOrderState extends State<AddCompanyOrder> {
                                     color: Colors.black),
                                 maxLines: 1,
                                 decoration: InputDecoration(
-                                  hintText: '12/31/1996',
+                                  hintText: 'Enter DueDate',
                                   fillColor: colorScreenBg,
                                   filled: true,
                                   isDense: true,

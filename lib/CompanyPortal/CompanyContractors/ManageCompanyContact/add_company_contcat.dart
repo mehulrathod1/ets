@@ -633,6 +633,16 @@ class _AddCompanyContactState extends State<AddCompanyContact> {
                                   ),
                                 );
                               } else if (addCompanyContactController
+                                      .zipcode.text.length !=
+                                  6) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        "Oops,  Oops, Zip code should be 6 digits long!"),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              } else if (addCompanyContactController
                                   .email.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

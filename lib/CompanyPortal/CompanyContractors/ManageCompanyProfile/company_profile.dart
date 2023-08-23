@@ -4,8 +4,10 @@ import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../PopUps/delete_conformation_popup.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
+import 'company_security_question.dart';
 
 class CompanyProfile extends StatefulWidget {
   const CompanyProfile({Key? key}) : super(key: key);
@@ -381,14 +383,52 @@ class _CompanyProfileState extends State<CompanyProfile> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompanySecurityQuestion(
+                                    profilePicture: companyProfileModel!
+                                        .data.companyLogo)));
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Security Question setting',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(
                         top: 8, left: 8, right: 8, bottom: 18),
                     child: GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => ProfileChangeRequest()));
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return ConfirmationPopup(
+                                title: 'Confirmation',
+                                message:
+                                    'Are you sure you want to delete your account?',
+                                onConfirm: () {
+                                  Navigator.of(context).pop();
+                                  // Close the dialog
+                                },
+                              );
+                            },
+                          );
+                        }
                       },
                       child: Container(
                         width: double.infinity,

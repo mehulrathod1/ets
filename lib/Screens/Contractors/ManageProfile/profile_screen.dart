@@ -17,6 +17,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../Network/api_constant.dart';
+import 'employee_security_question.dart';
 
 class Profile extends StatefulWidget {
   Profile({required this.appBar, Key? key, this.changeScreen})
@@ -432,6 +433,34 @@ class _ProfileState extends State<Profile> {
                         )),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EmployeeSecurityQuestion(
+                                    employeeProfilePic:
+                                        employeeProfileDetailsModel!
+                                            .data.profileImg,
+                                  )));
+                    },
+                    child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: appThemeGreen,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Center(
+                          child: Text(
+                            'Change Security Question',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        )),
+                  ),
+                ),
+
                 // Padding(
                 //   padding: const EdgeInsets.all(8),
                 //   child: GestureDetector(
