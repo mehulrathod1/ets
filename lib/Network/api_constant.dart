@@ -105,13 +105,19 @@ class ApiConstant {
   static const companyDownloadContactInvoice =
       'company/download_invoice_contact.php?invoice_id=';
 
-  //today
-
   static const companyGetContactInvoice = 'company/contact_invoice_list';
   static const companyContactsList = 'company/get-all-contact';
   static const companyAddInvoiceForContact = 'company/add_contact_invoice';
   static const companyContactInvoice = 'company/delete_contact_invoice/';
   static const companyEditInvoiceForContact = 'company/edit_contact_invoice';
+
+  static const companyAllSecurityQuestion = 'company/get_qtn_list';
+  static const companyGetSecurityQuestion = 'company/get_selected_qtn';
+  static const companyUpdateQuestion = 'company/update_qtn';
+
+  static const companyGetUsername = 'company/get_username_by_email';
+  static const companyGetQuestion = 'company/get_qtn_by_email';
+  static const companyCheckAns = 'company/check_ans_by_email';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 
@@ -194,6 +200,10 @@ class ApiConstant {
   static const employeeInvoiceOrder = 'employee/download-emp-change-order/';
   static const employeeDownloadContactInvoice =
       'employee/download_invoice_contact.php?invoice_id=';
+
+  static const employeeAllSecurityQuestion = 'employee/get_qtn_list';
+  static const employeeGetSecurityQuestion = 'employee/get_selected_qtn';
+  static const employeeUpdateQuestion = 'employee/update_qtn';
 
   // --------------------------------- sales portal --------------------------------------------------------
 

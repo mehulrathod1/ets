@@ -4,6 +4,8 @@ import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../Controller/CompanyController/company_get_question_controller.dart';
+import '../../../Models/CompanyModels/company_get_question_model.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
@@ -22,7 +24,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
   bool loading = false;
   XFile? image;
   bool myImage = true;
-
   @override
   void initState() {
     initialize(context);
@@ -390,8 +391,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CompanySecurityQuestion(
-                                    profilePicture: companyProfileModel!
-                                        .data.companyLogo)));
+                                      profilePicture:
+                                          companyProfileModel!.data.companyLogo,
+                                    )));
                       },
                       child: Container(
                         width: double.infinity,
