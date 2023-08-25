@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
+import '../Controller/CompanyController/company_reset_usermane_comtroller.dart';
+import '../Models/CompanyModels/company_get_username_model.dart';
 import '../utils/Colors.dart';
+import 'employee_choose_username.dart';
 
 class ForgotUsername extends StatefulWidget {
   const ForgotUsername({Key? key}) : super(key: key);
@@ -11,6 +14,10 @@ class ForgotUsername extends StatefulWidget {
 }
 
 class _ForgotUsernameState extends State<ForgotUsername> {
+  late CompanyGetUsernameModel companyGetUsernameModel;
+  CompanyResetUsernameController companyResetUsernameController =
+      CompanyResetUsernameController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +76,7 @@ class _ForgotUsernameState extends State<ForgotUsername> {
                   child: SizedBox(
                     height: 40,
                     child: TextField(
+                      controller: companyResetUsernameController.email,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(fontSize: 18, color: Colors.black),
                       maxLines: 1,
@@ -104,24 +112,39 @@ class _ForgotUsernameState extends State<ForgotUsername> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      // if (employeeLoginController.userName.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Username required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else if (employeeLoginController.password.text.isEmpty) {
-                      //   ScaffoldMessenger.of(context).showSnackBar(
-                      //     const SnackBar(
-                      //       content: Text("Oops, Password required!"),
-                      //       duration: Duration(seconds: 2),
-                      //     ),
-                      //   );
-                      // } else {
-                      //   employeeLoginController.employeeLogin(context);
-                      // }
-                      Navigator.of(context).pop();
+                      if (companyResetUsernameController.email.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please Enter Email"),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      } else {
+                        companyResetUsernameController
+                            .employeeGetUserName(context,
+                                companyResetUsernameController.email.text)
+                            .then((value) {
+                          setState(() {
+                            if (value != null) {
+                              companyGetUsernameModel = value;
+                              print(companyGetUsernameModel.message);
+                              print(companyGetUsernameModel
+                                  .data.list.first.username);
+
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          EmployeeChooseUsername(
+                                              email:
+                                                  companyResetUsernameController
+                                                      .email.text)));
+                            } else {
+                              print('companyGetUsernameModel.message');
+                            }
+                          });
+                        });
+                      }
                     },
                     child: Container(
                       width: double.infinity,

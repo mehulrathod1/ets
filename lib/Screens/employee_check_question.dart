@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
-import '../../Controller/CompanyController/company_reset_usermane_comtroller.dart';
-import '../../Models/CompanyModels/company_get_username_model.dart';
-import '../../utils/Colors.dart';
+import '../Controller/CompanyController/company_reset_usermane_comtroller.dart';
+import '../Models/CompanyModels/company_get_username_model.dart';
+import '../utils/Colors.dart';
 
-class CompanyCheckQuestion extends StatefulWidget {
-  CompanyCheckQuestion(
+class EmployeeCheckQuestion extends StatefulWidget {
+  EmployeeCheckQuestion(
       {required this.email,
       required this.questionId,
       required this.question,
       Key? key})
       : super(key: key);
+
   String email;
   String questionId;
   String question;
-
   @override
-  State<CompanyCheckQuestion> createState() => _CompanyCheckQuestionState();
+  State<EmployeeCheckQuestion> createState() => _EmployeeCheckQuestionState();
 }
 
-class _CompanyCheckQuestionState extends State<CompanyCheckQuestion> {
+class _EmployeeCheckQuestionState extends State<EmployeeCheckQuestion> {
   late CompanyGetUsernameModel companyGetUsernameModel;
   CompanyResetUsernameController companyResetUsernameController =
       CompanyResetUsernameController();
@@ -141,7 +141,7 @@ class _CompanyCheckQuestionState extends State<CompanyCheckQuestion> {
                       );
                     } else {
                       companyResetUsernameController
-                          .companyCheckQuestion(context)
+                          .employeeCheckQuestion(context)
                           .then((value) {
                         setState(() {});
                       });

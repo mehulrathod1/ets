@@ -2,22 +2,22 @@ import 'package:dropdown_below/dropdown_below.dart';
 import 'package:flutter/material.dart';
 import 'package:cupertino_icons/cupertino_icons.dart';
 
-import '../../Controller/CompanyController/company_reset_usermane_comtroller.dart';
-import '../../Models/CompanyModels/company_get_question_for_username.dart';
-import '../../Models/CompanyModels/company_get_username_model.dart';
-import '../../utils/Colors.dart';
-import 'company_check_answer.dart';
+import '../CompanyPortal/CompanyScreens/company_check_answer.dart';
+import '../Controller/CompanyController/company_reset_usermane_comtroller.dart';
+import '../Models/CompanyModels/company_get_question_for_username.dart';
+import '../Models/CompanyModels/company_get_username_model.dart';
+import '../utils/Colors.dart';
+import 'employee_check_question.dart';
 
-class CompanyChooseUserName extends StatefulWidget {
-  CompanyChooseUserName({required this.email, Key? key}) : super(key: key);
-
+class EmployeeChooseUsername extends StatefulWidget {
+  EmployeeChooseUsername({required this.email, Key? key}) : super(key: key);
   String email;
 
   @override
-  State<CompanyChooseUserName> createState() => _CompanyChooseUserNameState();
+  State<EmployeeChooseUsername> createState() => _EmployeeChooseUsernameState();
 }
 
-class _CompanyChooseUserNameState extends State<CompanyChooseUserName> {
+class _EmployeeChooseUsernameState extends State<EmployeeChooseUsername> {
   String selectedUserName = "Select UserName";
 
   late CompanyGetUsernameModel companyGetUsernameModel;
@@ -25,12 +25,11 @@ class _CompanyChooseUserNameState extends State<CompanyChooseUserName> {
       CompanyResetUsernameController();
   List<DropdownMenuItem<Object?>> userNameList = [];
   late CompanyGetQuestionForUserNameModel companyGetQuestionForUserNameModel;
+
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
       // companyQuestionController.questionId.text = selectedTest['id'];
       selectedUserName = selectedTest['username'];
-      // debugPrint(selectedTest['qtn']);
-      // debugPrint(selectedTest['id']);
     });
   }
 
@@ -55,7 +54,7 @@ class _CompanyChooseUserNameState extends State<CompanyChooseUserName> {
   void initState() {
     Future.delayed(const Duration(microseconds: 0), () async {
       await companyResetUsernameController
-          .companyGetUserNameList(context, widget.email)
+          .employeeGetUserNameList(context, widget.email)
           .then((value) => {
                 if (value != null)
                   {
@@ -175,7 +174,7 @@ class _CompanyChooseUserNameState extends State<CompanyChooseUserName> {
                         );
                       } else {
                         companyResetUsernameController
-                            .companyGetQuestionForUserName(
+                            .employeeGetQuestionForUserName(
                                 context, widget.email)
                             .then((value) {
                           setState(() {
@@ -184,7 +183,7 @@ class _CompanyChooseUserNameState extends State<CompanyChooseUserName> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CompanyCheckQuestion(
+                                    builder: (context) => EmployeeCheckQuestion(
                                           email: widget.email,
                                           questionId:
                                               companyGetQuestionForUserNameModel

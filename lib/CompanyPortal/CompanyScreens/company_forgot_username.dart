@@ -131,7 +131,7 @@ class _CompanyForgotUsernameState extends State<CompanyForgotUsername> {
                               print(companyGetUsernameModel
                                   .data.list.first.username);
 
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>

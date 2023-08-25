@@ -205,6 +205,10 @@ class ApiConstant {
   static const employeeGetSecurityQuestion = 'employee/get_selected_qtn';
   static const employeeUpdateQuestion = 'employee/update_qtn';
 
+  static const employeeGetUsername = 'employee/get_username_by_email';
+  static const employeeGetQuestion = 'employee/get_qtn_by_email';
+  static const employeeCheckAns = 'employee/check_ans_by_email';
+  // vipinrajn13@gmail.com
   // --------------------------------- sales portal --------------------------------------------------------
 
   static const salesLogin = 'sales-login/';
