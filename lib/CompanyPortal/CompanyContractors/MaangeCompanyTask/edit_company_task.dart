@@ -31,6 +31,7 @@ class EditCompanyTask extends StatefulWidget {
       required this.taskName,
       required this.dueDate,
       required this.taskDescription,
+      required this.employeeId,
       Key? key})
       : super(key: key);
 
@@ -40,6 +41,8 @@ class EditCompanyTask extends StatefulWidget {
   String taskName;
   String dueDate;
   String taskDescription;
+  String employeeId;
+
   final VoidCallback callback;
 
   @override
@@ -52,6 +55,7 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
       GetCompanyTaskController();
   List<DropdownMenuItem<Object?>> taskOrderListItems = [];
   String selectedOrder = "Select Order";
+  List<int> resultList = [];
 
   List<EmployeeListData> employeeListItems = [];
   String selectedEmployeeListId = "";
@@ -70,6 +74,19 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
   }
 
   void showMultiSelect(BuildContext context) async {
+    // selectedEmployeeList = [
+    //   // Add your pre-selected EmployeeListData items here
+    //   EmployeeListData(
+    //     id: '1',
+    //     employeeName: 'Thomas Kate final employee',
+    //   ),
+    //   EmployeeListData(
+    //     id: '8',
+    //     employeeName: 'tony stark',
+    //   ),
+    //   // Add more items as needed
+    // ];
+    print(selectedEmployeeList.length);
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -83,6 +100,8 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
               selectedEmployeeListId = "";
               editTaskController.employeeList.clear();
               selectedEmployeeList = values;
+              print(values.length);
+
               for (int i = 0; i < selectedEmployeeList.length; i++) {
                 editTaskController.employeeList.text =
                     editTaskController.employeeList.text +
@@ -121,6 +140,11 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
 
   @override
   void initState() {
+    print(widget.employeeId);
+    if (widget.employeeId.isNotEmpty) {
+      resultList =
+          widget.employeeId.split(',').map((item) => int.parse(item)).toList();
+    }
     Future.delayed(const Duration(microseconds: 0), () async {
       await getCompanyTaskController.getTaskOrderList(context).then((value) => {
             if (value != null)
@@ -154,7 +178,37 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                             id: value[i]["id"],
                             employeeName: value[i]["employee_name"],
                             email: value[i]["email"]));
+
+                        for (int j = 0; j < resultList.length; j++) {
+                          if (resultList[j].toString() == value[i]["id"]) {
+                            if (i != resultList.length - 1) {
+                              editTaskController.employeeList.text =
+                                  "${editTaskController.employeeList.text}, ";
+                              selectedEmployeeListId =
+                                  "$selectedEmployeeListId,";
+                            }
+
+                            editTaskController.employeeList.text =
+                                editTaskController.employeeList.text +
+                                    value[i]["employee_name"]!;
+
+                            selectedEmployeeListId =
+                                selectedEmployeeListId + value[i]["id"]!;
+
+                            // selectedEmployeeList = [
+                            //   EmployeeListData(
+                            //     id: value[i]["id"],
+                            //     employeeName: value[i]["employee_name"],
+                            //   ),
+                            // ];
+
+                            // selectedEmployeeList.add(value[i]["employee_name"]);
+                          }
+                        }
                       }
+                      print(editTaskController.employeeList.text);
+                      print(selectedEmployeeListId);
+                      // print(selectedEmployeeList.length);
                       loading = false;
                     }),
                   }

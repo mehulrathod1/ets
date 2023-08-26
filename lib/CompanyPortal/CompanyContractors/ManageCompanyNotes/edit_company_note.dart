@@ -50,7 +50,7 @@ class EditCompanyNote extends StatefulWidget {
 class _EditCompanyNoteState extends State<EditCompanyNote> {
   bool termsAndCond = false;
   CompanyEditNoteController editNoteController = CompanyEditNoteController();
-
+  List<int> resultList = [];
   List<EmployeeListData> employeeListItems = [];
   String selectedEmployeeListId = "";
   List<EmployeeListData> selectedEmployeeList = [];
@@ -120,7 +120,14 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
     editNoteController.noteStatus.text = widget.noteStatus;
     editNoteController.noteDescription.text = widget.noteDescription;
     editNoteController.noteName.text = widget.noteName;
+    print(widget.employeeList);
 
+    if (widget.employeeList.isNotEmpty) {
+      resultList = widget.employeeList
+          .split(',')
+          .map((item) => int.parse(item))
+          .toList();
+    }
     Future.delayed(const Duration(microseconds: 0), () async {
       await editNoteController
           .getEstimateNoteListForCompany(context)
@@ -157,7 +164,29 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
                             id: value[i]["id"],
                             employeeName: value[i]["employee_name"],
                             email: value[i]["email"]));
+
+                        for (int j = 0; j < resultList.length; j++) {
+                          if (resultList[j].toString() == value[i]["id"]) {
+                            editNoteController.employeeList.text =
+                                editNoteController.employeeList.text +
+                                    value[i]["employee_name"]!;
+
+                            selectedEmployeeListId =
+                                selectedEmployeeListId + value[i]["id"]!;
+
+                            if (i != resultList.length - 1) {
+                              editNoteController.employeeList.text =
+                                  "${editNoteController.employeeList.text}, ";
+                              selectedEmployeeListId =
+                                  "$selectedEmployeeListId,";
+                            }
+
+                            // selectedEmployeeList.add(value[i]["employee_name"]);
+                          }
+                        }
                       }
+                      print(editNoteController.employeeList.text);
+                      print(selectedEmployeeListId);
                       loading = false;
                     }),
                   }

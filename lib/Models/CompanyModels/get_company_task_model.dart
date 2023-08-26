@@ -66,7 +66,7 @@ class ListElement {
     required this.taskStatus,
     required this.taskName,
     required this.taskDescription,
-    this.assignedTo,
+    required this.assignedTo,
     required this.dueDate,
   });
 
@@ -75,7 +75,7 @@ class ListElement {
   String taskStatus;
   String taskName;
   String taskDescription;
-  String? assignedTo;
+  String assignedTo;
   String dueDate;
 
   factory ListElement.fromRawJson(String str) =>

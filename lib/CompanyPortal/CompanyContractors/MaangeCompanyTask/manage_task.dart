@@ -274,6 +274,8 @@ class _ManageCompanyTaskState extends State<ManageCompanyTask> {
                                                                 callback: () {
                                                                   refreshData();
                                                                 },
+                                                                employeeId: detail
+                                                                    .assignedTo,
                                                               )));
                                                 },
                                                 child: Row(
