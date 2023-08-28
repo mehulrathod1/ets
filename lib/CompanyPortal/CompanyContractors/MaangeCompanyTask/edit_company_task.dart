@@ -15,11 +15,7 @@ class EmployeeListData {
   String? employeeName;
   String? email;
 
-  EmployeeListData({
-    this.id,
-    this.employeeName,
-    this.email,
-  });
+  EmployeeListData({this.id, this.employeeName, this.email});
 }
 
 class EditCompanyTask extends StatefulWidget {
@@ -74,33 +70,38 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
   }
 
   void showMultiSelect(BuildContext context) async {
-    // selectedEmployeeList = [
-    //   // Add your pre-selected EmployeeListData items here
-    //   EmployeeListData(
-    //     id: '1',
-    //     employeeName: 'Thomas Kate final employee',
-    //   ),
-    //   EmployeeListData(
-    //     id: '8',
-    //     employeeName: 'tony stark',
-    //   ),
-    //   // Add more items as needed
-    // ];
+    var v = employeeListItems.map((e) => MultiSelectItem(
+          e,
+          e.employeeName!,
+        ));
+
+    print(employeeListItems[0]);
     print(selectedEmployeeList.length);
+    // employeeListItems = selectedEmployeeList;
+    print(employeeListItems.length);
+    List<EmployeeListData> initialSelectedEmployees = [];
+
+    for (int index = 0; index < employeeListItems.length; index++) {
+      for (int i = 0; i < selectedEmployeeList.length; i++) {
+        if (selectedEmployeeList[i].id == employeeListItems[index].id) {
+          initialSelectedEmployees.add(employeeListItems[index]);
+        }
+      }
+    }
+
     await showDialog(
       context: context,
       builder: (ctx) {
         return MultiSelectDialog(
-          items: employeeListItems
-              .map((e) => MultiSelectItem(e, e.employeeName!))
-              .toList(),
-          initialValue: selectedEmployeeList,
+          items: v.toList(),
+
+          // initialValue: [employeeListItems[0], employeeListItems[1]],
+          initialValue: initialSelectedEmployees,
           onConfirm: (values) {
             setState(() {
               selectedEmployeeListId = "";
               editTaskController.employeeList.clear();
               selectedEmployeeList = values;
-              print(values.length);
 
               for (int i = 0; i < selectedEmployeeList.length; i++) {
                 editTaskController.employeeList.text =
@@ -145,6 +146,9 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
       resultList =
           widget.employeeId.split(',').map((item) => int.parse(item)).toList();
     }
+    selectedEmployeeListId = widget.employeeId;
+    print(selectedEmployeeListId);
+    List<String> c;
     Future.delayed(const Duration(microseconds: 0), () async {
       await getCompanyTaskController.getTaskOrderList(context).then((value) => {
             if (value != null)
@@ -166,12 +170,22 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
                 }),
               }
           });
-
       await editTaskController
           .getEmployeeListForCompany(context)
           .then((value) => {
                 if (value != null)
                   {
+                    print(resultList.toString()),
+                    print(value.toString()),
+                    c = resultList.map((id) {
+                      var item = value.firstWhere(
+                          (item) => item["id"] == id.toString(),
+                          orElse: () =>
+                              {"employee_name": "Not Found"})["employee_name"];
+                      return item.toString();
+                    }).toList(),
+                    print(c.join(", ")),
+                    editTaskController.employeeList.text = c.join(", "),
                     setState(() {
                       for (int i = 0; i < value.length; i++) {
                         employeeListItems.add(EmployeeListData(
@@ -181,34 +195,30 @@ class _EditCompanyTaskState extends State<EditCompanyTask> {
 
                         for (int j = 0; j < resultList.length; j++) {
                           if (resultList[j].toString() == value[i]["id"]) {
-                            if (i != resultList.length - 1) {
-                              editTaskController.employeeList.text =
-                                  "${editTaskController.employeeList.text}, ";
-                              selectedEmployeeListId =
-                                  "$selectedEmployeeListId,";
-                            }
+                            // if (j != resultList.length - 1) {
+                            //   editTaskController.employeeList.text =
+                            //       "${editTaskController.employeeList.text}, ";
+                            //   selectedEmployeeListId =
+                            //       "$selectedEmployeeListId,";
+                            // }
 
-                            editTaskController.employeeList.text =
-                                editTaskController.employeeList.text +
-                                    value[i]["employee_name"]!;
+                            // editTaskController.employeeList.text =
+                            //     editTaskController.employeeList.text +
+                            //         value[i]["employee_name"]!;
 
-                            selectedEmployeeListId =
-                                selectedEmployeeListId + value[i]["id"]!;
-
-                            // selectedEmployeeList = [
-                            //   EmployeeListData(
-                            //     id: value[i]["id"],
-                            //     employeeName: value[i]["employee_name"],
-                            //   ),
-                            // ];
+                            selectedEmployeeList.add(EmployeeListData(
+                                id: value[i]["id"],
+                                employeeName: value[i]["employee_name"],
+                                email: value[i]["email"]));
 
                             // selectedEmployeeList.add(value[i]["employee_name"]);
+
                           }
                         }
                       }
                       print(editTaskController.employeeList.text);
                       print(selectedEmployeeListId);
-                      // print(selectedEmployeeList.length);
+                      print(selectedEmployeeList.length);
                       loading = false;
                     }),
                   }

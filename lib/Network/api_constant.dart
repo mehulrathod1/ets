@@ -118,6 +118,7 @@ class ApiConstant {
   static const companyGetUsername = 'company/get_username_by_email';
   static const companyGetQuestion = 'company/get_qtn_by_email';
   static const companyCheckAns = 'company/check_ans_by_email';
+  static const deleteCompany = 'company/delete_company';
 
   // --------------------------------- employee portal  --------------------------------------------------------
 

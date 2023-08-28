@@ -4,8 +4,11 @@ import 'package:etsemployee/Models/CompanyModels/company_profile_model.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Controller/CompanyController/company_get_question_controller.dart';
+import '../../../Controller/CompanyController/delete_account_controller.dart';
 import '../../../Models/CompanyModels/company_get_question_model.dart';
+import '../../../Screens/UserSelectionScreen.dart';
 import '../../PopUps/delete_conformation_popup.dart';
 import 'company_change_password.dart';
 import 'company_edit_profile.dart';
@@ -24,10 +27,20 @@ class _CompanyProfileState extends State<CompanyProfile> {
   bool loading = false;
   XFile? image;
   bool myImage = true;
+  DeleteAccount deleteAccountController = DeleteAccount();
   @override
   void initState() {
     initialize(context);
     super.initState();
+  }
+
+  Future<void> delete() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const UserSelectionScreen()),
+        (route) => false);
   }
 
   Future initialize(BuildContext context) async {
@@ -424,7 +437,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 message:
                                     'Are you sure you want to delete your account?',
                                 onConfirm: () {
-                                  Navigator.of(context).pop();
+                                  deleteAccountController
+                                      .deleteAccount(context)
+                                      .then((value) {
+                                    setState(() {
+                                      // Navigator.of(context).pop();
+                                      delete();
+                                    });
+                                  });
                                   // Close the dialog
                                 },
                               );

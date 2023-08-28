@@ -16,7 +16,11 @@ import '../../Network/api_constant.dart';
 import '../PopUps/delete_conformation_popup.dart';
 import 'add_employee.dart';
 import 'edit_employee.dart';
+
 import 'employee_live_location.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:excel/excel.dart';
+import 'dart:io';
 
 class EmployeeManagement extends StatefulWidget {
   EmployeeManagement({required this.appBar, Key? key}) : super(key: key);
@@ -51,6 +55,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   List<DropdownMenuItem<Object?>> departmentListItems = [];
 
   TextEditingController searchText = TextEditingController();
+  String result = '';
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -60,6 +65,25 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       print(selectedTest['id']);
     });
   }
+
+  // Future<void> readExcelFile() async {
+  //   try {
+  //     Directory appDocumentsDirectory =
+  //         await getApplicationDocumentsDirectory();
+  //     String filePath = join(appDocumentsDirectory.path, 'sample.xlsx');
+  //     var excel = Excel.decodeBytes(File(filePath).readAsBytesSync());
+  //     for (var table in excel.tables.keys) {
+  //       print(table); // sheet Name
+  //       print(excel.tables[table]?.maxCols);
+  //       print(excel.tables[table]?.maxRows);
+  //       for (var row in excel.tables[table]!.rows) {
+  //         print('$row');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print('Error reading Excel file: $e');
+  //   }
+  // }
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];

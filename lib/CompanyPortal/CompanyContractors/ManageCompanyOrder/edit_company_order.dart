@@ -43,6 +43,7 @@ class EditCompanyOrder extends StatefulWidget {
     required this.signName,
     required this.estimateId,
     required this.signature,
+    required this.employeeId,
   }) : super(key: key);
   String? id;
   String? orderStatus;
@@ -55,6 +56,8 @@ class EditCompanyOrder extends StatefulWidget {
   String? signName;
   String? estimateId;
   String signature;
+  String employeeId;
+
   final VoidCallback callback;
 
   @override
@@ -74,6 +77,7 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
   String selectedOrder = "Select Estimate";
   String selectedEmployeeListId = "";
   List<EmployeeListData> selectedEmployeeList = [];
+  List<int> resultList = [];
 
   Future getPermission() async {
     var status = await Permission.storage.status;
@@ -155,14 +159,31 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
   }
 
   void showMultiSelect(BuildContext context) async {
+    var v = employeeListItems.map((e) => MultiSelectItem(
+          e,
+          e.employeeName!,
+        ));
+
+    print(employeeListItems[0]);
+    print(selectedEmployeeList.length);
+    // employeeListItems = selectedEmployeeList;
+    print(employeeListItems.length);
+    List<EmployeeListData> initialSelectedEmployees = [];
+
+    for (int index = 0; index < employeeListItems.length; index++) {
+      for (int i = 0; i < selectedEmployeeList.length; i++) {
+        if (selectedEmployeeList[i].id == employeeListItems[index].id) {
+          initialSelectedEmployees.add(employeeListItems[index]);
+        }
+      }
+    }
+
     await showDialog(
       context: context,
       builder: (ctx) {
         return MultiSelectDialog(
-          items: employeeListItems
-              .map((e) => MultiSelectItem(e, e.employeeName!))
-              .toList(),
-          initialValue: selectedEmployeeList,
+          items: v.toList(),
+          initialValue: initialSelectedEmployees,
           onConfirm: (values) {
             setState(() {
               selectedEmployeeListId = "";
@@ -195,6 +216,17 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
     } else {
       termsandcond = false;
     }
+
+    if (widget.employeeId.isNotEmpty) {
+      resultList =
+          widget.employeeId.split(',').map((item) => int.parse(item)).toList();
+    }
+
+    print(widget.employeeId);
+    selectedEmployeeListId = widget.employeeId;
+    print(selectedEmployeeListId);
+    List<String> c;
+
     editOrderController.orderStatus.text = widget.orderStatus!;
     editOrderController.orderName.text = widget.orderName!;
     editOrderController.orderDescription.text = widget.orderDescription!;
@@ -234,14 +266,58 @@ class _EditCompanyOrderState extends State<EditCompanyOrder> {
           .then((value) => {
                 if (value != null)
                   {
+                    print(resultList.toString()),
+                    print(value.toString()),
+                    c = resultList.map((id) {
+                      var item = value.firstWhere(
+                          (item) => item["id"] == id.toString(),
+                          orElse: () =>
+                              {"employee_name": "Not Found"})["employee_name"];
+                      return item.toString();
+                    }).toList(),
+                    print(c.join(", ")),
+                    editOrderController.employeeList.text = c.join(", "),
                     setState(() {
                       for (int i = 0; i < value.length; i++) {
                         employeeListItems.add(EmployeeListData(
                             id: value[i]["id"],
                             employeeName: value[i]["employee_name"],
                             email: value[i]["email"]));
+
+                        for (int j = 0; j < resultList.length; j++) {
+                          if (resultList[j].toString() == value[i]["id"]) {
+                            selectedEmployeeList.add(EmployeeListData(
+                                id: value[i]["id"],
+                                employeeName: value[i]["employee_name"],
+                                email: value[i]["email"]));
+
+                            // if (j != resultList.length - 1) {
+                            //   editOrderController.employeeList.text =
+                            //       "${editOrderController.employeeList.text}, ";
+                            //   selectedEmployeeListId =
+                            //       "$selectedEmployeeListId,";
+                            // }
+                            // editOrderController.employeeList.text =
+                            //     editOrderController.employeeList.text +
+                            //         value[i]["employee_name"]!;
+                            //
+                            // selectedEmployeeListId =
+                            //     selectedEmployeeListId + value[i]["id"]!;
+
+                            // selectedEmployeeList = [
+                            //   EmployeeListData(
+                            //     id: value[i]["id"],
+                            //     employeeName: value[i]["employee_name"],
+                            //   ),
+                            // ];
+
+                            // selectedEmployeeList.add(value[i]["employee_name"]);
+                          }
+                        }
                       }
                       loading = false;
+                      print(editOrderController.employeeList.text);
+                      print(selectedEmployeeListId);
                     }),
                   }
                 else

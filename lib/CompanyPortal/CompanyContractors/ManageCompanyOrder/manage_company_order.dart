@@ -333,6 +333,8 @@ class _ManageCompanyOrderState extends State<ManageCompanyOrder> {
                                                                 .signature,
                                                             callback:
                                                                 refreshData,
+                                                            employeeId: detail
+                                                                .notifyEmployee,
                                                           ),
                                                         ),
                                                       );

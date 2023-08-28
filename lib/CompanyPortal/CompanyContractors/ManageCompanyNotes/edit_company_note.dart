@@ -58,14 +58,31 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
   List<DropdownMenuItem<Object?>> noteListItems = [];
   String selectedEstimate = "Select Estimate";
   void showMultiSelect(BuildContext context) async {
+    var v = employeeListItems.map((e) => MultiSelectItem(
+          e,
+          e.employeeName!,
+        ));
+
+    print(employeeListItems[0]);
+    print(selectedEmployeeList.length);
+    // employeeListItems = selectedEmployeeList;
+    print(employeeListItems.length);
+    List<EmployeeListData> initialSelectedEmployees = [];
+
+    for (int index = 0; index < employeeListItems.length; index++) {
+      for (int i = 0; i < selectedEmployeeList.length; i++) {
+        if (selectedEmployeeList[i].id == employeeListItems[index].id) {
+          initialSelectedEmployees.add(employeeListItems[index]);
+        }
+      }
+    }
+
     await showDialog(
       context: context,
       builder: (ctx) {
         return MultiSelectDialog(
-          items: employeeListItems
-              .map((e) => MultiSelectItem(e, e.employeeName!))
-              .toList(),
-          initialValue: selectedEmployeeList,
+          items: v.toList(),
+          initialValue: initialSelectedEmployees,
           onConfirm: (values) {
             setState(() {
               selectedEmployeeListId = "";
@@ -128,6 +145,11 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
           .map((item) => int.parse(item))
           .toList();
     }
+    print(widget.employeeList);
+    selectedEmployeeListId = widget.employeeList;
+    print(selectedEmployeeListId);
+    List<String> c;
+
     Future.delayed(const Duration(microseconds: 0), () async {
       await editNoteController
           .getEstimateNoteListForCompany(context)
@@ -158,6 +180,17 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
           .then((value) => {
                 if (value != null)
                   {
+                    print(resultList.toString()),
+                    print(value.toString()),
+                    c = resultList.map((id) {
+                      var item = value.firstWhere(
+                          (item) => item["id"] == id.toString(),
+                          orElse: () =>
+                              {"employee_name": "Not Found"})["employee_name"];
+                      return item.toString();
+                    }).toList(),
+                    print(c.join(", ")),
+                    editNoteController.employeeList.text = c.join(", "),
                     setState(() {
                       for (int i = 0; i < value.length; i++) {
                         employeeListItems.add(EmployeeListData(
@@ -167,20 +200,24 @@ class _EditCompanyNoteState extends State<EditCompanyNote> {
 
                         for (int j = 0; j < resultList.length; j++) {
                           if (resultList[j].toString() == value[i]["id"]) {
-                            editNoteController.employeeList.text =
-                                editNoteController.employeeList.text +
-                                    value[i]["employee_name"]!;
+                            selectedEmployeeList.add(EmployeeListData(
+                                id: value[i]["id"],
+                                employeeName: value[i]["employee_name"],
+                                email: value[i]["email"]));
 
-                            selectedEmployeeListId =
-                                selectedEmployeeListId + value[i]["id"]!;
-
-                            if (i != resultList.length - 1) {
-                              editNoteController.employeeList.text =
-                                  "${editNoteController.employeeList.text}, ";
-                              selectedEmployeeListId =
-                                  "$selectedEmployeeListId,";
-                            }
-
+                            // if (j != resultList.length - 1) {
+                            //   editNoteController.employeeList.text =
+                            //       "${editNoteController.employeeList.text}, ";
+                            //   selectedEmployeeListId =
+                            //       "$selectedEmployeeListId,";
+                            // }
+                            // editNoteController.employeeList.text =
+                            //     editNoteController.employeeList.text +
+                            //         value[i]["employee_name"]!;
+                            //
+                            // selectedEmployeeListId =
+                            //     selectedEmployeeListId + value[i]["id"]!;
+                            //
                             // selectedEmployeeList.add(value[i]["employee_name"]);
                           }
                         }
