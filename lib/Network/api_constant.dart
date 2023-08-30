@@ -1,6 +1,5 @@
 class ApiConstant {
   static const baseUrl = "https://devapi.employeetrackingsolutions.com/";
-
   // --------------------------------- company portal --------------------------------------------------------
 
   static String userToken = '';

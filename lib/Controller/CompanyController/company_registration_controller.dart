@@ -29,6 +29,7 @@ class CompanyRegistrationController {
     Employee('name', 'email'),
     Employee('name1', 'email2')
   ];
+  Map<String, dynamic> employeeData = {};
 
   Future companyRegister(BuildContext context, String logo) async {
     showDialog(
@@ -62,13 +63,6 @@ class CompanyRegistrationController {
       request.fields['employee[$i][employee_name]'] = employeeList[i].name;
       request.fields['employee[$i][employee_email]'] = employeeList[i].email;
     }
-
-    // var request = new http.MultipartRequest("POST", uri);
-    // request.headers.addAll(headers);
-    // request.fields['property_usage'] = property_use;
-    // request.fields['unit_id[0]'] = "unitlist1";
-    // request.fields['unit_id[1]'] = "unitlist2";
-    // request.fields['unit_id[2]'] = "unitlist3";
 
     request.files.add(
       http.MultipartFile(
@@ -109,44 +103,49 @@ class CompanyRegistrationController {
         return const Center(child: CircularProgressIndicator());
       },
     );
-
-    var response = await postData(
-      paramUri: ApiConstant.companyRegister,
-      params: {
-        'company_name': companyName.text,
-        'contact_person': contactPerson.text,
-        'address': address.text,
-        'city': city.text,
-        'state': state.text,
-        'zip': zip.text,
-        'creditcard_no': creditCardNumber.text,
-        'creditcard_name': creditCardName.text,
-        'creditcard_exp_date': creditCardExp.text,
-        'security_code': securityCode.text,
-        'email': email.text,
-        'phone': phone.text,
-        'logo': ''
-      },
-    );
-
-    debugPrint("companypwd response :- ${response.toString()}");
-    if (response["status"] == 'True') {
-      var res = CompanyRegisterModel.fromJson(response);
-
-      companyRegisterModel = res;
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(res.message),
-          duration: const Duration(seconds: 2),
-        ),
+    try {
+      var response = await postData(
+        paramUri: ApiConstant.companyRegister,
+        params: {
+          'company_name': companyName.text,
+          'contact_person': contactPerson.text,
+          'address': address.text,
+          'city': city.text,
+          'state': state.text,
+          'zip': zip.text,
+          'creditcard_no': creditCardNumber.text,
+          'creditcard_name': creditCardName.text,
+          'creditcard_exp_date': creditCardExp.text,
+          'security_code': securityCode.text,
+          'email': email.text,
+          'phone': phone.text,
+        },
       );
-      Navigator.pop(context);
-    } else {
-      Navigator.pop(context);
+      debugPrint("companypwd response :- ${response.toString()}");
+
+      if (response != null && response["status"] == 'True') {
+        var res = CompanyRegisterModel.fromJson(response);
+        // ... rest of the code ...
+        debugPrint("companypwd response :- ${res.message}");
+      } else if (response != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(response["message"]),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Unexpected response from server"),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(response["message"]),
+          content: Text("An error occurred while processing the response"),
           duration: const Duration(seconds: 2),
         ),
       );

@@ -797,11 +797,11 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                     //   );
                     // }
                     else {
-                      // companyRegistrationController.companyRegister(
-                      //     context, companyProfileUrl);
+                      companyRegistrationController.companyRegister(
+                          context, companyProfileUrl);
 
-                      companyRegistrationController
-                          .companyRegisterWithoutLogo(context);
+                      // companyRegistrationController
+                      //     .companyRegisterWithoutLogo(context);
 
                       // companyRegistrationController.companyRegister(context,
                       //     companyProfilePic: File(companyProfileUrl));
