@@ -25,12 +25,6 @@ class CompanyRegistrationController {
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
 
-  List<Employee> employeeList = [
-    Employee('name', 'email'),
-    Employee('name1', 'email2')
-  ];
-  Map<String, dynamic> employeeData = {};
-
   Future companyRegister(BuildContext context, String logo) async {
     showDialog(
       context: context,
@@ -57,12 +51,6 @@ class CompanyRegistrationController {
     request.fields['security_code'] = securityCode.text;
     request.fields['email'] = email.text;
     request.fields['phone'] = phone.text;
-    // employeeList.map((e, index) =>
-    //     {request.fields['employee'][index]['employee_name'] = e.name});
-    for (int i = 0; i < employeeList.length; i++) {
-      request.fields['employee[$i][employee_name]'] = employeeList[i].name;
-      request.fields['employee[$i][employee_email]'] = employeeList[i].email;
-    }
 
     request.files.add(
       http.MultipartFile(
@@ -107,6 +95,7 @@ class CompanyRegistrationController {
       var response = await postData(
         paramUri: ApiConstant.companyRegister,
         params: {
+          'logo': '',
           'company_name': companyName.text,
           'contact_person': contactPerson.text,
           'address': address.text,
