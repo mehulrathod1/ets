@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
+import 'package:etsemployee/Models/CompanyModels/company_get_agency_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:etsemployee/CompanyPortal/CompanyScreens/company_login_screen.dart';
 import 'package:etsemployee/Network/api_constant.dart';
@@ -25,10 +27,14 @@ class CompanyRegistrationController {
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
 
-  List<Employee> employeeList = [
-    Employee('name', 'email'),
-    Employee('name1', 'email2')
-  ];
+  // List<EmployeeList> employeeList = [
+  //   EmployeeList('name', 'email'),
+  //   EmployeeList('name1', 'email2')
+  // ];
+  List<EmployeeName> employeeName = [];
+  List<EmployeeEmail> employeeEmail = [];
+
+  CompanyGetAgencyList? agencyList;
   Map<String, dynamic> employeeData = {};
 
   Future companyRegister(BuildContext context, String logo) async {
@@ -57,12 +63,19 @@ class CompanyRegistrationController {
     request.fields['security_code'] = securityCode.text;
     request.fields['email'] = email.text;
     request.fields['phone'] = phone.text;
+    for (int i = 0; i < employeeEmail.length; i++) {
+      request.fields['employee_email'] = employeeEmail[i].email;
+    }
+    for (int i = 0; i < employeeName.length; i++) {
+      request.fields['employee_name'] = employeeName[i].name;
+    }
+    // employeeEmail.map((e,index) => request.fields[] as Function(EmployeeEmail e))
     // employeeList.map((e, index) =>
     //     {request.fields['employee'][index]['employee_name'] = e.name});
-    for (int i = 0; i < employeeList.length; i++) {
-      request.fields['employee[$i][employee_name]'] = employeeList[i].name;
-      request.fields['employee[$i][employee_email]'] = employeeList[i].email;
-    }
+    // for (int i = 0; i < employeeList.length; i++) {
+    //   request.fields['employee[$i][employee_name]'] = employeeList[i].name;
+    //   request.fields['employee[$i][employee_email]'] = employeeList[i].email;
+    // }
 
     request.files.add(
       http.MultipartFile(
@@ -149,6 +162,42 @@ class CompanyRegistrationController {
           duration: const Duration(seconds: 2),
         ),
       );
+    }
+  }
+
+  Future<List<Item>> getAgencyList(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+
+    var response = await getData(paramUri: ApiConstant.getAgencyList);
+    if (response["status"] == 'True') {
+      final jsonResponse = json.decode(response.body);
+      final data = Data.fromJson(jsonResponse['data']);
+      return data.list;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Future<List<Item>> getAgentList(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+
+    var response = await getData(paramUri: ApiConstant.getAgentList);
+    if (response["status"] == 'True') {
+      final jsonResponse = json.decode(response.body);
+      final data = Data.fromJson(jsonResponse['data']);
+      return data.list;
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 }

@@ -1,16 +1,30 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:etsemployee/Controller/CompanyController/company_registration_controller.dart';
+import 'package:etsemployee/Models/CompanyModels/company_get_agency_list.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class Employee {
+class EmployeeName {
   final String name;
+
+  EmployeeName(this.name);
+}
+
+class EmployeeEmail {
   final String email;
 
-  Employee(this.name, this.email);
+  EmployeeEmail(this.email);
+}
+
+class EmployeeList {
+  late List<EmployeeName> employName;
+  late List<EmployeeEmail> employeEmail;
+
+  EmployeeList(this.employeEmail, this.employName);
 }
 
 class TotalEmployee {
@@ -31,15 +45,21 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
   CompanyRegistrationController companyRegistrationController =
       CompanyRegistrationController();
   String companyProfileUrl = "";
-  List<Employee> employeeList = [];
+  List<EmployeeName> employeeListName = [];
+  List<EmployeeEmail> employeeListEmail = [];
   List<TotalEmployee> totalEmployeeList = [];
+  List<EmployeeList> employeeList = [];
+  var dropdownvalue;
+  List<Item> agencyList = [];
 
   TextEditingController employeeName = TextEditingController();
   TextEditingController employeeEmail = TextEditingController();
 
   void addEmployee() {
     setState(() {
-      employeeList.add(Employee(employeeName.text, employeeEmail.text));
+      employeeListName.add(EmployeeName(employeeName.text));
+      employeeListEmail.add(EmployeeEmail(employeeEmail.text));
+      employeeList.add(EmployeeList(employeeListEmail, employeeListName));
     });
   }
 
@@ -67,6 +87,7 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
     // TODO: implement initState
     addEmployee();
     super.initState();
+    callAgencyList(context);
   }
 
   @override
@@ -530,6 +551,68 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButton(
+                  hint: Text('hooseNumber'),
+                  items: agencyList.map((item) {
+                    return DropdownMenuItem(
+                      // value: item['ClassCode'].toString(),
+                      child: Text(item.name),
+                    );
+                  }).toList(),
+                  onChanged: (newVal) {
+                    setState(() {
+                      dropdownvalue = newVal;
+                    });
+                  },
+                  value: dropdownvalue,
+                ),
+                // child: FutureBuilder<List<Item>>(
+                //     future:
+                //         companyRegistrationController.getAgencyList(context),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.connectionState ==
+                //           ConnectionState.waiting) {
+                //         return const CircularProgressIndicator();
+                //       } else if (snapshot.hasError) {
+                //         return Text('Error: ${snapshot.error}');
+                //       } else {
+                //         final items = snapshot.data!;
+                //         return DropdownButton<Item>(
+                //             items: items.map((item) {
+                //               return DropdownMenuItem<Item>(
+                //                 value: item,
+                //                 child: Text(item.name),
+                //               );
+                //             }).toList(),
+                //             onChanged: (selectedItem) {});
+                //       }
+                //     })
+              ),
+              // Padding(
+              //     padding: EdgeInsets.all(8.0),
+              //     child: FutureBuilder<List<Item>>(
+              //         future:
+              //             companyRegistrationController.getAgentList(context),
+              //         builder: (context, snapshot) {
+              //           if (snapshot.connectionState ==
+              //               ConnectionState.waiting) {
+              //             return CircularProgressIndicator();
+              //           } else if (snapshot.hasError) {
+              //             return Text('Error: ${snapshot.error}');
+              //           } else {
+              //             final items = snapshot.data!;
+              //             return DropdownButton<Item>(
+              //                 items: items.map((item) {
+              //                   return DropdownMenuItem<Item>(
+              //                     value: item,
+              //                     child: Text(item.name),
+              //                   );
+              //                 }).toList(),
+              //                 onChanged: (selectedItem) {});
+              //           }
+              //         })),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -613,10 +696,12 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                               onTap: () {
                                 setState(() {
                                   employeeList.removeAt(index);
+                                  employeeListEmail.removeAt(index);
+                                  employeeListName.removeAt(index);
                                   print(index);
                                 });
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.delete_outline,
                                 color: Colors.red,
                                 size: 30,
@@ -829,5 +914,9 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
         ),
       ),
     );
+  }
+
+  Future callAgencyList(BuildContext context) async {
+    agencyList = await companyRegistrationController.getAgencyList(context);
   }
 }

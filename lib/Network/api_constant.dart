@@ -216,4 +216,6 @@ class ApiConstant {
   static const salesAgent =
       'SALES/view-all-agent?show=10&startdate=&enddate=&searchName=&page=';
   static const agencyRegister = 'register-agency-or-agent/';
+  static const getAgencyList = 'company/get_agency_list.php';
+  static const getAgentList = 'company/get_agent_list.php';
 }
