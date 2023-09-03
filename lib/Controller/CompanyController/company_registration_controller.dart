@@ -26,6 +26,8 @@ class CompanyRegistrationController {
   TextEditingController securityCode = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
+  String agentId = "";
+  String agencyId = "";
 
   // List<EmployeeList> employeeList = [
   //   EmployeeList('name', 'email'),
@@ -63,6 +65,8 @@ class CompanyRegistrationController {
     request.fields['security_code'] = securityCode.text;
     request.fields['email'] = email.text;
     request.fields['phone'] = phone.text;
+    request.fields['agency'] = agencyId;
+    request.fields['agent'] = agentId;
     for (int i = 0; i < employeeEmail.length; i++) {
       request.fields['employee_email'] = employeeEmail[i].email;
     }
@@ -76,15 +80,17 @@ class CompanyRegistrationController {
     //   request.fields['employee[$i][employee_name]'] = employeeList[i].name;
     //   request.fields['employee[$i][employee_email]'] = employeeList[i].email;
     // }
+    if (logo != "") {
+      request.files.add(
+        http.MultipartFile(
+          'logo',
+          File(logo).readAsBytes().asStream(),
+          File(logo).lengthSync(),
+          filename: logo.split("/").last,
+        ),
+      );
+    }
 
-    request.files.add(
-      http.MultipartFile(
-        'logo',
-        File(logo).readAsBytes().asStream(),
-        File(logo).lengthSync(),
-        filename: logo.split("/").last,
-      ),
-    );
     var response = await request.send();
     debugPrint("companyRegister response :- ${response.statusCode}");
     debugPrint("companyRegister response :- ${response.stream}");

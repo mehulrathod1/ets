@@ -46,7 +46,7 @@ class Data {
 }
 
 class AgencyData {
-  String? id;
+  int? id;
   String? name;
 
   AgencyData({this.id, this.name});
