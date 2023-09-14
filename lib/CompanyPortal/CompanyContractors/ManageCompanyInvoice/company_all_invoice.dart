@@ -1,6 +1,8 @@
 import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../Controller/CompanyController/company_delete_invoice_controller.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/CompanyController/company_invoive_controller.dart';
@@ -9,7 +11,6 @@ import '../../../Models/CompanyModels/download_invoice_model.dart';
 import '../../../Screens/PDFViewer.dart';
 import '../../../utils/Colors.dart';
 import '../../PopUps/delete_conformation_popup.dart';
-import 'company_un_paid_invoice.dart';
 import 'edit_company_invoice.dart';
 
 class CompanyAllInvoice extends StatefulWidget {
@@ -67,8 +68,8 @@ class _CompanyAllInvoiceState extends State<CompanyAllInvoice> {
   }
 
   Future downloadInvoice(BuildContext context, String id) async {
-    await downloadInvoiceController.downloadInvoice(context, id).then((value) {
-      setState(() async {
+    await downloadInvoiceController.downloadInvoice(context, id).then((value) async{
+
         if (value != null) {
           downloadInvoiceModel = value;
           print(downloadInvoiceModel!.data.downloadUrl);
@@ -82,9 +83,22 @@ class _CompanyAllInvoiceState extends State<CompanyAllInvoice> {
             ),
           );
         }
-      });
+
     });
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Future viewInvoice(BuildContext context, String id) async {
     await downloadInvoiceController.viewInvoice(context, id).then((value) {
@@ -352,11 +366,11 @@ class _CompanyAllInvoiceState extends State<CompanyAllInvoice> {
                                                         color: appThemeGreen,
                                                       ),
                                                       height: double.infinity,
-                                                      child: Row(
+                                                      child: const Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
                                                                 .center,
-                                                        children: const [
+                                                        children: [
                                                           Icon(
                                                             Icons.download,
                                                             color: Colors.white,

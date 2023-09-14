@@ -189,7 +189,7 @@ class _MessageScreenState extends State<MessageScreen> {
             )
           : null,
       body: loading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Expanded(
@@ -206,9 +206,7 @@ class _MessageScreenState extends State<MessageScreen> {
                             child: Column(
                               children: [
                                 data.companyMsg == '0'
-                                    ?
-                                    // SizedBox(height: 8),
-                                    Padding(
+                                    ? Padding(
                                         padding:
                                             const EdgeInsets.only(left: 50.0),
                                         child: Container(
@@ -245,11 +243,11 @@ class _MessageScreenState extends State<MessageScreen> {
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                                 left: 8.0),
                                                         child: Text(
                                                           data.message,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
@@ -259,13 +257,13 @@ class _MessageScreenState extends State<MessageScreen> {
                                                       SizedBox(height: 8),
                                                       Padding(
                                                         padding:
-                                                            EdgeInsets.only(
+                                                            const EdgeInsets.only(
                                                           left: 8.0,
                                                         ),
                                                         child: Text(
                                                           data.timestamp
                                                               .toString(),
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 12),
                                                         ),
                                                       ),
@@ -353,14 +351,14 @@ class _MessageScreenState extends State<MessageScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   color: colorScreenBg,
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           controller: sendMessageController.message,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Type your message...',
                             border: InputBorder.none,
                           ),

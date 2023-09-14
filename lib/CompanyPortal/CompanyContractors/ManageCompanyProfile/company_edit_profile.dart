@@ -18,23 +18,22 @@ class CompanyEditProfile extends StatefulWidget {
 }
 
 class _CompanyEditProfileState extends State<CompanyEditProfile> {
-  CompanyUpdateProfileController updateProfileController =
-      CompanyUpdateProfileController();
-  CompanyProfileController companyProfileController =
-      CompanyProfileController();
+  CompanyUpdateProfileController updateProfileController = CompanyUpdateProfileController();
+  CompanyProfileController companyProfileController = CompanyProfileController();
   late CompanyProfileModel companyProfileModel;
   TextEditingController expDate = TextEditingController();
   bool loading = false;
   String companyProfileUrl = "";
+
   bool _isValidEmail(String email) {
-    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+   // final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     return gmailRegExp.hasMatch(email);
   }
 
   Future pickImage({bool gallery = true}) async {
     try {
-      final image = await ImagePicker().pickImage(
-          source: gallery ? ImageSource.gallery : ImageSource.camera);
+      final image = await ImagePicker().pickImage(source: gallery ? ImageSource.gallery : ImageSource.camera);
       if (image == null) {
         setState(() {
           companyProfileUrl = "";
@@ -63,23 +62,17 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
         companyProfileModel = value;
         updateProfileController.name.text = companyProfileModel.data.username;
         updateProfileController.email.text = companyProfileModel.data.email;
-        updateProfileController.companyName.text =
-            companyProfileModel.data.companyName;
-        updateProfileController.contactPerson.text =
-            companyProfileModel.data.contactPerson;
+        updateProfileController.companyName.text = companyProfileModel.data.companyName;
+        updateProfileController.contactPerson.text = companyProfileModel.data.contactPerson;
         updateProfileController.phone.text = companyProfileModel.data.phone;
         updateProfileController.address.text = companyProfileModel.data.address;
         updateProfileController.city.text = companyProfileModel.data.city;
         updateProfileController.state.text = companyProfileModel.data.state;
         updateProfileController.zipCode.text = companyProfileModel.data.zip;
-        updateProfileController.creditCardName.text =
-            companyProfileModel.data.creditcardName;
-        updateProfileController.creditCardNo.text =
-            companyProfileModel.data.creditcardNo;
-        updateProfileController.creditCardExp.text =
-            companyProfileModel.data.creditcardExpDate;
-        updateProfileController.securityCode.text =
-            companyProfileModel.data.securityCode;
+        updateProfileController.creditCardName.text = companyProfileModel.data.creditcardName;
+        updateProfileController.creditCardNo.text = companyProfileModel.data.creditcardNo;
+        updateProfileController.creditCardExp.text = companyProfileModel.data.creditcardExpDate;
+        updateProfileController.securityCode.text = companyProfileModel.data.securityCode;
         loading = false;
       });
     });
@@ -94,12 +87,9 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: colorScreenBg,
-              systemOverlayStyle:
-                  const SystemUiOverlayStyle(statusBarColor: Colors.blue),
+              systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.blue),
               title: const Center(
-                child: Text("Edit Details",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black)),
+                child: Text("Edit Details", textAlign: TextAlign.center, style: TextStyle(color: Colors.black)),
               ),
               actions: <Widget>[
                 Padding(
@@ -112,13 +102,11 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                       : companyProfileUrl.isEmpty
                           ? CircleAvatar(
                               radius: 18,
-                              backgroundImage: NetworkImage(
-                                  companyProfileModel.data.companyLogo),
+                              backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
                             )
                           : CircleAvatar(
                               radius: 18,
-                              backgroundImage:
-                                  FileImage(File(companyProfileUrl)),
+                              backgroundImage: FileImage(File(companyProfileUrl)),
                             ),
                 ),
               ],
@@ -153,86 +141,62 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                   builder: (BuildContext context) {
                                     return Container(
                                       height: 150,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 20),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () async {
-                                                Navigator.pop(context);
-                                                await pickImage(gallery: true);
-                                              },
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    color: appThemeGreen,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Pick Image from Gallery',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18),
-                                                  ),
-                                                ),
+                                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            Navigator.pop(context);
+                                            await pickImage(gallery: true);
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 40,
+                                            decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
+                                            child: const Center(
+                                              child: Text(
+                                                'Pick Image from Gallery',
+                                                style: TextStyle(color: Colors.white, fontSize: 18),
                                               ),
                                             ),
-                                            GestureDetector(
-                                              onTap: () async {
-                                                Navigator.pop(context);
-                                                await pickImage(gallery: false);
-                                              },
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    color: appThemeBlue,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Pick Image from Camera',
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18),
-                                                  ),
-                                                ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            Navigator.pop(context);
+                                            await pickImage(gallery: false);
+                                          },
+                                          child: Container(
+                                            width: double.infinity,
+                                            height: 40,
+                                            decoration: BoxDecoration(color: appThemeBlue, borderRadius: BorderRadius.circular(8)),
+                                            child: const Center(
+                                              child: Text(
+                                                'Pick Image from Camera',
+                                                style: TextStyle(color: Colors.white, fontSize: 18),
                                               ),
                                             ),
-                                          ]),
+                                          ),
+                                        ),
+                                      ]),
                                     );
                                   });
                             },
                             child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8)),
-                              child:
-                                  companyProfileModel.data.companyLogo.isEmpty
-                                      ? const CircleAvatar(
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                              child: companyProfileModel.data.companyLogo.isEmpty
+                                  ? const CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: AssetImage('assets/man.jpeg'),
+                                    )
+                                  : companyProfileUrl.isEmpty
+                                      ? CircleAvatar(
                                           radius: 80,
-                                          backgroundImage:
-                                              AssetImage('assets/man.jpeg'),
+                                          backgroundImage: NetworkImage(companyProfileModel.data.companyLogo),
                                         )
-                                      : companyProfileUrl.isEmpty
-                                          ? CircleAvatar(
-                                              radius: 80,
-                                              backgroundImage: NetworkImage(
-                                                  companyProfileModel
-                                                      .data.companyLogo),
-                                            )
-                                          : CircleAvatar(
-                                              radius: 80,
-                                              backgroundImage: FileImage(
-                                                  File(companyProfileUrl)),
-                                            ),
+                                      : CircleAvatar(
+                                          radius: 80,
+                                          backgroundImage: FileImage(File(companyProfileUrl)),
+                                        ),
                             ),
                           ),
                         ),
@@ -242,8 +206,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "User Name",
                                   style: TextStyle(fontSize: 14),
@@ -253,32 +216,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 height: 40,
                                 child: TextField(
                                   controller: updateProfileController.name,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  keyboardType: TextInputType.none,
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Employee Email",
                                   style: TextStyle(fontSize: 14),
@@ -288,32 +243,23 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 height: 40,
                                 child: TextField(
                                   controller: updateProfileController.email,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Company Name",
                                   style: TextStyle(fontSize: 14),
@@ -322,34 +268,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.companyName,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  controller: updateProfileController.companyName,
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Company Contact person",
                                   style: TextStyle(fontSize: 14),
@@ -358,34 +294,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.contactPerson,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  controller: updateProfileController.contactPerson,
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "phone",
                                   style: TextStyle(fontSize: 14),
@@ -396,36 +322,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 child: TextField(
                                   controller: updateProfileController.phone,
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(10)
-                                  ],
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Address",
                                   style: TextStyle(fontSize: 14),
@@ -435,32 +349,23 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 height: 40,
                                 child: TextField(
                                   controller: updateProfileController.address,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "City",
                                   style: TextStyle(fontSize: 14),
@@ -470,32 +375,23 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 height: 40,
                                 child: TextField(
                                   controller: updateProfileController.city,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "State",
                                   style: TextStyle(fontSize: 14),
@@ -505,32 +401,23 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 height: 40,
                                 child: TextField(
                                   controller: updateProfileController.state,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Zip Code",
                                   style: TextStyle(fontSize: 14),
@@ -541,36 +428,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 child: TextField(
                                   controller: updateProfileController.zipCode,
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(6)
-                                  ],
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)],
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "CreditCard Name",
                                   style: TextStyle(fontSize: 14),
@@ -579,34 +454,24 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.creditCardName,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  controller: updateProfileController.creditCardName,
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "CreditCard No",
                                   style: TextStyle(fontSize: 14),
@@ -615,39 +480,26 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.creditCardNo,
+                                  controller: updateProfileController.creditCardNo,
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(16)
-                                  ],
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "CreditCard Exp date",
                                   style: TextStyle(fontSize: 14),
@@ -656,42 +508,26 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.creditCardExp,
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  controller: updateProfileController.creditCardExp,
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
                                   onTap: () async {
-                                    DateTime? pickedDate = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2101));
+                                    DateTime? pickedDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2101));
                                     if (pickedDate != null) {
-                                      String formattedDate = DateFormat('MM/yy')
-                                          .format(pickedDate);
+                                      String formattedDate = DateFormat('MM/yy').format(pickedDate);
                                       setState(() {
-                                        updateProfileController
-                                                .creditCardExp.text =
-                                            formattedDate; //set output date to TextField value.
+                                        updateProfileController.creditCardExp.text = formattedDate; //set output date to TextField value.
                                       });
                                     } else {
                                       debugPrint("Date is not selected");
@@ -700,8 +536,7 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 ),
                               ),
                               const Padding(
-                                padding: EdgeInsets.only(
-                                    top: 16.0, bottom: 6.0, right: 8),
+                                padding: EdgeInsets.only(top: 16.0, bottom: 6.0, right: 8),
                                 child: Text(
                                   "Security Code",
                                   style: TextStyle(fontSize: 14),
@@ -710,31 +545,19 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                               SizedBox(
                                 height: 40,
                                 child: TextField(
-                                  controller:
-                                      updateProfileController.securityCode,
+                                  controller: updateProfileController.securityCode,
                                   keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    LengthLimitingTextInputFormatter(4)
-                                  ],
-                                  style: const TextStyle(
-                                      height: 1.7,
-                                      fontSize: 18,
-                                      color: Colors.black),
+                                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(4)],
+                                  style: const TextStyle(height: 1.7, fontSize: 18, color: Colors.black),
                                   maxLines: 1,
                                   decoration: InputDecoration(
                                     fillColor: colorScreenBg,
                                     filled: true,
                                     isDense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                        left: 12, top: 6, bottom: 6),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.grey, width: 1.0),
-                                        borderRadius: BorderRadius.circular(7)),
+                                    contentPadding: const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                                    enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.grey, width: 1.0), borderRadius: BorderRadius.circular(7)),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: colorGray, width: 1.0),
+                                      borderSide: BorderSide(color: colorGray, width: 1.0),
                                       borderRadius: BorderRadius.circular(7),
                                     ),
                                   ),
@@ -744,187 +567,129 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                 padding: const EdgeInsets.only(top: 18.0),
                                 child: GestureDetector(
                                   onTap: () async {
-                                    if (updateProfileController
-                                        .name.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    if (updateProfileController.name.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content:
-                                              Text("Oops, userName required!"),
+                                          content: Text("Oops, userName required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .email.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.email.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content:
-                                              Text("Oops, Email required!"),
+                                          content: Text("Oops, Email required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (!_isValidEmail(
-                                        updateProfileController.email.text)) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (!_isValidEmail(updateProfileController.email.text)) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, Invalid Email format!"),
+                                          content: Text("Oops, Invalid Email format!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .companyName.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.companyName.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, companyName required!"),
+                                          content: Text("Oops, companyName required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .contactPerson.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.contactPerson.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, contactPerson required!"),
+                                          content: Text("Oops, contactPerson required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .phone.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.phone.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, Phone Number required!"),
+                                          content: Text("Oops, Phone Number required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                            .phone.text.length !=
-                                        10) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.phone.text.length != 10) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, Phone Number should be 10 digits long!"),
+                                          content: Text("Oops, Phone Number should be 10 digits long!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .address.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.address.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content:
-                                              Text("Oops, Address required!"),
+                                          content: Text("Oops, Address required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .city.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.city.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content:
-                                              Text("Oops, City Name required!"),
+                                          content: Text("Oops, City Name required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .state.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.state.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, State Name required!"),
+                                          content: Text("Oops, State Name required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .zipCode.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.zipCode.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content:
-                                              Text("Oops, Zip Code required!"),
+                                          content: Text("Oops, Zip Code required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                            .zipCode.text.length !=
-                                        6) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.zipCode.text.length != 6) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, Zip Code should be 6 digits long!"),
+                                          content: Text("Oops, Zip Code should be 6 digits long!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .creditCardName.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.creditCardName.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, CreditCard Name required!"),
+                                          content: Text("Oops, CreditCard Name required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .creditCardNo.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.creditCardNo.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, CreditCard Number required!"),
+                                          content: Text("Oops, CreditCard Number required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                            .creditCardNo.text.length !=
-                                        16) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.creditCardNo.text.length != 16) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops,creditCard Number should be 16 digits long!"),
+                                          content: Text("Oops,creditCard Number should be 16 digits long!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .creditCardExp.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.creditCardExp.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, CreditCard Exp Date required!"),
+                                          content: Text("Oops, CreditCard Exp Date required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                        .securityCode.text.isEmpty) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.securityCode.text.isEmpty) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops, SecurityCode required!"),
+                                          content: Text("Oops, SecurityCode required!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
-                                    } else if (updateProfileController
-                                            .securityCode.text.length !=
-                                        4) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                    } else if (updateProfileController.securityCode.text.length != 4) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              "Oops,SecurityCode should be 4 digits long!"),
+                                          content: Text("Oops,SecurityCode should be 4 digits long!"),
                                           duration: Duration(seconds: 2),
                                         ),
                                       );
@@ -932,25 +697,14 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                       if (companyProfileUrl == '') {
                                         print('prifile pik null');
 
-                                        await updateProfileController
-                                            .editProfileDetailsWithoutImage(
-                                                context)
-                                            .then((value) {
+                                        await updateProfileController.editProfileDetailsWithoutImage(context).then((value) {
                                           ApiConstant.profileImage = '';
-                                          ApiConstant.profileImage =
-                                              companyProfileModel
-                                                  .data.companyLogo;
+                                          ApiConstant.profileImage = companyProfileModel.data.companyLogo;
                                         });
                                       } else {
-                                        await updateProfileController
-                                            .updateProfileDetails(context,
-                                                companyProfilePic:
-                                                    File(companyProfileUrl))
-                                            .then((value) {
+                                        await updateProfileController.updateProfileDetails(context, companyProfilePic: File(companyProfileUrl)).then((value) {
                                           ApiConstant.profileImage = '';
-                                          ApiConstant.profileImage =
-                                              companyProfileModel
-                                                  .data.companyLogo;
+                                          ApiConstant.profileImage = companyProfileModel.data.companyLogo;
                                         });
                                       }
                                     }
@@ -958,14 +712,11 @@ class _CompanyEditProfileState extends State<CompanyEditProfile> {
                                   child: Container(
                                     width: double.infinity,
                                     height: 40,
-                                    decoration: BoxDecoration(
-                                        color: appThemeGreen,
-                                        borderRadius: BorderRadius.circular(8)),
+                                    decoration: BoxDecoration(color: appThemeGreen, borderRadius: BorderRadius.circular(8)),
                                     child: const Center(
                                       child: Text(
                                         'Update',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
+                                        style: TextStyle(color: Colors.white, fontSize: 18),
                                       ),
                                     ),
                                   ),

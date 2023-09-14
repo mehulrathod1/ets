@@ -1,6 +1,8 @@
 import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/CompanyController/manage_company_contact_invoice_controller.dart';
@@ -66,6 +68,48 @@ class _CompanyManageContactInvoiceState
       });
     });
   }
+
+
+  Future<void> downloadFile(String fileName,String id) async {
+    await downloadInvoiceController
+        .downloadContactInvoice(context, id)
+        .then((value) {
+      setState(() async {
+        if (value != null) {
+          /*downloadInvoiceModel = value;
+          print(downloadInvoiceModel!.data.downloadUrl);
+          await EticonDownloader.downloadFile(
+              url: downloadInvoiceModel!.data.downloadUrl);*/
+
+          final directory = await getApplicationDocumentsDirectory();
+          final savedDir = directory.path;
+          final taskId = await FlutterDownloader.enqueue(
+            url: downloadInvoiceModel!.data.downloadUrl,
+            savedDir: savedDir,
+            fileName: fileName,
+            showNotification: true,
+            openFileFromNotification: true,
+          );
+
+          FlutterDownloader.registerCallback((id, status, progress) {
+            if (status == DownloadTaskStatus.complete) {
+              print('Downloaded file saved to: $savedDir/$fileName');
+            }
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(downloadInvoiceModel!.message),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+
+  }
+
+
 
   Future viewInvoice(BuildContext context, String id) async {
     await downloadInvoiceController
@@ -382,11 +426,11 @@ class _CompanyManageContactInvoiceState
                                                                     .circular(
                                                                         15))),
                                                     height: double.infinity,
-                                                    child: Row(
+                                                    child: const Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
-                                                      children: const [
+                                                      children: [
                                                         Icon(
                                                           Icons.edit,
                                                           color: Colors.white,
@@ -421,21 +465,25 @@ class _CompanyManageContactInvoiceState
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     // downloadInvoice(context, detail.id);
-                                                    downloadInvoice(
+                                                   /* downloadInvoice(
                                                         context,
                                                         detail
-                                                            .contactInvoiceId);
+                                                            .contactInvoiceId);*/
+                                                  //  String fileUrl = 'https://example.com/path/to/your/file.pdf'; // Replace with the actual file URL
+                                                    String fileName = 'downloaded_file.pdf'; // Specify the desired file name
+
+                                                    downloadFile(fileName,detail.contactInvoiceId);
                                                   },
                                                   child: Container(
                                                     decoration: BoxDecoration(
                                                       color: appThemeGreen,
                                                     ),
                                                     height: double.infinity,
-                                                    child: Row(
+                                                    child: const Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
-                                                      children: const [
+                                                      children: [
                                                         Icon(
                                                           Icons.download,
                                                           color: Colors.white,
@@ -508,11 +556,11 @@ class _CompanyManageContactInvoiceState
                                                                     .circular(
                                                                         15))),
                                                     height: double.infinity,
-                                                    child: Row(
+                                                    child: const Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
-                                                      children: const [
+                                                      children: [
                                                         Icon(
                                                           Icons.delete_outline,
                                                           color: Colors.white,

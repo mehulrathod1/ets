@@ -1,3 +1,4 @@
+import 'package:csv/csv.dart';
 import 'package:dropdown_below/dropdown_below.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
@@ -10,6 +11,7 @@ import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import '../../Controller/CompanyController/company_add_employee_controller.dart';
 import '../../Controller/CompanyController/company_hold_access_controller.dart';
 import '../../Network/api_constant.dart';
@@ -33,29 +35,25 @@ class EmployeeManagement extends StatefulWidget {
 class _EmployeeManagementState extends State<EmployeeManagement> {
   bool loading = false;
   List<ListElement> employeeList = [];
-  List<String> excel = [];
 
-  late GetCompanyEmployeeModel getCompanyEmployeeModel;
-  GetCompanyEmployeeController getCompanyEmployeeController =
-      GetCompanyEmployeeController();
-  CompanyLocationRequestController locationRequestController =
-      CompanyLocationRequestController();
-  CompanyCallRequestController callRequestController =
-      CompanyCallRequestController();
-  CompanyDeleteCompanyController deleteCompanyController =
-      CompanyDeleteCompanyController();
-  CompanyHoldAccessController holdAccessController =
-      CompanyHoldAccessController();
+
+
+  List<String> excel = [];
+  String selectedDepartment = "Select Department";
+  String result = '';
+  var detail;
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
-
-  CompanyAddEmployeeController addEmployeeController =
-      CompanyAddEmployeeController();
-  String selectedDepartment = "Select Department";
+  TextEditingController searchText = TextEditingController();
   List<DropdownMenuItem<Object?>> departmentListItems = [];
 
-  TextEditingController searchText = TextEditingController();
-  String result = '';
+  late GetCompanyEmployeeModel getCompanyEmployeeModel;
+  GetCompanyEmployeeController getCompanyEmployeeController = GetCompanyEmployeeController();
+  CompanyLocationRequestController locationRequestController = CompanyLocationRequestController();
+  CompanyCallRequestController callRequestController = CompanyCallRequestController();
+  CompanyDeleteCompanyController deleteCompanyController = CompanyDeleteCompanyController();
+  CompanyHoldAccessController holdAccessController = CompanyHoldAccessController();
+  CompanyAddEmployeeController addEmployeeController = CompanyAddEmployeeController();
 
   onChangeDropdownBoxSize(selectedTest) {
     setState(() {
@@ -340,7 +338,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
               ),
               actions: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(right: 16.0),
+                  padding: const EdgeInsets.only(right: 16.0),
                   child: ApiConstant.profileImage.isEmpty
                       ? const CircleAvatar(
                           radius: 18,
@@ -715,7 +713,48 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            List<List<dynamic>> csvData = [
+                              [
+                                'Employee ID',
+                                'Email',
+                                'Employee Name',
+                                'Department',
+                                'Total Hours',
+                                'View Attendance',
+                                'Edit Employee',
+                                'Delete Employee',
+                                'View Live Location Employee',
+                                'Send Live Location Request',
+                                'Call for Attendance',
+                                'Other Options',
+                              ],
+                              for (var employee in employeeList)
+                                [
+                                  employee.employeeId,
+                                  employee.email,
+                                  employee.employeeName,
+                                  employee.department,
+                                  employee.totalHrs,
+                                  employee.viewAttendance.toJson(),
+                                  employee.editEmployee.toJson(),
+                                  employee.deleteEmployee.toJson(),
+                                  employee.viewLiveLocationEmployee.toJson(),
+                                  employee.sendLiveLocationRequest.toJson(),
+                                  employee.callForAttendance.toJson(),
+                                  employee.otherOptions.toJson(),
+                                ],
+                            ];
+
+                            String csvString = const ListToCsvConverter().convert(csvData);
+                            final String dir = (await getApplicationDocumentsDirectory()).path;
+                            final String path = '$dir/employee_data.csv';
+
+                            File file = File(path);
+                            await file.writeAsString(csvString);
+                            OpenFile.open(path);
+                            print("**********************************${csvString}");
+                          },
                           child: const Text(
                             'Export To CSV',
                             style: TextStyle(color: Colors.white),
@@ -736,7 +775,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () async {},
+                          onTap: () async {
+
+                          },
                           child: const Text(
                             'Export To Excel',
                             style: TextStyle(
@@ -759,7 +800,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                         borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         child: const Text(
                           'Export To PDF',
                           style: TextStyle(
