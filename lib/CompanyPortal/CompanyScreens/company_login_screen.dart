@@ -31,14 +31,8 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
         centerTitle: true,
         backgroundColor: colorScreenBg,
         leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
+          return const BackButton(
+            color: Colors.black,
           );
         }),
       ),
@@ -78,12 +72,12 @@ class _CompanyLoginScreenState extends State<CompanyLoginScreen> {
                     style: const TextStyle(height: 1.7, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
-                      hintText: 'Enter UserName',
+                      hintText: 'Enter User Name',
                       fillColor: colorTextField,
                       filled: true,
                       isDense: true,
                       contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                      const EdgeInsets.only(left: 12, top: 9, bottom: 10),
                       enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Colors.grey, width: 1.0),

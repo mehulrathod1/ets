@@ -37,7 +37,8 @@ class CompanyLoginController {
           duration: const Duration(seconds: 2),
         ),
       );
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard()));
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard()));
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

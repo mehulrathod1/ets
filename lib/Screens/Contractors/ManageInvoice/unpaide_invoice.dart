@@ -23,12 +23,10 @@ class EmployeeUnpaidInvoice extends StatefulWidget {
 class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
   late EmployeeInvoiceModel invoiceModel;
   List<ListElement> invoiceList = [];
-  EmployeeInvoiceController employeeInvoiceController =
-      EmployeeInvoiceController();
+  EmployeeInvoiceController employeeInvoiceController = EmployeeInvoiceController();
   bool loading = false;
 
-  CompanyDownloadInvoiceController downloadInvoiceController =
-      CompanyDownloadInvoiceController();
+  CompanyDownloadInvoiceController downloadInvoiceController = CompanyDownloadInvoiceController();
   CompanyDownloadInvoiceModel? downloadInvoiceModel;
 
   String _platformVersion = 'Unknown';
@@ -85,8 +83,7 @@ class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
   Future downloadInvoice(BuildContext context, String id) async {
     await downloadInvoiceController
         .employeeDownloadInvoice(context, id)
-        .then((value) {
-      setState(() async {
+        .then((value)async {
         if (value != null) {
           downloadInvoiceModel = value;
           print(downloadInvoiceModel!.data.downloadUrl);
@@ -100,7 +97,6 @@ class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
             ),
           );
         }
-      });
     });
   }
 
@@ -321,11 +317,11 @@ class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
                                                                   .circular(
                                                                       15))),
                                                   height: double.infinity,
-                                                  child: Row(
+                                                  child: const Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: const [
+                                                    children: [
                                                       Icon(
                                                         Icons.edit,
                                                         color: Colors.white,
@@ -386,11 +382,11 @@ class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
                                                     color: appThemeGreen,
                                                   ),
                                                   height: double.infinity,
-                                                  child: Row(
+                                                  child: const Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: const [
+                                                    children: [
                                                       Icon(
                                                         Icons.download,
                                                         color: Colors.white,
@@ -479,11 +475,11 @@ class _EmployeeUnpaidInvoiceState extends State<EmployeeUnpaidInvoice> {
                                                                       .circular(
                                                                           15))),
                                                   height: double.infinity,
-                                                  child: Row(
+                                                  child: const Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: const [
+                                                    children: [
                                                       Icon(
                                                         Icons.delete_outline,
                                                         color: Colors.white,

@@ -33,10 +33,7 @@ class _SplashState extends State<Splash> {
     if (usertype == 'company') {
       Timer(
           const Duration(seconds: 3),
-          () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CompanyDashboard())));
+          () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const CompanyDashboard())));
     } else if (usertype == 'employee') {
       Timer(
           const Duration(seconds: 3),
@@ -52,7 +49,6 @@ class _SplashState extends State<Splash> {
           () => Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const SalesDashboard())));
     } else {
-      print("Not any three+++++++++++++++++++++++++++++++++");
       Timer(
           const Duration(seconds: 3),
           () => Navigator.pushReplacement(

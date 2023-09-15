@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/company_dashboard.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../../Network/post_api_client.dart';
 
 class CompanyUpdateProfileController {
+
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController companyName = TextEditingController();

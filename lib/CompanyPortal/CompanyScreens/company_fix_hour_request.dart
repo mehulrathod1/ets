@@ -76,9 +76,9 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Center(
+                      const Center(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text(
@@ -92,7 +92,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                         onTap: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           color: Colors.black,
                         ),
@@ -102,20 +102,17 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
-                          child: Text(
-                            "Attendance In Date : ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
+                        const Text(
+                          "Attendance In Date : ",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        Expanded(
-                          child: Text(
-                            attendanceIn,
-                            style:
-                                TextStyle(fontSize: 14, color: colorTextGray),
-                          ),
+                        Text(
+                          attendanceIn,
+                          style:
+                              TextStyle(fontSize: 14, color: colorTextGray),
                         ),
                       ],
                     ),
@@ -123,20 +120,17 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Expanded(
-                          child: Text(
-                            "Attendance Out Date : ",
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
+                        const Text(
+                          "Attendance Out Date : ",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        Expanded(
-                          child: Text(
-                            attendanceOut,
-                            style:
-                                TextStyle(fontSize: 14, color: colorTextGray),
-                          ),
+                        Text(
+                          attendanceOut,
+                          style:
+                              TextStyle(fontSize: 14, color: colorTextGray),
                         ),
                       ],
                     ),
@@ -144,6 +138,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           "In Time : ",
@@ -160,6 +155,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           "Out Time : ",
@@ -173,24 +169,25 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      "Message : ",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, bottom: 8.0),
-                    child: Expanded(
-                      child: Text(
-                        message,
-                        style: TextStyle(fontSize: 14, color: colorTextGray),
-                      ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                    "Message : ",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          message,
+                          style: TextStyle(fontSize: 14, color: colorTextGray),
+                        ),
+                      ],
                     ),
                   ),
+
+
                 ],
               ),
             ),
@@ -347,10 +344,10 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                                 Radius.circular(
                                                                     15))),
                                                 height: double.infinity,
-                                                child: Row(
+                                                child: const Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
-                                                  children: const [
+                                                  children: [
                                                     Icon(
                                                       Icons
                                                           .remove_red_eye_sharp,
@@ -447,11 +444,11 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                                           15))),
                                                           height:
                                                               double.infinity,
-                                                          child: Row(
+                                                          child: const Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .center,
-                                                            children: const [
+                                                            children: [
                                                               Icon(
                                                                 Icons.close,
                                                                 color: Colors
@@ -464,7 +461,7 @@ class _CompanyFixHourRequestState extends State<CompanyFixHourRequest> {
                                                                         left:
                                                                             8.0),
                                                                 child: Text(
-                                                                  "Rejectrd",
+                                                                  "Rejected",
                                                                   style: TextStyle(
                                                                       fontSize:
                                                                           14,

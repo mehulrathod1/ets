@@ -33,7 +33,7 @@ class _CompanyChangePasswordState extends State<CompanyChangePassword> {
         systemOverlayStyle:
             const SystemUiOverlayStyle(statusBarColor: Colors.blue),
         title: const Center(
-          child: Text("reset Password",
+          child: Text("Reset Password",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black)),
         ),

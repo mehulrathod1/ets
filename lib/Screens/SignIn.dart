@@ -32,14 +32,8 @@ class _SignIn extends State<SignIn> {
         centerTitle: true,
         backgroundColor: colorScreenBg,
         leading: Builder(builder: (context) {
-          return GestureDetector(
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
+          return const BackButton(
+            color: Colors.black,
           );
         }),
       ),

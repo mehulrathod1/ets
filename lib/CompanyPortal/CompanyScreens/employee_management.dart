@@ -117,6 +117,8 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
         if (value != null) {
           getCompanyEmployeeModel = value;
           employeeList = getCompanyEmployeeModel.data.list;
+          print("----------------------------------------------${getCompanyEmployeeModel.data.list[0].email}");
+          setState(() {});
           loading = false;
         } else {
           employeeList.clear();
@@ -753,7 +755,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             File file = File(path);
                             await file.writeAsString(csvString);
                             OpenFile.open(path);
-                            print("**********************************${csvString}");
+                            print("**********************************${path}");
                           },
                           child: const Text(
                             'Export To CSV',

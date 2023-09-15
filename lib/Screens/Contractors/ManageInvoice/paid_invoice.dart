@@ -85,8 +85,7 @@ class _EmployeePaidInvoiceState extends State<EmployeePaidInvoice> {
   Future downloadInvoice(BuildContext context, String id) async {
     await downloadInvoiceController
         .employeeDownloadInvoice(context, id)
-        .then((value) {
-      setState(() async {
+        .then((value) async{
         if (value != null) {
           downloadInvoiceModel = value;
           print(downloadInvoiceModel!.data.downloadUrl);
@@ -100,7 +99,6 @@ class _EmployeePaidInvoiceState extends State<EmployeePaidInvoice> {
             ),
           );
         }
-      });
     });
   }
 
@@ -386,11 +384,11 @@ class _EmployeePaidInvoiceState extends State<EmployeePaidInvoice> {
                                                     color: appThemeGreen,
                                                   ),
                                                   height: double.infinity,
-                                                  child: Row(
+                                                  child: const Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
-                                                    children: const [
+                                                    children: [
                                                       Icon(
                                                         Icons.download,
                                                         color: Colors.white,

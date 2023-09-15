@@ -96,12 +96,12 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
         } else {
           messageList.clear();
           loading = false;
-          ScaffoldMessenger.of(context).showSnackBar(
+          /*ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('No Message found'),
               duration: Duration(seconds: 2),
             ),
-          );
+          );*/
         }
         WidgetsBinding.instance?.addPostFrameCallback((_) {
           _scrollToBottom();
@@ -120,12 +120,12 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
           messageList = messageModel.data;
         } else {
           messageList.clear();
-          ScaffoldMessenger.of(context).showSnackBar(
+          /*ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('No Message found'),
               duration: Duration(seconds: 2),
             ),
-          );
+          );*/
         }
       });
     });
@@ -141,12 +141,12 @@ class _CompanyMessageDashboardState extends State<CompanyMessageDashboard> {
           messageList = messageModel.data;
         } else {
           messageList.clear();
-          ScaffoldMessenger.of(context).showSnackBar(
+          /*ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('No Message found'),
               duration: Duration(seconds: 2),
             ),
-          );
+          );*/
         }
       });
       WidgetsBinding.instance?.addPostFrameCallback((_) {

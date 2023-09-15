@@ -37,8 +37,10 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
             const SizedBox(height: 40),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SignIn()));
+                //Navigator.pushReplacementNamed(context, '/loginEmployee');
+                Navigator.pushNamed(context, '/loginEmployee');
+                /*Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignIn()));*/
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -60,10 +62,12 @@ class _UserSelectionScreen extends State<UserSelectionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  //Navigator.pushReplacementNamed(context, '/loginCompany');
+                  Navigator.pushNamed(context, '/loginCompany');
+                  /*Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CompanyLoginScreen()));
+                          builder: (context) => const CompanyLoginScreen()));*/
                 },
                 child: Container(
                   width: double.infinity,
