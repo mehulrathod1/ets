@@ -100,6 +100,9 @@ class ApiConstant {
   static const companyEditInvoice = 'company/edit-invoice/';
   static const companySendMessage = 'company/send-message/';
   static const companyDownloadInvoice = 'company/download-invoice/';
+  static const DownloadCSV = 'company/employee_list_download_csv?company_id=';
+  static const DownloadExcel = 'company/employee_list_download_excel?company_id=';
+  static const DownloadPDF = 'company/employee_list_pdf?company_id=';
   static const companyDownloadEstimate = 'company/download-estimate/';
   static const companyDownloadContactInvoice =
       'company/download_invoice_contact.php?invoice_id=';

@@ -11,7 +11,7 @@ void main() async {
   // await FlutterDownloader.initialize(
   //     debug: true // Set it to false in release mode
   //     );
-  await FlutterDownloader.initialize(debug: true);
+  await FlutterDownloader.initialize(debug: true,ignoreSsl: true);
   runApp(const MyApp());
 }
 

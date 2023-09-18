@@ -58,6 +58,7 @@ dependencies:
   csv: ^5.0.2
   open_file: ^3.3.2
   flutter_downloader: ^1.11.2
+  flutter_file_downloader: ^1.1.2
 
   excel: ^2.0.4
   path: ^1.8.0

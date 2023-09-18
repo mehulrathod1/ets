@@ -358,8 +358,7 @@ class _CompanyAllInvoiceState extends State<CompanyAllInvoice> {
                                                 Expanded(
                                                   child: GestureDetector(
                                                     onTap: () async {
-                                                      downloadInvoice(
-                                                          context, data.id);
+                                                      downloadInvoice(context, data.id);
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(

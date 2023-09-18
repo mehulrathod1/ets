@@ -1,15 +1,20 @@
 import 'package:csv/csv.dart';
 import 'package:dropdown_below/dropdown_below.dart';
+import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_delete_employee_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_send_location_controller.dart';
+import 'package:etsemployee/Controller/CompanyController/compnay_login_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_employee_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
+import 'package:etsemployee/Models/CompanyModels/converted_file.dart';
 import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import '../../Controller/CompanyController/company_add_employee_controller.dart';
@@ -42,6 +47,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   String selectedDepartment = "Select Department";
   String result = '';
   var detail;
+  List data=[];
   TextEditingController startDate = TextEditingController();
   TextEditingController endDate = TextEditingController();
   TextEditingController searchText = TextEditingController();
@@ -63,25 +69,6 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
       print(selectedTest['id']);
     });
   }
-
-  // Future<void> readExcelFile() async {
-  //   try {
-  //     Directory appDocumentsDirectory =
-  //         await getApplicationDocumentsDirectory();
-  //     String filePath = join(appDocumentsDirectory.path, 'sample.xlsx');
-  //     var excel = Excel.decodeBytes(File(filePath).readAsBytesSync());
-  //     for (var table in excel.tables.keys) {
-  //       print(table); // sheet Name
-  //       print(excel.tables[table]?.maxCols);
-  //       print(excel.tables[table]?.maxRows);
-  //       for (var row in excel.tables[table]!.rows) {
-  //         print('$row');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print('Error reading Excel file: $e');
-  //   }
-  // }
 
   List<DropdownMenuItem<Object?>> buildTaskSizeListItems(xyz) {
     List<DropdownMenuItem<Object?>> items = [];
@@ -299,6 +286,86 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
   void refreshData() {
     setState(() {
       initialize(context, '', '', '', '');
+    });
+  }
+
+
+
+  CSVDowunloadModel? csvDowunloadModel;
+
+  Future downloadCSV(BuildContext context, String id) async {
+    await getCompanyEmployeeController.downloadCSVFile(context, id).then((value) async{
+      if (value != null) {
+        csvDowunloadModel = value;
+        print(csvDowunloadModel!.data!.downloadUrl);
+        try {
+          final File? file = await FileDownloader.downloadFile(
+              url: csvDowunloadModel!.data!.downloadUrl!,
+              name: "employee_list.csv"
+          );
+          print('FILE: ${file?.path}');
+        } catch (error) {
+          print('Error downloading file: $error');
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(csvDowunloadModel!.message!),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
+    });
+  }
+  Future downloadExcel(BuildContext context, String id) async {
+    await getCompanyEmployeeController.downloadExcelFile(context,id).then((value) async{
+      if (value != null) {
+        csvDowunloadModel = value;
+        print(csvDowunloadModel!.data!.downloadUrl);
+        try {
+          final File? file = await FileDownloader.downloadFile(
+              url: csvDowunloadModel!.data!.downloadUrl!,
+              name: "employee_list.excel"
+          );
+          print('FILE: ${file?.path}');
+        } catch (error) {
+          print('Error downloading file: $error');
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(csvDowunloadModel!.message!),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
+    });
+  }
+  Future downloadPDF(BuildContext context, String id) async {
+    await getCompanyEmployeeController.downloadPDFFile(context, id).then((value) async{
+      if (value != null) {
+        csvDowunloadModel = value;
+        print(csvDowunloadModel!.data!.downloadUrl!);
+        try {
+          final File? file = await FileDownloader.downloadFile(
+              url: csvDowunloadModel!.data!.downloadUrl!,
+              name: "employee_list.pdf"
+          );
+          print('FILE: ${file?.path}');
+        } catch (error) {
+          print('Error downloading file: $error');
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(csvDowunloadModel!.message!),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+
     });
   }
 
@@ -715,47 +782,9 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () async {
-                            List<List<dynamic>> csvData = [
-                              [
-                                'Employee ID',
-                                'Email',
-                                'Employee Name',
-                                'Department',
-                                'Total Hours',
-                                'View Attendance',
-                                'Edit Employee',
-                                'Delete Employee',
-                                'View Live Location Employee',
-                                'Send Live Location Request',
-                                'Call for Attendance',
-                                'Other Options',
-                              ],
-                              for (var employee in employeeList)
-                                [
-                                  employee.employeeId,
-                                  employee.email,
-                                  employee.employeeName,
-                                  employee.department,
-                                  employee.totalHrs,
-                                  employee.viewAttendance.toJson(),
-                                  employee.editEmployee.toJson(),
-                                  employee.deleteEmployee.toJson(),
-                                  employee.viewLiveLocationEmployee.toJson(),
-                                  employee.sendLiveLocationRequest.toJson(),
-                                  employee.callForAttendance.toJson(),
-                                  employee.otherOptions.toJson(),
-                                ],
-                            ];
+                          onTap: ()  {
+                            downloadCSV(context,CompanyID);
 
-                            String csvString = const ListToCsvConverter().convert(csvData);
-                            final String dir = (await getApplicationDocumentsDirectory()).path;
-                            final String path = '$dir/employee_data.csv';
-
-                            File file = File(path);
-                            await file.writeAsString(csvString);
-                            OpenFile.open(path);
-                            print("**********************************${path}");
                           },
                           child: const Text(
                             'Export To CSV',
@@ -779,6 +808,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                         child: GestureDetector(
                           onTap: () async {
 
+                            downloadExcel(context,CompanyID);
                           },
                           child: const Text(
                             'Export To Excel',
@@ -803,7 +833,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () {
-
+                          downloadPDF(context,CompanyID);
                         },
                         child: const Text(
                           'Export To PDF',
@@ -830,6 +860,7 @@ class _EmployeeManagementState extends State<EmployeeManagement> {
                             itemCount: employeeList.length,
                             itemBuilder: (context, index) {
                               var detail = employeeList[index];
+                             // data.add(employeeList[index].employeeId);
                               return Padding(
                                 padding:
                                     const EdgeInsets.only(top: 8.0, bottom: 8),

@@ -6,7 +6,7 @@ import 'package:etsemployee/Network/api_constant.dart';
 import 'package:etsemployee/Network/post_api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+String CompanyID="";
 class CompanyLoginController {
   CompanyLoginModel? companyLoginModel;
   TextEditingController userName = TextEditingController();
@@ -30,6 +30,7 @@ class CompanyLoginController {
       prefs.setString('userIdentity', 'company');
       ApiConstant.userToken = res.data.token;
       companyLoginModel = res;
+      CompanyID = companyLoginModel!.data!.id;
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
