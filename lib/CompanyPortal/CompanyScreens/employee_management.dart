@@ -1,6 +1,4 @@
-import 'package:csv/csv.dart';
 import 'package:dropdown_below/dropdown_below.dart';
-import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/CompanyPortal/CompanyScreens/view_attendance.dart';
 import 'package:etsemployee/Controller/CompanyController/company_call_request_controller.dart';
 import 'package:etsemployee/Controller/CompanyController/company_delete_employee_controller.dart';
@@ -9,7 +7,6 @@ import 'package:etsemployee/Controller/CompanyController/compnay_login_controlle
 import 'package:etsemployee/Controller/CompanyController/get_company_employee_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/GetCompanyEmployeeModel.dart';
 import 'package:etsemployee/Models/CompanyModels/converted_file.dart';
-import 'package:etsemployee/Screens/live_location.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -65,7 +65,8 @@ class _EditEmployeeState extends State<EditEmployee> {
   }
 
   bool _isValidEmail(String email) {
-    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    //final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     return gmailRegExp.hasMatch(email);
   }
 

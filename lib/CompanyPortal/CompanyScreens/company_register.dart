@@ -58,13 +58,13 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
   String? _selectedAgencyId;
   String? _selectedAgentId;
 
-  TextEditingController employeeName = TextEditingController();
-  TextEditingController employeeEmail = TextEditingController();
+  //TextEditingController employeeName = TextEditingController();
+  //TextEditingController employeeEmail = TextEditingController();
 
   void addEmployee() {
     setState(() {
-      employeeListName.add(EmployeeName(employeeName.text));
-      employeeListEmail.add(EmployeeEmail(employeeEmail.text));
+      employeeListName.add(EmployeeName(companyRegistrationController.employeeName1.text));
+      employeeListEmail.add(EmployeeEmail(companyRegistrationController.employeeEmail1.text));
       employeeList.add(EmployeeList(employeeListEmail, employeeListName));
     });
   }
@@ -271,7 +271,7 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                   style: const TextStyle(height: 1.7, color: Colors.black),
                   maxLines: 1,
                   decoration: InputDecoration(
-                    hintText: 'Enter CompanyName',
+                    hintText: 'Enter Company Name',
                     fillColor: colorTextField,
                     filled: true,
                     isDense: true,
@@ -433,7 +433,7 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                   style: const TextStyle(height: 1.7, color: Colors.black),
                   maxLines: 1,
                   decoration: InputDecoration(
-                    hintText: 'Enter Credit Card No',
+                    hintText: 'Enter Credit Card Number',
                     fillColor: colorTextField,
                     filled: true,
                     isDense: true,
@@ -594,7 +594,7 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                   style: const TextStyle(height: 1.7, color: Colors.black),
                   maxLines: 1,
                   decoration: InputDecoration(
-                    hintText: 'Enter Phone',
+                    hintText: 'Enter Phone Number',
                     fillColor: colorTextField,
                     filled: true,
                     isDense: true,
@@ -679,13 +679,13 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: employeeName,
+                              controller: companyRegistrationController.employeeName1,
                               style: const TextStyle(
                                   height: 1.7, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 fillColor: colorTextField,
-                                // hintText: 'Enter Employee Name',
+                                 hintText: 'Enter Employee Name',
                                 filled: true,
                                 isDense: true,
                                 contentPadding: const EdgeInsets.only(
@@ -705,13 +705,12 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextField(
-                              controller: employeeEmail,
-                              style: const TextStyle(
-                                  height: 1.7, color: Colors.black),
+                              controller: companyRegistrationController.employeeEmail1,
+                              style: const TextStyle(height: 1.7, color: Colors.black),
                               maxLines: 1,
                               decoration: InputDecoration(
                                 fillColor: colorTextField,
-                                // hintText: 'Enter Employee Email',
+                                 hintText: 'Enter Employee Email',
                                 filled: true,
                                 isDense: true,
                                 contentPadding: const EdgeInsets.only(
@@ -907,6 +906,22 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
                         const SnackBar(
                           content: Text(
                               "Oops,  Oops, Phone Number should be 10 digits long!"),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }else if (companyRegistrationController
+                        .employeeName1.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Oops, Employee Name required!"),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    }else if (companyRegistrationController
+                        .employeeEmail1.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Oops, Employee email required!"),
                           duration: Duration(seconds: 2),
                         ),
                       );

@@ -32,7 +32,8 @@ class _AddEmployeeState extends State<AddEmployee> {
   }
 
   bool _isValidEmail(String email) {
-    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    //final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@gmail\.com$');
+    final gmailRegExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
     return gmailRegExp.hasMatch(email);
   }
 
@@ -463,8 +464,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   duration: Duration(seconds: 2),
                                 ),
                               );
-                            } else if (selectedDepartment ==
-                                "Select Department") {
+                            } /*else if (selectedDepartment == "Select Department") {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -472,7 +472,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                                   duration: Duration(seconds: 1),
                                 ),
                               );
-                            }
+                            }*/
                             // else if (addEmployeeController
                             //     .creditCardNo.text.isEmpty) {
                             //   ScaffoldMessenger.of(context).showSnackBar(

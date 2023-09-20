@@ -1,8 +1,6 @@
 import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../Controller/CompanyController/company_delete_invoice_controller.dart';
 import '../../../Controller/CompanyController/company_download_invoice_controller.dart';
 import '../../../Controller/CompanyController/company_invoive_controller.dart';

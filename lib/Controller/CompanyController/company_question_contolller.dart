@@ -32,6 +32,7 @@ class CompanyQuestionController {
           'answer': answer.text,
         });
     if (response["status"] == 'True') {
+      print("888888888888888888888888888888${response["message"]}");
       Navigator.pop(context);
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -40,6 +41,7 @@ class CompanyQuestionController {
           duration: const Duration(seconds: 2),
         ),
       );
+
     } else {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(

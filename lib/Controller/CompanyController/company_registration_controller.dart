@@ -26,6 +26,8 @@ class CompanyRegistrationController {
   TextEditingController securityCode = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController employeeName1 = TextEditingController();
+  TextEditingController employeeEmail1= TextEditingController();
   String agentId = "";
   String agencyId = "";
 
@@ -95,7 +97,6 @@ class CompanyRegistrationController {
     debugPrint("companyRegister response :- ${response.statusCode}");
     debugPrint("companyRegister response :- ${response.stream}");
     if (response.statusCode == 200) {
-    
       Navigator.pop(context);
       Navigator.pop(context,
           MaterialPageRoute(builder: (context) => const CompanyLoginScreen()));

@@ -1,6 +1,7 @@
 import 'package:eticon_downloader/eticon_downloader.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_estimate_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_estimate_model.dart';
+import 'package:etsemployee/Screens/Contractors/ManageConstruction/edit_estimate.dart';
 import 'package:etsemployee/utils/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -254,6 +255,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                             physics: const ClampingScrollPhysics(),
                             itemCount: estimateList.length,
                             itemBuilder: (context, index) {
+                              var detail = estimateList[index];
                               var data = estimateList[index];
                               return Padding(
                                 padding:
@@ -359,10 +361,10 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                             child: Container(
                                                 width: double.infinity,
                                                 height: 35,
-                                                decoration: BoxDecoration(
+                                                decoration:  BoxDecoration(
                                                     color: appThemeBlue,
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                             bottomLeft:
                                                                 Radius.circular(
                                                                     15),
@@ -371,21 +373,67 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                                     15))),
                                                 child: Row(
                                                   children: [
+                                                    /*Expanded(
+                                                      child: GestureDetector(
+                                                        onTap: () {
+                                                          //debugPrint(detail.empId);
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                      EditEstimate(
+                                                                        contactId: data.contactId,
+                                                                        estimateName: data.estimateName,
+                                                                        estimateDescription: data.estimateDescription,
+                                                                        dueDate: data.dueDate,
+                                                                        amount: data.amount,
+                                                                        markup: data.markup,
+                                                                        tax: data.tax,
+                                                                        id: data.estimateId,
+                                                                        callback:
+                                                                            () {
+                                                                          refreshData();
+                                                                        },
+                                                                      )));
+                                                        },
+                                                        child: const Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons.edit,
+                                                              color: Colors.white,
+                                                              size: 20,
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                              EdgeInsets.only(
+                                                                  left: 8.0),
+                                                              child: Text(
+                                                                "View/Edit",
+                                                                style: TextStyle(
+                                                                    fontSize: 14,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),*/
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: () async {
-                                                          await downloadEstimate(
-                                                              context, data.id);
+                                                          await downloadEstimate(context, data.id);
                                                         },
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: const [
+                                                        child: const Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
                                                             Icon(
                                                               Icons.download,
-                                                              color:
-                                                                  Colors.white,
+                                                              color: Colors.white,
                                                               size: 20,
                                                             ),
                                                             Padding(

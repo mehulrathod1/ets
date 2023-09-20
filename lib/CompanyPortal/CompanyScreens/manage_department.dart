@@ -411,8 +411,9 @@ class _ManageDepartmentState extends State<ManageDepartment> {
               child: loading
                   ? const Center(child: CircularProgressIndicator())
                   : departmentList.isNotEmpty
-                      ? Expanded(
-                          child: ListView.builder(
+                      ? Column(
+                        children: [
+                          ListView.builder(
                             shrinkWrap: true,
                             physics: const ClampingScrollPhysics(),
                             itemCount: departmentList.length,
@@ -652,7 +653,8 @@ class _ManageDepartmentState extends State<ManageDepartment> {
                               );
                             },
                           ),
-                        )
+                        ],
+                      )
                       : const Text(
                           'Oops No Department Found!',
                           style: TextStyle(color: Colors.black, fontSize: 18),

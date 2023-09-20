@@ -61,3 +61,20 @@ class Datum {
         "email": email,
       };
 }
+
+
+class Employee {
+  final String id;
+  final String employeeName;
+  final String email;
+
+  Employee({required this.id, required this.employeeName, required this.email});
+
+  factory Employee.fromJson(Map<String, dynamic> json) {
+    return Employee(
+      id: json['id'],
+      employeeName: json['employee_name'],
+      email: json['email'],
+    );
+  }
+}

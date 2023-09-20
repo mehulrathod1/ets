@@ -165,8 +165,8 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               currentPage == DrawerSelection.SubscriptionAgreement
                   ? true
                   : false),
-          menuItem(12, "How It Works", Icons.help_outline,
-              currentPage == DrawerSelection.HowItWorks ? true : false),
+          /*menuItem(12, "How It Works", Icons.help_outline,
+              currentPage == DrawerSelection.HowItWorks ? true : false),*/
           menuItem(13, "Request", Icons.north_east,
               currentPage == DrawerSelection.Request ? true : false),
           menuItem(14, "Logout", Icons.logout,
@@ -223,9 +223,9 @@ class _CompanyDashboardState extends State<CompanyDashboard> {
               currentPage = DrawerSelection.ContractorsBackOffice;
             } else if (id == 11) {
               currentPage = DrawerSelection.SubscriptionAgreement;
-            } else if (id == 12) {
+            } /*else if (id == 12) {
               currentPage = DrawerSelection.HowItWorks;
-            } else if (id == 13) {
+            }*/ else if (id == 13) {
               currentPage = DrawerSelection.Request;
             } else if (id == 14) {
               currentPage = DrawerSelection.Logout;
@@ -535,7 +535,7 @@ enum DrawerSelection {
   Report,
   ContractorsBackOffice,
   SubscriptionAgreement,
-  HowItWorks,
+  //HowItWorks,
   Request,
   Logout,
   Profile

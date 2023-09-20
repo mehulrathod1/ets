@@ -41,13 +41,28 @@ class _CompanyAgreementState extends State<CompanyAgreement> {
   }
 
   void _handleSaveButtonPressed() async {
-    final data =
-        await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
+    final data = await signatureGlobalKey.currentState!.toImage(pixelRatio: 3.0);
     final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
     Uint8List unit = bytes!.buffer.asUint8List();
     base64ImagePath = base64.encode(unit);
+    print("------------------------------>${base64ImagePath}");
+    if(base64ImagePath =="" || base64ImagePath==null || base64ImagePath.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Signature not Submit successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Signature submit successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
 
-    print(base64ImagePath);
+
+    }
   }
 
   @override

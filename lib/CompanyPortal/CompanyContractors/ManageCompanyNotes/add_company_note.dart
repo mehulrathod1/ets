@@ -354,7 +354,7 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: 'Test, Test1, Test2',
+                            hintText: '',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -397,7 +397,7 @@ class _AddCompanyNoteState extends State<AddCompanyNote> {
                                   borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
-                                  'Save',
+                                  'Add Notes',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ),

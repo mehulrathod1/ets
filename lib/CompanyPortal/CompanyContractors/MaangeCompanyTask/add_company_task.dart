@@ -405,7 +405,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                                 color: appThemeGreen,
                               ),
                             ),
-                            hintText: 'Test Edit1, Test Edit2, Test Edit3',
+                            hintText: '',
                             fillColor: colorScreenBg,
                             filled: true,
                             isDense: true,
@@ -448,7 +448,7 @@ class _AddCompanyTaskState extends State<AddCompanyTask> {
                                   borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
-                                  'Save',
+                                  'Add Task',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ),
