@@ -1,4 +1,5 @@
 import 'package:eticon_downloader/eticon_downloader.dart';
+import 'package:etsemployee/CompanyPortal/CompanyContractors/ManageCompanyEstimetes/edit%20_comoany_estimates.dart';
 import 'package:etsemployee/Controller/CompanyController/get_company_estimate_controller.dart';
 import 'package:etsemployee/Models/CompanyModels/company_estimate_model.dart';
 import 'package:etsemployee/Screens/Contractors/ManageConstruction/edit_estimate.dart';
@@ -364,7 +365,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                 decoration:  BoxDecoration(
                                                     color: appThemeBlue,
                                                     borderRadius:
-                                                        BorderRadius.only(
+                                                        const BorderRadius.only(
                                                             bottomLeft:
                                                                 Radius.circular(
                                                                     15),
@@ -373,7 +374,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                                     15))),
                                                 child: Row(
                                                   children: [
-                                                    /*Expanded(
+                                                    Expanded(
                                                       child: GestureDetector(
                                                         onTap: () {
                                                           //debugPrint(detail.empId);
@@ -382,22 +383,33 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                               MaterialPageRoute(
                                                                   builder:
                                                                       (context) =>
-                                                                      EditEstimate(
-                                                                        contactId: data.contactId,
-                                                                        estimateName: data.estimateName,
-                                                                        estimateDescription: data.estimateDescription,
-                                                                        dueDate: data.dueDate,
-                                                                        amount: data.amount,
-                                                                        markup: data.markup,
-                                                                        tax: data.tax,
-                                                                        id: data.estimateId,
-                                                                        callback:
-                                                                            () {
-                                                                          refreshData();
-                                                                        },
+                                                                          EditCompanyEstimates(
+                                                                            contactId: data.contactId,
+                                                                            estimateName: data.estimateName,
+                                                                            estimateDescription: data.estimateDescription,
+                                                                            dueDate: data.dueDate,
+                                                                            amount: data.amount,
+                                                                            markup: data.markup,
+                                                                            tax: data.tax,
+                                                                            id: data.estimateId,
+                                                                            callback:
+                                                                                () {
+                                                                              refreshData();
+                                                                            },
                                                                       )));
                                                         },
-                                                        child: const Row(
+                                                        child: Container(
+                                                          decoration: const BoxDecoration(
+                                                            color: Colors.blueAccent,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .only(
+                                                                  bottomLeft:
+                                                                  Radius.circular(
+                                                                      15))
+                                                          ),
+                                                          height: double.infinity,
+                                                          child: const Row(
                                                           mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
@@ -420,15 +432,20 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                               ),
                                                             )
                                                           ],
-                                                        ),
+                                                        ),),
                                                       ),
-                                                    ),*/
+                                                    ),
                                                     Expanded(
                                                       child: GestureDetector(
                                                         onTap: () async {
                                                           await downloadEstimate(context, data.id);
                                                         },
-                                                        child: const Row(
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            color: appThemeGreen,
+                                                          ),
+                                                          height: double.infinity,
+                                                          child: Row(
                                                           mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
                                                             Icon(
@@ -451,7 +468,7 @@ class _CompanyEstimateState extends State<CompanyEstimate> {
                                                               ),
                                                             )
                                                           ],
-                                                        ),
+                                                        ),)
                                                       ),
                                                     ),
                                                     Expanded(

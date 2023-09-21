@@ -21,9 +21,9 @@ class _InboxScreenState extends State<InboxScreen> {
   late CompanyInboxModel companyInboxModel;
   List<Datum> notificationList = [];
 
-  Future initialize(BuildContext context) async {
+  Future initialize1(BuildContext context) async {
     loading = true;
-    await inboxController.getCompanyInbox(context).then((value) {
+    await inboxController.getCompanyInbox1(context).then((value) {
       setState(() {
         if (value != null) {
           companyInboxModel = value;
@@ -34,9 +34,32 @@ class _InboxScreenState extends State<InboxScreen> {
           notificationList.clear();
           loading = false;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Inbox not found'),
-              duration: const Duration(seconds: 2),
+            const SnackBar(
+              content: Text('Message not found'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      });
+    });
+  }
+
+  Future initialize(BuildContext context,String search) async {
+    loading = true;
+    await inboxController.getCompanyInbox(context,search: search).then((value) {
+      setState(() {
+        if (value != null) {
+          companyInboxModel = value;
+          notificationList = companyInboxModel.data;
+          debugPrint(companyInboxModel.message);
+          loading = false;
+        } else {
+          notificationList.clear();
+          loading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Message not found'),
+              duration: Duration(seconds: 2),
             ),
           );
         }
@@ -47,7 +70,7 @@ class _InboxScreenState extends State<InboxScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    initialize(context);
+    initialize1(context);
     super.initState();
   }
 
@@ -103,8 +126,8 @@ class _InboxScreenState extends State<InboxScreen> {
                 child: SizedBox(
                   height: 40,
                   child: TextField(
-                    style:
-                        const TextStyle(fontSize: 18, color: Colors.black),
+                    textInputAction: TextInputAction.search,
+                    style: const TextStyle(fontSize: 18, color: Colors.black),
                     maxLines: 1,
                     decoration: InputDecoration(
                       suffixIcon: Align(
@@ -119,6 +142,7 @@ class _InboxScreenState extends State<InboxScreen> {
                       fillColor: colorScreenBg,
                       filled: true,
                       isDense: true,
+
                       contentPadding: const EdgeInsets.only(
                           left: 12, top: 6, bottom: 6),
                       enabledBorder: OutlineInputBorder(
@@ -130,7 +154,14 @@ class _InboxScreenState extends State<InboxScreen> {
                             BorderSide(color: colorGray, width: 1.0),
                         borderRadius: BorderRadius.circular(7),
                       ),
+
                     ),
+                    onSubmitted: (value) {
+                      initialize(context, value);
+                    },
+                    onChanged: (value) {
+                      initialize(context, value);
+                    },
                   ),
                 ),
               ),

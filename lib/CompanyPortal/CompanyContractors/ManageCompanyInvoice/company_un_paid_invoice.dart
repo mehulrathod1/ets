@@ -317,11 +317,11 @@ class _CompanyUnPaidInvoiceState extends State<CompanyUnPaidInvoice> {
                                                                         refreshData,
                                                                   )));
                                                     },
-                                                    child: Row(
+                                                    child: const Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
-                                                      children: const [
+                                                      children: [
                                                         Icon(
                                                           Icons.edit,
                                                           color: Colors.white,

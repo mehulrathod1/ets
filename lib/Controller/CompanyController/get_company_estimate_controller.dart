@@ -7,8 +7,7 @@ class GetCompanyEstimateController {
   Future getCompanyEstimate(BuildContext context,
       {String? search, int? page}) async {
     var response = await getData(
-        paramUri:
-            "${ApiConstant.getCompanyEstimate}searchName=$search&page=$page");
+        paramUri: "${ApiConstant.getCompanyEstimate}searchName=$search&page=$page");
     if (response["status"] == "True" && response["data"] != null) {
       return CompanyEstimateModel.fromJson(response);
     } else {

@@ -367,7 +367,7 @@ class _AddTaskState extends State<AddTask> {
                                   borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
-                                  'Save',
+                                  'Add Task',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ),

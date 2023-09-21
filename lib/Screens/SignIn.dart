@@ -78,7 +78,7 @@ class _SignIn extends State<SignIn> {
                       filled: true,
                       isDense: true,
                       contentPadding:
-                          const EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                          const EdgeInsets.only(left: 12, top: 10, bottom: 10),
                       enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: Colors.grey, width: 1.0),

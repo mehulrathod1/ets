@@ -33,3 +33,34 @@ class EmployeeEditEstimateModel {
         "data": data,
       };
 }
+
+
+class CompanyEditEstimateModel {
+  String status;
+  String message;
+  String data;
+
+  CompanyEditEstimateModel({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+
+  factory CompanyEditEstimateModel.fromRawJson(String str) =>
+      CompanyEditEstimateModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory CompanyEditEstimateModel.fromJson(Map<String, dynamic> json) =>
+      CompanyEditEstimateModel(
+        status: json["status"],
+        message: json["message"],
+        data: json["data"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data,
+      };
+}

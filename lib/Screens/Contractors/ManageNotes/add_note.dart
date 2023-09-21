@@ -305,7 +305,7 @@ class _AddNoteState extends State<AddNote> {
                                   borderRadius: BorderRadius.circular(8)),
                               child: const Center(
                                 child: Text(
-                                  'Save',
+                                  'Add Notes',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 18),
                                 ),

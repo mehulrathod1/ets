@@ -68,8 +68,7 @@ class ApiConstant {
   static const companyAddDepartment = 'company/add-department';
   static const cmpAcceptHourRequest = 'company/accept-fix-hrs-request';
   static const cmpRejectHourRequest = 'company/reject-fix-hrs-request';
-  static const companyFixHourRequest =
-      'company/view-fix-hrs-request?show=500&searchName=&page=';
+  static const companyFixHourRequest = 'company/view-fix-hrs-request?show=500&searchName=&page=';
   static const companyAllReport = 'company/get-all-report/?show=500&';
   static const companyMonthlyReport = 'company/get-monthly-report/';
   static const companyYearlyReport = 'company/get-yearly-report/';
@@ -150,14 +149,14 @@ class ApiConstant {
   static const employeeOrderList = 'employee/view-orders-lists?show=500&';
   static const employeeTaskList = 'employee/view-task-list?show=500&';
   static const employeeNoteList = 'employee/view-notes-list?show=500&';
-  static const employeeViewEvent =
-      'employee/view-event-list?show=500&searchName&page=';
+  static const employeeViewEvent = 'employee/view-event-list?show=500&searchName&page=';
 
   static const employeeAddContact = 'employee/add-contact';
   static const employeeEditContact = 'employee/edit-contact/';
   static const employeeDeleteContact = 'employee/delete-contact/';
   static const employeeAddEstimate = 'employee/add-estimate';
   static const employeeEditEstimate = 'employee/edit-estimate/';
+  static const CompanyEditEstimate = 'company/edit-estimate/';
   static const employeeEstimateContact = 'employee/get-estimate-contacts/';
   static const employeeAddNote = 'employee/add-notes';
   static const employeeEditNote = 'employee/edit-note/';
